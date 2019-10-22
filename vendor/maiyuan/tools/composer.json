@@ -1,0 +1,23 @@
+{
+    "name": "maiyuan/tools",
+    "type": "project",
+    "description": "Maiyuan Tools",
+    "homepage": "https://gitee.com/maiyuan-packages/maiyuan-tools.git",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Maiyuan",
+            "homepage": "https://gitee.com/maiyuan-packages/maiyuan-tools.git"
+        }
+    ],
+    "support": {
+        "issues": "https://gitee.com/maiyuan-packages/maiyuan-tools/issues"
+    },
+    "require": {
+        "php": ">=7.0.0",
+        "ext-curl": "*"
+    },
+    "autoload" : {
+        "psr-4": {"Maiyuan\\Tool\\": "src/"}
+    }
+}

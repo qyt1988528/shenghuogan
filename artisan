@@ -1,0 +1,14 @@
+#!/usr/bin/env php
+<?php
+define('APP_DEBUG', 1);
+
+require 'vendor/autoload.php';
+
+//require CORE_PATH . "Cli.php";/
+
+try{
+    $application = new MDK\Application\Cli();
+    $application->run();
+}catch (Exception $e){
+    echo $e->getMessage();
+}

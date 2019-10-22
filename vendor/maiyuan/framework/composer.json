@@ -1,0 +1,23 @@
+{
+    "name": "maiyuan/framework",
+    "type": "library",
+    "description": "Maiyuan Framework",
+    "homepage": "https://gitee.com/maiyuan-packages/framework-phalcon-core.git",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Maiyuan",
+            "homepage": "https://gitee.com/maiyuan-packages/framework-phalcon-core.git"
+        }
+    ],
+    "support": {
+        "issues": "https://gitee.com/maiyuan-packages/framework-phalcon-core/issues"
+    },
+    "require": {
+        "php": ">=7.0.0"
+    },
+    "autoload" : {
+        "psr-4": {"MDK\\": "src/"}
+    },
+	"bin": ["mdk"]
+}

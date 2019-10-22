@@ -1,0 +1,26 @@
+{
+    "config": {
+        "secure-http": false
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "http://113.6.252.23:9090"
+        },
+        {
+            "type": "git",
+            "url": "https://gitee.com/maiyuan-packages/framework-phalcon-core.git"
+        }
+    ],
+    "require": {
+        "maiyuan/framework": "dev-master",
+        "maiyuan/services": "dev-master",
+        "maiyuan/tools": "dev-master",
+        "facebook/graph-sdk": "^5.6",
+        "kreait/firebase-php": "^4.0",
+        "symfony/yaml": "^4.2",
+        "qiniu/php-sdk": "^7.2",
+        "guzzlehttp/guzzle": "^6.3",
+        "php-amqplib/php-amqplib": "^2.9"
+    }
+}

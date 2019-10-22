@@ -1,0 +1,11 @@
+/.idea
+/.git
+/backup
+/admin/node_modules
+/admin/dist
+test.php
+/var
+composer.lock
+public/aa.log
+public/upload/
+config/database.php

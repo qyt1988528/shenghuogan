@@ -1,0 +1,59 @@
+definitions:
+  header:
+    type: object
+    properties:
+      version:
+        type: string
+        description: 客户端版本号
+      reqClientTime:
+        type: string
+        description: 客户端请求时间
+      deviceId:
+        type: object
+        properties:
+          a:
+            type: string
+        description: 设备id
+      systemType:
+        type: string
+        description: 系统类型
+      deviceType:
+        type: string
+        description: 设备类型
+      systemVersion:
+        type: string
+        description: 系统版本
+      memberId:
+        type: string
+        description: 会员id
+      language:
+        type: string
+        description: 客户端语种
+        enum:
+        - en-US
+        - ar-US
+
+  commonHeader:
+    type: object
+    properties:
+      header:
+        $ref: '#/definitions/header'
+  pageInfo:
+    type: object
+    properties:
+      pageNumber:
+        type: number
+        description: 页码
+      pageSize:
+        type: string
+        description: 分页大小
+        callback: pow
+        args: '###,4'
+
+  Common:
+    type: object
+    properties:
+      pageInfo:
+        $ref: '#/definitions/pageInfo'
+      header:
+        $ref: '#/definitions/header'
