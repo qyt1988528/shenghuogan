@@ -1,6 +1,6 @@
 <?php
 
-namespace Face\Model;
+namespace Rent\Model;
 
 use MDK\Model;
 

@@ -1,5 +1,5 @@
 <?php
-namespace Face\Api;
+namespace Ticket\Api;
 
 use Face\Model\FaceppDetectImages;
 use Face\Model\FaceppDetectSingleFace;

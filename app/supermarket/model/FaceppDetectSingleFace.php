@@ -1,6 +1,6 @@
 <?php
 
-namespace Face\Model;
+namespace Supermarket\Model;
 
 use MDK\Model;
 

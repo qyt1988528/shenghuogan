@@ -1,5 +1,5 @@
 <?php
-namespace Express\Controller;
+namespace Supermarket\Controller;
 use MDK\Controller;
 
 
@@ -7,7 +7,7 @@ use MDK\Controller;
  * Face controller.
  * @RoutePrefix("/face", name="face")
  */
-class IndexController extends Controller
+class AdminController extends Controller
 {
 
     /**

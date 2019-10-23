@@ -7,7 +7,7 @@ use MDK\Controller;
  * Face controller.
  * @RoutePrefix("/face", name="face")
  */
-class IndexController extends Controller
+class AdminController extends Controller
 {
 
     /**

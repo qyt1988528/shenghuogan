@@ -1,5 +1,5 @@
 <?php
-namespace Face\Controller;
+namespace Rent\Controller;
 use MDK\Controller;
 
 

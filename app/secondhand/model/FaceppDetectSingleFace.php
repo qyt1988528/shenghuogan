@@ -1,6 +1,6 @@
 <?php
 
-namespace Face\Model;
+namespace Secondhand\Model;
 
 use MDK\Model;
 

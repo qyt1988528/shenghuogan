@@ -1,6 +1,6 @@
 <?php
 
-namespace Face\Model;
+namespace Express\Model;
 
 use MDK\Model;
 

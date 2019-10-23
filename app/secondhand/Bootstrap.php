@@ -1,5 +1,5 @@
 <?php
-namespace Face;
+namespace Secondhand;
 use MDK\Bootstrap as MDKBootstrap;
 use Phalcon\Di\Injectable;
 /**

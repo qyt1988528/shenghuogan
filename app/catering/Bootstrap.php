@@ -1,5 +1,5 @@
 <?php
-namespace Face;
+namespace Catering;
 use MDK\Bootstrap as MDKBootstrap;
 use Phalcon\Di\Injectable;
 /**

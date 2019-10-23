@@ -1,5 +1,5 @@
 <?php
-namespace Face\Controller;
+namespace Hotel\Controller;
 use MDK\Controller;
 
 

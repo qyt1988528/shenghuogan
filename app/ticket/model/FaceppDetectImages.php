@@ -1,6 +1,6 @@
 <?php
 
-namespace Face\Model;
+namespace Ticket\Model;
 
 use MDK\Model;
 

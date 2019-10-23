@@ -1,6 +1,6 @@
 <?php
 
-namespace Face\Model;
+namespace Parttimejob\Model;
 
 use MDK\Model;
 

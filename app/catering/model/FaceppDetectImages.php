@@ -1,6 +1,6 @@
 <?php
 
-namespace Face\Model;
+namespace Catering\Model;
 
 use MDK\Model;
 

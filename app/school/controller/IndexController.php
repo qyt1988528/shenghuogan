@@ -1,5 +1,5 @@
 <?php
-namespace Face\Controller;
+namespace School\Controller;
 use MDK\Controller;
 
 

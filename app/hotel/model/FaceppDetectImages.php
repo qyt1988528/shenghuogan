@@ -1,6 +1,6 @@
 <?php
 
-namespace Face\Model;
+namespace Hotel\Model;
 
 use MDK\Model;
 
