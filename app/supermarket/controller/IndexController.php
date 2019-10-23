@@ -5,7 +5,7 @@ use MDK\Controller;
 
 /**
  * Face controller.
- * @RoutePrefix("/face", name="face")
+ * @RoutePrefix("/supermarket", name="supermarket")
  */
 class IndexController extends Controller
 {
@@ -13,23 +13,66 @@ class IndexController extends Controller
     /**
      * Index action.
      * @return void
-     * @Route("/", methods="GET", name="face")
+     * @Route("/", methods="GET", name="supermarket")
      */
     public function indexAction() {
+        //分页
+        $data = [
+            'type_list' => [
+                [
+                    'id' => '全部',
+                    'title' => '',
+                    'selected' => '',
+                ],
+                [
+                    'id' => '精选水果',
+                    'title' => '',
+                    'selected' => '',
+                ],
+                [
+                    'id' => '休闲食品',
+                    'title' => '',
+                    'selected' => '',
+                ],
+                [
+                    'id' => '酒水乳饮',
+                    'title' => '',
+                    'selected' => '',
+                ],
+                [
+                    'id' => '生活用品',
+                    'title' => '',
+                    'selected' => '',
+                ],
+            ],
+            'recommend_list' => [
+                [
+                    'title'=>'快递',
+                    'img_url'=>'',
+                    'id'=>10,
+                    'original_price' => '',
+                    'current_price' => '',
+                ],
+                [
+                    'title'=>'快递',
+                    'img_url'=>'',
+                    'id'=>10,
+                    'original_price' => '',
+                    'current_price' => '',
+                ],
+                [
+                    'title'=>'快递',
+                    'img_url'=>'',
+                    'id'=>10,
+                    'original_price' => '',
+                    'current_price' => '',
+                ],
+            ],
+            'total_list' => [
 
-        $result = [
-            'pageInfo'=>[
-                'pageNumber' => '1',
-                'pageSize' => '10'
-            ]
+            ],
         ];
-        $this->resultSet->setData($result);
-        $this->response->success($this->resultSet->filterByConfig('definitions/Common'));
-//        $common = $formater->path('definitions/Common',null,'/');
-//        $definitions = $formater->getData($common);
-//        $result= $formater->filter($definitions,$result);
-//        echo (json_encode($result));die;
-//        var_dump($common);die;
+
 
     }
 
