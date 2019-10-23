@@ -5,19 +5,49 @@ use MDK\Controller;
 
 
 /**
- * Home controller.
+ * tencent controller.
  * @RoutePrefix("/tencent", name="tencent")
  */
 class IndexController extends Controller
 {
-
+    /**
+     * 微信session.
+     * @return void
+     * @Route("/login", methods="GET", name="tencent")
+     */
+    public function loginAction()
+    {
+        $jsCode = $this->request->getParam('js_code',null,'',true);
+        try{
+            $data = $this->app->tencent->api->WeChat()->getSession($jsCode);
+        }catch (\Exception $e){
+            $this->resultSet->error($e->getCode(),$e->getMessage());
+        }
+        $this->resultSet->success()->setData($data);
+        $this->response->success($this->resultSet->toObject());
+    }
+    /**
+    public function getSessionKeyAction()
+    {
+        //获取微信登录sessionKey
+        $jsCode = $this->request->getParam('js_code',null,'',true);
+        var_dump($jsCode);exit;
+        try{
+            $data = $this->app->tencent->api->WeChat()->getSession($jsCode);
+        }catch (\Exception $e){
+            $this->resultSet->error($e->getCode(),$e->getMessage());
+        }
+        $this->resultSet->success()->setData($data);
+        $this->response->success($this->resultSet->toObject());
+    }
+     */
     /**
      * Home action.
      * @return void
      * @Route("/fuzzy", methods="POST", name="tencent")
      */
     public function fuzzyAction() {
-
+        var_dump('test');exit;
         $image = $this->request->getParam('image');
         try{
 //            $data = $this->app->tencent->api->Helper()->isFuzzy($image);
@@ -56,6 +86,7 @@ class IndexController extends Controller
      */
     public function filterAction()
     {
+        var_dump('filter-test');exit;
         $image = $this->request->getParam('image');
         $filter = $this->request->getParam('filter');
         try{

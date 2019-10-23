@@ -7,19 +7,14 @@ use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Handler\CurlHandler;
 use GuzzleHttp\Middleware;
 use Psr\Http\Message\ResponseInterface;
-use Tencent\Model\AiFuzzy;
-use Tencent\Model\TencentFilterLog;
 
-class Helper extends Api
+class WeChat extends Api
 {
     private $_client;
     public function __construct() {
         $this->_client = new Client([
-            // Base URI is used with relative requests
-            'base_uri' => $this->app->tencent->config->tencent->baseUri,
-            // You can set any number of default request options.
-            'timeout'  => $this->app->tencent->config->tencent->timeout,
-            //handler
+            'base_uri' => $this->app->tencent->config->wechat->baseUri,
+            'timeout'  => $this->app->tencent->config->wechat->timeout,
             'handler' => $this->_getStack(),
         ]);
     }
@@ -132,63 +127,8 @@ class Helper extends Api
         return $this->_client;
     }
 
-    /**
-     * 增加日期
-     * @param $result
-     */
-    public function logFuzzy($result)
-    {
-        try{
-            $data= $result['data'];
-            $data['fuzzy'] = !empty($data['fuzzy'])?1:0;
-            if(!empty($result['host'])){
-                $data['host'] = $result['host'];
-            }else{
-                $data['host'] = $this->request->getHeader('origin');
-                $data['host'] = parse_url($data['host']);
-                $data['host'] = isset($data['host']['host'])?$data['host']['host']:'';
-            }
-            if(!empty($result['path'])){
-                $data['path'] = $result['path'];
-            }else{
-                $data['path'] = $this->request->getURI();
-                $data['path'] = parse_url($data['path'])['path'];
-            }
-            $model = new AiFuzzy();
-            $model->save($data);
-        }catch (\Exception $e){
-//            var_dump($e);
-        }
 
-    }
-    /**
-     * 增加日期
-     * @param $result
-     */
-    public function logFilter($result)
-    {
-        try{
-            $insertData = [
-                'filter_all_data' => json_encode($result),
-                'filter' => isset($result['filter_params']['filter']) ? (int)$result['filter_params']['filter'] : 0,
-            ];
-            $data= [];
-            $data['host'] = $this->request->getHeader('origin');
-            $data['host'] = parse_url($data['host']);
-            $data['host'] = isset($data['host']['host'])?$data['host']['host']:'';
-            $data['path'] = $this->request->getURI();
-            $data['path'] = parse_url($data['path'])['path'];
-            $insertData['host'] = $data['host'];
-            $insertData['path'] = $data['path'];
-            $insertData['created_at'] = $insertData['updated_at'] = date('Y-m-d H:i:s');
-            $model = new TencentFilterLog();
-            $model->create($insertData);
-            return $model->id;
-        }catch (\Exception $e){
-//            var_dump($e);
-        }
 
-    }
     /**
      * 判断图片是否模糊
      * @param $image
@@ -210,7 +150,6 @@ class Helper extends Api
             $result['host'] = isset($logDatas[0]) ? $logDatas[0] : '';
             $result['path'] = isset($logDatas[1]) ? $logDatas[1] : '';
         }
-        $this->logFuzzy($result);
         $data = [
             'fuzzy' => false,
             'msg' => ''
@@ -242,7 +181,6 @@ class Helper extends Api
         $logData = [
             'filter_params' => $params,
         ];
-        $this->logFilter($logData);
         $response = $this->_client->request('POST', '/fcgi-bin/vision/vision_imgfilter',[
             "form_params" => $params,
         ]);
@@ -264,7 +202,6 @@ class Helper extends Api
         $response = $this->_client->request('POST', '/fcgi-bin/image/image_fuzzy',[
             "form_params" => $params,
         ]);
-
         $result = $response->getBody();
         $result = json_decode($result,true);
         $data = [
@@ -272,6 +209,25 @@ class Helper extends Api
             'confidence' => $result['data']['confidence']
         ];
         return $data;
+    }
+
+    public function getSession($jsCode){
+//        GET https://api.weixin.qq.com/sns/jscode2session?appid=APPID&secret=SECRET&js_code=JSCODE&grant_type=authorization_co
+        $params = [
+            'appid' => $this->app->tencent->config->wechat->appId,
+            'secret' => $this->app->tencent->config->wechat->appSecret,
+            'js_code' => $jsCode,
+            'grant_type' => 'authorization_code',
+        ];
+        var_dump(111);
+
+        $response = $this->_client->request('GET', '/sns/jscode2session',[
+            "form_params" => $params,
+        ]);
+        $result = $response->getBody();
+        var_dump($result);
+        return [];
+
     }
 
 }
