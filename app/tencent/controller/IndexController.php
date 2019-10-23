@@ -19,7 +19,7 @@ class IndexController extends Controller
     {
         $jsCode = $this->request->getParam('js_code',null,'',true);
         try{
-            $data = $this->app->tencent->api->WeChat()->getSession($jsCode);
+            $data = $this->app->tencent->api->WeChat()->getSessionByCode($jsCode);
         }catch (\Exception $e){
             $this->resultSet->error($e->getCode(),$e->getMessage());
         }

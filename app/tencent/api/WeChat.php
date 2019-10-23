@@ -39,8 +39,8 @@ class WeChat extends Api
             }
             $result = $response->getBody()->getContents();
             $result = json_decode($result,true);
-            if($result['ret'] != 0){
-                throw new \Exception($result['msg'],1);
+            if(isset($result['errcode']) &&  $result['errcode']!= 0){
+                throw new \Exception($result['errmsg'],1);
             }
             return $response;
         };
@@ -211,6 +211,30 @@ class WeChat extends Api
         return $data;
     }
 
+    public function getSessionByCode($jsCode){
+        $params = [
+            'appid' => $this->app->tencent->config->wechat->appId,
+            'secret' => $this->app->tencent->config->wechat->appSecret,
+            'js_code' => $jsCode,
+            'grant_type' => 'authorization_code',
+        ];
+        $uri =  'sns/jscode2session';
+        $url = $this->app->tencent->config->wechat->baseUri.$uri.'?'. http_build_query($params);
+
+        $sessionInfo = $this->app->core->api->Image()->imageFileGetContents($url);
+        $json = '{"session_key":"jHwS8qG\/Gwn40YJ6Zhevwg==","openid":"oSbAs5NzFZyCiez1WZNm3JkjCeH4"}';
+        $json = '{"errcode":40029,"errmsg":"invalid code, hints: [ req_id: ihlEY24ce-GYdrra ]"}';
+        if(empty($sessionInfo) || (isset($sessionInfo['errcode']) &&  $sessionInfo['errcode']!= 0) ){
+            return [];
+        }else{
+            $sessionInfo = json_decode($sessionInfo,true);
+            if(isset($sessionInfo['session_key']) && isset($sessionInfo['openid'])){
+                return $sessionInfo;
+            }else{
+                return [];
+            }
+        }
+    }
     public function getSession($jsCode){
 //        GET https://api.weixin.qq.com/sns/jscode2session?appid=APPID&secret=SECRET&js_code=JSCODE&grant_type=authorization_co
         $params = [
@@ -219,12 +243,24 @@ class WeChat extends Api
             'js_code' => $jsCode,
             'grant_type' => 'authorization_code',
         ];
-        var_dump(111);
+        $uri =  '/sns/jscode2session';
+        $uri =  'sns/jscode2session';
+        $uri = $uri.'?'. http_build_query($params);
+//        var_dump($params);
+//        var_dump('111.test');
 
-        $response = $this->_client->request('GET', '/sns/jscode2session',[
-            "form_params" => $params,
+        $url = $this->app->tencent->config->wechat->baseUri.$uri;
+//        var_dump($url);exit;
+        $imageOriginalInfo = $this->app->core->api->Image()->imageFileGetContents($url);
+//        $imageOriginalInfo = $this->app->core->api->Image()->getInfo($url);
+        var_dump($imageOriginalInfo);exit;
+        $response = $this->_client->request('GET',$uri ,[
+//            "form_params" => $params,
         ]);
+        var_dump($response);
         $result = $response->getBody();
+        var_dump($result);
+        $result = $response->getBody()->getContents();
         var_dump($result);
         return [];
 
