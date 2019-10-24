@@ -5,7 +5,7 @@ use MDK\Controller;
 
 /**
  * Face controller.
- * @RoutePrefix("/face", name="face")
+ * @RoutePrefix("/parttimejob", name="parttimejob")
  */
 class IndexController extends Controller
 {
@@ -13,23 +13,32 @@ class IndexController extends Controller
     /**
      * Index action.
      * @return void
-     * @Route("/", methods="GET", name="face")
+     * @Route("/", methods="GET", name="parttimejob")
      */
     public function indexAction() {
-
-        $result = [
-            'pageInfo'=>[
-                'pageNumber' => '1',
-                'pageSize' => '10'
-            ]
+        $data = [
+            [
+                'title' => '',
+                'location' => '',
+                'id' => 1,
+                'price' => 1,
+                'publish_time' => 1,
+            ],
+            [
+                'title' => '',
+                'location' => '',
+                'id' => 1,
+                'price' => 1,
+                'publish_time' => 1,
+            ],
         ];
-        $this->resultSet->setData($result);
-        $this->response->success($this->resultSet->filterByConfig('definitions/Common'));
-//        $common = $formater->path('definitions/Common',null,'/');
-//        $definitions = $formater->getData($common);
-//        $result= $formater->filter($definitions,$result);
-//        echo (json_encode($result));die;
-//        var_dump($common);die;
+
+        try{
+        }catch (\Exception $e){
+            $this->resultSet->error($e->getCode(),$e->getMessage());
+        }
+        $this->resultSet->success()->setData($data);
+        $this->response->success($this->resultSet->toObject());
 
     }
 

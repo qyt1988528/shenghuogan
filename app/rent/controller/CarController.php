@@ -1,43 +1,43 @@
 <?php
-namespace Home\Controller;
+namespace Rent\Controller;
 use MDK\Controller;
 
 
 /**
  * Face controller.
- * @RoutePrefix("/face", name="face")
+ * @RoutePrefix("/rentcar", name="rentcar")
  */
-class AdminController extends Controller
+class CarController extends Controller
 {
 
     /**
      * Index action.
      * @return void
-     * @Route("/", methods="GET", name="face")
+     * @Route("/", methods="GET", name="rentcar")
      */
     public function indexAction() {
-
-        $result = [
-            'pageInfo'=>[
-                'pageNumber' => '1',
-                'pageSize' => '10'
-            ]
+        $data = [
+            [
+                'title' => '',
+                'id' => 1,
+                'img_url' => '',
+                'price' => '',
+            ],
+            [
+                'title' => '',
+                'id' => 1,
+                'img_url' => '',
+                'price' => '',
+            ],
         ];
-        $this->resultSet->setData($result);
-        $this->response->success($this->resultSet->filterByConfig('definitions/Common'));
-//        $common = $formater->path('definitions/Common',null,'/');
-//        $definitions = $formater->getData($common);
-//        $result= $formater->filter($definitions,$result);
-//        echo (json_encode($result));die;
-//        var_dump($common);die;
 
-        $data =[];
         try{
         }catch (\Exception $e){
             $this->resultSet->error($e->getCode(),$e->getMessage());
         }
         $this->resultSet->success()->setData($data);
         $this->response->success($this->resultSet->toObject());
+
     }
 
     /**
@@ -55,13 +55,8 @@ class AdminController extends Controller
             $result['msg'] = $this->translate->_('Invalid input');
             $this->resultSet->error($result['code'],$result['msg']);
         }
+        $data =[];
         try{
-            $params = [
-                'sku' => $sku,
-                'image_url' => $imageUrl,
-                'image_base64' => $imageBase64,
-            ];
-            $data = $this->app->face->api->Helper()->mergeFacePro($params);
         }catch (\Exception $e){
             $this->resultSet->error($e->getCode(),$e->getMessage());
         }

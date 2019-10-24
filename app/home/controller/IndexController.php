@@ -159,6 +159,12 @@ class IndexController extends Controller
         ];
 
 
+        try{
+        }catch (\Exception $e){
+            $this->resultSet->error($e->getCode(),$e->getMessage());
+        }
+        $this->resultSet->success()->setData($data);
+        $this->response->success($this->resultSet->toObject());
 
     }
 

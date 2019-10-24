@@ -1,35 +1,21 @@
 <?php
-namespace Home\Controller;
+namespace Rent\Controller;
 use MDK\Controller;
 
 
 /**
  * Face controller.
- * @RoutePrefix("/face", name="face")
+ * @RoutePrefix("/renthouse", name="renthouse")
  */
-class AdminController extends Controller
+class HouseController extends Controller
 {
 
     /**
      * Index action.
      * @return void
-     * @Route("/", methods="GET", name="face")
+     * @Route("/", methods="GET", name="renthouse")
      */
     public function indexAction() {
-
-        $result = [
-            'pageInfo'=>[
-                'pageNumber' => '1',
-                'pageSize' => '10'
-            ]
-        ];
-        $this->resultSet->setData($result);
-        $this->response->success($this->resultSet->filterByConfig('definitions/Common'));
-//        $common = $formater->path('definitions/Common',null,'/');
-//        $definitions = $formater->getData($common);
-//        $result= $formater->filter($definitions,$result);
-//        echo (json_encode($result));die;
-//        var_dump($common);die;
 
         $data =[];
         try{
@@ -38,6 +24,9 @@ class AdminController extends Controller
         }
         $this->resultSet->success()->setData($data);
         $this->response->success($this->resultSet->toObject());
+
+
+
     }
 
     /**

@@ -30,6 +30,13 @@ class AdminController extends Controller
 //        $result= $formater->filter($definitions,$result);
 //        echo (json_encode($result));die;
 //        var_dump($common);die;
+        $data =[];
+        try{
+        }catch (\Exception $e){
+            $this->resultSet->error($e->getCode(),$e->getMessage());
+        }
+        $this->resultSet->success()->setData($data);
+        $this->response->success($this->resultSet->toObject());
 
     }
 
