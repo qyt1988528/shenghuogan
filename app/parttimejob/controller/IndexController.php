@@ -44,26 +44,18 @@ class IndexController extends Controller
 
     /**
      * mergeFace action.
-     * 人脸融合
+     * 兼职详情
      * @return void
-     * @Route("/mergeFace", methods="POST", name="face")
+     * @Route("/detail", methods="GET", name="parttimejob")
      */
-    public function mergeFaceAction(){
-        $imageUrl = $this->request->getParam('image_url',null,'');
-        $imageBase64 = $this->request->getParam('image_base64',null,'');
-        $sku = $this->request->getParam('sku',null,'');
-        if( (empty($imageUrl) && empty($imageBase64)) || empty($sku)){
-            $result['code'] = 101;
-            $result['msg'] = $this->translate->_('Invalid input');
-            $this->resultSet->error($result['code'],$result['msg']);
+    public function detailAction(){
+        $parttimejobId = $this->request->getParam('id',null,'');
+        if(empty($parttimejobId)){
+
         }
+        $data = [];
         try{
-            $params = [
-                'sku' => $sku,
-                'image_url' => $imageUrl,
-                'image_base64' => $imageBase64,
-            ];
-            $data = $this->app->face->api->Helper()->mergeFacePro($params);
+
         }catch (\Exception $e){
             $this->resultSet->error($e->getCode(),$e->getMessage());
         }

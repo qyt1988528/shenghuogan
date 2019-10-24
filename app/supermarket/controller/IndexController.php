@@ -69,6 +69,18 @@ class IndexController extends Controller
                 ],
             ],
             'total_list' => [
+                [
+                    'id' => 1,
+                    'title' => '',
+                    'spec' => '',
+                    'price' => ''
+                ],
+                [
+                    'id' => 1,
+                    'title' => '',
+                    'spec' => '',
+                    'price' => ''
+                ],
 
             ],
         ];
@@ -84,26 +96,24 @@ class IndexController extends Controller
 
     /**
      * mergeFace action.
-     * 人脸融合
+     * 商品详情
      * @return void
-     * @Route("/mergeFace", methods="POST", name="face")
+     * @Route("/detail", methods="GET", name="supermarket")
      */
     public function mergeFaceAction(){
-        $imageUrl = $this->request->getParam('image_url',null,'');
-        $imageBase64 = $this->request->getParam('image_base64',null,'');
-        $sku = $this->request->getParam('sku',null,'');
-        if( (empty($imageUrl) && empty($imageBase64)) || empty($sku)){
-            $result['code'] = 101;
-            $result['msg'] = $this->translate->_('Invalid input');
-            $this->resultSet->error($result['code'],$result['msg']);
+        $goodsId = $this->request->getParam('id',null,'');
+        if(empty($goodsId)){
+
         }
+        $data = [
+            'banner' => [],//几张图?
+            'title' => '',
+            'id' => 1,
+            'price' => '',
+            'desc' => '',
+            'count' => '',//库存
+        ];
         try{
-            $params = [
-                'sku' => $sku,
-                'image_url' => $imageUrl,
-                'image_base64' => $imageBase64,
-            ];
-            $data = $this->app->face->api->Helper()->mergeFacePro($params);
         }catch (\Exception $e){
             $this->resultSet->error($e->getCode(),$e->getMessage());
         }
@@ -113,39 +123,26 @@ class IndexController extends Controller
 
     /**
      * faceDetect action.
-     * 人脸识别
+     * 根据关键词搜索 商品
      * @return void
-     * @Route("/faceDetect", methods="POST", name="face")
+     * @Route("/search", methods="POST", name="supermarket")
      */
-    public function faceDetectAction(){
-        $imageBase64 = $this->request->getParam('image_base64',null,'');
-        $msg = $this->translate->_('Network Error. Please Try Again Later!');
-        if(empty($imageBase64)){
-            $this->resultSet->error(1001,$msg);
+    public function searchAction(){
+        $keywords = $this->request->getParam('keywords',null,'');
+        if(empty($keywords)){
+
         }
+        //考虑拼音搜索
+        $data = [
+            [
+                'id' => 1,
+                'title' => '',
+                'spec' => '',
+                'price' => ''
+            ]
+
+        ];
         try{
-            $params = [
-                'image_base64' => $imageBase64,
-            ];
-            $data = $this->app->face->api->Helper()->faceDetect($params);
-            //人数
-            $faceNum = $this->app->face->api->Helper()->faceNum($data);
-            //人脸模糊度
-            $isBlur = $this->app->face->api->Helper()->isBlur($data);
-            if($faceNum != 1){
-                $code = 1;
-            }else{
-                if($isBlur){
-                    $code = 2;
-                }else{
-                    $code = 3;
-                }
-            }
-            $data = [
-                'faceNum' => (int)$faceNum,
-                'detectCode' => $code,
-                'isBlur' => (int)$isBlur
-            ];
         }catch (\Exception $e){
             $this->resultSet->error($e->getCode(),$e->getMessage());
         }

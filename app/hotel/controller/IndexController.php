@@ -5,7 +5,7 @@ use MDK\Controller;
 
 /**
  * Face controller.
- * @RoutePrefix("/face", name="face")
+ * @RoutePrefix("/hotel", name="hotel")
  */
 class IndexController extends Controller
 {
@@ -13,23 +13,9 @@ class IndexController extends Controller
     /**
      * Index action.
      * @return void
-     * @Route("/", methods="GET", name="face")
+     * @Route("/", methods="GET", name="hotel")
      */
     public function indexAction() {
-
-        $result = [
-            'pageInfo'=>[
-                'pageNumber' => '1',
-                'pageSize' => '10'
-            ]
-        ];
-        $this->resultSet->setData($result);
-        $this->response->success($this->resultSet->filterByConfig('definitions/Common'));
-//        $common = $formater->path('definitions/Common',null,'/');
-//        $definitions = $formater->getData($common);
-//        $result= $formater->filter($definitions,$result);
-//        echo (json_encode($result));die;
-//        var_dump($common);die;
         $data =[];
         try{
         }catch (\Exception $e){
@@ -44,7 +30,7 @@ class IndexController extends Controller
      * mergeFace action.
      * 人脸融合
      * @return void
-     * @Route("/mergeFace", methods="POST", name="face")
+     * @Route("/detail", methods="GET", name="hotel")
      */
     public function mergeFaceAction(){
         $imageUrl = $this->request->getParam('image_url',null,'');
@@ -73,7 +59,7 @@ class IndexController extends Controller
      * faceDetect action.
      * 人脸识别
      * @return void
-     * @Route("/faceDetect", methods="POST", name="face")
+     * @Route("/search", methods="GET", name="hotel")
      */
     public function faceDetectAction(){
         $imageBase64 = $this->request->getParam('image_base64',null,'');

@@ -5,7 +5,7 @@ use MDK\Controller;
 
 /**
  * Face controller.
- * @RoutePrefix("/face", name="face")
+ * @RoutePrefix("/ticket", name="ticket")
  */
 class IndexController extends Controller
 {
@@ -13,23 +13,9 @@ class IndexController extends Controller
     /**
      * Index action.
      * @return void
-     * @Route("/", methods="GET", name="face")
+     * @Route("/", methods="GET", name="ticket")
      */
     public function indexAction() {
-
-        $result = [
-            'pageInfo'=>[
-                'pageNumber' => '1',
-                'pageSize' => '10'
-            ]
-        ];
-        $this->resultSet->setData($result);
-        $this->response->success($this->resultSet->filterByConfig('definitions/Common'));
-//        $common = $formater->path('definitions/Common',null,'/');
-//        $definitions = $formater->getData($common);
-//        $result= $formater->filter($definitions,$result);
-//        echo (json_encode($result));die;
-//        var_dump($common);die;
         $data =[];
         try{
         }catch (\Exception $e){
@@ -42,9 +28,9 @@ class IndexController extends Controller
 
     /**
      * mergeFace action.
-     * 人脸融合
+     * 门票详情
      * @return void
-     * @Route("/mergeFace", methods="POST", name="face")
+     * @Route("/detail", methods="GET", name="ticket")
      */
     public function mergeFaceAction(){
         $imageUrl = $this->request->getParam('image_url',null,'');
@@ -71,39 +57,15 @@ class IndexController extends Controller
 
     /**
      * faceDetect action.
-     * 人脸识别
+     * 门票搜索
      * @return void
-     * @Route("/faceDetect", methods="POST", name="face")
+     * @Route("/search", methods="GET", name="ticket")
      */
     public function faceDetectAction(){
-        $imageBase64 = $this->request->getParam('image_base64',null,'');
-        $msg = $this->translate->_('Network Error. Please Try Again Later!');
-        if(empty($imageBase64)){
-            $this->resultSet->error(1001,$msg);
-        }
+        $keywords = $this->request->getParam('keywords',null,'');
+
+        $data = [];
         try{
-            $params = [
-                'image_base64' => $imageBase64,
-            ];
-            $data = $this->app->face->api->Helper()->faceDetect($params);
-            //人数
-            $faceNum = $this->app->face->api->Helper()->faceNum($data);
-            //人脸模糊度
-            $isBlur = $this->app->face->api->Helper()->isBlur($data);
-            if($faceNum != 1){
-                $code = 1;
-            }else{
-                if($isBlur){
-                    $code = 2;
-                }else{
-                    $code = 3;
-                }
-            }
-            $data = [
-                'faceNum' => (int)$faceNum,
-                'detectCode' => $code,
-                'isBlur' => (int)$isBlur
-            ];
         }catch (\Exception $e){
             $this->resultSet->error($e->getCode(),$e->getMessage());
         }

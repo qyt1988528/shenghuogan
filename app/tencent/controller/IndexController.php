@@ -17,7 +17,10 @@ class IndexController extends Controller
      */
     public function loginAction()
     {
-        $jsCode = $this->request->getParam('js_code',null,'',true);
+        $jsCode = $this->request->getParam('js_code',null,'');
+        if(empty($jsCode)){
+
+        }
         try{
             $data = $this->app->tencent->api->WeChat()->getSessionByCode($jsCode);
         }catch (\Exception $e){
