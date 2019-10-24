@@ -9,3 +9,6 @@ composer.lock
 public/aa.log
 public/upload/
 config/database.php
+*DS_Store
+*/*DS_Store
+
