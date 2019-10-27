@@ -16,7 +16,7 @@ class IndexController extends Controller
      * @Route("/", methods="GET", name="home")
      */
     public function indexAction() {
-        $data = [
+        $tmpData = [
             'cover' => '',
             'icon' => [
                 [
@@ -158,6 +158,7 @@ class IndexController extends Controller
             ],
         ];
 
+        $data['data'] = $tmpData;
 
         try{
         }catch (\Exception $e){

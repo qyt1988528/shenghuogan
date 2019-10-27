@@ -74,7 +74,7 @@ CREATE TABLE `merchant`  (
   `update_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
   `status` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1:有效,-1无效',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商户表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '商户表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for merchant_operation_log
@@ -105,7 +105,7 @@ CREATE TABLE `operation_mode`  (
   `update_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
   `status` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1:有效,-1:无效',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '经营模式' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '经营模式' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of operation_mode
@@ -133,7 +133,7 @@ CREATE TABLE `operation_mode_type`  (
   `update_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
   `status` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1:有效,-1:无效',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '经营模式下的类别表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '经营模式下的类别表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for parttimejob
@@ -143,7 +143,7 @@ CREATE TABLE `parttimejob`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '兼职标题',
   `description` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '兼职描述',
-  `location` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '地点',
+  `location` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '地点',
   `commission` decimal(10, 2) NOT NULL DEFAULT 0.00 COMMENT '佣金',
   `is_hiring` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1:在招人,-1:不招人',
   `publish_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '发布时间',
@@ -152,7 +152,7 @@ CREATE TABLE `parttimejob`  (
   `update_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
   `status` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1:有效,-1:无效',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '兼职表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '兼职表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for position
@@ -165,7 +165,7 @@ CREATE TABLE `position`  (
   `update_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
   `status` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1:有效,-1:无效',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '显示位置表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '显示位置表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for rent_car
@@ -211,7 +211,7 @@ DROP TABLE IF EXISTS `supermarket_goods`;
 CREATE TABLE `supermarket_goods`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '超市商品名称',
-  `img_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '商品图',
+  `img_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '商品图',
   `type_id` int(11) NOT NULL DEFAULT 0 COMMENT '商品类别',
   `original_price` decimal(14, 2) NOT NULL DEFAULT 0.00 COMMENT '初始价格',
   `self_price` decimal(14, 2) NOT NULL DEFAULT 0.00 COMMENT '单独购买价格',
@@ -228,7 +228,7 @@ CREATE TABLE `supermarket_goods`  (
   `update_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
   `status` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1:有效,-1:无效',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '超市商品表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '超市商品表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for ticket
@@ -252,6 +252,6 @@ CREATE TABLE `user`  (
   `update_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
   `status` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1:有效,-1:无效',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户表' ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;
