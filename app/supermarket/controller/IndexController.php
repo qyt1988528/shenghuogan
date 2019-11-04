@@ -16,6 +16,7 @@ class IndexController extends Controller
      * @Route("/", methods="GET", name="supermarket")
      */
     public function indexAction() {
+        $page = 1;
         //分页
         $data = [
             'type_list' => [
@@ -100,10 +101,10 @@ class IndexController extends Controller
      * @return void
      * @Route("/detail", methods="GET", name="supermarket")
      */
-    public function mergeFaceAction(){
+    public function detailAction(){
         $goodsId = $this->request->getParam('id',null,'');
         if(empty($goodsId)){
-
+            $this->resultSet->error(1001,'invalid input!');
         }
         $data = [
             'banner' => [],//几张图?
