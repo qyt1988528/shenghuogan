@@ -5,7 +5,7 @@ use MDK\Controller;
 
 /**
  * Face controller.
- * @RoutePrefix("/face", name="face")
+ * @RoutePrefix("/express", name="face")
  */
 class IndexController extends Controller
 {
@@ -13,7 +13,7 @@ class IndexController extends Controller
     /**
      * Index action.
      * @return void
-     * @Route("/", methods="GET", name="face")
+     * @Route("/", methods="GET", name="express")
      */
     public function indexAction() {
 
