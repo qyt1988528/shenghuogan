@@ -568,34 +568,175 @@ echo "\n"."\n"."\n"."\n";
 $ticketImg = 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3261888677,3364596947&fm=26&gp=0.jpg';
 $ticketData = [
     [
-        'title' => '华为体验店促销员[10:00~15:00]',
-        'location' => '中央大街体验店',
+        'title' => '极地馆门票[9:30~16:00,成人]',
         'id' => 1,
+        'img_url'=>$ticketImg,
         'base_uri' => '/ticket/detail',
         'current_price' => '¥400',
-        'publish_time' => '2019-11-03 23:08:04',
+        'original_price' => '¥500',
     ],
     [
-        'title' => '家教[数学,2小时]',
-        'location' => '松北区保利水韵长滩',
+        'title' => '冰雪大世界门票[9:30~20:00,成人]',
         'id' => 2,
+        'img_url'=>$ticketImg,
         'base_uri' => '/ticket/detail',
-        'current_price' => '¥100',
-        'publish_time' => '2019-11-03 23:08:04',
+        'current_price' => '¥120',
+        'original_price' => '¥200',
     ],
 ];
-echo "/parttimejob/detail?id=2"."\n";
+echo "/ticket"."\n";
 $apiData['data'] = $ticketData;
 echo json_encode($apiData)."\n";
+echo "\n"."\n"."\n"."\n";
+echo "/ticket/detail?id=1"."\n";
+$ticketDetailData = [
+    'id' => 1,
+    'img_url'=>$ticketImg,
+    'base_uri' => '/ticket/detail',
+    'title' => '极地馆门票[9:30~16:00,成人]',
+    'location'=>'松北区融创旅游城华园',
+    'current_price' => '¥400',
+    'original_price' => '¥500',
+    'description' => "第一段描述:abdalkfjadklfjadlfjadlkfjalkdfjaldkfjalkfjalkdfjla<br/>公交地铁描述:dfadafadfaldkfjakljfalkj<br/>",
+];
+$apiData['data'] = $ticketDetailData;
+echo json_encode($apiData)."\n";
+echo "\n"."\n"."\n"."\n";
 //住宿
 $hotelImg = 'https://gss0.bdstatic.com/94o3dSag_xI4khGkpoWK1HF6hhy/baike/w%3D268%3Bg%3D0/sign=2c68ebb9c9ef76093c0b9e9916e6c4f1/78310a55b319ebc497d999bd8026cffc1e171674.jpg';
+$hotelData = [
+    [
+        'title' => '香格里拉',
+        'id' => 1,
+        'img_url'=>$hotelImg,
+        'base_uri' => '/hotel/detail',
+        'current_price' => '¥400',
+        'original_price' => '¥500',
+    ],
+    [
+        'title' => '民宿',
+        'id' => 2,
+        'img_url'=>$hotelImg,
+        'base_uri' => '/hotel/detail',
+        'current_price' => '¥120',
+        'original_price' => '¥200',
+    ],
+];
+echo "/hotel"."\n";
+$apiData['data'] = $hotelData;
+echo json_encode($apiData)."\n";
+echo "\n"."\n"."\n"."\n";
+$hotelDetailData = [
+    'id' => 1,
+    'img_url'=>$ticketImg,
+    'base_uri' => '/ticket/detail',
+    'title' => '香格里拉',
+    'location'=>'松北区融创旅游城华园',
+    'current_price' => '¥400',
+    'original_price' => '¥500',
+    'description' => "第一段描述:abdalkfjadklfjadlfjadlkfjalkdfjaldkfjalkfjalkdfjla<br/>公交地铁描述:dfadafadfaldkfjakljfalkj<br/>",
+];
+echo "/hotel/detail?id=1"."\n";
+$apiData['data'] = $hotelDetailData;
+echo json_encode($apiData)."\n";
+echo "\n"."\n"."\n"."\n";
 //餐饮
 $cateringImg = 'http://t11.baidu.com/it/u=2890804336,2337375951&fm=173&app=25&f=JPEG?w=640&h=418&s=830B9347C6EB0B0D7894F5730300D051';
+$cateringData = [
+    [
+        'title' => '东北菜',
+        'id' => 1,
+        'img_url'=>$cateringImg,
+        'base_uri' => '/catering/detail',
+        'current_price' => '¥400',
+        'original_price' => '¥500',
+    ],
+    [
+        'title' => '铁锅炖',
+        'id' => 2,
+        'img_url'=>$cateringImg,
+        'base_uri' => '/catering/detail',
+        'current_price' => '¥120',
+        'original_price' => '¥200',
+    ],
+];
+echo "/catering"."\n";
+$apiData['data'] = $cateringData;
+echo json_encode($apiData)."\n";
+echo "\n"."\n"."\n"."\n";
+$cateringDetailData = [
+    'id' => 1,
+    'img_url'=>$cateringImg,
+    'base_uri' => '/catering/detail',
+    'title' => '香格里拉',
+    'location'=>'松北区融创旅游城华园',
+    'current_price' => '¥400',
+    'original_price' => '¥500',
+    'description' => "第一段描述:abdalkfjadklfjadlfjadlkfjalkdfjaldkfjalkfjalkdfjla<br/>公交地铁描述:dfadafadfaldkfjakljfalkj<br/>",
+];
+echo "/catering/detail?id=1"."\n";
+$apiData['data'] = $cateringDetailData;
+echo json_encode($apiData)."\n";
+echo "\n"."\n"."\n"."\n";
 //校园网
 //租房
+$renthouseData = [
+    'condition' => [
+        'search_room' => 0,
+        'search_rental' => [
+            'from' => 0,
+            'to' => 0,
+        ],
+    ],
+    'house_list' => [
+        [
+            'title'=>'融创',
+            'img_url'=>$supermaketImg,
+            'square' => '90m²',
+            'description' => '2室1厅1卫',
+            'orientations' => '南北通透',
+            'location'=>'松北区融创旅游城华园',
+            'base_uri' => '/renthouse/detail',
+            'id'=>1,
+            'current_price' => '¥1500/月',
+            'publish_time' => '3小时前',
+        ],
+        [
+            'title'=>'保利',
+            'img_url'=>$supermaketImg,
+            'square' => '90m²',
+            'description' => '2室1厅1卫',
+            'orientations' => '南北通透',
+            'location'=>'松北区中源大道',
+            'base_uri' => '/renthouse/detail',
+            'id'=>2,
+            'current_price' => '¥1500/月',
+            'publish_time' => '3小时前',
+        ],
+        [
+            'title'=>'世纪花园',
+            'img_url'=>$supermaketImg,
+            'square' => '90m²',
+            'description' => '2室1厅1卫',
+            'orientations' => '南北通透',
+            'location'=>'松北区世茂大道',
+            'base_uri' => '/renthouse/detail',
+            'id'=>3,
+            'current_price' => '¥1500/月',
+            'publish_time' => '3小时前',
+        ],
+    ],
+];
+echo "/renthouse"."\n";
+$apiData['data'] = $renthouseData;
+echo json_encode($apiData)."\n";
+echo "\n"."\n"."\n"."\n";
+//发布租房信息post
 //租车
 //二手物
 //快递
+//失物招领
+//驾考报名
 //广告位
 //今日推荐(更多)
 //兼职推荐(更多)
