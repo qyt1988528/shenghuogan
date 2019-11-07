@@ -565,8 +565,32 @@ $apiData['data'] = $parttimejobDetailData;
 echo json_encode($apiData)."\n";
 echo "\n"."\n"."\n"."\n";
 //门票
+$ticketImg = 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3261888677,3364596947&fm=26&gp=0.jpg';
+$ticketData = [
+    [
+        'title' => '华为体验店促销员[10:00~15:00]',
+        'location' => '中央大街体验店',
+        'id' => 1,
+        'base_uri' => '/ticket/detail',
+        'current_price' => '¥400',
+        'publish_time' => '2019-11-03 23:08:04',
+    ],
+    [
+        'title' => '家教[数学,2小时]',
+        'location' => '松北区保利水韵长滩',
+        'id' => 2,
+        'base_uri' => '/ticket/detail',
+        'current_price' => '¥100',
+        'publish_time' => '2019-11-03 23:08:04',
+    ],
+];
+echo "/parttimejob/detail?id=2"."\n";
+$apiData['data'] = $ticketData;
+echo json_encode($apiData)."\n";
 //住宿
+$hotelImg = 'https://gss0.bdstatic.com/94o3dSag_xI4khGkpoWK1HF6hhy/baike/w%3D268%3Bg%3D0/sign=2c68ebb9c9ef76093c0b9e9916e6c4f1/78310a55b319ebc497d999bd8026cffc1e171674.jpg';
 //餐饮
+$cateringImg = 'http://t11.baidu.com/it/u=2890804336,2337375951&fm=173&app=25&f=JPEG?w=640&h=418&s=830B9347C6EB0B0D7894F5730300D051';
 //校园网
 //租房
 //租车
