@@ -693,7 +693,7 @@ $renthouseData = [
             'title'=>'融创',
             'img_url'=>$supermaketImg,
             'square' => '90m²',
-            'description' => '2室1厅1卫',
+            'simple_description' => '2室1厅1卫',
             'orientations' => '南北通透',
             'location'=>'松北区融创旅游城华园',
             'base_uri' => '/renthouse/detail',
@@ -705,7 +705,7 @@ $renthouseData = [
             'title'=>'保利',
             'img_url'=>$supermaketImg,
             'square' => '90m²',
-            'description' => '2室1厅1卫',
+            'simple_description' => '2室1厅1卫',
             'orientations' => '南北通透',
             'location'=>'松北区中源大道',
             'base_uri' => '/renthouse/detail',
@@ -717,7 +717,7 @@ $renthouseData = [
             'title'=>'世纪花园',
             'img_url'=>$supermaketImg,
             'square' => '90m²',
-            'description' => '2室1厅1卫',
+            'simple_description' => '2室1厅1卫',
             'orientations' => '南北通透',
             'location'=>'松北区世茂大道',
             'base_uri' => '/renthouse/detail',
@@ -729,6 +729,24 @@ $renthouseData = [
 ];
 echo "/renthouse"."\n";
 $apiData['data'] = $renthouseData;
+echo json_encode($apiData)."\n";
+echo "\n"."\n"."\n"."\n";
+
+$renthouseDetailData = [
+    'id' => 1,
+    'img_url'=>[$cateringImg,$supermaketImg],
+    'title'=>'融创',
+    'location'=>'松北区融创旅游城华园',
+    'current_price' => '¥1500',
+    'description' => "第一段描述:abdalkfjadklfjadlfjadlkfjalkdfjaldkfjalkfjalkdfjla<br/>公交地铁描述:dfadafadfaldkfjakljfalkj<br/>",
+    'square' => '90m²',
+    'simple_description' => '2室1厅1卫',
+    'orientations' => '南北通透',
+    'base_uri' => '/renthouse/detail',
+    'publish_time' => '3小时前',
+];
+echo "/renthouse/detail?id=1"."\n";
+$apiData['data'] = $renthouseDetailData;
 echo json_encode($apiData)."\n";
 echo "\n"."\n"."\n"."\n";
 //发布租房信息post
