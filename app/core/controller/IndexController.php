@@ -26,7 +26,6 @@ class IndexController extends Controller
                 $time = time();
                 $imageName = 'test'.$rand.'/'.date('Ymd').'/'.$time.$rand.'.jpg';
             }
-            $this->app->core->api->Log()->writeLog('','upload compress image to qiniu start',$this->accessLog,$this->accessFunc);
             $qiniuUploadRet = $this->app->admin->core->api->Qiniu()->uploadBlobToQiniu($image,$imageName);
             if(!empty($qiniuUploadRet['base_url']) && !empty($qiniuUploadRet['path_url'])){
                 $data['url'] = $qiniuUploadRet['base_url'].$qiniuUploadRet['path_url'];
