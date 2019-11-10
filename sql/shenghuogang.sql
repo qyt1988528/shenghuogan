@@ -11,7 +11,7 @@
  Target Server Version : 50722
  File Encoding         : 65001
 
- Date: 09/11/2019 23:31:19
+ Date: 11/11/2019 00:09:10
 */
 
 SET NAMES utf8mb4;
@@ -96,7 +96,7 @@ CREATE TABLE `merchant_operation_log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `merchant_id` int(11) NOT NULL DEFAULT '0' COMMENT '商户ID',
   `content` text CHARACTER SET utf8 NOT NULL COMMENT '操作内容',
-  `post_data` text CHARACTER SET utf8mb4 NOT NULL COMMENT '操作内容',
+  `post_data` text NOT NULL COMMENT '操作内容',
   `create_time` datetime NOT NULL DEFAULT '2000-01-01 00:00:00' COMMENT '创建时间',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1:有效,-1:无效',
@@ -239,12 +239,12 @@ CREATE TABLE `supermarket_goods` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `merchant_id` int(11) NOT NULL DEFAULT '0' COMMENT '商户ID',
   `title` varchar(100) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '超市商品名称',
-  `img_url` varchar(255) NOT NULL DEFAULT '' COMMENT '商品图',
+  `img_url` text NOT NULL COMMENT '商品图json',
   `type_id` int(11) NOT NULL DEFAULT '0' COMMENT '商品类别',
   `original_price` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '初始价格',
   `self_price` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '单独购买价格',
   `together_price` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '拼团价格',
-  `description` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '商品描述',
+  `description` text CHARACTER SET utf8 NOT NULL COMMENT '商品描述',
   `specs` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '商品规格',
   `stock` int(10) NOT NULL DEFAULT '0' COMMENT '库存',
   `is_selling` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1:在售,-1:下架',
