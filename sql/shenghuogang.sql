@@ -11,7 +11,7 @@
  Target Server Version : 50722
  File Encoding         : 65001
 
- Date: 27/10/2019 22:32:59
+ Date: 09/11/2019 23:31:19
 */
 
 SET NAMES utf8mb4;
@@ -68,7 +68,7 @@ CREATE TABLE `hotel` (
   `together_price` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '拼单价格',
   `location` varchar(100) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '位置',
   `description` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '描述',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `create_time` datetime NOT NULL DEFAULT '2000-01-01 00:00:00' COMMENT '创建时间',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1:有效,-1:无效',
   PRIMARY KEY (`id`) USING BTREE
@@ -82,7 +82,7 @@ CREATE TABLE `merchant` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '商户ID',
   `name` varchar(100) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '商户名称',
   `image` varchar(255) CHARACTER SET utf8 NOT NULL COMMENT '商户封面',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `create_time` datetime NOT NULL DEFAULT '2000-01-01 00:00:00' COMMENT '创建时间',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1:有效,-1无效',
   PRIMARY KEY (`id`) USING BTREE
@@ -96,8 +96,8 @@ CREATE TABLE `merchant_operation_log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `merchant_id` int(11) NOT NULL DEFAULT '0' COMMENT '商户ID',
   `content` text CHARACTER SET utf8 NOT NULL COMMENT '操作内容',
-  `post_data` json NOT NULL COMMENT '提交的数据',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `post_data` text CHARACTER SET utf8mb4 NOT NULL COMMENT '操作内容',
+  `create_time` datetime NOT NULL DEFAULT '2000-01-01 00:00:00' COMMENT '创建时间',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1:有效,-1:无效',
   PRIMARY KEY (`id`) USING BTREE
@@ -113,7 +113,7 @@ CREATE TABLE `operation_mode` (
   `image` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '模式图标url',
   `is_show` tinyint(4) NOT NULL DEFAULT '1' COMMENT '是否展示',
   `sort` int(5) NOT NULL DEFAULT '99' COMMENT '排序',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `create_time` datetime NOT NULL DEFAULT '2000-01-01 00:00:00' COMMENT '创建时间',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1:有效,-1:无效',
   PRIMARY KEY (`id`) USING BTREE
@@ -143,7 +143,7 @@ CREATE TABLE `operation_mode_type` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '经营模式类别id',
   `operation_mode_id` int(11) NOT NULL DEFAULT '0' COMMENT '经营模式id',
   `name` varchar(100) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '类别名称',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `create_time` datetime NOT NULL DEFAULT '2000-01-01 00:00:00' COMMENT '创建时间',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1:有效,-1:无效',
   PRIMARY KEY (`id`) USING BTREE
@@ -162,9 +162,9 @@ CREATE TABLE `parttimejob` (
   `location` varchar(255) NOT NULL COMMENT '地点',
   `commission` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '佣金',
   `is_hiring` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1:在招人,-1:不招人',
-  `publish_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '发布时间',
-  `end_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '截止时间',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `publish_time` datetime NOT NULL DEFAULT '2000-01-01 00:00:00' COMMENT '发布时间',
+  `end_time` datetime NOT NULL DEFAULT '2000-01-01 00:00:00' COMMENT '截止时间',
+  `create_time` datetime NOT NULL DEFAULT '2000-01-01 00:00:00' COMMENT '创建时间',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1:有效,-1:无效',
   PRIMARY KEY (`id`) USING BTREE
@@ -177,7 +177,7 @@ DROP TABLE IF EXISTS `position`;
 CREATE TABLE `position` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '位置ID',
   `name` varchar(50) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '位置名称',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `create_time` datetime NOT NULL DEFAULT '2000-01-01 00:00:00' COMMENT '创建时间',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1:有效,-1:无效',
   PRIMARY KEY (`id`) USING BTREE
@@ -199,6 +199,17 @@ DROP TABLE IF EXISTS `rent_house`;
 CREATE TABLE `rent_house` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `titile` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '租房标题',
+  `square` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '面积',
+  `room` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '室',
+  `parlour` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '厅',
+  `toilet` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '卫',
+  `orientations` varchar(20) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '朝向',
+  `location` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '位置',
+  `rental` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '租金',
+  `publish_time` datetime NOT NULL DEFAULT '2000-01-01 00:00:00' COMMENT '发布时间',
+  `description` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '详情',
+  `img_url` text CHARACTER SET utf8 NOT NULL COMMENT '图片(json)',
+  `create_time` datetime NOT NULL DEFAULT '2000-01-01 00:00:00' COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='对外出租房源表';
 
@@ -241,7 +252,7 @@ CREATE TABLE `supermarket_goods` (
   `sort` int(10) NOT NULL DEFAULT '999' COMMENT '排序',
   `base_fav_count` int(10) NOT NULL DEFAULT '16' COMMENT '基础点赞人数',
   `base_order_count` int(10) NOT NULL DEFAULT '7' COMMENT '基础购买人数',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `create_time` datetime NOT NULL DEFAULT '2000-01-01 00:00:00' COMMENT '创建时间',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1:有效,-1:无效',
   PRIMARY KEY (`id`) USING BTREE
@@ -272,7 +283,7 @@ CREATE TABLE `ticket` (
   `location` varchar(100) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '位置',
   `stock` int(10) NOT NULL DEFAULT '0' COMMENT '库存',
   `is_selling` tinyint(4) NOT NULL COMMENT '1:在售,-1:下架',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `create_time` datetime NOT NULL DEFAULT '2000-01-01 00:00:00' COMMENT '创建时间',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1:有效,-1:无效',
   PRIMARY KEY (`id`) USING BTREE
@@ -287,7 +298,7 @@ CREATE TABLE `user` (
   `name` varchar(0) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '用户名',
   `password` varchar(0) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '密码',
   `merchant_id` int(11) NOT NULL DEFAULT '0' COMMENT '商户ID',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `create_time` datetime NOT NULL DEFAULT '2000-01-01 00:00:00' COMMENT '创建时间',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1:有效,-1:无效',
   PRIMARY KEY (`id`) USING BTREE

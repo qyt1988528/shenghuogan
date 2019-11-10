@@ -1,7 +1,12 @@
 <?php
 namespace Core\Api;
 
-class Image {
+use MDK\Api;
+use GuzzleHttp\Client;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Handler\CurlHandler;
+use GuzzleHttp\Middleware;
+class ImageBackup extends Api{
 
     public $rateOriginal = 1;
     public $sizeTrillion = 1048576;//1MB=1048576bytes
@@ -40,7 +45,7 @@ class Image {
                 }
             }
         }
-        if($result['image_size'] > $limitSize){
+        if(isset($result['image_size']) && $result['image_size'] > $limitSize){
             $result = [];
         }
         if(!empty($result) && !empty($originalRet)){
@@ -302,13 +307,67 @@ class Image {
                 ),
                 'http'=>array(
                     'method'=> "GET",
-                    'timeout'=> 10,//单位秒
+                    'timeout'=> 30,//单位秒
                 )
             );
             return file_get_contents($imageUrl, false, stream_context_create($arrContextOptions));
         }catch (\Exception $e){
             return '';
         }
+    }
+
+    public function saveBase64($base64,$filename){
+        try{
+            if(!file_exists($filename) && !empty($filename)){
+                file_put_contents($filename,base64_decode($base64));
+            }
+        }catch (\Exception $e){
+
+        }
+    }
+
+    public function getInfo($url) {
+        $data = parse_url($url);
+        $client = new Client([
+            'base_uri' => $data['scheme'].'://'.$data['host'],
+            'timeout'  => 30,
+            'handler' => $this->_getStack(),
+        ]);
+        $response = $client->request('GET', $data['path'],[
+        ]);
+        $result = $response->getBody();
+        $result = json_decode($result,true);
+        return $result;
+    }
+
+    protected function _getStack()
+    {
+        $stack = new HandlerStack();
+        $stack->setHandler(new CurlHandler());
+        $stack->push(Middleware::mapResponse($this->_getMapResponse()));
+        return $stack;
+    }
+
+    /**
+     * 响应报错处理
+     * @return \Closure
+     */
+    protected function _getMapResponse()
+    {
+        return function( $response){
+            if($response->getStatusCode() == 200){
+            }elseif($response->getStatusCode() == 400){
+                $result = $response->getBody()->getContents();
+                $result = json_decode($result,true);
+                if(isset($result['error'])&& strpos($result['error'],'too large')!==false){
+                }else{
+                    throw new \Exception("NetWork Error :get response code ".$response->getStatusCode(),1);
+                }
+            }else{
+                throw new \Exception("NetWork Error :get response code ".$response->getStatusCode(),1);
+            }
+            return $response;
+        };
     }
 
 

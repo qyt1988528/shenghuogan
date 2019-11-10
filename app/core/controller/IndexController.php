@@ -5,8 +5,8 @@ use MDK\Controller;
 
 
 /**
- * Home controller.
- * @RoutePrefix("/", name="home")
+ * Index controller.
+ * @RoutePrefix("/", name="core")
  */
 class IndexController extends Controller
 {
@@ -14,23 +14,30 @@ class IndexController extends Controller
     /**
      * Home action.
      * @return void
-     * @Route("/", methods="GET", name="home")
+     * @Route("/upload", methods="POST", name="core")
      */
-    public function indexAction() {
+    public function uploadAction() {
+        $image = $this->request->getParam('image_blob');
+        $imageName = $this->request->getParam('image_name');
 
-        $result = [
-            'pageInfo'=>[
-                'pageNumber' => '1',
-                'pageSize' => '10'
-            ]
-        ];
-        $this->resultSet->setData($result);
-        $this->response->success($this->resultSet->filterByConfig('definitions/Common'));
-//        $common = $formater->path('definitions/Common',null,'/');
-//        $definitions = $formater->getData($common);
-//        $result= $formater->filter($definitions,$result);
-//        echo (json_encode($result));die;
-//        var_dump($common);die;
+        try{
+            if(empty($imageName)){
+                $rand = mt_rand(100000, 999999);
+                $time = time();
+                $imageName = 'test'.$rand.'/'.date('Ymd').'/'.$time.$rand.'.jpg';
+            }
+            $this->app->core->api->Log()->writeLog('','upload compress image to qiniu start',$this->accessLog,$this->accessFunc);
+            $qiniuUploadRet = $this->app->admin->core->api->Qiniu()->uploadBlobToQiniu($image,$imageName);
+            if(!empty($qiniuUploadRet['base_url']) && !empty($qiniuUploadRet['path_url'])){
+                $data['url'] = $qiniuUploadRet['base_url'].$qiniuUploadRet['path_url'];
+            }else{
+                $this->resultSet->error(1005,'Network Error. Please Try Again Later');
+            }
+        }catch (\Exception $e){
+            $this->resultSet->error($e->getCode(),$e->getMessage());
+        }
+        $this->resultSet->success()->setData($data);
+        $this->response->success($this->resultSet->toObject());
 
     }
 
