@@ -9,9 +9,12 @@ use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Handler\CurlHandler;
 use GuzzleHttp\Middleware;
 use Psr\Http\Message\ResponseInterface;
+use Supermarket\Model\SupermarketGoods;
 
 class Helper extends Api
 {
+    const IS_SELLING = 1;//在售
+    const IS_UNSELLING = -1;//下架
     public $qiniuThumbnailKey = '-soufeel_super_image_ai';//七牛压缩样式符
     public $qiniuThumbnailInfoKey = '-soufeel_super_image_ai_info';//七牛压缩后图片信息样式符
     const IMAGE_FILE_TOO_LARGE = 'IMAGE_FILE_TOO_LARGE';
@@ -655,6 +658,47 @@ class Helper extends Api
             $faceNum = $data['face_num'] ?? 0;
         }
         return $faceNum;
+    }
+
+    public function getInsertFields(){
+        return $insertFields = [
+            'title',
+            'img_url',
+            'original_price',
+            'self_price',
+            'description',
+            'specs',
+        ];
+    }
+    public function getDefaultInsertFields(){
+
+    }
+    public function createGoods($data){
+        $insertData = [];
+        $model = new SupermarketGoods();
+        $model->create($insertData);
+
+    }
+    public function updateGoods($data){
+
+    }
+    public function withdrawGoods($goodsId){
+        $updateModel = SupermarketGoods::findFirstById($goodsId);
+        $updateData = [
+            'id' => $goodsId,
+            'is_selling' => self::IS_UNSELLING,
+        ];
+        $updateModel->update($updateData);
+    }
+    public function deleteGoods($goodsId){
+        $config = $this->app->core->config->config->toArray();
+        $invalid = $config['status']['invalid'];
+        $updateModel = SupermarketGoods::findFirstById($goodsId);
+        $updateData = [
+            'id' => $goodsId,
+            'status' => $invalid,
+        ];
+        $updateModel->update($updateData);
     }
 
 }

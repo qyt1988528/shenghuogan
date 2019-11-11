@@ -31,7 +31,7 @@ class SupermarketGoods extends Model
      *
      * @Column(type="string", size="255", nullable=true, column="img_url")
      */
-    public $mg_url;
+    public $img_url;
     /**
      *
      * @Column(type="integer", size="11", nullable=true, column="type_id")
