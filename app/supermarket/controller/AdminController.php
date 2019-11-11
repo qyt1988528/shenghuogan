@@ -11,7 +11,7 @@ class AdminController extends Controller
 {
     private $_error;
 
-    public function __construct()
+    public function initialize()
     {
         $config = $this->app->core->config->config->toArray();
         $this->_error = $config['error_message'];
