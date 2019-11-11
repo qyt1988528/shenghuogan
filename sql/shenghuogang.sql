@@ -11,7 +11,7 @@
  Target Server Version : 50722
  File Encoding         : 65001
 
- Date: 11/11/2019 00:09:10
+ Date: 11/11/2019 23:55:21
 */
 
 SET NAMES utf8mb4;
@@ -245,6 +245,7 @@ CREATE TABLE `supermarket_goods` (
   `self_price` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '单独购买价格',
   `together_price` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '拼团价格',
   `description` text CHARACTER SET utf8 NOT NULL COMMENT '商品描述',
+  `specs_unit_id` int(10) NOT NULL DEFAULT '0' COMMENT '商品规格单位id',
   `specs` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '商品规格',
   `stock` int(10) NOT NULL DEFAULT '0' COMMENT '库存',
   `is_selling` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1:在售,-1:下架',

@@ -59,6 +59,11 @@ class SupermarketGoods extends Model
     public $description;
     /**
      *
+     * @Column(type="integer", size="10", nullable=true, column="specs_unit_id")
+     */
+    public $specs_unit_id;
+    /**
+     *
      * @Column(type="string", size="255", nullable=true, column="specs")
      */
     public $specs;

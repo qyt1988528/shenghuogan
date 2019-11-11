@@ -100,5 +100,11 @@ class Helper extends Api
             return false;
         }
     }
+    public function detail($goodsId){
+
+    }
+    public function search($name){
+
+    }
 
 }
