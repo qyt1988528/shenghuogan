@@ -24,6 +24,7 @@ class IndexController extends Controller
      */
     public function uploadAction() {
         $image = $this->request->getParam('image_blob');
+        $image = $this->request->getParam('image_base64');
         $imageName = $this->request->getParam('image_name');
 
         try{
@@ -35,7 +36,8 @@ class IndexController extends Controller
                 $time = time();
                 $imageName = 'test'.$rand.'/'.date('Ymd').'/'.$time.$rand.'.jpg';
             }
-            $qiniuUploadRet = $this->app->admin->core->api->Qiniu()->uploadBlobToQiniu($image,$imageName);
+            $imageBlob = $this->app->core->api->Image()->getBlobByBase64($image);
+            $qiniuUploadRet = $this->app->admin->core->api->Qiniu()->uploadBlobToQiniu($imageBlob,$imageName);
             if(!empty($qiniuUploadRet['base_url']) && !empty($qiniuUploadRet['path_url'])){
                 $data['data'] = ['img_url' => $qiniuUploadRet['base_url'].$qiniuUploadRet['path_url']];
             }else{
