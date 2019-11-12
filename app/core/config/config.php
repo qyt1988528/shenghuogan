@@ -29,6 +29,7 @@ return [
     'error_message' => [
         'invalid_input' => 'Invalid input!',
         'try_later' => 'Network Error. Please Try Again Later',
+        'not_exist' => 'It does not exist!',
     ]
 
 ];

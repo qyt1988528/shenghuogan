@@ -178,7 +178,11 @@ class IndexController extends Controller
             'count' => '',//库存
         ];
         try{
-            $data = $this->app->supermarket->api->Helper()->detail($goodsId);
+            $result = $this->app->supermarket->api->Helper()->detail($goodsId);
+            if(empty($result)){
+                $this->resultSet->error(1001,$this->_error['not_exist']);
+            }
+            $data['goods'] = $result;
         }catch (\Exception $e){
             $this->resultSet->error($e->getCode(),$e->getMessage());
         }
@@ -221,8 +225,8 @@ class IndexController extends Controller
      */
     public function specsAction(){
         $config = $this->app->core->config->config->toArray();
-        $data = $config['specs_unit'];
         try{
+            $data['specs_unit'] = $config['specs_unit'];
         }catch (\Exception $e){
             $this->resultSet->error($e->getCode(),$e->getMessage());
         }
