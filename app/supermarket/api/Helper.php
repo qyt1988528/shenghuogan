@@ -75,7 +75,7 @@ class Helper extends Api
             }
             $updateData = [
                 'id' => $goodsId,
-                'is_selling' => $this->_config['selling_status']['selling'],
+                'is_selling' => $this->_config['selling_status']['unselling'],
             ];
             $updateModel->update($updateData);
             return true;
@@ -85,7 +85,7 @@ class Helper extends Api
     }
     public function deleteGoods($goodsId){
         try{
-            $invalid = $this->_config['status']['invalid'];
+            $invalid = $this->_config['data_status']['invalid'];
             $updateModel = SupermarketGoods::findFirstById($goodsId);
             if(empty($updateModel)){
                 return false;
@@ -101,10 +101,33 @@ class Helper extends Api
         }
     }
     public function detail($goodsId){
-
+        $condition = "id = ".$goodsId;
+        $condition .= " and is_selling = ".$this->_config['selling_status']['selling'];
+        $condition .= " and status = ".$this->_config['data_status']['valid'];
+        $goods = SupermarketGoods::findFirst($condition);
+        return $goods;
     }
-    public function search($name){
-
+    public function search($goodsName){
+        /*
+        $slideAds = $this->modelsManager->createBuilder()
+            ->columns('cts.image_ratio,cts.image,cts.jump_url,cts.title,cts.ga_name,vc.condition')
+            ->from(['cts'=>'Supermarket\Model\SupermarketGoods'])
+            ->join('Core\Model\VersionControl','vc.table_id = cts.id and vc.table_name="cms_home_top_slide"','vc','LEFT')
+            ->where('is_selling = :selling: and status = :valid: and title like :goodsName:',['store'=>$store])
+            ->andWhere('b.store = :store: AND b.active=1 and platforms like :systemType:',['store'=>$store,'systemType' => '%'.$systemType.'%'])
+            ->orderBy('sort desc')
+            ->getQuery()
+            ->execute();*/
+        $goods = $this->modelsManager->createBuilder()
+            ->columns('*')
+            ->from(['sg'=>'Supermarket\Model\SupermarketGoods'])
+            ->where('sg.is_selling = :selling: ',['selling'=>$this->_config['selling_status']['selling']])
+            ->andWhere('sg.status = :valid: ',['valid'=>$this->_config['data_status']['valid']])
+            ->andWhere('sg.title like :goodsName: ',['goodsName' => '%'.$goodsName.'%'])
+            ->orderBy('sort desc')
+            ->getQuery()
+            ->execute();
+        return $goods;
     }
 
 }

@@ -4,7 +4,7 @@ use MDK\Controller;
 
 
 /**
- * Face controller.
+ * Admin controller.
  * @RoutePrefix("/supermarketadmin", name="supermarketadmin")
  */
 class AdminController extends Controller
