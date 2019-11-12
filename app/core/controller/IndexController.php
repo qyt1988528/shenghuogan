@@ -10,7 +10,13 @@ use MDK\Controller;
  */
 class IndexController extends Controller
 {
+    private $_error;
 
+    public function initialize()
+    {
+        $config = $this->app->core->config->config->toArray();
+        $this->_error = $config['error_message'];
+    }
     /**
      * Home action.
      * @return void
@@ -21,6 +27,9 @@ class IndexController extends Controller
         $imageName = $this->request->getParam('image_name');
 
         try{
+            if(empty($image)){
+                $this->resultSet->error(1001,$this->_error['invalid_input']);
+            }
             if(empty($imageName)){
                 $rand = mt_rand(100000, 999999);
                 $time = time();
@@ -28,9 +37,9 @@ class IndexController extends Controller
             }
             $qiniuUploadRet = $this->app->admin->core->api->Qiniu()->uploadBlobToQiniu($image,$imageName);
             if(!empty($qiniuUploadRet['base_url']) && !empty($qiniuUploadRet['path_url'])){
-                $data['url'] = $qiniuUploadRet['base_url'].$qiniuUploadRet['path_url'];
+                $data['data'] = ['img_url' => $qiniuUploadRet['base_url'].$qiniuUploadRet['path_url']];
             }else{
-                $this->resultSet->error(1005,'Network Error. Please Try Again Later');
+                $this->resultSet->error(1002,$this->_error['try_later']);
             }
         }catch (\Exception $e){
             $this->resultSet->error($e->getCode(),$e->getMessage());
