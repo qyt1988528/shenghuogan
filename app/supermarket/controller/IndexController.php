@@ -169,7 +169,7 @@ class IndexController extends Controller
         if(empty($goodsId)){
             $this->resultSet->error(1001,$this->_error['invalid_input']);
         }
-        $data = [
+        $data1 = [
             'banner' => [],//几张图?
             'title' => '',
             'id' => 1,
@@ -180,9 +180,9 @@ class IndexController extends Controller
         try{
             $result = $this->app->supermarket->api->Helper()->detail($goodsId);
             if(empty($result)){
-                $this->resultSet->error(1001,$this->_error['not_exist']);
+                $this->resultSet->error(1002,$this->_error['not_exist']);
             }
-            $data['goods'] = $result;
+            $data['data'] = $result;
         }catch (\Exception $e){
             $this->resultSet->error($e->getCode(),$e->getMessage());
         }
@@ -201,7 +201,7 @@ class IndexController extends Controller
             $this->resultSet->error(1001,$this->_error['invalid_input']);
         }
         //考虑拼音搜索
-        $data = [
+        $data1 = [
             [
                 'id' => 1,
                 'title' => '',
@@ -211,7 +211,11 @@ class IndexController extends Controller
 
         ];
         try{
-            $data = $this->app->supermarket->api->Helper()->search($keywords);
+            $result = $this->app->supermarket->api->Helper()->search($keywords);
+            if(empty($result)){
+                $this->resultSet->error(1002,$this->_error['not_exist']);
+            }
+            $data['data'] = $result;
         }catch (\Exception $e){
             $this->resultSet->error($e->getCode(),$e->getMessage());
         }
@@ -226,7 +230,7 @@ class IndexController extends Controller
     public function specsAction(){
         $config = $this->app->core->config->config->toArray();
         try{
-            $data['specs_unit'] = $config['specs_unit'];
+            $data['data'] = $config['specs_unit'];
         }catch (\Exception $e){
             $this->resultSet->error($e->getCode(),$e->getMessage());
         }
