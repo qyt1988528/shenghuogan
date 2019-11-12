@@ -1,15 +1,22 @@
 <?php
 namespace Supermarket\Controller;
 use MDK\Controller;
+use function Qiniu\waterImg;
 
 
 /**
- * Face controller.
+ * index controller.
  * @RoutePrefix("/supermarket", name="supermarket")
  */
 class IndexController extends Controller
 {
+    private $_error;
 
+    public function initialize()
+    {
+        $config = $this->app->core->config->config->toArray();
+        $this->_error = $config['error_message'];
+    }
     /**
      * Index action.
      * @return void
@@ -18,184 +25,129 @@ class IndexController extends Controller
     public function indexAction() {
         $page = 1;
         //分页
-        $icon1 = 'https://oss.mtlab.meitu.com/mtopen/wNKztUVuXEiHSNfD4A06SGwqXatzUvS0/MTU3MzA0MTYwMA==/37c134e2-ea7f-468e-9f1a-2127daaf7d46.jpg';
-        $icon2 = 'https://oss.mtlab.meitu.com/mtopen/wNKztUVuXEiHSNfD4A06SGwqXatzUvS0/MTU3MzA0MTYwMA==/40d252cd-0850-4904-9793-f19af72ac28a.jpg';
-        $icon3 = 'https://oss.mtlab.meitu.com/mtopen/wNKztUVuXEiHSNfD4A06SGwqXatzUvS0/MTU3MzA0MTYwMA==/1ca95336-e91c-4d29-b4a7-8f16e0ac80d6.jpg';
-        $icon4 = 'https://oss.mtlab.meitu.com/mtopen/wNKztUVuXEiHSNfD4A06SGwqXatzUvS0/MTU3MzA0MTYwMA==/65ced7d2-c235-4f85-8078-3b8a7fca0709.jpg';
-        $icon5 = 'https://oss.mtlab.meitu.com/mtopen/wNKztUVuXEiHSNfD4A06SGwqXatzUvS0/MTU3MzA0MTYwMA==/3a8dda06-d652-4286-8038-8f3ecfcec2ea.jpg';
-        $icon6 = 'https://oss.mtlab.meitu.com/mtopen/wNKztUVuXEiHSNfD4A06SGwqXatzUvS0/MTU3MzA0MTYwMA==/54242d73-9ba1-41b4-bfa5-b1f4038ce26e.jpg';
-        $icon7 = 'https://oss.mtlab.meitu.com/mtopen/wNKztUVuXEiHSNfD4A06SGwqXatzUvS0/MTU3MzA0MTYwMA==/89e92fc1-0709-4bee-89af-d2553f83b6ac.jpg';
-        $icon8 = 'https://oss.mtlab.meitu.com/mtopen/wNKztUVuXEiHSNfD4A06SGwqXatzUvS0/MTU3MzA0MTYwMA==/aaf4fe4e-a16f-42fb-9460-419d2b593597.jpg';
-        $icon9 = 'https://oss.mtlab.meitu.com/mtopen/wNKztUVuXEiHSNfD4A06SGwqXatzUvS0/MTU3MzA0MTYwMA==/0eb0a14e-5a0e-494f-acb3-0022934c0bb2.jpg';
-        $icon10 = 'https://oss.mtlab.meitu.com/mtopen/wNKztUVuXEiHSNfD4A06SGwqXatzUvS0/MTU3MzA0MTYwMA==/1a982f6c-df3b-47fc-9bb7-2d7805c3260d.jpg';
-        $cover = 'https://oss.mtlab.meitu.com/mtopen/wNKztUVuXEiHSNfD4A06SGwqXatzUvS0/MTU3MzA0MTYwMA==/4a7ac25d-2bc2-46db-8563-0e1a2907f66a.jpg';
-        //首页
-        $indexData = [
-            'cover' => $cover,
-            'icon' => [
+
+        $supermaketImg = 'https://oss.mtlab.meitu.com/mtopen/wNKztUVuXEiHSNfD4A06SGwqXatzUvS0/MTU3MzA0ODgwMA==/7eb84e00-dc47-44d4-be86-74d017129daa.jpg';
+        //id=1,page=1
+        $supermaketData = [
+            'type_list' => [
                 [
-                    'title'=>'超市',
-                    'img_url'=>$icon1,
-                    'base_uri' => '/supermarket',
-                    'id'=>1,
-                    'sort'=>1,
+                    'title' => '全部',
+                    'id' => 1,
+                    'selected' => true,
                 ],
                 [
-                    'title'=>'兼职',
-                    'img_url'=>$icon2,
-                    'base_uri' => '/parttimejob',
-                    'id'=>2,
-                    'sort'=>2,
+                    'title' => '精选水果',
+                    'id' => 2,
+                    'selected' => false,
                 ],
                 [
-                    'title'=>'门票',
-                    'img_url'=>$icon3,
-                    'base_uri' => '/ticket',
-                    'id'=>3,
-                    'sort'=>3,
+                    'title' => '休闲食品',
+                    'id' => 3,
+                    'selected' => false,
                 ],
                 [
-                    'title'=>'住宿',
-                    'img_url'=>$icon4,
-                    'base_uri' => '/hotel',
-                    'id'=>4,
-                    'sort'=>4,
+                    'title' => '酒水乳饮',
+                    'id' => 4,
+                    'selected' => false,
                 ],
                 [
-                    'title'=>'餐饮',
-                    'img_url'=>$icon5,
-                    'base_uri' => '/catering',
-                    'id'=>5,
-                    'sort'=>5,
+                    'title' => '生活用品',
+                    'id' => 5,
+                    'selected' => false,
                 ],
-                [
-                    'title'=>'校园网',
-                    'img_url'=>$icon6,
-                    'base_uri' => '/school',
-                    'id'=>6,
-                    'sort'=>6,
-                ],
-                [
-                    'title'=>'租房',
-                    'img_url'=>$icon7,
-                    'base_uri' => '/renthouse',
-                    'id'=>7,
-                    'sort'=>7,
-                ],
-                [
-                    'title'=>'租车',
-                    'img_url'=>$icon8,
-                    'base_uri' => '/rentcar',
-                    'id'=>8,
-                    'sort'=>8,
-                ],
-                [
-                    'title'=>'二手物',
-                    'img_url'=>$icon9,
-                    'base_uri' => '/secondhand',
-                    'id'=>9,
-                    'sort'=>9,
-                ],
-                [
-                    'title'=>'快递',
-                    'img_url'=>$icon10,
-                    'base_uri' => '/express',
-                    'id'=>10,
-                    'sort'=>10,
-                ],
-            ],
-            'ad' => [
-                [
-                    'title' => '失物招领',
-                    'desc' => '找回您失去的爱',
-                    'base_uri' => '/express',
-                    'id' =>  1,
-                ],
-                [
-                    'title' => '驾考报名',
-                    'desc' => '全线优质驾校',
-                    'base_uri' => '/express',
-                    'id' =>  2,
-                ]
             ],
             'recommend_list' => [
                 [
-                    'title'=>'冰雪大世界门票[成人票]',
-                    'img_url'=>$cover,
-                    'base_uri' => '/express',
-                    'id'=>10,
-                    'base_uri' => '/ticket/detail',
-                    'type' => '3',
-                    'current_price' => '¥165.50',
+                    'title'=>'西红柿',
+                    'img_url'=>$supermaketImg,
+                    'base_uri' => '/supermarket/detail',
+                    'id'=>1,
+                    'original_price' => '¥15.89',
+                    'current_price' => '¥11.89',
                 ],
                 [
-                    'title'=>'香格里拉大酒店1晚',
-                    'img_url'=>$cover,
-                    'id'=>10,
-                    'base_uri' => '/hotel/detail',
-                    'type' => '4',
-                    'current_price' => '¥888.00',
-
+                    'title'=>'茄子',
+                    'img_url'=>$supermaketImg,
+                    'base_uri' => '/supermarket/detail',
+                    'id'=>2,
+                    'original_price' => '¥10.70',
+                    'current_price' => '¥6.00',
                 ],
                 [
-                    'title'=>'宴宾楼老菜馆[100元代金券]',
-                    'img_url'=>$cover,
-                    'id'=>10,
-                    'type' => '5',
-                    'base_uri' => '/catering/detail',
-                    'current_price' => '¥66.60',
+                    'title'=>'鸡蛋',
+                    'img_url'=>$supermaketImg,
+                    'base_uri' => '/supermarket/detail',
+                    'id'=>3,
+                    'original_price' => '¥20.00',
+                    'current_price' => '¥14.99',
                 ],
             ],
-            'part_time_job_list' => [
+            'total_list' => [
                 [
-                    'title'=>'家教[数学,2小时]',
-                    'location'=>'松北区融创旅游城华园',
-                    'id'=>10,
-                    'base_uri' => '/parttimejob/detail',
-                    'publish_time' => '2019-11-06 22:00:00',
-                    'current_price' => '¥100.00',
+                    'id' => 1,
+                    'img_url'=>$supermaketImg,
+                    'base_uri' => '/supermarket/detail',
+                    'title' => '西红柿',
+                    'specs' => '2kg',
+                    'current_price' => '¥11.89',
                 ],
                 [
-                    'title'=>'传单发放员',
-                    'location'=>'哈尔滨中央大街',
-                    'id'=>10,
-                    'base_uri' => '/parttimejob/detail',
-                    'publish_time' => '2019-11-06 21:00:00',
-                    'current_price' => '¥60.00',
-                ],
-            ],
-            'life_info_list' => [
-                [
-
-                    'title'=>'出租保利水韵长滩三室一厅一卫[精装修,可月付]',
-                    'img_url'=>$cover,
-                    'id'=>10,
-                    'type' => '',
-                    'base_uri' => '/renthouse/detail',
-                    'current_price' => '¥1500',
-                    'publish_time' => '2019-11-05 10:00:00',
+                    'id' => 2,
+                    'img_url'=>$supermaketImg,
+                    'base_uri' => '/supermarket/detail',
+                    'title' => '茄子',
+                    'specs' => '1kg',
+                    'current_price' => '¥6.00',
                 ],
                 [
-                    'title'=>'货车租赁[车+司机,8小时]',
-                    'img_url'=>$cover,
-                    'id'=>10,
-                    'type' => '',
-                    'base_uri' => '/rentcar/detail',
-                    'current_price' => '¥400',
-                    'publish_time' => '2019-11-04 09:41:50',
+                    'id' => 1,
+                    'img_url'=>$supermaketImg,
+                    'title' => '西红柿',
+                    'specs' => '2kg',
+                    'current_price' => '¥11.89',
                 ],
                 [
-                    'title'=>'二手iphoneX出售',
-                    'img_url'=>$cover,
-                    'id'=>10,
-                    'type' => '',
-                    'base_uri' => '/secondhand/detail',
-                    'current_price' => '¥4000',
-                    'publish_time' => '2019-11-03 23:08:04',
+                    'id' => 2,
+                    'img_url'=>$supermaketImg,
+                    'base_uri' => '/supermarket/detail',
+                    'title' => '茄子',
+                    'specs' => '1kg',
+                    'current_price' => '¥6.00',
+                ],
+                [
+                    'id' => 1,
+                    'img_url'=>$supermaketImg,
+                    'title' => '西红柿',
+                    'specs' => '2kg',
+                    'current_price' => '¥11.89',
+                ],
+                [
+                    'id' => 2,
+                    'img_url'=>$supermaketImg,
+                    'base_uri' => '/supermarket/detail',
+                    'title' => '茄子',
+                    'specs' => '1kg',
+                    'current_price' => '¥6.00',
+                ],
+                [
+                    'id' => 1,
+                    'img_url'=>$supermaketImg,
+                    'base_uri' => '/supermarket/detail',
+                    'title' => '西红柿',
+                    'specs' => '2kg',
+                    'current_price' => '¥11.89',
+                ],
+                [
+                    'id' => 2,
+                    'img_url'=>$supermaketImg,
+                    'base_uri' => '/supermarket/detail',
+                    'title' => '茄子',
+                    'specs' => '1kg',
+                    'current_price' => '¥6.00',
                 ],
             ],
         ];
-        $data = $indexData;
+        $data = $supermaketData;
 
         try{
         }catch (\Exception $e){
@@ -215,7 +167,7 @@ class IndexController extends Controller
     public function detailAction(){
         $goodsId = $this->request->getParam('id',null,'');
         if(empty($goodsId)){
-            $this->resultSet->error(1001,'invalid input!');
+            $this->resultSet->error(1001,$this->_error['invalid_input']);
         }
         $data = [
             'banner' => [],//几张图?
@@ -226,6 +178,7 @@ class IndexController extends Controller
             'count' => '',//库存
         ];
         try{
+            $data = $this->app->supermarket->api->Helper()->detail($goodsId);
         }catch (\Exception $e){
             $this->resultSet->error($e->getCode(),$e->getMessage());
         }
@@ -234,15 +187,14 @@ class IndexController extends Controller
     }
 
     /**
-     * faceDetect action.
      * 根据关键词搜索 商品
      * @return void
-     * @Route("/search", methods="POST", name="supermarket")
+     * @Route("/search", methods="GET", name="supermarket")
      */
     public function searchAction(){
         $keywords = $this->request->getParam('keywords',null,'');
         if(empty($keywords)){
-
+            $this->resultSet->error(1001,$this->_error['invalid_input']);
         }
         //考虑拼音搜索
         $data = [
@@ -255,12 +207,18 @@ class IndexController extends Controller
 
         ];
         try{
+            $data = $this->app->supermarket->api->Helper()->search($keywords);
         }catch (\Exception $e){
             $this->resultSet->error($e->getCode(),$e->getMessage());
         }
         $this->resultSet->success()->setData($data);
         $this->response->success($this->resultSet->toObject());
     }
+    /**
+     * 根据关键词搜索 商品
+     * @return void
+     * @Route("/specs", methods="GET", name="supermarket")
+     */
     public function specsAction(){
         $config = $this->app->core->config->config->toArray();
         $data = $config['specs_unit'];
