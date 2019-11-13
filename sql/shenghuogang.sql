@@ -11,7 +11,7 @@
  Target Server Version : 50722
  File Encoding         : 65001
 
- Date: 11/11/2019 23:55:21
+ Date: 13/11/2019 23:47:48
 */
 
 SET NAMES utf8mb4;
@@ -62,7 +62,9 @@ DROP TABLE IF EXISTS `hotel`;
 CREATE TABLE `hotel` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `merchant_id` int(11) NOT NULL DEFAULT '0' COMMENT '商户ID',
-  `img_url` varchar(100) NOT NULL DEFAULT '' COMMENT '封面',
+  `title` varchar(255) NOT NULL DEFAULT '' COMMENT '标题',
+  `img_url` text NOT NULL COMMENT '封面',
+  `cost_price` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '成本价格',
   `original_price` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '初始价格',
   `self_price` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '单独购买价格',
   `together_price` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '拼单价格',
@@ -80,8 +82,11 @@ CREATE TABLE `hotel` (
 DROP TABLE IF EXISTS `merchant`;
 CREATE TABLE `merchant` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '商户ID',
+  `code` varchar(100) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '商家编号',
   `name` varchar(100) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '商户名称',
-  `image` varchar(255) CHARACTER SET utf8 NOT NULL COMMENT '商户封面',
+  `phone` varchar(50) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '商户手机号',
+  `image_identity_card` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '商户封面身份证',
+  `image_business_license` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '营业执照',
   `create_time` datetime NOT NULL DEFAULT '2000-01-01 00:00:00' COMMENT '创建时间',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1:有效,-1无效',
@@ -241,6 +246,7 @@ CREATE TABLE `supermarket_goods` (
   `title` varchar(100) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '超市商品名称',
   `img_url` text NOT NULL COMMENT '商品图json',
   `type_id` int(11) NOT NULL DEFAULT '0' COMMENT '商品类别',
+  `cost_price` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '成本价格(进价)',
   `original_price` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '初始价格',
   `self_price` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '单独购买价格',
   `together_price` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '拼团价格',
