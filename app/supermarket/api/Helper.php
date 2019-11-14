@@ -18,6 +18,7 @@ class Helper extends Api
             'title',
             'img_url',
             'type_id',
+            'cost_price',
             'original_price',
             'self_price',
             'description',
