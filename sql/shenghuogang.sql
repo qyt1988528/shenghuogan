@@ -11,7 +11,7 @@
  Target Server Version : 50722
  File Encoding         : 65001
 
- Date: 13/11/2019 23:47:48
+ Date: 15/11/2019 00:37:40
 */
 
 SET NAMES utf8mb4;
@@ -23,6 +23,24 @@ SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS `catering`;
 CREATE TABLE `catering` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `merchant_id` int(11) NOT NULL COMMENT '商户ID',
+  `title` varchar(100) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '标题',
+  `img_url` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '封面',
+  `cost_price` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '成本价格',
+  `original_price` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '初始价格',
+  `self_price` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '单独购买价格',
+  `together_price` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '拼团价格',
+  `description` text NOT NULL COMMENT '门票详情',
+  `location` varchar(100) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '位置',
+  `stock` int(10) NOT NULL DEFAULT '0' COMMENT '库存',
+  `is_selling` tinyint(4) NOT NULL COMMENT '1:在售,-1:下架',
+  `create_time` datetime NOT NULL DEFAULT '2000-01-01 00:00:00' COMMENT '创建时间',
+  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1:有效,-1:无效',
+  `is_recommend` tinyint(4) NOT NULL DEFAULT '-1' COMMENT '1:推荐,-1:正常',
+  `sort` int(10) NOT NULL DEFAULT '999' COMMENT '排序',
+  `base_fav_count` int(10) NOT NULL DEFAULT '16' COMMENT '基础点赞人数',
+  `base_order_count` int(10) NOT NULL DEFAULT '7' COMMENT '基础购买人数',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 ROW_FORMAT=FIXED COMMENT='餐饮表';
 
@@ -68,11 +86,19 @@ CREATE TABLE `hotel` (
   `original_price` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '初始价格',
   `self_price` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '单独购买价格',
   `together_price` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '拼单价格',
-  `location` varchar(100) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '位置',
-  `description` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '描述',
+  `location` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '位置',
+  `description` text CHARACTER SET utf8 NOT NULL COMMENT '描述',
+  `date_start` datetime NOT NULL DEFAULT '2000-01-01 00:00:00' COMMENT '开始时间',
+  `date_end` datetime NOT NULL DEFAULT '2000-01-01 00:00:00' COMMENT '结束时间',
   `create_time` datetime NOT NULL DEFAULT '2000-01-01 00:00:00' COMMENT '创建时间',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1:有效,-1:无效',
+  `stock` int(10) NOT NULL DEFAULT '0' COMMENT '库存',
+  `is_selling` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1:在售,-1:下架',
+  `is_recommend` tinyint(4) NOT NULL DEFAULT '-1' COMMENT '1:推荐,-1:正常',
+  `sort` int(10) NOT NULL DEFAULT '999' COMMENT '排序',
+  `base_fav_count` int(10) NOT NULL DEFAULT '16' COMMENT '基础点赞人数',
+  `base_order_count` int(10) NOT NULL DEFAULT '7' COMMENT '基础购买人数',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 ROW_FORMAT=FIXED COMMENT='酒店表';
 
@@ -194,8 +220,27 @@ CREATE TABLE `position` (
 DROP TABLE IF EXISTS `rent_car`;
 CREATE TABLE `rent_car` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `merchant_id` int(11) NOT NULL COMMENT '商户ID',
+  `title` varchar(100) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '标题',
+  `img_url` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '封面',
+  `cost_price` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '成本价格',
+  `original_price` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '初始价格',
+  `self_price` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '单独购买价格',
+  `together_price` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '拼团价格',
+  `description` text NOT NULL COMMENT '门票详情',
+  `phone` varchar(50) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '租车手机号',
+  `location` varchar(100) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '位置',
+  `stock` int(10) NOT NULL DEFAULT '0' COMMENT '库存',
+  `is_selling` tinyint(4) NOT NULL COMMENT '1:在售,-1:下架',
+  `create_time` datetime NOT NULL DEFAULT '2000-01-01 00:00:00' COMMENT '创建时间',
+  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1:有效,-1:无效',
+  `is_recommend` tinyint(4) NOT NULL DEFAULT '-1' COMMENT '1:推荐,-1:正常',
+  `sort` int(10) NOT NULL DEFAULT '999' COMMENT '排序',
+  `base_fav_count` int(10) NOT NULL DEFAULT '16' COMMENT '基础点赞人数',
+  `base_order_count` int(10) NOT NULL DEFAULT '7' COMMENT '基础购买人数',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 ROW_FORMAT=FIXED COMMENT='租车表';
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 ROW_FORMAT=FIXED COMMENT='餐饮表';
 
 -- ----------------------------
 -- Table structure for rent_house
@@ -283,16 +328,21 @@ CREATE TABLE `ticket` (
   `merchant_id` int(11) NOT NULL COMMENT '商户ID',
   `title` varchar(100) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '标题',
   `img_url` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '封面',
+  `cost_price` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '成本价格',
   `original_price` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '初始价格',
   `self_price` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '单独购买价格',
   `together_price` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '拼团价格',
-  `description` varchar(255) NOT NULL DEFAULT '' COMMENT '门票详情',
+  `description` text NOT NULL COMMENT '门票详情',
   `location` varchar(100) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '位置',
   `stock` int(10) NOT NULL DEFAULT '0' COMMENT '库存',
   `is_selling` tinyint(4) NOT NULL COMMENT '1:在售,-1:下架',
   `create_time` datetime NOT NULL DEFAULT '2000-01-01 00:00:00' COMMENT '创建时间',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1:有效,-1:无效',
+  `is_recommend` tinyint(4) NOT NULL DEFAULT '-1' COMMENT '1:推荐,-1:正常',
+  `sort` int(10) NOT NULL DEFAULT '999' COMMENT '排序',
+  `base_fav_count` int(10) NOT NULL DEFAULT '16' COMMENT '基础点赞人数',
+  `base_order_count` int(10) NOT NULL DEFAULT '7' COMMENT '基础购买人数',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 ROW_FORMAT=FIXED COMMENT='门票表';
 

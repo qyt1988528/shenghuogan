@@ -7,8 +7,10 @@ use Supermarket\Model\SupermarketGoods;
 class Helper extends Api
 {
     private $_config;
+    private $_model;
     public function __construct() {
         $this->_config = $this->app->core->config->config->toArray();
+        $this->_model = new SupermarketGoods();
     }
 
     public function getInsertFields(){
@@ -43,7 +45,7 @@ class Helper extends Api
             foreach ($this->getInsertFields() as $v){
                 $insertData[$v] = $postData[$v];
             }
-            $model = new SupermarketGoods();
+            $model = $this->_model;
             $model->create($insertData);
             return !empty($model->id) ? $model->id : 0;
         }catch (\Exception $e){
@@ -53,7 +55,7 @@ class Helper extends Api
     public function updateGoods($postData){
         try{
             $updateData = ['id' => $postData['id']];
-            $updateModel = SupermarketGoods::findFirstById($postData['id']);
+            $updateModel = $this->_model->findFirstById($postData['id']);
             if(empty($updateModel)){
                 return false;
             }
@@ -69,7 +71,7 @@ class Helper extends Api
     //下架
     public function withdrawGoods($goodsId){
         try{
-            $updateModel = SupermarketGoods::findFirstById($goodsId);
+            $updateModel = $this->_model->findFirstById($goodsId);
             if(empty($updateModel)){
                 return false;
             }
@@ -86,7 +88,7 @@ class Helper extends Api
     public function deleteGoods($goodsId){
         try{
             $invalid = $this->_config['data_status']['invalid'];
-            $updateModel = SupermarketGoods::findFirstById($goodsId);
+            $updateModel = $this->_model->findFirstById($goodsId);
             if(empty($updateModel)){
                 return false;
             }
@@ -104,7 +106,7 @@ class Helper extends Api
         $condition = "id = ".$goodsId;
         $condition .= " and is_selling = ".$this->_config['selling_status']['selling'];
         $condition .= " and status = ".$this->_config['data_status']['valid'];
-        $goods = SupermarketGoods::findFirst($condition);
+        $goods = $this->_model->findFirst($condition);
         return $goods;
     }
     public function search($goodsName){

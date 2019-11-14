@@ -1,14 +1,13 @@
 <?php
 
-namespace Supermarket\Model;
+namespace Rent\Model;
 
 use MDK\Model;
 
-class SupermarketGoods extends Model
+class RentCar extends Model
 {
-
     /**
-     * 
+     *
      * @Primary
      * @Identity
      * @Column(type="integer", size="11", nullable=false, column="id")
@@ -16,14 +15,14 @@ class SupermarketGoods extends Model
     public $id;
 
     /**
-     * 
+     *
      * @Column(type="integer", size="11", nullable=true, column="merchant_id")
      */
     public $merchant_id;
 
 
     /**
-     * 
+     *
      * @Column(type="string", size="100", nullable=true, column="title")
      */
     public $title;
@@ -32,11 +31,6 @@ class SupermarketGoods extends Model
      * @Column(type="string", nullable=true, column="img_url")
      */
     public $img_url;
-    /**
-     *
-     * @Column(type="integer", size="11", nullable=true, column="type_id")
-     */
-    public $type_id;
     /**
      *
      * @Column(type="float", nullable=true, column="cost_price")
@@ -59,19 +53,19 @@ class SupermarketGoods extends Model
     public $together_price;
     /**
      *
-     * @Column(type="string", size="255", nullable=true, column="description")
+     * @Column(type="string", size="255", nullable=true, column="phone")
+     */
+    public $phone;
+    /**
+     *
+     * @Column(type="string", size="255", nullable=true, column="location")
+     */
+    public $location;
+    /**
+     *
+     * @Column(type="string", nullable=true, column="description")
      */
     public $description;
-    /**
-     *
-     * @Column(type="integer", size="10", nullable=true, column="specs_unit_id")
-     */
-    public $specs_unit_id;
-    /**
-     *
-     * @Column(type="string", size="255", nullable=true, column="specs")
-     */
-    public $specs;
     /**
      *
      * @Column(type="integer", size="10", nullable=true, column="stock")
@@ -146,5 +140,6 @@ class SupermarketGoods extends Model
     {
         return parent::findFirst($parameters);
     }
+
 
 }
