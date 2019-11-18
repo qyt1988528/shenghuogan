@@ -28,6 +28,11 @@ class Catering extends Model
     public $title;
     /**
      *
+     * @Column(type="string", size="255", nullable=true, column="title_pinyin")
+     */
+    public $title_pinyin;
+    /**
+     *
      * @Column(type="string", nullable=true, column="img_url")
      */
     public $img_url;
