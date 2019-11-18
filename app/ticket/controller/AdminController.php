@@ -33,7 +33,7 @@ private $_error;
             }
         }
         try{
-            $insert = $this->app->ticket->api->Helper()->createCatering($postData);
+            $insert = $this->app->ticket->api->Helper()->createTicket($postData);
             if(empty($insert)){
                 $this->resultSet->error(1002,$this->_error['try_later']);
             }
@@ -60,7 +60,7 @@ private $_error;
             $this->resultSet->error(1001,$this->_error['invalid_input']);
         }
         try{
-           $result = $this->app->ticket->api->Helper()->deleteCatering($cateringId);
+           $result = $this->app->ticket->api->Helper()->deleteTicket($cateringId);
            if($result){
                $data = [
                    'del_success' => $result
@@ -88,7 +88,7 @@ private $_error;
             $this->resultSet->error(1001,$this->_error['invalid_input']);
         }
         try{
-           $result = $this->app->ticket->api->Helper()->withdrawCatering($cateringId);
+           $result = $this->app->ticket->api->Helper()->withdrawTicket($cateringId);
            if($result){
                $data = [
                    'withdraw_success' => $result
@@ -121,7 +121,7 @@ private $_error;
             }
         }
         try{
-            $result = $this->app->ticket->api->Helper()->updateCatering($postData);
+            $result = $this->app->ticket->api->Helper()->updateTicket($postData);
             if($result){
                 $data = [
                     'update_success' => $result
