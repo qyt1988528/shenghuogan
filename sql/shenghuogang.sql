@@ -11,7 +11,7 @@
  Target Server Version : 50722
  File Encoding         : 65001
 
- Date: 15/11/2019 00:37:40
+ Date: 18/11/2019 23:07:04
 */
 
 SET NAMES utf8mb4;
@@ -25,6 +25,7 @@ CREATE TABLE `catering` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `merchant_id` int(11) NOT NULL COMMENT '商户ID',
   `title` varchar(100) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '标题',
+  `title_pinyin` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '标题(拼音)',
   `img_url` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '封面',
   `cost_price` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '成本价格',
   `original_price` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '初始价格',
@@ -81,6 +82,7 @@ CREATE TABLE `hotel` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `merchant_id` int(11) NOT NULL DEFAULT '0' COMMENT '商户ID',
   `title` varchar(255) NOT NULL DEFAULT '' COMMENT '标题',
+  `title_pinyin` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '标题(拼音)',
   `img_url` text NOT NULL COMMENT '封面',
   `cost_price` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '成本价格',
   `original_price` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '初始价格',
@@ -240,7 +242,7 @@ CREATE TABLE `rent_car` (
   `base_fav_count` int(10) NOT NULL DEFAULT '16' COMMENT '基础点赞人数',
   `base_order_count` int(10) NOT NULL DEFAULT '7' COMMENT '基础购买人数',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 ROW_FORMAT=FIXED COMMENT='餐饮表';
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 ROW_FORMAT=FIXED COMMENT='租车表';
 
 -- ----------------------------
 -- Table structure for rent_house
@@ -289,6 +291,7 @@ CREATE TABLE `supermarket_goods` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `merchant_id` int(11) NOT NULL DEFAULT '0' COMMENT '商户ID',
   `title` varchar(100) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '超市商品名称',
+  `title_pinyin` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '标题(拼音)',
   `img_url` text NOT NULL COMMENT '商品图json',
   `type_id` int(11) NOT NULL DEFAULT '0' COMMENT '商品类别',
   `cost_price` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '成本价格(进价)',
@@ -327,6 +330,7 @@ CREATE TABLE `ticket` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `merchant_id` int(11) NOT NULL COMMENT '商户ID',
   `title` varchar(100) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '标题',
+  `title_pinyin` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '标题(拼音)',
   `img_url` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '封面',
   `cost_price` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '成本价格',
   `original_price` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '初始价格',

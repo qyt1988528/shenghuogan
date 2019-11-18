@@ -33,7 +33,7 @@ class AdminController extends Controller
             }
         }
         try{
-            $insert = $this->app->catering->api->Helper()->createHotel($postData);
+            $insert = $this->app->catering->api->Helper()->createCatering($postData);
             if(empty($insert)){
                 $this->resultSet->error(1002,$this->_error['try_later']);
             }
@@ -60,7 +60,7 @@ class AdminController extends Controller
             $this->resultSet->error(1001,$this->_error['invalid_input']);
         }
         try{
-           $result = $this->app->catering->api->Helper()->deleteHotel($cateringId);
+           $result = $this->app->catering->api->Helper()->deleteCatering($cateringId);
            if($result){
                $data = [
                    'del_success' => $result
@@ -88,7 +88,7 @@ class AdminController extends Controller
             $this->resultSet->error(1001,$this->_error['invalid_input']);
         }
         try{
-           $result = $this->app->catering->api->Helper()->withdrawHotel($cateringId);
+           $result = $this->app->catering->api->Helper()->withdrawCatering($cateringId);
            if($result){
                $data = [
                    'withdraw_success' => $result
@@ -121,7 +121,7 @@ class AdminController extends Controller
             }
         }
         try{
-            $result = $this->app->catering->api->Helper()->updateHotel($postData);
+            $result = $this->app->catering->api->Helper()->updateCatering($postData);
             if($result){
                 $data = [
                     'update_success' => $result
