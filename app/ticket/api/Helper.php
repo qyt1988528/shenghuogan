@@ -35,7 +35,7 @@ class Helper extends Api
         if(!isset($postData['together_price']) || empty($postData['together_price'])){
             $defaultInsertFields['together_price'] = $postData['self_price'];
         }
-        if(!isset($postData['title']) || empty($postData['title'])){
+        if(!empty($postData['title'])){
             $defaultInsertFields['title_pinyin'] = $this->app->core->api->Pinyin()->getpy($postData['title']);
         }
         //is_recommend、sort、update_time、status采用默认值
