@@ -5,7 +5,7 @@ use MDK\Controller;
 
 /**
  * Admin controller.
- * @RoutePrefix("/ticket", name="ticket")
+ * @RoutePrefix("/ticketadmin", name="ticketadmin")
  */
 class AdminController extends Controller
 {
