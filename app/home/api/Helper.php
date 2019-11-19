@@ -1,8 +1,6 @@
 <?php
 namespace Home\Api;
 
-use Face\Model\FaceppDetectImages;
-use Face\Model\FaceppDetectSingleFace;
 use MDK\Api;
 use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
@@ -12,6 +10,10 @@ use Psr\Http\Message\ResponseInterface;
 
 class Helper extends Api
 {
+    public function getIndex(){
+
+    }
+
     public $qiniuThumbnailKey = '-soufeel_super_image_ai';//七牛压缩样式符
     public $qiniuThumbnailInfoKey = '-soufeel_super_image_ai_info';//七牛压缩后图片信息样式符
     const IMAGE_FILE_TOO_LARGE = 'IMAGE_FILE_TOO_LARGE';
