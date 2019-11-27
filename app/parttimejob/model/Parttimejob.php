@@ -1,10 +1,10 @@
 <?php
 
-namespace Catering\Model;
+namespace Parttimejob\Model;
 
 use MDK\Model;
 
-class Catering extends Model
+class Parttimejob extends Model
 {
     /**
      *
@@ -14,6 +14,11 @@ class Catering extends Model
      */
     public $id;
 
+    /**
+     *
+     * @Column(type="integer", size="11", nullable=true, column="user_id")
+     */
+    public $user_id;
     /**
      *
      * @Column(type="integer", size="11", nullable=true, column="merchant_id")
@@ -28,34 +33,9 @@ class Catering extends Model
     public $title;
     /**
      *
-     * @Column(type="string", size="255", nullable=true, column="title_pinyin")
+     * @Column(type="string", size="255", nullable=true, column="description")
      */
-    public $title_pinyin;
-    /**
-     *
-     * @Column(type="string", nullable=true, column="img_url")
-     */
-    public $img_url;
-    /**
-     *
-     * @Column(type="float", nullable=true, column="cost_price")
-     */
-    public $cost_price;
-    /**
-     *
-     * @Column(type="float", nullable=true, column="original_price")
-     */
-    public $original_price;
-    /**
-     *
-     * @Column(type="float", nullable=true, column="self_price")
-     */
-    public $self_price;
-    /**
-     *
-     * @Column(type="float", nullable=true, column="together_price")
-     */
-    public $together_price;
+    public $description;
     /**
      *
      * @Column(type="string", size="255", nullable=true, column="location")
@@ -63,39 +43,39 @@ class Catering extends Model
     public $location;
     /**
      *
-     * @Column(type="string", nullable=true, column="description")
+     * @Column(type="float", nullable=true, column="commission")
      */
-    public $description;
+    public $commission;
     /**
      *
-     * @Column(type="integer", size="10", nullable=true, column="stock")
+     * @Column(type="string", size="20", nullable=true, column="cellphone")
      */
-    public $stock;
+    public $cellphone;
     /**
      *
-     * @Column(type="integer", size="4", nullable=true, column="is_selling")
+     * @Column(type="string", size="20", nullable=true, column="qq")
      */
-    public $is_selling;
+    public $qq;
     /**
      *
-     * @Column(type="integer", size="4", nullable=true, column="is_recommend")
+     * @Column(type="string", size="30", nullable=true, column="wechat")
      */
-    public $is_recommend;
+    public $wechat;
     /**
      *
-     * @Column(type="integer", size="10", nullable=true, column="sort")
+     * @Column(type="integer", nullable=true, column="is_hiring")
      */
-    public $sort;
+    public $is_hiring;
     /**
      *
-     * @Column(type="integer", size="19", nullable=true, column="base_fav_count")
+     * @Column(type="string", nullable=true, column="publish_time")
      */
-    public $base_fav_count;
+    public $publish_time;
     /**
      *
-     * @Column(type="integer", size="10", nullable=true, column="base_order_count")
+     * @Column(type="string", nullable=true, column="end_time")
      */
-    public $base_order_count;
+    public $end_time;
     /**
      *
      * @Column(type="string", nullable=true, column="create_time")
@@ -140,7 +120,6 @@ class Catering extends Model
     {
         return parent::findFirst($parameters);
     }
-
 
 
 }

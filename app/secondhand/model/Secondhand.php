@@ -1,10 +1,10 @@
 <?php
 
-namespace Catering\Model;
+namespace Secondhand\Model;
 
 use MDK\Model;
 
-class Catering extends Model
+class Secondhand extends Model
 {
     /**
      *
@@ -26,16 +26,18 @@ class Catering extends Model
      * @Column(type="string", size="100", nullable=true, column="title")
      */
     public $title;
-    /**
-     *
-     * @Column(type="string", size="255", nullable=true, column="title_pinyin")
-     */
-    public $title_pinyin;
+
     /**
      *
      * @Column(type="string", nullable=true, column="img_url")
      */
     public $img_url;
+
+    /**
+     *
+     * @Column(type="string", size="255", nullable=true, column="location")
+     */
+    public $location;
     /**
      *
      * @Column(type="float", nullable=true, column="cost_price")
@@ -58,44 +60,30 @@ class Catering extends Model
     public $together_price;
     /**
      *
-     * @Column(type="string", size="255", nullable=true, column="location")
+     * @Column(type="string", size="20", nullable=true, column="cellphone")
      */
-    public $location;
+    public $cellphone;
     /**
      *
-     * @Column(type="string", nullable=true, column="description")
+     * @Column(type="string", size="20", nullable=true, column="qq")
+     */
+    public $qq;
+    /**
+     *
+     * @Column(type="string", size="30", nullable=true, column="wechat")
+     */
+    public $wechat;
+    /**
+     *
+     * @Column(type="string", nullable=true, column="publish_time")
+     */
+    public $publish_time;
+    /**
+     *
+     * @Column(type="string", size="255", nullable=true, column="description")
      */
     public $description;
-    /**
-     *
-     * @Column(type="integer", size="10", nullable=true, column="stock")
-     */
-    public $stock;
-    /**
-     *
-     * @Column(type="integer", size="4", nullable=true, column="is_selling")
-     */
-    public $is_selling;
-    /**
-     *
-     * @Column(type="integer", size="4", nullable=true, column="is_recommend")
-     */
-    public $is_recommend;
-    /**
-     *
-     * @Column(type="integer", size="10", nullable=true, column="sort")
-     */
-    public $sort;
-    /**
-     *
-     * @Column(type="integer", size="19", nullable=true, column="base_fav_count")
-     */
-    public $base_fav_count;
-    /**
-     *
-     * @Column(type="integer", size="10", nullable=true, column="base_order_count")
-     */
-    public $base_order_count;
+
     /**
      *
      * @Column(type="string", nullable=true, column="create_time")

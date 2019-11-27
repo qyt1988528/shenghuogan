@@ -33,6 +33,11 @@ class RentCar extends Model
     public $img_url;
     /**
      *
+     * @Column(type="string", nullable=true, column="stock")
+     */
+    public $stock;
+    /**
+     *
      * @Column(type="float", nullable=true, column="cost_price")
      */
     public $cost_price;
@@ -48,7 +53,7 @@ class RentCar extends Model
     public $self_price;
     /**
      *
-     * @Column(type="string", nullable=true, column="together_price")
+     * @Column(type="float", nullable=true, column="together_price")
      */
     public $together_price;
     /**
@@ -66,11 +71,7 @@ class RentCar extends Model
      * @Column(type="string", nullable=true, column="description")
      */
     public $description;
-    /**
-     *
-     * @Column(type="integer", size="10", nullable=true, column="stock")
-     */
-    public $stock;
+
     /**
      *
      * @Column(type="integer", size="4", nullable=true, column="is_selling")

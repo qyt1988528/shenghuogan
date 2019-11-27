@@ -59,7 +59,7 @@ class SupermarketGoods extends Model
     public $self_price;
     /**
      *
-     * @Column(type="string", nullable=true, column="together_price")
+     * @Column(type="float", nullable=true, column="together_price")
      */
     public $together_price;
     /**

@@ -4,9 +4,24 @@ namespace Secondhand\Model;
 
 use MDK\Model;
 
-class FaceppDetectSingleFace extends Model
+class UpdateRelation extends Model
 {
 
+    public function createRelation($sign){
+        //根据用户Id和签约有效期 查找进件
+        $applies = [];
+        foreach ($applies as $apply){
+            //apply_id sign_type不存在
+            $exist = false;
+            if($exist == false){
+                $this->createHistoryRelation($apply,$sign);
+            }
+        }
+    }
+    public function createHistoryRelation($apply,$sign){
+
+
+    }
     /**
      * 
      * @Primary
