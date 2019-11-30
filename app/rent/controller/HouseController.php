@@ -5,93 +5,40 @@ use MDK\Controller;
 
 /**
  * Face controller.
- * @RoutePrefix("/renthouse", name="renthouse")
+ * @RoutePrefix("/renthouseadmin", name="renthouseadmin")
  */
 class HouseController extends Controller
 {
+    private $_error;
 
-    /**
-     * Index action.
-     * @return void
-     * @Route("/", methods="GET", name="renthouse")
-     */
-    public function indexAction() {
-
-        $data =[];
-        try{
-        }catch (\Exception $e){
-            $this->resultSet->error($e->getCode(),$e->getMessage());
-        }
-        $this->resultSet->success()->setData($data);
-        $this->response->success($this->resultSet->toObject());
-
-
-
+    public function initialize()
+    {
+        $config = $this->app->core->config->config->toArray();
+        $this->_error = $config['error_message'];
     }
 
     /**
-     * mergeFace action.
-     * 人脸融合
+     * 创建
+     * Create action.
      * @return void
-     * @Route("/mergeFace", methods="POST", name="face")
+     * @Route("/create", methods="POST", name="renthouseadmin")
      */
-    public function mergeFaceAction(){
-        $imageUrl = $this->request->getParam('image_url',null,'');
-        $imageBase64 = $this->request->getParam('image_base64',null,'');
-        $sku = $this->request->getParam('sku',null,'');
-        if( (empty($imageUrl) && empty($imageBase64)) || empty($sku)){
-            $result['code'] = 101;
-            $result['msg'] = $this->translate->_('Invalid input');
-            $this->resultSet->error($result['code'],$result['msg']);
-        }
-        try{
-            $params = [
-                'sku' => $sku,
-                'image_url' => $imageUrl,
-                'image_base64' => $imageBase64,
-            ];
-            $data = $this->app->face->api->Helper()->mergeFacePro($params);
-        }catch (\Exception $e){
-            $this->resultSet->error($e->getCode(),$e->getMessage());
-        }
-        $this->resultSet->success()->setData($data);
-        $this->response->success($this->resultSet->toObject());
-    }
-
-    /**
-     * faceDetect action.
-     * 人脸识别
-     * @return void
-     * @Route("/faceDetect", methods="POST", name="face")
-     */
-    public function faceDetectAction(){
-        $imageBase64 = $this->request->getParam('image_base64',null,'');
-        $msg = $this->translate->_('Network Error. Please Try Again Later!');
-        if(empty($imageBase64)){
-            $this->resultSet->error(1001,$msg);
-        }
-        try{
-            $params = [
-                'image_base64' => $imageBase64,
-            ];
-            $data = $this->app->face->api->Helper()->faceDetect($params);
-            //人数
-            $faceNum = $this->app->face->api->Helper()->faceNum($data);
-            //人脸模糊度
-            $isBlur = $this->app->face->api->Helper()->isBlur($data);
-            if($faceNum != 1){
-                $code = 1;
-            }else{
-                if($isBlur){
-                    $code = 2;
-                }else{
-                    $code = 3;
-                }
+    public function createAction() {
+        //权限验证
+        $postData = $this->request->getPost();
+        $insertFields = $this->app->house->api->Helper()->getInsertFields();
+        foreach ($insertFields as $v){
+            if(empty($postData[$v])){
+                $this->resultSet->error(1001,$this->_error['invalid_input']);
             }
-            $data = [
-                'faceNum' => (int)$faceNum,
-                'detectCode' => $code,
-                'isBlur' => (int)$isBlur
+        }
+        try{
+            $insert = $this->app->house->api->Helper()->createGoods($postData);
+            if(empty($insert)){
+                $this->resultSet->error(1002,$this->_error['try_later']);
+            }
+            $data =[
+                'id' => $insert
             ];
         }catch (\Exception $e){
             $this->resultSet->error($e->getCode(),$e->getMessage());
@@ -99,4 +46,95 @@ class HouseController extends Controller
         $this->resultSet->success()->setData($data);
         $this->response->success($this->resultSet->toObject());
     }
+
+    /**
+     * 删除
+     * Create action.
+     * @return void
+     * @Route("/delete", methods="POST", name="renthouseadmin")
+     */
+    public function deleteAction() {
+        //权限验证
+        $goodsId = $this->request->getPost('id');
+        if(empty($goodsId)){
+            $this->resultSet->error(1001,$this->_error['invalid_input']);
+        }
+        try{
+           $result = $this->app->house->api->Helper()->deleteGoods($goodsId);
+           if($result){
+               $data = [
+                   'del_success' => $result
+               ];
+           }else{
+               $this->resultSet->error(1002,$this->_error['try_later']);
+           }
+        }catch (\Exception $e){
+            $this->resultSet->error($e->getCode(),$e->getMessage());
+        }
+        $this->resultSet->success()->setData($data);
+        $this->response->success($this->resultSet->toObject());
+
+    }
+    /**
+     * 下架
+     * Create action.
+     * @return void
+     * @Route("/withdraw", methods="POST", name="renthouseadmin")
+     */
+    public function withdrawAction() {
+        //权限验证
+        $goodsId = $this->request->getPost('id');
+        if(empty($goodsId)){
+            $this->resultSet->error(1001,$this->_error['invalid_input']);
+        }
+        try{
+           $result = $this->app->house->api->Helper()->withdrawGoods($goodsId);
+           if($result){
+               $data = [
+                   'withdraw_success' => $result
+               ];
+           }else{
+               $this->resultSet->error(1002,$this->_error['try_later']);
+           }
+        }catch (\Exception $e){
+            $this->resultSet->error($e->getCode(),$e->getMessage());
+        }
+        $this->resultSet->success()->setData($data);
+        $this->response->success($this->resultSet->toObject());
+    }
+    /**
+     * 更新
+     * Create action.
+     * @return void
+     * @Route("/update", methods="POST", name="renthouseadmin")
+     */
+    public function updateAction() {
+        //权限验证
+        $postData = $this->request->getPost();
+        if(empty($postData['id'])){
+            $this->resultSet->error(1001,$this->_error['invalid_input']);
+        }
+        $updateFields = $this->app->house->api->Helper()->getInsertFields();
+        foreach ($updateFields as $v){
+            if(empty($postData[$v])){
+                $this->resultSet->error(1001,$this->_error['invalid_input']);
+            }
+        }
+        try{
+            $result = $this->app->house->api->Helper()->updateGoods($postData);
+            if($result){
+                $data = [
+                    'update_success' => $result
+                ];
+            }else{
+                $this->resultSet->error(1002,$this->_error['try_later']);
+            }
+        }catch (\Exception $e){
+            $this->resultSet->error($e->getCode(),$e->getMessage());
+        }
+        $this->resultSet->success()->setData($data);
+        $this->response->success($this->resultSet->toObject());
+    }
+
+    
 }
