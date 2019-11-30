@@ -33,6 +33,11 @@ class Parttimejob extends Model
     public $title;
     /**
      *
+     * @Column(type="string", size="255", nullable=true, column="title_pinyin")
+     */
+    public $title_pinyin;
+    /**
+     *
      * @Column(type="string", size="255", nullable=true, column="description")
      */
     public $description;

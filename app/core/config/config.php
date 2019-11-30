@@ -26,6 +26,10 @@ return [
         'recommend' => 1,//推荐
         'normal' => -1,//正常
     ],
+    'hiring_status' => [
+        'hiring' => 1,//招
+        'unhiring' => -1,//不招
+    ],
     'error_message' => [
         'invalid_input' => 'Invalid input!',
         'try_later' => 'Network Error. Please Try Again Later',
