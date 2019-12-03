@@ -11,7 +11,7 @@
  Target Server Version : 50722
  File Encoding         : 65001
 
- Date: 19/11/2019 23:56:16
+ Date: 03/12/2019 22:18:46
 */
 
 SET NAMES utf8mb4;
@@ -191,6 +191,7 @@ CREATE TABLE `parttimejob` (
   `user_id` int(11) NOT NULL DEFAULT '0' COMMENT '发布者用户ID',
   `merchant_id` int(11) NOT NULL DEFAULT '0' COMMENT '发布者商户ID',
   `title` varchar(100) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '兼职标题',
+  `title_pinyin` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '兼职拼音标题',
   `description` text CHARACTER SET utf8 NOT NULL COMMENT '兼职描述',
   `location` varchar(255) NOT NULL COMMENT '地点',
   `commission` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '佣金',
@@ -228,6 +229,7 @@ CREATE TABLE `rent_car` (
   `merchant_id` int(11) NOT NULL COMMENT '商户ID',
   `img_url` text CHARACTER SET utf8 NOT NULL COMMENT '图片json',
   `title` varchar(100) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '标题',
+  `title_pinyin` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '拼音标题',
   `stock` int(10) NOT NULL DEFAULT '0' COMMENT '库存',
   `cost_price` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '成本价格',
   `original_price` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '初始价格',
@@ -241,6 +243,7 @@ CREATE TABLE `rent_car` (
   `sort` int(10) NOT NULL DEFAULT '999' COMMENT '排序',
   `base_fav_count` int(10) NOT NULL DEFAULT '16' COMMENT '基础点赞人数',
   `base_order_count` int(10) NOT NULL DEFAULT '7' COMMENT '基础租赁人数',
+  `publish_time` datetime NOT NULL DEFAULT '2000-01-01 00:00:00' COMMENT '发布时间',
   `create_time` datetime NOT NULL DEFAULT '2000-01-01 00:00:00' COMMENT '创建时间',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1:有效,-1:无效',
@@ -253,6 +256,7 @@ CREATE TABLE `rent_car` (
 DROP TABLE IF EXISTS `rent_house`;
 CREATE TABLE `rent_house` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `merchant_id` int(11) NOT NULL DEFAULT '0' COMMENT '商户ID',
   `titile` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '租房标题',
   `square` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '面积',
   `img_url` text CHARACTER SET utf8 NOT NULL COMMENT '图片(json)',
@@ -288,6 +292,7 @@ CREATE TABLE `school` (
 DROP TABLE IF EXISTS `second`;
 CREATE TABLE `second` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `merchant_id` int(11) NOT NULL DEFAULT '0' COMMENT '商户ID',
   `img_url` text CHARACTER SET utf8 NOT NULL COMMENT '图片(json)',
   `titile` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '二手物品标题',
   `location` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '位置',

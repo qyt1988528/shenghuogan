@@ -126,7 +126,7 @@ class Car extends Api
             ->execute();*/
         $goods = $this->modelsManager->createBuilder()
             ->columns('*')
-            ->from(['sg'=>'Supermarket\Model\SupermarketGoods'])
+            ->from(['sg'=>'Rent\Model\RentCar'])
             ->where('sg.is_selling = :selling: ',['selling'=>$this->_config['selling_status']['selling']])
             ->andWhere('sg.status = :valid: ',['valid'=>$this->_config['data_status']['valid']])
             ->andWhere('sg.title like :goodsName: ',['goodsName' => '%'.$goodsName.'%'])

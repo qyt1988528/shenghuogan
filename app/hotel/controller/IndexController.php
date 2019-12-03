@@ -4,19 +4,151 @@ use MDK\Controller;
 
 
 /**
- * Face controller.
+ * Index controller.
  * @RoutePrefix("/hotel", name="hotel")
  */
 class IndexController extends Controller
 {
 
+        private $_error;
+
+    public function initialize()
+    {
+        $config = $this->app->core->config->config->toArray();
+        $this->_error = $config['error_message'];
+    }
     /**
      * Index action.
      * @return void
      * @Route("/", methods="GET", name="hotel")
      */
     public function indexAction() {
-        $data =[];
+        $page = 1;
+        //分页
+
+        $supermaketImg = 'https://oss.mtlab.meitu.com/mtopen/wNKztUVuXEiHSNfD4A06SGwqXatzUvS0/MTU3MzA0ODgwMA==/7eb84e00-dc47-44d4-be86-74d017129daa.jpg';
+        //id=1,page=1
+        $supermaketData = [
+            'type_list' => [
+                [
+                    'title' => '全部',
+                    'id' => 1,
+                    'selected' => true,
+                ],
+                [
+                    'title' => '精选水果',
+                    'id' => 2,
+                    'selected' => false,
+                ],
+                [
+                    'title' => '休闲食品',
+                    'id' => 3,
+                    'selected' => false,
+                ],
+                [
+                    'title' => '酒水乳饮',
+                    'id' => 4,
+                    'selected' => false,
+                ],
+                [
+                    'title' => '生活用品',
+                    'id' => 5,
+                    'selected' => false,
+                ],
+            ],
+            'recommend_list' => [
+                [
+                    'title'=>'西红柿',
+                    'img_url'=>$supermaketImg,
+                    'base_uri' => '/supermarket/detail',
+                    'id'=>1,
+                    'original_price' => '¥15.89',
+                    'current_price' => '¥11.89',
+                ],
+                [
+                    'title'=>'茄子',
+                    'img_url'=>$supermaketImg,
+                    'base_uri' => '/supermarket/detail',
+                    'id'=>2,
+                    'original_price' => '¥10.70',
+                    'current_price' => '¥6.00',
+                ],
+                [
+                    'title'=>'鸡蛋',
+                    'img_url'=>$supermaketImg,
+                    'base_uri' => '/supermarket/detail',
+                    'id'=>3,
+                    'original_price' => '¥20.00',
+                    'current_price' => '¥14.99',
+                ],
+            ],
+            'total_list' => [
+                [
+                    'id' => 1,
+                    'img_url'=>$supermaketImg,
+                    'base_uri' => '/supermarket/detail',
+                    'title' => '西红柿',
+                    'specs' => '2kg',
+                    'current_price' => '¥11.89',
+                ],
+                [
+                    'id' => 2,
+                    'img_url'=>$supermaketImg,
+                    'base_uri' => '/supermarket/detail',
+                    'title' => '茄子',
+                    'specs' => '1kg',
+                    'current_price' => '¥6.00',
+                ],
+                [
+                    'id' => 1,
+                    'img_url'=>$supermaketImg,
+                    'title' => '西红柿',
+                    'specs' => '2kg',
+                    'current_price' => '¥11.89',
+                ],
+                [
+                    'id' => 2,
+                    'img_url'=>$supermaketImg,
+                    'base_uri' => '/supermarket/detail',
+                    'title' => '茄子',
+                    'specs' => '1kg',
+                    'current_price' => '¥6.00',
+                ],
+                [
+                    'id' => 1,
+                    'img_url'=>$supermaketImg,
+                    'title' => '西红柿',
+                    'specs' => '2kg',
+                    'current_price' => '¥11.89',
+                ],
+                [
+                    'id' => 2,
+                    'img_url'=>$supermaketImg,
+                    'base_uri' => '/supermarket/detail',
+                    'title' => '茄子',
+                    'specs' => '1kg',
+                    'current_price' => '¥6.00',
+                ],
+                [
+                    'id' => 1,
+                    'img_url'=>$supermaketImg,
+                    'base_uri' => '/supermarket/detail',
+                    'title' => '西红柿',
+                    'specs' => '2kg',
+                    'current_price' => '¥11.89',
+                ],
+                [
+                    'id' => 2,
+                    'img_url'=>$supermaketImg,
+                    'base_uri' => '/supermarket/detail',
+                    'title' => '茄子',
+                    'specs' => '1kg',
+                    'current_price' => '¥6.00',
+                ],
+            ],
+        ];
+        $data = $supermaketData;
+
         try{
         }catch (\Exception $e){
             $this->resultSet->error($e->getCode(),$e->getMessage());
@@ -28,26 +160,29 @@ class IndexController extends Controller
 
     /**
      * mergeFace action.
-     * 人脸融合
+     * 商品详情
      * @return void
      * @Route("/detail", methods="GET", name="hotel")
      */
-    public function mergeFaceAction(){
-        $imageUrl = $this->request->getParam('image_url',null,'');
-        $imageBase64 = $this->request->getParam('image_base64',null,'');
-        $sku = $this->request->getParam('sku',null,'');
-        if( (empty($imageUrl) && empty($imageBase64)) || empty($sku)){
-            $result['code'] = 101;
-            $result['msg'] = $this->translate->_('Invalid input');
-            $this->resultSet->error($result['code'],$result['msg']);
+    public function detailAction(){
+        $goodsId = $this->request->getParam('id',null,'');
+        if(empty($goodsId)){
+            $this->resultSet->error(1001,$this->_error['invalid_input']);
         }
+        $data1 = [
+            'banner' => [],//几张图?
+            'title' => '',
+            'id' => 1,
+            'price' => '',
+            'desc' => '',
+            'count' => '',//库存
+        ];
         try{
-            $params = [
-                'sku' => $sku,
-                'image_url' => $imageUrl,
-                'image_base64' => $imageBase64,
-            ];
-            $data = $this->app->face->api->Helper()->mergeFacePro($params);
+            $result = $this->app->supermarket->api->Helper()->detail($goodsId);
+            if(empty($result)){
+                $this->resultSet->error(1002,$this->_error['not_exist']);
+            }
+            $data['data'] = $result;
         }catch (\Exception $e){
             $this->resultSet->error($e->getCode(),$e->getMessage());
         }
@@ -56,44 +191,52 @@ class IndexController extends Controller
     }
 
     /**
-     * faceDetect action.
-     * 人脸识别
+     * 根据关键词搜索 商品
      * @return void
      * @Route("/search", methods="GET", name="hotel")
      */
-    public function faceDetectAction(){
-        $imageBase64 = $this->request->getParam('image_base64',null,'');
-        $msg = $this->translate->_('Network Error. Please Try Again Later!');
-        if(empty($imageBase64)){
-            $this->resultSet->error(1001,$msg);
+    public function searchAction(){
+        $keywords = $this->request->getParam('keywords',null,'');
+        if(empty($keywords)){
+            $this->resultSet->error(1001,$this->_error['invalid_input']);
         }
+        //考虑拼音搜索
+        $data1 = [
+            [
+                'id' => 1,
+                'title' => '',
+                'spec' => '',
+                'price' => ''
+            ]
+
+        ];
         try{
-            $params = [
-                'image_base64' => $imageBase64,
-            ];
-            $data = $this->app->face->api->Helper()->faceDetect($params);
-            //人数
-            $faceNum = $this->app->face->api->Helper()->faceNum($data);
-            //人脸模糊度
-            $isBlur = $this->app->face->api->Helper()->isBlur($data);
-            if($faceNum != 1){
-                $code = 1;
-            }else{
-                if($isBlur){
-                    $code = 2;
-                }else{
-                    $code = 3;
-                }
+            $result = $this->app->supermarket->api->Helper()->search($keywords);
+            if(empty($result)){
+                $this->resultSet->error(1002,$this->_error['not_exist']);
             }
-            $data = [
-                'faceNum' => (int)$faceNum,
-                'detectCode' => $code,
-                'isBlur' => (int)$isBlur
-            ];
+            $data['data'] = $result;
         }catch (\Exception $e){
             $this->resultSet->error($e->getCode(),$e->getMessage());
         }
         $this->resultSet->success()->setData($data);
         $this->response->success($this->resultSet->toObject());
     }
+    /**
+     * 根据关键词搜索 商品
+     * @return void
+     * @Route("/specs", methods="GET", name="hotel")
+     */
+    public function specsAction(){
+        $config = $this->app->core->config->config->toArray();
+        try{
+            $data['data'] = $config['specs_unit'];
+        }catch (\Exception $e){
+            $this->resultSet->error($e->getCode(),$e->getMessage());
+        }
+        $this->resultSet->success()->setData($data);
+        $this->response->success($this->resultSet->toObject());
+
+    }
+
 }
