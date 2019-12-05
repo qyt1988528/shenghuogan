@@ -5,7 +5,7 @@ use MDK\Controller;
 
 /**
  * Admin controller.
- * @RoutePrefix("/parttimeadmin", name="parttimeadmin")
+ * @RoutePrefix("/parttimejobadmin", name="parttimejobadmin")
  */
 class AdminController extends Controller
 {
