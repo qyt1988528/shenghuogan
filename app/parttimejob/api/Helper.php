@@ -117,7 +117,7 @@ class Helper extends Api
     public function detail($parttimejobId)
     {
         $condition = "id = " . $parttimejobId;
-        $condition .= " and is_selling = " . $this->_config['selling_status']['selling'];
+        $condition .= " and is_hiring = " . $this->_config['hiring_status']['hiring'];
         $condition .= " and status = " . $this->_config['data_status']['valid'];
         $goods = $this->_model->findFirst($condition);
         return $goods;
@@ -145,6 +145,18 @@ class Helper extends Api
             ->getQuery()
             ->execute();
         return $goods;
+    }
+
+    public function parttimejobList(){
+         $goods = $this->modelsManager->createBuilder()
+            ->columns('*')
+            ->from(['sg' => 'Parttimejob\Model\Parttimejob'])
+            ->where('sg.is_hiring = :hiring: ', ['hiring' => $this->_config['hiring_status']['hiring']])
+            ->andWhere('sg.status = :valid: ', ['valid' => $this->_config['data_status']['valid']])
+            ->getQuery()
+            ->execute();
+        return $goods;
+
     }
 
 
