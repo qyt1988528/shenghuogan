@@ -26,14 +26,14 @@ class AdminController extends Controller
     public function createAction() {
         //权限验证
         $postData = $this->request->getPost();
-        $insertFields = $this->app->second->api->Helper()->getInsertFields();
+        $insertFields = $this->app->parttimejob->api->Helper()->getInsertFields();
         foreach ($insertFields as $v){
             if(empty($postData[$v])){
                 $this->resultSet->error(1001,$this->_error['invalid_input']);
             }
         }
         try{
-            $insert = $this->app->second->api->Helper()->createParttimejob($postData);
+            $insert = $this->app->parttimejob->api->Helper()->createParttimejob($postData);
             if(empty($insert)){
                 $this->resultSet->error(1002,$this->_error['try_later']);
             }
@@ -60,7 +60,7 @@ class AdminController extends Controller
             $this->resultSet->error(1001,$this->_error['invalid_input']);
         }
         try{
-           $result = $this->app->second->api->Helper()->deleteParttimejob($parttimejobId);
+           $result = $this->app->parttimejob->api->Helper()->deleteParttimejob($parttimejobId);
            if($result){
                $data = [
                    'del_success' => $result
@@ -88,7 +88,7 @@ class AdminController extends Controller
             $this->resultSet->error(1001,$this->_error['invalid_input']);
         }
         try{
-           $result = $this->app->second->api->Helper()->withdrawParttimejob($parttimejobId);
+           $result = $this->app->parttimejob->api->Helper()->withdrawParttimejob($parttimejobId);
            if($result){
                $data = [
                    'withdraw_success' => $result
@@ -114,14 +114,14 @@ class AdminController extends Controller
         if(empty($postData['id'])){
             $this->resultSet->error(1001,$this->_error['invalid_input']);
         }
-        $updateFields = $this->app->second->api->Helper()->getInsertFields();
+        $updateFields = $this->app->parttimejob->api->Helper()->getInsertFields();
         foreach ($updateFields as $v){
             if(empty($postData[$v])){
                 $this->resultSet->error(1001,$this->_error['invalid_input']);
             }
         }
         try{
-            $result = $this->app->second->api->Helper()->updateParttimejob($postData);
+            $result = $this->app->parttimejob->api->Helper()->updateParttimejob($postData);
             if($result){
                 $data = [
                     'update_success' => $result
