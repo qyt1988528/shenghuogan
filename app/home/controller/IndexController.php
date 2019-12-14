@@ -170,21 +170,5 @@ class IndexController extends Controller
     }
 
 
-    /**
-     * faceDetect action.
-     * 人脸识别
-     * @return void
-     * @Route("/faceDetect", methods="POST", name="face")
-     */
-    public function faceDetectAction(){
 
-        $data = [];
-        try{
-
-        }catch (\Exception $e){
-            $this->resultSet->error($e->getCode(),$e->getMessage());
-        }
-        $this->resultSet->success()->setData($data);
-        $this->response->success($this->resultSet->toObject());
-    }
 }

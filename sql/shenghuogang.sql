@@ -11,7 +11,7 @@
  Target Server Version : 50722
  File Encoding         : 65001
 
- Date: 03/12/2019 22:18:46
+ Date: 14/12/2019 14:58:57
 */
 
 SET NAMES utf8mb4;
@@ -181,6 +181,95 @@ CREATE TABLE `operation_mode_type` (
   `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1:有效,-1:无效',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='经营模式下的类别表';
+
+-- ----------------------------
+-- Table structure for order
+-- ----------------------------
+DROP TABLE IF EXISTS `order`;
+CREATE TABLE `order` (
+  `order_id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `order_no` varchar(50) NOT NULL DEFAULT '' COMMENT '订单编号',
+  `serial_no` varchar(50) NOT NULL DEFAULT '' COMMENT '支付流水号',
+  `user_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '用户uid',
+  `team_id` int(11) NOT NULL DEFAULT '0',
+  `goods_amount` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '原始总金额',
+  `order_amount` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '订单实付总金额',
+  `pay_channel` int(6) NOT NULL DEFAULT '0' COMMENT '支付渠道',
+  `pay_time` int(11) NOT NULL DEFAULT '0' COMMENT '付款时间',
+  `pay_status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1:待付款,3已支付',
+  `order_status` tinyint(4) NOT NULL DEFAULT '10' COMMENT '10:有效,20:失效,30:完成,40:退货',
+  `order_invalid_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '订单失效时间',
+  `form_id` varchar(50) NOT NULL DEFAULT '微信form_id',
+  `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '状态',
+  `add_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '添加时间',
+  `update_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '修改时间',
+  PRIMARY KEY (`order_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=320 DEFAULT CHARSET=utf8 COMMENT='订单表';
+
+-- ----------------------------
+-- Table structure for order_detail
+-- ----------------------------
+DROP TABLE IF EXISTS `order_detail`;
+CREATE TABLE `order_detail` (
+  `order_detail_id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增ID',
+  `order_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'order_id',
+  `receiver` varchar(10) NOT NULL DEFAULT '' COMMENT '收货人的姓名',
+  `cellphone` varchar(11) NOT NULL DEFAULT '' COMMENT '收货人的手机',
+  `province` varchar(10) NOT NULL DEFAULT '' COMMENT '收货人的省份',
+  `city` varchar(10) NOT NULL DEFAULT '' COMMENT '收货人的城市',
+  `county` varchar(10) NOT NULL DEFAULT '' COMMENT '收货人的地区',
+  `detailed_address` varchar(256) NOT NULL DEFAULT '' COMMENT '详细地址',
+  `shipping_type` varchar(20) NOT NULL DEFAULT '' COMMENT '商品配送类型/GCL/Group/Shipping',
+  `shipping_sn` varchar(50) NOT NULL DEFAULT '' COMMENT '商品配送单号',
+  `delay_confirm` tinyint(4) unsigned NOT NULL DEFAULT '0' COMMENT '48小时后自动确认收货开关',
+  `shipping_status` tinyint(4) NOT NULL DEFAULT '10' COMMENT '商品配送状态/GCL/Group/Shipping',
+  `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '状态',
+  `order_end_time` int(11) NOT NULL DEFAULT '0' COMMENT '订单确认收货截止时间',
+  `add_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '添加时间',
+  `update_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '修改时间',
+  PRIMARY KEY (`order_detail_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=306 DEFAULT CHARSET=utf8 COMMENT='订单详情表';
+
+-- ----------------------------
+-- Table structure for order_goods
+-- ----------------------------
+DROP TABLE IF EXISTS `order_goods`;
+CREATE TABLE `order_goods` (
+  `order_goods_id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `order_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'order_id',
+  `goods_id` int(11) NOT NULL DEFAULT '0' COMMENT '商品的的id',
+  `goods_name` varchar(100) NOT NULL DEFAULT '' COMMENT '商品的名称',
+  `goods_num` int(11) NOT NULL DEFAULT '0' COMMENT '商品数量',
+  `goods_amount` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '商品原价',
+  `goods_current_amount` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '商品现价',
+  `goods_item_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '商品项目ID',
+  `goods_type_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '商品类型ID',
+  `goods_attr` varchar(200) NOT NULL DEFAULT '' COMMENT '商品规格',
+  `goods_cover` varchar(200) NOT NULL DEFAULT '' COMMENT '商品图片',
+  `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '状态',
+  `add_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '添加时间',
+  `update_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '修改时间',
+  PRIMARY KEY (`order_goods_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=311 DEFAULT CHARSET=utf8 COMMENT='订单商品表';
+
+-- ----------------------------
+-- Table structure for order_refund
+-- ----------------------------
+DROP TABLE IF EXISTS `order_refund`;
+CREATE TABLE `order_refund` (
+  `order_refund_id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `order_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'order_id',
+  `bill_no` varchar(50) NOT NULL DEFAULT '' COMMENT '账单编号',
+  `reason` varchar(50) NOT NULL DEFAULT '' COMMENT '退款原因',
+  `description` text NOT NULL COMMENT '退款描述',
+  `refund_amount` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '退款金额',
+  `order_amount` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '应付款金额',
+  `refund_status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '退款状态',
+  `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '状态',
+  `add_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '添加时间',
+  `updated_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '修改时间',
+  PRIMARY KEY (`order_refund_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='订单退款表';
 
 -- ----------------------------
 -- Table structure for parttimejob
@@ -359,7 +448,7 @@ CREATE TABLE `ticket` (
   `merchant_id` int(11) NOT NULL COMMENT '商户ID',
   `title` varchar(100) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '标题',
   `title_pinyin` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '标题(拼音)',
-  `img_url` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '封面',
+  `img_url` text CHARACTER SET utf8 NOT NULL COMMENT '封面',
   `cost_price` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '成本价格',
   `original_price` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '初始价格',
   `self_price` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '单独购买价格',

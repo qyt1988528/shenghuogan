@@ -122,9 +122,10 @@ class Helper extends Api
             ->orderBy('sort desc')
             ->getQuery()
             ->execute();*/
+        //标题、图片、初始价格、单独购买价格、描述、位置、推荐、排序、点赞、销量
         $goods = $this->modelsManager->createBuilder()
-            ->columns('*')
-            ->from(['sg'=>'Supermarket\Model\SupermarketGoods'])
+            ->columns('stock,title,img_url,original_price,self_price,description,location,is_recommend,sort,base_fav_count,base_order_count')
+            ->from(['sg'=>'Ticket\Model\Ticket'])
             ->where('sg.is_selling = :selling: ',['selling'=>$this->_config['selling_status']['selling']])
             ->andWhere('sg.status = :valid: ',['valid'=>$this->_config['data_status']['valid']])
             ->andWhere('sg.title like :goodsName: ',['goodsName' => '%'.$goodsName.'%'])
@@ -132,6 +133,23 @@ class Helper extends Api
             ->getQuery()
             ->execute();
         return $goods;
+    }
+
+    public function getList($page=1,$pageSize=10){
+        //标题、图片、初始价格、单独购买价格、描述、位置、推荐、排序、点赞、销量
+        //分页
+        $start = ($page-1)*$pageSize;
+        $goods = $this->modelsManager->createBuilder()
+            ->columns('stock,title,img_url,original_price,self_price,description,location,is_recommend,sort,base_fav_count,base_order_count')
+            ->from(['sg'=>'Ticket\Model\Ticket'])
+            ->where('sg.is_selling = :selling: ',['selling'=>$this->_config['selling_status']['selling']])
+            ->andWhere('sg.status = :valid: ',['valid'=>$this->_config['data_status']['valid']])
+            ->orderBy('sort desc')
+            ->limit($start,$pageSize)
+            ->getQuery()
+            ->execute();
+        return $goods;
+
     }
 
 
