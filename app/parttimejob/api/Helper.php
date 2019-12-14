@@ -147,7 +147,7 @@ class Helper extends Api
         return $goods;
     }
 
-    public function parttimejobList(){
+    public function getList(){
          $goods = $this->modelsManager->createBuilder()
             ->columns('*')
             ->from(['sg' => 'Parttimejob\Model\Parttimejob'])
