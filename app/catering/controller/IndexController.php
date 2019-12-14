@@ -19,14 +19,14 @@ class IndexController extends Controller
     /**
      * Index action.
      * @return void
-     * @Route("/", methods="GET", name="hotel")
+     * @Route("/", methods="GET", name="catering")
      */
     public function indexAction() {
         $page = $this->request->getParam('page',null,1);
         //分页
         try{
             $data['data'] = [];
-            $tickets = $this->app->hotel->api->Helper()->getList($page);
+            $tickets = $this->app->catering->api->Helper()->getList($page);
             if(!empty($tickets)){
                 $data['data'] = $tickets;
             }
@@ -42,7 +42,7 @@ class IndexController extends Controller
      * mergeFace action.
      * 商品详情
      * @return void
-     * @Route("/detail", methods="GET", name="hotel")
+     * @Route("/detail", methods="GET", name="catering")
      */
     public function detailAction(){
         $goodsId = $this->request->getParam('id',null,'');
@@ -50,7 +50,7 @@ class IndexController extends Controller
             $this->resultSet->error(1001,$this->_error['invalid_input']);
         }
         try{
-            $result = $this->app->hotel->api->Helper()->detail($goodsId);
+            $result = $this->app->catering->api->Helper()->detail($goodsId);
             if(empty($result)){
                 $this->resultSet->error(1002,$this->_error['not_exist']);
             }
@@ -65,7 +65,7 @@ class IndexController extends Controller
     /**
      * 根据关键词搜索 商品
      * @return void
-     * @Route("/search", methods="GET", name="hotel")
+     * @Route("/search", methods="GET", name="catering")
      */
     public function searchAction(){
         $keywords = $this->request->getParam('keywords',null,'');
@@ -75,7 +75,7 @@ class IndexController extends Controller
         //暂不考虑拼音搜索
         try{
             $data['data'] = [];
-            $result = $this->app->hotel->api->Helper()->search($keywords);
+            $result = $this->app->catering->api->Helper()->search($keywords);
             if(!empty($result)){
                 //$this->resultSet->error(1002,$this->_error['not_exist']);
                 $data['data'] = $result;
@@ -86,5 +86,5 @@ class IndexController extends Controller
         $this->resultSet->success()->setData($data);
         $this->response->success($this->resultSet->toObject());
     }
-    
+
 }
