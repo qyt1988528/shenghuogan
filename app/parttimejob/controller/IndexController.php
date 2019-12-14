@@ -9,18 +9,27 @@ use MDK\Controller;
  */
 class IndexController extends Controller
 {
+    private $_error;
 
+    public function initialize()
+    {
+        $config = $this->app->core->config->config->toArray();
+        $this->_error = $config['error_message'];
+    }
     /**
      * Index action.
-     * 兼职首页(列表)
      * @return void
-     * @Route("/list", methods="GET", name="parttimejob")
+     * @Route("/", methods="GET", name="parttimejob")
      */
     public function indexAction() {
-
-
+        $page = $this->request->getParam('page',null,1);
+        //分页
         try{
-            $data = $this->app->parttimejob->api->Helper()->parttimejobList();
+            $data['data'] = [];
+            $tickets = $this->app->parttimejob->api->Helper()->getList($page);
+            if(!empty($tickets)){
+                $data['data'] = $tickets;
+            }
         }catch (\Exception $e){
             $this->resultSet->error($e->getCode(),$e->getMessage());
         }
@@ -31,17 +40,21 @@ class IndexController extends Controller
 
     /**
      * mergeFace action.
-     * 兼职详情
+     * 商品详情
      * @return void
      * @Route("/detail", methods="GET", name="parttimejob")
      */
     public function detailAction(){
-        $parttimejobId = $this->request->getParam('id',null,'');
-        if(empty($parttimejobId)){
-
+        $goodsId = $this->request->getParam('id',null,'');
+        if(empty($goodsId)){
+            $this->resultSet->error(1001,$this->_error['invalid_input']);
         }
         try{
-            $data = $this->app->parttimejob->api->Helper()->detail($parttimejobId);
+            $result = $this->app->parttimejob->api->Helper()->detail($goodsId);
+            if(empty($result)){
+                $this->resultSet->error(1002,$this->_error['not_exist']);
+            }
+            $data['data'] = $result;
         }catch (\Exception $e){
             $this->resultSet->error($e->getCode(),$e->getMessage());
         }
