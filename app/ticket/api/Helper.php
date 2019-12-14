@@ -123,6 +123,7 @@ class Helper extends Api
             ->getQuery()
             ->execute();*/
         //标题、图片、初始价格、单独购买价格、描述、位置、推荐、排序、点赞、销量
+        $goodsName = trim($goodsName);
         $goods = $this->modelsManager->createBuilder()
             ->columns('stock,title,img_url,original_price,self_price,description,location,is_recommend,sort,base_fav_count,base_order_count')
             ->from(['sg'=>'Ticket\Model\Ticket'])

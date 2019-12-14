@@ -112,19 +112,9 @@ class Helper extends Api
         return $goods;
     }
     public function search($goodsName){
-        /*
-        $slideAds = $this->modelsManager->createBuilder()
-            ->columns('cts.image_ratio,cts.image,cts.jump_url,cts.title,cts.ga_name,vc.condition')
-            ->from(['cts'=>'Supermarket\Model\SupermarketGoods'])
-            ->join('Core\Model\VersionControl','vc.table_id = cts.id and vc.table_name="cms_home_top_slide"','vc','LEFT')
-            ->where('is_selling = :selling: and status = :valid: and title like :goodsName:',['store'=>$store])
-            ->andWhere('b.store = :store: AND b.active=1 and platforms like :systemType:',['store'=>$store,'systemType' => '%'.$systemType.'%'])
-            ->orderBy('sort desc')
-            ->getQuery()
-            ->execute();*/
         $goods = $this->modelsManager->createBuilder()
-            ->columns('*')
-            ->from(['sg'=>'Supermarket\Model\SupermarketGoods'])
+            ->columns('stock,title,img_url,original_price,self_price,description,location,is_recommend,sort,base_fav_count,base_order_count')
+            ->from(['sg' => 'Catering\Model\Catering'])
             ->where('sg.is_selling = :selling: ',['selling'=>$this->_config['selling_status']['selling']])
             ->andWhere('sg.status = :valid: ',['valid'=>$this->_config['data_status']['valid']])
             ->andWhere('sg.title like :goodsName: ',['goodsName' => '%'.$goodsName.'%'])
@@ -132,6 +122,24 @@ class Helper extends Api
             ->getQuery()
             ->execute();
         return $goods;
+    }
+
+    public function getList($page = 1, $pageSize = 10)
+    {
+        //标题、图片、初始价格、单独购买价格、描述、位置、推荐、排序、点赞、销量
+        //分页
+        $start = ($page - 1) * $pageSize;
+        $goods = $this->modelsManager->createBuilder()
+            ->columns('stock,title,img_url,original_price,self_price,description,location,is_recommend,sort,base_fav_count,base_order_count')
+            ->from(['sg' => 'Catering\Model\Catering'])
+            ->where('sg.is_selling = :selling: ', ['selling' => $this->_config['selling_status']['selling']])
+            ->andWhere('sg.status = :valid: ', ['valid' => $this->_config['data_status']['valid']])
+            ->orderBy('sort desc')
+            ->limit($start, $pageSize)
+            ->getQuery()
+            ->execute();
+        return $goods;
+
     }
 
 }
