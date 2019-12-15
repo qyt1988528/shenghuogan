@@ -3,6 +3,7 @@ namespace Rent\Api;
 
 use MDK\Api;
 use Rent\Model\RentCar;
+use Rent\Model\RentHouse;
 
 class House extends Api
 {
@@ -10,7 +11,7 @@ class House extends Api
     private $_model;
     public function __construct() {
         $this->_config = $this->app->core->config->config->toArray();
-        $this->_model = new RentCar();
+        $this->_model = new RentHouse();
     }
 
     public function getInsertFields(){
@@ -151,7 +152,7 @@ class House extends Api
         $start = ($page-1)*$pageSize;
         $goods = $this->modelsManager->createBuilder()
             ->columns('*')
-            ->from(['sg'=>'Ticket\Model\Ticket'])
+            ->from(['sg'=>'Rent\Model\RentHouse'])
             // ->where('sg.is_selling = :selling: ',['selling'=>$this->_config['selling_status']['selling']])
             ->andWhere('sg.status = :valid: ',['valid'=>$this->_config['data_status']['valid']])
             ->orderBy('publish_time desc')
