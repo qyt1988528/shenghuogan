@@ -121,10 +121,10 @@ class House extends Api
             $sql .= ' and sg.room = '.$condition['room'].' ';
         }
         if(!empty($condition['price_min'])){
-            $sql .= ' and sg.self_price > '.$condition['price_min'].' ';
+            $sql .= ' and sg.rental > '.$condition['price_min'].' ';
         }
         if(!empty($condition['price_max'])){
-            $sql .= ' and sg.self_price < '.$condition['price_max'].' ';
+            $sql .= ' and sg.rental < '.$condition['price_max'].' ';
         }
         if(!empty($condition['page'])){
             $start = ($condition['page']-1)*$pageSize;
