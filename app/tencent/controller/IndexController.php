@@ -10,6 +10,13 @@ use MDK\Controller;
  */
 class IndexController extends Controller
 {
+    private $_error;
+
+    public function initialize()
+    {
+        $config = $this->app->core->config->config->toArray();
+        $this->_error = $config['error_message'];
+    }
     /**
      * 微信session.
      * @return void
@@ -19,10 +26,17 @@ class IndexController extends Controller
     {
         $jsCode = $this->request->getParam('js_code',null,'');
         if(empty($jsCode)){
-
+            $this->resultSet->error(1001,$this->_error['invalid_input']);
         }
         try{
-            $data = $this->app->tencent->api->WeChat()->getSessionByCode($jsCode);
+            $wxdata = $this->app->tencent->api->WeChat()->getSessionByCode($jsCode);
+            if(empty($wxdata)){
+                $this->resultSet->error(1002,$this->_error['try_later']);
+            }
+            if(isset($wxdata['session_key'])){
+                unset($wxdata['session_key']);
+            }
+            $data['data'] = $wxdata;
         }catch (\Exception $e){
             $this->resultSet->error($e->getCode(),$e->getMessage());
         }
@@ -43,82 +57,42 @@ class IndexController extends Controller
         $this->resultSet->success()->setData($data);
         $this->response->success($this->resultSet->toObject());
     }
-     */
-    /**
-     * Home action.
-     * @return void
-     * @Route("/fuzzy", methods="POST", name="tencent")
-     */
-    public function fuzzyAction() {
-        var_dump('test');exit;
-        $image = $this->request->getParam('image');
-        try{
-//            $data = $this->app->tencent->api->Helper()->isFuzzy($image);
-            //由调用腾讯api改为调用face++api 2MB 4096*4096
-            $blob = $this->app->core->api->Image()->getBlobByBase64($image);
-            $sizeTrillion = $this->app->core->api->Image()->sizeTrillion;
-            $limitSize = 2*$sizeTrillion;
-            $compressRet = $this->app->core->api->Image()->compressImage($blob,$limitSize,3000,3000);
-            if(empty($compressRet)){
-                $this->app->core->api->Log()->writeLog('','compress failed','fuzzy_compress_error','log');//
-                $data = [
-                    'fuzzy' => false,
-                    'msg' => ''
-                ];
-            }else{
-                $data = $this->app->face->api->Helper()->faceDetect([ 'image_base64'=> $compressRet['image_base64str']]);
-                $fuzzy = $this->app->face->api->Helper()->isBlur($data);
-                $data = [
-                    'fuzzy' => $fuzzy,
-                    'msg' => $fuzzy ? $this->translate->_('Your selected image is blurry, we recommend that you change a clearer one.') :''
-                ];
-            }
-        }catch (\Exception $e){
-            $this->resultSet->error($e->getCode(),$e->getMessage());
+
+    	//获取微信登录sessionKey
+	public function getSessionKeyAction()
+	{
+		$this->_required('js_code');
+        $jsCode = $this->getQuery('js_code');
+
+        $config = \Yaf\Registry::get("config")->weixin;
+        $wechat = new \Weixin\Web\MiniProgram($config['appid'], $config['secret']);
+        $result = $wechat->getSessionKey($jsCode);
+        if(isset($result['errcode']) && isset($result['errmsg'])){
+            throw new \Exception('errcode:' . $result['errcode'] . ';errmsg:'. $result['errmsg'], 4022);
         }
-        $this->resultSet->success()->setData($data);
-        $this->response->success($this->resultSet->toObject());
-
-
+        $this->output($result);
     }
 
-    /**
-     * 图片加滤镜.
-     * @return void
-     * @Route("/filter", methods="POST", name="tencent")
-     */
-    public function filterAction()
+    public function getWXACodeUnlimitAction()
     {
-        var_dump('filter-test');exit;
-        $image = $this->request->getParam('image');
-        $filter = $this->request->getParam('filter');
-        try{
-            $data = $this->app->tencent->api->Helper()->imgfilter($image,$filter);
-        }catch (\Exception $e){
-            $this->resultSet->error($e->getCode(),$e->getMessage());
-        }
-        $this->resultSet->success()->setData($data);
-        $this->response->success($this->resultSet->toObject());
+        $this->_required('scene');
+        $scene = $this->getPost('scene');
+        $page = $this->getPost('page');
+        $page = (empty($page) || !$page) ? "pages/productInfo/productInfo" : $page;
+        $config = \Yaf\Registry::get("config")->weixin;
+        $ufileConfig = \Yaf\Registry::get('config')->ufile;
+        $ufileConfig = $ufileConfig->toArray();
+        $ufile = new \Http\UFile(new \Yaf\Config\Simple($ufileConfig));
+
+        $media = new \Weixin\Web\Media($config['appid'], $config['secret']);
+        $tokenRes = $media->getAccessToken();
+        $imageRes = $media->getwxacodeunlimit($tokenRes['access_token'], json_encode(['scene'=>$scene,'page'=>$page]));
+        $newFile = "/tmp/" . time().".jpg";
+        file_put_contents($newFile, $imageRes);
+        $ret = $ufile->putFile("group_wx/".time().".jpg", $newFile);
+        $this->output($ufile->getUrl($ret));
     }
 
-    /**
-     * 图片是否模糊返回腾迅字段
-     * @return void
-     * @Route("/fuzzy/origin", methods="POST", name="tencent")
      */
-    public function fuzzyoriginAction() {
-
-        $image = $this->request->getParam('image');
-        try{
-            $data = $this->app->tencent->api->Helper()->fuzzy($image);
-        }catch (\Exception $e){
-            $this->resultSet->error($e->getCode(),$e->getMessage());
-        }
-        $this->resultSet->success()->setData($data);
-        $this->response->success($this->resultSet->toObject());
-
-
-    }
-
 
 }

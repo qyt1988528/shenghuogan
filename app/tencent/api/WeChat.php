@@ -129,88 +129,6 @@ class WeChat extends Api
 
 
 
-    /**
-     * 判断图片是否模糊
-     * @param $image
-     * @param $source 用于记录调用模糊接口的来源，如:erp_consumer,记host=erp,path=consumer
-     * @return array
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     */
-    public function isFuzzy($image,$source=''){
-        $image = $this->getBaseImage($image);
-        $params = $this->_getParams(['image' => $image]);
-        $response = $this->_client->request('POST', '/fcgi-bin/image/image_fuzzy',[
-            "form_params" => $params,
-        ]);
-
-        $result = $response->getBody();
-        $result = json_decode($result,true);
-        if(!empty($source)){
-            $logDatas = explode('_',$source);
-            $result['host'] = isset($logDatas[0]) ? $logDatas[0] : '';
-            $result['path'] = isset($logDatas[1]) ? $logDatas[1] : '';
-        }
-        $data = [
-            'fuzzy' => false,
-            'msg' => ''
-        ];
-        if($result['data']['fuzzy'] == true && $result['data']['confidence'] > 0.5){
-            $data['fuzzy'] = true;
-            $data['msg'] = $this->translate
-                ->_('Your selected image is blurry, we recommend that you change a clearer one.');
-        }
-        return $data;
-    }
-
-    /**
-     * 图片滤镜
-     * https://ai.qq.com/doc/ptuimgfilter.shtml#%E4%BA%8C%E3%80%81%E5%9B%BE%E7%89%87%E6%BB%A4%E9%95%9C%EF%BC%88ai-lab%EF%BC%89
-     * @param $image
-     * @param $filter
-     * @return array
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     */
-    public function imgfilter($image,$filter)
-    {
-        $image = $this->getBaseImage($image);
-        $params = $this->_getParams([
-            'image' => $image,
-            'filter' => (string)$filter,
-            'session_id' => uniqid()
-            ]);
-        $logData = [
-            'filter_params' => $params,
-        ];
-        $response = $this->_client->request('POST', '/fcgi-bin/vision/vision_imgfilter',[
-            "form_params" => $params,
-        ]);
-
-        $result = $response->getBody();
-        $result = json_decode($result,true);
-        return ['image' => $this->getWebBaseImage($result['data']['image'])];
-    }
-
-    /**
-     * 判断图片是否模糊 原样
-     * @param $image
-     * @return array
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     */
-    public function fuzzy($image){
-        $image = $this->getBaseImage($image);
-        $params = $this->_getParams(['image' => $image]);
-        $response = $this->_client->request('POST', '/fcgi-bin/image/image_fuzzy',[
-            "form_params" => $params,
-        ]);
-        $result = $response->getBody();
-        $result = json_decode($result,true);
-        $data = [
-            'fuzzy' => $result['data']['fuzzy'],
-            'confidence' => $result['data']['confidence']
-        ];
-        return $data;
-    }
-
     public function getSessionByCode($jsCode){
         $params = [
             'appid' => $this->app->tencent->config->wechat->appId,
@@ -222,6 +140,7 @@ class WeChat extends Api
         $url = $this->app->tencent->config->wechat->baseUri.$uri.'?'. http_build_query($params);
 
         $sessionInfo = $this->app->core->api->Image()->imageFileGetContents($url);
+        //wx.login({success (res){console.log(res)}});
         $json = '{"session_key":"jHwS8qG\/Gwn40YJ6Zhevwg==","openid":"oSbAs5NzFZyCiez1WZNm3JkjCeH4"}';
         $json = '{"errcode":40029,"errmsg":"invalid code, hints: [ req_id: ihlEY24ce-GYdrra ]"}';
         if(empty($sessionInfo) || (isset($sessionInfo['errcode']) &&  $sessionInfo['errcode']!= 0) ){
@@ -235,6 +154,7 @@ class WeChat extends Api
             }
         }
     }
+    /*
     public function getSession($jsCode){
 //        GET https://api.weixin.qq.com/sns/jscode2session?appid=APPID&secret=SECRET&js_code=JSCODE&grant_type=authorization_co
         $params = [
@@ -265,5 +185,64 @@ class WeChat extends Api
         return [];
 
     }
+
+        //第一步：用户同意授权，获取code
+    public function redirectToCode($redirectUrl, $scope = 'snsapi_userinfo'){
+        $params = [
+            'appid' => $this->_config->appKey,
+            'redirect_uri' => $redirectUrl,
+            'response_type' => 'code',
+            'scope' => $scope,
+        ];
+        $url = $this->_config->openHost . 'connect/oauth2/authorize'
+            . (empty($params) ? '' : '?' . http_build_query($params))
+            . '#wechat_redirect';
+        header('Location: ' . $url);
+        exit;
+    }
+    //第二步：通过code换取网页授权access_token
+    public function getAccessToken($code){
+        $params = [
+            'appid' => $this->_config->appKey,
+            'secret' => $this->_config->appSecret,
+            'code' => $code,
+            'grant_type' => 'authorization_code',
+        ];
+        return $this->_request($this->getUrl('sns/oauth2/access_token'), $params);
+    }
+
+    //第三步：刷新access_token（如果需要）
+    public function refreshToken($refreshToken){
+        $params = [
+            'appid' => $this->_config->appKey,
+            'grant_type' => 'refresh_token',
+            'refresh_token' => $refreshToken,
+        ];
+        return $this->_request($this->getUrl('sns/oauth2/refresh_token'), $params);
+    }
+
+    //第四步：拉取用户信息
+    public function getUserInfo($openId, $accessToken){
+        $params = [
+            'access_token' => $accessToken,
+            'openid' => $openId,
+            'lang' => 'zh_CN'
+        ];
+
+        return $this->_request($this->getUrl('sns/userinfo'), $params);
+    }
+
+    //检验授权凭证（access_token）是否有效
+    public function checkAccessToken($openId, $accessToken){
+        $params = [
+            'access_token' => $accessToken,
+            'openid' => $openId,
+        ];
+
+        $ret = $this->_request($this->getUrl('sns/userinfo'), $params);
+
+        return (isset($ret['errmsg']) && $ret['errmsg'] == 'ok');
+    }
+    */
 
 }
