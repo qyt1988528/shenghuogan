@@ -136,4 +136,21 @@ class Car extends Api
         return $goods;
     }
 
+    public function getList($page=1,$pageSize=10){
+        //标题、图片、初始价格、单独购买价格、描述、位置、推荐、排序、点赞、销量
+        //分页
+        $start = ($page-1)*$pageSize;
+        $goods = $this->modelsManager->createBuilder()
+            ->columns('*')
+            ->from(['sg'=>'Rent\Model\RentCar'])
+            ->where('sg.is_selling = :selling: ',['selling'=>$this->_config['selling_status']['selling']])
+            ->andWhere('sg.status = :valid: ',['valid'=>$this->_config['data_status']['valid']])
+            ->orderBy('sort desc')
+            ->limit($start,$pageSize)
+            ->getQuery()
+            ->execute();
+        return $goods;
+
+    }
+
 }
