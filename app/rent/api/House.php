@@ -138,7 +138,7 @@ class House extends Api
             ->where('sg.is_selling = :selling: ',['selling'=>$this->_config['selling_status']['selling']])
             ->andWhere('sg.status = :valid: ',['valid'=>$this->_config['data_status']['valid']])
             ->andWhere($sql)
-            ->orderBy('sort desc')
+            ->orderBy('publish_time desc')
             ->limit($start,$pageSize)
             ->getQuery()
             ->execute();
@@ -154,7 +154,7 @@ class House extends Api
             ->from(['sg'=>'Ticket\Model\Ticket'])
             ->where('sg.is_selling = :selling: ',['selling'=>$this->_config['selling_status']['selling']])
             ->andWhere('sg.status = :valid: ',['valid'=>$this->_config['data_status']['valid']])
-            ->orderBy('sort desc')
+            ->orderBy('publish_time desc')
             ->limit($start,$pageSize)
             ->getQuery()
             ->execute();
