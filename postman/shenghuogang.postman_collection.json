@@ -1366,7 +1366,7 @@
 			]
 		},
 		{
-			"name": "兼职-doing",
+			"name": "兼职",
 			"item": [
 				{
 					"name": "兼职-添加",
@@ -1382,12 +1382,12 @@
 									"type": "text"
 								},
 								{
-									"key": "stock",
-									"value": "100",
+									"key": "description",
+									"value": "兼职描述",
 									"type": "text"
 								},
 								{
-									"key": "commison",
+									"key": "commission",
 									"value": "9.00",
 									"description": "佣金",
 									"type": "text"
@@ -1395,11 +1395,6 @@
 								{
 									"key": "location",
 									"value": "友谊路436",
-									"type": "text"
-								},
-								{
-									"key": "description",
-									"value": "兼职描述",
 									"type": "text"
 								},
 								{
@@ -1616,6 +1611,114 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "兼职-列表",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "兼职标题",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "兼职描述",
+									"description": "描述",
+									"type": "text"
+								},
+								{
+									"key": "commission",
+									"value": "9.00",
+									"description": "佣金",
+									"type": "text"
+								},
+								{
+									"key": "location",
+									"value": "友谊路436",
+									"description": "位置",
+									"type": "text"
+								},
+								{
+									"key": "cellphone",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "qq",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "wechat",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://47.104.69.159/parttimejob",
+							"protocol": "http",
+							"host": [
+								"47",
+								"104",
+								"69",
+								"159"
+							],
+							"path": [
+								"parttimejob"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "兼职-详情",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://47.104.69.159/parttimejob/detail?id=1",
+							"protocol": "http",
+							"host": [
+								"47",
+								"104",
+								"69",
+								"159"
+							],
+							"path": [
+								"parttimejob",
+								"detail"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -1625,11 +1728,705 @@
 		},
 		{
 			"name": "租房",
-			"item": []
+			"item": [
+				{
+					"name": "租房-添加",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "img_url",
+									"value": "https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg",
+									"description": "图片",
+									"type": "text"
+								},
+								{
+									"key": "title",
+									"value": "保利水韵长滩",
+									"description": "标题",
+									"type": "text"
+								},
+								{
+									"key": "location",
+									"value": "友谊路",
+									"description": "位置",
+									"type": "text"
+								},
+								{
+									"key": "rental",
+									"value": "100",
+									"description": "租金",
+									"type": "text"
+								},
+								{
+									"key": "square",
+									"value": "11",
+									"description": "面积",
+									"type": "text"
+								},
+								{
+									"key": "orientations",
+									"value": "10.00",
+									"description": "朝向",
+									"type": "text"
+								},
+								{
+									"key": "room",
+									"value": "1",
+									"description": "卧室个数",
+									"type": "text"
+								},
+								{
+									"key": "parlour",
+									"value": "1",
+									"description": "客厅个数",
+									"type": "text"
+								},
+								{
+									"key": "toilet",
+									"value": "1",
+									"description": "卫生间个数",
+									"type": "text"
+								},
+								{
+									"key": "cellphone",
+									"value": "1",
+									"description": "手机号",
+									"type": "text"
+								},
+								{
+									"key": "qq",
+									"value": "1",
+									"description": "QQ号",
+									"type": "text"
+								},
+								{
+									"key": "wechat",
+									"value": "1",
+									"description": "微信",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "测试租房",
+									"description": "描述",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://47.104.69.159/renthouseadmin/create",
+							"protocol": "http",
+							"host": [
+								"47",
+								"104",
+								"69",
+								"159"
+							],
+							"path": [
+								"renthouseadmin",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "租房-更新",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "img_url",
+									"value": "https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg",
+									"description": "图片",
+									"type": "text"
+								},
+								{
+									"key": "title",
+									"value": "保利水韵长滩",
+									"description": "标题",
+									"type": "text"
+								},
+								{
+									"key": "location",
+									"value": "友谊路",
+									"description": "位置",
+									"type": "text"
+								},
+								{
+									"key": "rental",
+									"value": "100",
+									"description": "租金",
+									"type": "text"
+								},
+								{
+									"key": "square",
+									"value": "11",
+									"description": "面积",
+									"type": "text"
+								},
+								{
+									"key": "orientations",
+									"value": "10.00",
+									"description": "朝向",
+									"type": "text"
+								},
+								{
+									"key": "room",
+									"value": "1",
+									"description": "卧室个数",
+									"type": "text"
+								},
+								{
+									"key": "parlour",
+									"value": "1",
+									"description": "客厅个数",
+									"type": "text"
+								},
+								{
+									"key": "toilet",
+									"value": "1",
+									"description": "卫生间个数",
+									"type": "text"
+								},
+								{
+									"key": "cellphone",
+									"value": "1",
+									"description": "手机号",
+									"type": "text"
+								},
+								{
+									"key": "qq",
+									"value": "1",
+									"description": "QQ号",
+									"type": "text"
+								},
+								{
+									"key": "wechat",
+									"value": "1",
+									"description": "微信",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "测试租房",
+									"description": "描述",
+									"type": "text"
+								},
+								{
+									"key": "id",
+									"value": "1",
+									"description": "主键",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://47.104.69.159/renthouseadmin/update",
+							"protocol": "http",
+							"host": [
+								"47",
+								"104",
+								"69",
+								"159"
+							],
+							"path": [
+								"renthouseadmin",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "租房-下架",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://47.104.69.159/renthouseadmin/withdraw",
+							"protocol": "http",
+							"host": [
+								"47",
+								"104",
+								"69",
+								"159"
+							],
+							"path": [
+								"renthouseadmin",
+								"withdraw"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "租房-删除",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://47.104.69.159/renthouseadmin/delete",
+							"protocol": "http",
+							"host": [
+								"47",
+								"104",
+								"69",
+								"159"
+							],
+							"path": [
+								"renthouseadmin",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "租房-列表",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://47.104.69.159/showhouse?page=1",
+							"protocol": "http",
+							"host": [
+								"47",
+								"104",
+								"69",
+								"159"
+							],
+							"path": [
+								"showhouse"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"description": "页码"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "租房-详情",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://47.104.69.159/showhouse/detail?id=1",
+							"protocol": "http",
+							"host": [
+								"47",
+								"104",
+								"69",
+								"159"
+							],
+							"path": [
+								"showhouse",
+								"detail"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "租房-搜索",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://47.104.69.159/showhouse/search?keywords=&room=0&price_min=0&price_max=2000&page=1",
+							"protocol": "http",
+							"host": [
+								"47",
+								"104",
+								"69",
+								"159"
+							],
+							"path": [
+								"showhouse",
+								"search"
+							],
+							"query": [
+								{
+									"key": "keywords",
+									"value": "",
+									"description": "关键词"
+								},
+								{
+									"key": "room",
+									"value": "0",
+									"description": "卧室个数"
+								},
+								{
+									"key": "price_min",
+									"value": "0",
+									"description": "最小租金"
+								},
+								{
+									"key": "price_max",
+									"value": "2000",
+									"description": "最大租金"
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"description": "页码"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		},
 		{
 			"name": "租车",
-			"item": []
+			"item": [
+				{
+					"name": "租车-添加",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "img_url",
+									"value": "https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg",
+									"description": "图片",
+									"type": "text"
+								},
+								{
+									"key": "title",
+									"value": "保利水韵长滩",
+									"description": "标题",
+									"type": "text"
+								},
+								{
+									"key": "stock",
+									"value": "1",
+									"description": "库存",
+									"type": "text"
+								},
+								{
+									"key": "cost_price",
+									"value": "100",
+									"description": "成本价",
+									"type": "text"
+								},
+								{
+									"key": "original_price",
+									"value": "11",
+									"description": "显示的原租价",
+									"type": "text"
+								},
+								{
+									"key": "self_price",
+									"value": "10.00",
+									"description": "显示的租价",
+									"type": "text"
+								},
+								{
+									"key": "cellphone",
+									"value": "1",
+									"description": "手机号",
+									"type": "text"
+								},
+								{
+									"key": "location",
+									"value": "保利",
+									"description": "位置",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "测试租车",
+									"description": "描述",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://47.104.69.159/rentcaradmin/create",
+							"protocol": "http",
+							"host": [
+								"47",
+								"104",
+								"69",
+								"159"
+							],
+							"path": [
+								"rentcaradmin",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "租车-更新",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "img_url",
+									"value": "https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg",
+									"description": "图片",
+									"type": "text"
+								},
+								{
+									"key": "title",
+									"value": "保利水韵长滩",
+									"description": "标题",
+									"type": "text"
+								},
+								{
+									"key": "stock",
+									"value": "1",
+									"description": "库存",
+									"type": "text"
+								},
+								{
+									"key": "cost_price",
+									"value": "100",
+									"description": "成本价",
+									"type": "text"
+								},
+								{
+									"key": "original_price",
+									"value": "11",
+									"description": "显示的原租价",
+									"type": "text"
+								},
+								{
+									"key": "self_price",
+									"value": "10.00",
+									"description": "显示的租价",
+									"type": "text"
+								},
+								{
+									"key": "cellphone",
+									"value": "1",
+									"description": "手机号",
+									"type": "text"
+								},
+								{
+									"key": "location",
+									"value": "保利",
+									"description": "位置",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "测试租车",
+									"description": "描述",
+									"type": "text"
+								},
+								{
+									"key": "id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://47.104.69.159/rentcaradmin/update",
+							"protocol": "http",
+							"host": [
+								"47",
+								"104",
+								"69",
+								"159"
+							],
+							"path": [
+								"rentcaradmin",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "租车-下架",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://47.104.69.159/rentcaradmin/withdraw",
+							"protocol": "http",
+							"host": [
+								"47",
+								"104",
+								"69",
+								"159"
+							],
+							"path": [
+								"rentcaradmin",
+								"withdraw"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "租车-删除",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://47.104.69.159/rentcaradmin/delete",
+							"protocol": "http",
+							"host": [
+								"47",
+								"104",
+								"69",
+								"159"
+							],
+							"path": [
+								"rentcaradmin",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "租车-列表",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://47.104.69.159/showcar?page=1",
+							"protocol": "http",
+							"host": [
+								"47",
+								"104",
+								"69",
+								"159"
+							],
+							"path": [
+								"showcar"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"description": "页码"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "租车-详情",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://47.104.69.159/showcar/detail?id=1",
+							"protocol": "http",
+							"host": [
+								"47",
+								"104",
+								"69",
+								"159"
+							],
+							"path": [
+								"showcar",
+								"detail"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		},
 		{
 			"name": "二手物品",
@@ -1674,6 +2471,113 @@
 					"path": [
 						"index",
 						"upload"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "登录",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://47.104.69.159/tencent/login?js_code=071chPWR044FX52xPGXR0vjPWR0chPWQ",
+					"protocol": "http",
+					"host": [
+						"47",
+						"104",
+						"69",
+						"159"
+					],
+					"path": [
+						"tencent",
+						"login"
+					],
+					"query": [
+						{
+							"key": "js_code",
+							"value": "071chPWR044FX52xPGXR0vjPWR0chPWQ",
+							"description": "wx.login获取到的code"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "保存用户信息",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "avatar_url",
+							"value": "",
+							"description": "头像",
+							"type": "text"
+						},
+						{
+							"key": "country",
+							"value": "",
+							"description": "国家",
+							"type": "text"
+						},
+						{
+							"key": "province",
+							"value": "",
+							"description": "省",
+							"type": "text"
+						},
+						{
+							"key": "city",
+							"value": "",
+							"description": "市",
+							"type": "text"
+						},
+						{
+							"key": "nickname",
+							"value": "",
+							"description": "昵称",
+							"type": "text"
+						},
+						{
+							"key": "gender",
+							"value": "",
+							"description": "性别",
+							"type": "text"
+						},
+						{
+							"key": "language",
+							"value": "",
+							"description": "语言",
+							"type": "text"
+						},
+						{
+							"key": "openid",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://47.104.69.159/tencent/createuser",
+					"protocol": "http",
+					"host": [
+						"47",
+						"104",
+						"69",
+						"159"
+					],
+					"path": [
+						"tencent",
+						"createuser"
 					]
 				}
 			},
