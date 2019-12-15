@@ -26,7 +26,7 @@ class ShowHouseController extends Controller
         //分页
         try{
             $data['data'] = [];
-            $tickets = $this->app->house->api->Helper()->getList($page);
+            $tickets = $this->app->rent->api->House()->getList($page);
             if(!empty($tickets)){
                 $data['data'] = $tickets;
             }
@@ -50,7 +50,7 @@ class ShowHouseController extends Controller
             $this->resultSet->error(1001,$this->_error['invalid_input']);
         }
         try{
-            $result = $this->app->house->api->Helper()->detail($goodsId);
+            $result = $this->app->rent->api->House()->detail($goodsId);
             if(empty($result)){
                 $this->resultSet->error(1002,$this->_error['not_exist']);
             }
@@ -86,7 +86,7 @@ class ShowHouseController extends Controller
                 'price_max' => (int)$priceMax,
                 'page' => (int)$page,
             ];
-            $result = $this->app->house->api->Helper()->search($condition);
+            $result = $this->app->rent->api->House()->search($condition);
             if(!empty($result)){
                 //$this->resultSet->error(1002,$this->_error['not_exist']);
                 $data['data'] = $result;

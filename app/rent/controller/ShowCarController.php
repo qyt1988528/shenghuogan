@@ -30,7 +30,7 @@ class ShowCarController extends Controller
         //分页
         try {
             $data['data'] = [];
-            $tickets = $this->app->car->api->Helper()->getList($page);
+            $tickets = $this->app->rent->api->Car()->getList($page);
             if (!empty($tickets)) {
                 $data['data'] = $tickets;
             }
@@ -55,7 +55,7 @@ class ShowCarController extends Controller
             $this->resultSet->error(1001, $this->_error['invalid_input']);
         }
         try {
-            $result = $this->app->car->api->Helper()->detail($goodsId);
+            $result = $this->app->rent->api->Car()->detail($goodsId);
             if (empty($result)) {
                 $this->resultSet->error(1002, $this->_error['not_exist']);
             }

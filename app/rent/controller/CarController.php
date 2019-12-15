@@ -26,14 +26,14 @@ private $_error;
     public function createAction() {
         //权限验证
         $postData = $this->request->getPost();
-        $insertFields = $this->app->car->api->Helper()->getInsertFields();
+        $insertFields = $this->app->rent->api->Car()->getInsertFields();
         foreach ($insertFields as $v){
             if(empty($postData[$v])){
                 $this->resultSet->error(1001,$this->_error['invalid_input']);
             }
         }
         try{
-            $insert = $this->app->car->api->Helper()->createGoods($postData);
+            $insert = $this->app->rent->api->Car()->createGoods($postData);
             if(empty($insert)){
                 $this->resultSet->error(1002,$this->_error['try_later']);
             }
@@ -60,7 +60,7 @@ private $_error;
             $this->resultSet->error(1001,$this->_error['invalid_input']);
         }
         try{
-           $result = $this->app->car->api->Helper()->deleteGoods($goodsId);
+           $result = $this->app->rent->api->Car()->deleteGoods($goodsId);
            if($result){
                $data = [
                    'del_success' => $result
@@ -88,7 +88,7 @@ private $_error;
             $this->resultSet->error(1001,$this->_error['invalid_input']);
         }
         try{
-           $result = $this->app->car->api->Helper()->withdrawGoods($goodsId);
+           $result = $this->app->rent->api->Car()->withdrawGoods($goodsId);
            if($result){
                $data = [
                    'withdraw_success' => $result
@@ -114,14 +114,14 @@ private $_error;
         if(empty($postData['id'])){
             $this->resultSet->error(1001,$this->_error['invalid_input']);
         }
-        $updateFields = $this->app->car->api->Helper()->getInsertFields();
+        $updateFields = $this->app->rent->api->Car()->getInsertFields();
         foreach ($updateFields as $v){
             if(empty($postData[$v])){
                 $this->resultSet->error(1001,$this->_error['invalid_input']);
             }
         }
         try{
-            $result = $this->app->car->api->Helper()->updateGoods($postData);
+            $result = $this->app->rent->api->Car()->updateGoods($postData);
             if($result){
                 $data = [
                     'update_success' => $result

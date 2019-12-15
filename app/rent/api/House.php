@@ -36,7 +36,7 @@ class House extends Api
             'publish_time' => date('Y-m-d H:i:s'),
         ];
         if (!empty($postData['title'])) {
-            $defaultInsertFields['title_pinyin'] = $this->app->core->api->Pinyin()->getpy($postData['title']);
+            // $defaultInsertFields['title_pinyin'] = $this->app->core->api->Pinyin()->getpy($postData['title']);
         }
         //is_recommend、sort、update_time、status采用默认值
         return $defaultInsertFields;

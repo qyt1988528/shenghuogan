@@ -26,14 +26,14 @@ class HouseController extends Controller
     public function createAction() {
         //权限验证
         $postData = $this->request->getPost();
-        $insertFields = $this->app->house->api->Helper()->getInsertFields();
+        $insertFields = $this->app->rent->api->House()->getInsertFields();
         foreach ($insertFields as $v){
             if(empty($postData[$v])){
                 $this->resultSet->error(1001,$this->_error['invalid_input']);
             }
         }
         try{
-            $insert = $this->app->house->api->Helper()->createGoods($postData);
+            $insert = $this->app->rent->api->House()->createGoods($postData);
             if(empty($insert)){
                 $this->resultSet->error(1002,$this->_error['try_later']);
             }
@@ -60,7 +60,7 @@ class HouseController extends Controller
             $this->resultSet->error(1001,$this->_error['invalid_input']);
         }
         try{
-           $result = $this->app->house->api->Helper()->deleteGoods($goodsId);
+           $result = $this->app->rent->api->House()->deleteGoods($goodsId);
            if($result){
                $data = [
                    'del_success' => $result
@@ -88,7 +88,7 @@ class HouseController extends Controller
             $this->resultSet->error(1001,$this->_error['invalid_input']);
         }
         try{
-           $result = $this->app->house->api->Helper()->withdrawGoods($goodsId);
+           $result = $this->app->rent->api->House()->withdrawGoods($goodsId);
            if($result){
                $data = [
                    'withdraw_success' => $result
@@ -114,14 +114,14 @@ class HouseController extends Controller
         if(empty($postData['id'])){
             $this->resultSet->error(1001,$this->_error['invalid_input']);
         }
-        $updateFields = $this->app->house->api->Helper()->getInsertFields();
+        $updateFields = $this->app->rent->api->House()->getInsertFields();
         foreach ($updateFields as $v){
             if(empty($postData[$v])){
                 $this->resultSet->error(1001,$this->_error['invalid_input']);
             }
         }
         try{
-            $result = $this->app->house->api->Helper()->updateGoods($postData);
+            $result = $this->app->rent->api->House()->updateGoods($postData);
             if($result){
                 $data = [
                     'update_success' => $result
