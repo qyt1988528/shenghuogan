@@ -1,5 +1,5 @@
 <?php
-namespace lostfound\Controller;
+namespace Lostfound\Controller;
 use MDK\Controller;
 
 
