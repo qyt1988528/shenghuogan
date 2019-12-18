@@ -4,7 +4,7 @@ namespace Secondhand\Model;
 
 use MDK\Model;
 
-class Secondhand extends Model
+class Second extends Model
 {
     /**
      *
