@@ -2,7 +2,7 @@
 namespace Secondhand\Api;
 
 use MDK\Api;
-use Secondhand\Model\Secondhand;
+use Secondhand\Model\Second;
 
 class Helper extends Api
 {
@@ -10,7 +10,7 @@ class Helper extends Api
     private $_model;
     public function __construct() {
         $this->_config = $this->app->core->config->config->toArray();
-        $this->_model = new Secondhand();
+        $this->_model = new Second();
     }
 
     public function getInsertFields(){
