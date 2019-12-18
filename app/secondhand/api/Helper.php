@@ -113,7 +113,7 @@ class Helper extends Api
     public function search($goodsName){
         $goods = $this->modelsManager->createBuilder()
             ->columns('*')
-            ->from(['sg'=>'Secondhand\Model\Secondhand'])
+            ->from(['sg'=>'Secondhand\Model\Second'])
             ->where('sg.is_selling = :selling: ',['selling'=>$this->_config['selling_status']['selling']])
             ->andWhere('sg.status = :valid: ',['valid'=>$this->_config['data_status']['valid']])
             ->andWhere('sg.title like :goodsName: ',['goodsName' => '%'.$goodsName.'%'])
@@ -129,7 +129,7 @@ class Helper extends Api
         $start = ($page-1)*$pageSize;
         $goods = $this->modelsManager->createBuilder()
             ->columns('*')
-            ->from(['sg'=>'Secondhand\Model\Secondhand'])
+            ->from(['sg'=>'Secondhand\Model\Second'])
             ->where('sg.is_selling = :selling: ',['selling'=>$this->_config['selling_status']['selling']])
             ->andWhere('sg.status = :valid: ',['valid'=>$this->_config['data_status']['valid']])
             ->orderBy('publish_time desc')
