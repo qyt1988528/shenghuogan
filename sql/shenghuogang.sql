@@ -403,14 +403,39 @@ CREATE TABLE `second` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=FIXED COMMENT='二手物品表';
 
 -- ----------------------------
--- Table structure for lost_found
+-- Table structure for driving_test
 -- ----------------------------
-DROP TABLE IF EXISTS `lost_found`;
-CREATE TABLE `lost_found` (
+DROP TABLE IF EXISTS `driving_test`;
+CREATE TABLE `driving_test` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `merchant_id` int(11) NOT NULL DEFAULT '0' COMMENT '商户ID',
   `img_url` text CHARACTER SET utf8 NOT NULL COMMENT '图片(json)',
-  `titile` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '二手物品标题',
+  `title` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '驾考标题',
+  `location` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '位置',
+  `cost_price` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '成本价格(进价)',
+  `original_price` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '初始价格',
+  `self_price` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '单独购买价格',
+  `together_price` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '拼团价格',
+  `stock` int(5) NOT NULL DEFAULT '1' COMMENT '库存',
+  `is_selling` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1-在售',
+  `description` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '详情',
+  `promise_description` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '承诺详情',
+  `publish_time` datetime NOT NULL DEFAULT '2000-01-01 00:00:00' COMMENT '发布时间',
+  `create_time` datetime NOT NULL DEFAULT '2000-01-01 00:00:00' COMMENT '创建时间',
+  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1:有效,-1:无效',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=FIXED COMMENT='驾考';
+
+-- ----------------------------
+-- Table structure for lostfound
+-- ----------------------------
+DROP TABLE IF EXISTS `lostfound`;
+CREATE TABLE `lostfound` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `merchant_id` int(11) NOT NULL DEFAULT '0' COMMENT '商户ID',
+  `img_url` text CHARACTER SET utf8 NOT NULL COMMENT '图片(json)',
+  `title` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '二手物品标题',
   `description` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '详情',
   `location` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '位置',
   `cellphone` varchar(20) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '手机号',

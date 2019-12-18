@@ -2404,7 +2404,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://47.104.69.159/showcar/detail?id=1",
+							"raw": "http://47.104.69.159/showcar/detail?id=2",
 							"protocol": "http",
 							"host": [
 								"47",
@@ -2419,7 +2419,7 @@
 							"query": [
 								{
 									"key": "id",
-									"value": "1"
+									"value": "2"
 								}
 							]
 						}
@@ -2430,7 +2430,327 @@
 		},
 		{
 			"name": "二手物品",
-			"item": []
+			"item": [
+				{
+					"name": "二手好物-添加",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "img_url",
+									"value": "https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg",
+									"description": "图片",
+									"type": "text"
+								},
+								{
+									"key": "title",
+									"value": "保利水韵长滩",
+									"description": "标题",
+									"type": "text"
+								},
+								{
+									"key": "location",
+									"value": "保利",
+									"description": "位置",
+									"type": "text"
+								},
+								{
+									"key": "cost_price",
+									"value": "100",
+									"description": "成本价",
+									"type": "text"
+								},
+								{
+									"key": "original_price",
+									"value": "11",
+									"description": "显示的原租价",
+									"type": "text"
+								},
+								{
+									"key": "self_price",
+									"value": "10.00",
+									"description": "显示的租价",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "测试二手物",
+									"description": "描述",
+									"type": "text"
+								},
+								{
+									"key": "cellphone",
+									"value": "1",
+									"description": "手机号",
+									"type": "text"
+								},
+								{
+									"key": "stock",
+									"value": "1",
+									"description": "库存",
+									"type": "text"
+								},
+								{
+									"key": "qq",
+									"value": "404",
+									"description": "QQ号",
+									"type": "text"
+								},
+								{
+									"key": "wechat",
+									"value": "404",
+									"description": "微信号",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://47.104.69.159/secondadmin/create",
+							"protocol": "http",
+							"host": [
+								"47",
+								"104",
+								"69",
+								"159"
+							],
+							"path": [
+								"secondadmin",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "二手好物-更新",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "img_url",
+									"value": "https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg",
+									"description": "图片",
+									"type": "text"
+								},
+								{
+									"key": "title",
+									"value": "保利水韵长滩",
+									"description": "标题",
+									"type": "text"
+								},
+								{
+									"key": "location",
+									"value": "保利",
+									"description": "位置",
+									"type": "text"
+								},
+								{
+									"key": "cost_price",
+									"value": "100",
+									"description": "成本价",
+									"type": "text"
+								},
+								{
+									"key": "original_price",
+									"value": "11",
+									"description": "显示的原租价",
+									"type": "text"
+								},
+								{
+									"key": "self_price",
+									"value": "10.00",
+									"description": "显示的租价",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "测试二手物1",
+									"description": "描述",
+									"type": "text"
+								},
+								{
+									"key": "cellphone",
+									"value": "1",
+									"description": "手机号",
+									"type": "text"
+								},
+								{
+									"key": "stock",
+									"value": "1",
+									"description": "库存",
+									"type": "text"
+								},
+								{
+									"key": "qq",
+									"value": "404",
+									"description": "QQ号",
+									"type": "text"
+								},
+								{
+									"key": "wechat",
+									"value": "404",
+									"description": "微信号",
+									"type": "text"
+								},
+								{
+									"key": "id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://47.104.69.159/secondadmin/update",
+							"protocol": "http",
+							"host": [
+								"47",
+								"104",
+								"69",
+								"159"
+							],
+							"path": [
+								"secondadmin",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "二手好物-下架",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://47.104.69.159/secondadmin/withdraw",
+							"protocol": "http",
+							"host": [
+								"47",
+								"104",
+								"69",
+								"159"
+							],
+							"path": [
+								"secondadmin",
+								"withdraw"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "二手好物-删除",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://47.104.69.159/secondadmin/delete",
+							"protocol": "http",
+							"host": [
+								"47",
+								"104",
+								"69",
+								"159"
+							],
+							"path": [
+								"secondadmin",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "二手好物-列表",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://47.104.69.159/secondhand?page=1",
+							"protocol": "http",
+							"host": [
+								"47",
+								"104",
+								"69",
+								"159"
+							],
+							"path": [
+								"secondhand"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"description": "页码"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "二手好物-详情",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://47.104.69.159/secondhand/detail?id=2",
+							"protocol": "http",
+							"host": [
+								"47",
+								"104",
+								"69",
+								"159"
+							],
+							"path": [
+								"secondhand",
+								"detail"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		},
 		{
 			"name": "快递",
@@ -2438,7 +2758,291 @@
 		},
 		{
 			"name": "失物招领",
-			"item": []
+			"item": [
+				{
+					"name": "失物招领-添加",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "img_url",
+									"value": "https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg",
+									"description": "图片",
+									"type": "text"
+								},
+								{
+									"key": "title",
+									"value": "保利水韵长滩",
+									"description": "标题",
+									"type": "text"
+								},
+								{
+									"key": "location",
+									"value": "保利",
+									"description": "位置",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "测试二手物",
+									"description": "描述",
+									"type": "text"
+								},
+								{
+									"key": "cellphone",
+									"value": "1",
+									"description": "手机号",
+									"type": "text"
+								},
+								{
+									"key": "stock",
+									"value": "1",
+									"description": "库存",
+									"type": "text"
+								},
+								{
+									"key": "qq",
+									"value": "404",
+									"description": "QQ号",
+									"type": "text"
+								},
+								{
+									"key": "wechat",
+									"value": "404",
+									"description": "微信号",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://47.104.69.159/lostadmin/create",
+							"protocol": "http",
+							"host": [
+								"47",
+								"104",
+								"69",
+								"159"
+							],
+							"path": [
+								"lostadmin",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "失物招领-更新",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "img_url",
+									"value": "https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg",
+									"description": "图片",
+									"type": "text"
+								},
+								{
+									"key": "title",
+									"value": "\b失物招领-2",
+									"description": "标题",
+									"type": "text"
+								},
+								{
+									"key": "location",
+									"value": "保利",
+									"description": "位置",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "测试二手物",
+									"description": "描述",
+									"type": "text"
+								},
+								{
+									"key": "cellphone",
+									"value": "1",
+									"description": "手机号",
+									"type": "text"
+								},
+								{
+									"key": "stock",
+									"value": "1",
+									"description": "库存",
+									"type": "text"
+								},
+								{
+									"key": "qq",
+									"value": "404",
+									"description": "QQ号",
+									"type": "text"
+								},
+								{
+									"key": "wechat",
+									"value": "404",
+									"description": "微信号",
+									"type": "text"
+								},
+								{
+									"key": "id",
+									"value": "2",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://47.104.69.159/lostadmin/update",
+							"protocol": "http",
+							"host": [
+								"47",
+								"104",
+								"69",
+								"159"
+							],
+							"path": [
+								"lostadmin",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "失物招领-下架",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://47.104.69.159/lostadmin/withdraw",
+							"protocol": "http",
+							"host": [
+								"47",
+								"104",
+								"69",
+								"159"
+							],
+							"path": [
+								"lostadmin",
+								"withdraw"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "失物招领-删除",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://47.104.69.159/lostadmin/withdraw",
+							"protocol": "http",
+							"host": [
+								"47",
+								"104",
+								"69",
+								"159"
+							],
+							"path": [
+								"lostadmin",
+								"withdraw"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "失物招领-列表",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://47.104.69.159/lostfound?page=1",
+							"protocol": "http",
+							"host": [
+								"47",
+								"104",
+								"69",
+								"159"
+							],
+							"path": [
+								"lostfound"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"description": "页码"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "失物招领-详情",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://47.104.69.159/lostfound/detail?id=2",
+							"protocol": "http",
+							"host": [
+								"47",
+								"104",
+								"69",
+								"159"
+							],
+							"path": [
+								"lostfound",
+								"detail"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		},
 		{
 			"name": "驾照报名",
