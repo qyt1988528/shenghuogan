@@ -401,6 +401,27 @@ CREATE TABLE `second` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 ROW_FORMAT=FIXED COMMENT='二手物品表';
 
 -- ----------------------------
+-- Table structure for lost_found
+-- ----------------------------
+DROP TABLE IF EXISTS `lost_found`;
+CREATE TABLE `lost_found` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `merchant_id` int(11) NOT NULL DEFAULT '0' COMMENT '商户ID',
+  `img_url` text CHARACTER SET utf8 NOT NULL COMMENT '图片(json)',
+  `titile` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '二手物品标题',
+  `description` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '详情',
+  `location` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '位置',
+  `cellphone` varchar(20) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '手机号',
+  `qq` varchar(20) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT 'QQ号',
+  `wechat` varchar(30) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '微信号',
+  `publish_time` datetime NOT NULL DEFAULT '2000-01-01 00:00:00' COMMENT '发布时间',
+  `create_time` datetime NOT NULL DEFAULT '2000-01-01 00:00:00' COMMENT '创建时间',
+  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1:有效,-1:无效',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 ROW_FORMAT=FIXED COMMENT='失物招领表';
+
+-- ----------------------------
 -- Table structure for supermarket_goods
 -- ----------------------------
 DROP TABLE IF EXISTS `supermarket_goods`;

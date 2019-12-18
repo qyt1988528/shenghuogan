@@ -21,18 +21,18 @@ class Helper extends Api
             'cost_price',
             'original_price',
             'self_price',
-            'description',
-            'specs',
-            'specs_unit_id',
             'stock',
+            'cellphone',
+            'qq',
+            'wechat',
+            'description',
         ];
     }
     public function getDefaultInsertFields($postData){
         $defaultInsertFields = [
             'is_selling' => $this->_config['selling_status']['selling'],
-            'base_fav_count' => mt_rand(20,50),
-            'base_order_count' => mt_rand(20,50),
             'create_time' => date('Y-m-d H:i:s'),
+            'publish_time' => date('Y-m-d H:i:s'),
         ];
         if(!isset($postData['together_price']) || empty($postData['together_price'])){
             $defaultInsertFields['together_price'] = $postData['self_price'];
@@ -40,7 +40,7 @@ class Helper extends Api
         //is_recommend、sort、update_time、status采用默认值
         return $defaultInsertFields;
     }
-    public function createGoods($postData){
+    public function createSecond($postData){
         try{
             $insertData = $this->getDefaultInsertFields($postData);
             foreach ($this->getInsertFields() as $v){
@@ -53,7 +53,7 @@ class Helper extends Api
             return 0;
         }
     }
-    public function updateGoods($postData){
+    public function updateSecond($postData){
         try{
             $updateData = ['id' => $postData['id']];
             $updateModel = $this->_model->findFirstById($postData['id']);
@@ -70,7 +70,7 @@ class Helper extends Api
         }
     }
     //下架
-    public function withdrawGoods($goodsId){
+    public function withdrawSecond($goodsId){
         try{
             $updateModel = $this->_model->findFirstById($goodsId);
             if(empty($updateModel)){
@@ -86,7 +86,7 @@ class Helper extends Api
             return false;
         }
     }
-    public function deleteGoods($goodsId){
+    public function deleteSecond($goodsId){
         try{
             $invalid = $this->_config['data_status']['invalid'];
             $updateModel = $this->_model->findFirstById($goodsId);
@@ -111,16 +111,6 @@ class Helper extends Api
         return $goods;
     }
     public function search($goodsName){
-        /*
-        $slideAds = $this->modelsManager->createBuilder()
-            ->columns('cts.image_ratio,cts.image,cts.jump_url,cts.title,cts.ga_name,vc.condition')
-            ->from(['cts'=>'Supermarket\Model\SupermarketGoods'])
-            ->join('Core\Model\VersionControl','vc.table_id = cts.id and vc.table_name="cms_home_top_slide"','vc','LEFT')
-            ->where('is_selling = :selling: and status = :valid: and title like :goodsName:',['store'=>$store])
-            ->andWhere('b.store = :store: AND b.active=1 and platforms like :systemType:',['store'=>$store,'systemType' => '%'.$systemType.'%'])
-            ->orderBy('sort desc')
-            ->getQuery()
-            ->execute();*/
         $goods = $this->modelsManager->createBuilder()
             ->columns('*')
             ->from(['sg'=>'Secondhand\Model\Secondhand'])
@@ -131,6 +121,23 @@ class Helper extends Api
             ->getQuery()
             ->execute();
         return $goods;
+    }
+
+    public function getList($page=1,$pageSize=10){
+        //标题、图片、初始价格、单独购买价格、描述、位置、推荐、排序、点赞、销量
+        //分页
+        $start = ($page-1)*$pageSize;
+        $goods = $this->modelsManager->createBuilder()
+            ->columns('*')
+            ->from(['sg'=>'Secondhand\Model\Secondhand'])
+            ->where('sg.is_selling = :selling: ',['selling'=>$this->_config['selling_status']['selling']])
+            ->andWhere('sg.status = :valid: ',['valid'=>$this->_config['data_status']['valid']])
+            ->orderBy('publish_time desc')
+            ->limit($start,$pageSize)
+            ->getQuery()
+            ->execute();
+        return $goods;
+
     }
 
 }

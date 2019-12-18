@@ -60,6 +60,16 @@ class Secondhand extends Model
     public $together_price;
     /**
      *
+     * @Column(type="integer", nullable=true, column="stock")
+     */
+    public $stock;
+    /**
+     *
+     * @Column(type="integer", nullable=true, column="is_selling")
+     */
+    public $is_selling;
+    /**
+     *
      * @Column(type="string", size="20", nullable=true, column="cellphone")
      */
     public $cellphone;
