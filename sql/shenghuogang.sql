@@ -518,6 +518,66 @@ CREATE TABLE `ticket` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 ROW_FORMAT=FIXED COMMENT='门票表';
 
 -- ----------------------------
+-- Table structure for address
+-- ----------------------------
+DROP TABLE IF EXISTS `address`;
+CREATE TABLE `address` (
+  `address_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '账号ID',
+  `name` varchar(45) NOT NULL DEFAULT '' COMMENT '姓名',
+  `cellphone` varchar(16) NOT NULL DEFAULT '手机号码',
+  `province` varchar(45) NOT NULL DEFAULT '' COMMENT '省',
+  `city` varchar(45) NOT NULL DEFAULT '' COMMENT '城市',
+  `county` varchar(45) NOT NULL DEFAULT '' COMMENT '区县',
+  `detailed_address` varchar(256) NOT NULL DEFAULT '' COMMENT '详细地址',
+  `is_default` tinyint(4) NOT NULL DEFAULT '0' COMMENT '是否为默认地址',
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态',
+  `add_time` int(11) NOT NULL,
+  `update_time` int(11) NOT NULL,
+  PRIMARY KEY (`address_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='地址管理';
+
+-- ----------------------------
+-- Table structure for express_send
+-- ----------------------------
+DROP TABLE IF EXISTS `express_send`;
+CREATE TABLE `express_send` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `express_company_id` int(5) unsigned DEFAULT '0' COMMENT '快递公司id(从接口获取)',
+  `address_id` int(11) unsigned DEFAULT '0' COMMENT '地址id',
+  `remarks` varchar(255) DEFAULT NULL COMMENT '备注',
+  `gratuity` decimal(10,2) unsigned DEFAULT '0.00' COMMENT '上门小费',
+  `is_hiring` tinyint(4) DEFAULT '1' COMMENT '1:在招人,-1:不招人',
+  `create_time` datetime DEFAULT '2000-01-01 00:00:00' COMMENT '创建时间',
+  `update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `status` tinyint(4) DEFAULT '1' COMMENT '1:有效,-1:无效',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for express_take
+-- ----------------------------
+DROP TABLE IF EXISTS `express_take`;
+CREATE TABLE `express_take` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `address_id` int(11) unsigned DEFAULT '0' COMMENT '地址id',
+  `specs_id` int(11) unsigned DEFAULT '0' COMMENT '取件规格',
+  `optional_service_id` int(11) unsigned DEFAULT '0' COMMENT '可选服务id',
+  `description` varchar(255) DEFAULT NULL COMMENT '取件信息（短信、取件码等）',
+  `remarks` varchar(255) DEFAULT NULL COMMENT '备注信息',
+  `num` int(5) unsigned DEFAULT '0' COMMENT '单量',
+  `gratuity` decimal(10,2) unsigned DEFAULT '0.00' COMMENT '小费',
+  `total_price` decimal(10,2) unsigned DEFAULT '0.00' COMMENT '合计',
+  `is_hiring` tinyint(4) unsigned DEFAULT '1' COMMENT '1:在招人,-1:不招人',
+  `create_time` datetime DEFAULT '2000-01-01 00:00:00' COMMENT '创建时间',
+  `update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `status` tinyint(4) DEFAULT '1' COMMENT '1:有效,-1:无效',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+
+-- ----------------------------
 -- Table structure for user
 -- ----------------------------
 DROP TABLE IF EXISTS `user`;
