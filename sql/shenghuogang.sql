@@ -11,11 +11,31 @@
  Target Server Version : 50722
  File Encoding         : 65001
 
- Date: 14/12/2019 14:58:57
+ Date: 20/12/2019 22:34:14
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for address
+-- ----------------------------
+DROP TABLE IF EXISTS `address`;
+CREATE TABLE `address` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '账号ID',
+  `name` varchar(45) NOT NULL DEFAULT '' COMMENT '姓名',
+  `cellphone` varchar(16) NOT NULL DEFAULT '手机号码',
+  `province` varchar(45) NOT NULL DEFAULT '' COMMENT '省',
+  `city` varchar(45) NOT NULL DEFAULT '' COMMENT '城市',
+  `county` varchar(45) NOT NULL DEFAULT '' COMMENT '区县',
+  `detailed_address` varchar(256) NOT NULL DEFAULT '' COMMENT '详细地址',
+  `is_default` tinyint(4) NOT NULL DEFAULT '0' COMMENT '是否为默认地址',
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态',
+  `add_time` int(11) NOT NULL,
+  `update_time` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='地址管理';
 
 -- ----------------------------
 -- Table structure for catering
@@ -66,6 +86,31 @@ INSERT INTO `core_config_data` VALUES (2, NULL, 'qiniu/token', '{\"token\":\"o61
 COMMIT;
 
 -- ----------------------------
+-- Table structure for driving_test
+-- ----------------------------
+DROP TABLE IF EXISTS `driving_test`;
+CREATE TABLE `driving_test` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `merchant_id` int(11) NOT NULL DEFAULT '0' COMMENT '商户ID',
+  `img_url` text CHARACTER SET utf8 NOT NULL COMMENT '图片(json)',
+  `title` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '驾考标题',
+  `location` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '位置',
+  `cost_price` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '成本价格(进价)',
+  `original_price` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '初始价格',
+  `self_price` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '单独购买价格',
+  `together_price` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '拼团价格',
+  `stock` int(5) NOT NULL DEFAULT '1' COMMENT '库存',
+  `is_selling` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1-在售',
+  `description` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '详情',
+  `promise_description` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '承诺详情',
+  `publish_time` datetime NOT NULL DEFAULT '2000-01-01 00:00:00' COMMENT '发布时间',
+  `create_time` datetime NOT NULL DEFAULT '2000-01-01 00:00:00' COMMENT '创建时间',
+  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1:有效,-1:无效',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='驾考';
+
+-- ----------------------------
 -- Table structure for express
 -- ----------------------------
 DROP TABLE IF EXISTS `express`;
@@ -73,6 +118,44 @@ CREATE TABLE `express` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 ROW_FORMAT=FIXED COMMENT='快递表';
+
+-- ----------------------------
+-- Table structure for express_send
+-- ----------------------------
+DROP TABLE IF EXISTS `express_send`;
+CREATE TABLE `express_send` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `express_company_id` int(5) unsigned DEFAULT '0' COMMENT '快递公司id(从接口获取)',
+  `address_id` int(11) unsigned DEFAULT '0' COMMENT '地址id',
+  `remarks` varchar(255) DEFAULT NULL COMMENT '备注',
+  `gratuity` decimal(10,2) unsigned DEFAULT '0.00' COMMENT '上门小费',
+  `is_hiring` tinyint(4) DEFAULT '1' COMMENT '1:在招人,-1:不招人',
+  `create_time` datetime DEFAULT '2000-01-01 00:00:00' COMMENT '创建时间',
+  `update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `status` tinyint(4) DEFAULT '1' COMMENT '1:有效,-1:无效',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for express_take
+-- ----------------------------
+DROP TABLE IF EXISTS `express_take`;
+CREATE TABLE `express_take` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `address_id` int(11) unsigned DEFAULT '0' COMMENT '地址id',
+  `specs_id` int(11) unsigned DEFAULT '0' COMMENT '取件规格',
+  `optional_service_id` int(11) unsigned DEFAULT '0' COMMENT '可选服务id',
+  `description` varchar(255) DEFAULT NULL COMMENT '取件信息（短信、取件码等）',
+  `remarks` varchar(255) DEFAULT NULL COMMENT '备注信息',
+  `num` int(5) unsigned DEFAULT '0' COMMENT '单量',
+  `gratuity` decimal(10,2) unsigned DEFAULT '0.00' COMMENT '小费',
+  `total_price` decimal(10,2) unsigned DEFAULT '0.00' COMMENT '合计',
+  `is_hiring` tinyint(4) unsigned DEFAULT '1' COMMENT '1:在招人,-1:不招人',
+  `create_time` datetime DEFAULT '2000-01-01 00:00:00' COMMENT '创建时间',
+  `update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `status` tinyint(4) DEFAULT '1' COMMENT '1:有效,-1:无效',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for hotel
@@ -103,6 +186,27 @@ CREATE TABLE `hotel` (
   `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1:有效,-1:无效',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 ROW_FORMAT=FIXED COMMENT='酒店表';
+
+-- ----------------------------
+-- Table structure for lostfound
+-- ----------------------------
+DROP TABLE IF EXISTS `lostfound`;
+CREATE TABLE `lostfound` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `merchant_id` int(11) NOT NULL DEFAULT '0' COMMENT '商户ID',
+  `img_url` text CHARACTER SET utf8 NOT NULL COMMENT '图片(json)',
+  `title` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '二手物品标题',
+  `description` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '详情',
+  `location` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '位置',
+  `cellphone` varchar(20) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '手机号',
+  `qq` varchar(20) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT 'QQ号',
+  `wechat` varchar(30) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '微信号',
+  `publish_time` datetime NOT NULL DEFAULT '2000-01-01 00:00:00' COMMENT '发布时间',
+  `create_time` datetime NOT NULL DEFAULT '2000-01-01 00:00:00' COMMENT '创建时间',
+  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1:有效,-1:无效',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 ROW_FORMAT=FIXED COMMENT='失物招领表';
 
 -- ----------------------------
 -- Table structure for merchant
@@ -346,7 +450,7 @@ DROP TABLE IF EXISTS `rent_house`;
 CREATE TABLE `rent_house` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `merchant_id` int(11) NOT NULL DEFAULT '0' COMMENT '商户ID',
-  `titile` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '租房标题',
+  `title` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '租房标题',
   `square` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '面积',
   `img_url` text CHARACTER SET utf8 NOT NULL COMMENT '图片(json)',
   `room` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '室',
@@ -400,55 +504,7 @@ CREATE TABLE `second` (
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1:有效,-1:无效',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=FIXED COMMENT='二手物品表';
-
--- ----------------------------
--- Table structure for driving_test
--- ----------------------------
-DROP TABLE IF EXISTS `driving_test`;
-CREATE TABLE `driving_test` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `merchant_id` int(11) NOT NULL DEFAULT '0' COMMENT '商户ID',
-  `img_url` text CHARACTER SET utf8 NOT NULL COMMENT '图片(json)',
-  `title` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '驾考标题',
-  `location` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '位置',
-  `cost_price` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '成本价格(进价)',
-  `original_price` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '初始价格',
-  `self_price` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '单独购买价格',
-  `together_price` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '拼团价格',
-  `stock` int(5) NOT NULL DEFAULT '1' COMMENT '库存',
-  `is_selling` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1-在售',
-  `description` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '详情',
-  `promise_description` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '承诺详情',
-  `publish_time` datetime NOT NULL DEFAULT '2000-01-01 00:00:00' COMMENT '发布时间',
-  `create_time` datetime NOT NULL DEFAULT '2000-01-01 00:00:00' COMMENT '创建时间',
-  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1:有效,-1:无效',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=FIXED COMMENT='驾考';
-
--- ----------------------------
--- Table structure for lostfound
--- ----------------------------
-DROP TABLE IF EXISTS `lostfound`;
-CREATE TABLE `lostfound` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `merchant_id` int(11) NOT NULL DEFAULT '0' COMMENT '商户ID',
-  `img_url` text CHARACTER SET utf8 NOT NULL COMMENT '图片(json)',
-  `title` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '二手物品标题',
-  `description` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '详情',
-  `location` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '位置',
-  `cellphone` varchar(20) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '手机号',
-  `qq` varchar(20) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT 'QQ号',
-  `wechat` varchar(30) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '微信号',
-  `stock` int(5) NOT NULL DEFAULT '1' COMMENT '库存',
-  `is_selling` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1-在售',
-  `publish_time` datetime NOT NULL DEFAULT '2000-01-01 00:00:00' COMMENT '发布时间',
-  `create_time` datetime NOT NULL DEFAULT '2000-01-01 00:00:00' COMMENT '创建时间',
-  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1:有效,-1:无效',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=FIXED COMMENT='失物招领表';
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 ROW_FORMAT=FIXED COMMENT='二手物品表';
 
 -- ----------------------------
 -- Table structure for supermarket_goods
@@ -518,78 +574,30 @@ CREATE TABLE `ticket` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 ROW_FORMAT=FIXED COMMENT='门票表';
 
 -- ----------------------------
--- Table structure for address
--- ----------------------------
-DROP TABLE IF EXISTS `address`;
-CREATE TABLE `address` (
-  `address_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '账号ID',
-  `name` varchar(45) NOT NULL DEFAULT '' COMMENT '姓名',
-  `cellphone` varchar(16) NOT NULL DEFAULT '手机号码',
-  `province` varchar(45) NOT NULL DEFAULT '' COMMENT '省',
-  `city` varchar(45) NOT NULL DEFAULT '' COMMENT '城市',
-  `county` varchar(45) NOT NULL DEFAULT '' COMMENT '区县',
-  `detailed_address` varchar(256) NOT NULL DEFAULT '' COMMENT '详细地址',
-  `is_default` tinyint(4) NOT NULL DEFAULT '0' COMMENT '是否为默认地址',
-  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态',
-  `add_time` int(11) NOT NULL,
-  `update_time` int(11) NOT NULL,
-  PRIMARY KEY (`address_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='地址管理';
-
--- ----------------------------
--- Table structure for express_send
--- ----------------------------
-DROP TABLE IF EXISTS `express_send`;
-CREATE TABLE `express_send` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `express_company_id` int(5) unsigned DEFAULT '0' COMMENT '快递公司id(从接口获取)',
-  `address_id` int(11) unsigned DEFAULT '0' COMMENT '地址id',
-  `remarks` varchar(255) DEFAULT NULL COMMENT '备注',
-  `gratuity` decimal(10,2) unsigned DEFAULT '0.00' COMMENT '上门小费',
-  `is_hiring` tinyint(4) DEFAULT '1' COMMENT '1:在招人,-1:不招人',
-  `create_time` datetime DEFAULT '2000-01-01 00:00:00' COMMENT '创建时间',
-  `update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  `status` tinyint(4) DEFAULT '1' COMMENT '1:有效,-1:无效',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Table structure for express_take
--- ----------------------------
-DROP TABLE IF EXISTS `express_take`;
-CREATE TABLE `express_take` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `address_id` int(11) unsigned DEFAULT '0' COMMENT '地址id',
-  `specs_id` int(11) unsigned DEFAULT '0' COMMENT '取件规格',
-  `optional_service_id` int(11) unsigned DEFAULT '0' COMMENT '可选服务id',
-  `description` varchar(255) DEFAULT NULL COMMENT '取件信息（短信、取件码等）',
-  `remarks` varchar(255) DEFAULT NULL COMMENT '备注信息',
-  `num` int(5) unsigned DEFAULT '0' COMMENT '单量',
-  `gratuity` decimal(10,2) unsigned DEFAULT '0.00' COMMENT '小费',
-  `total_price` decimal(10,2) unsigned DEFAULT '0.00' COMMENT '合计',
-  `is_hiring` tinyint(4) unsigned DEFAULT '1' COMMENT '1:在招人,-1:不招人',
-  `create_time` datetime DEFAULT '2000-01-01 00:00:00' COMMENT '创建时间',
-  `update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  `status` tinyint(4) DEFAULT '1' COMMENT '1:有效,-1:无效',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-
-
--- ----------------------------
 -- Table structure for user
 -- ----------------------------
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '用户ID',
-  `name` varchar(0) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '用户名',
-  `password` varchar(0) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '密码',
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `name` varchar(255) NOT NULL DEFAULT '' COMMENT '用户名',
+  `password` varchar(255) NOT NULL DEFAULT '' COMMENT '密码',
   `merchant_id` int(11) NOT NULL DEFAULT '0' COMMENT '商户ID',
+  `openid` varchar(50) NOT NULL DEFAULT '' COMMENT '微信ID',
+  `access_token` varchar(64) NOT NULL DEFAULT '' COMMENT 'access_token登录凭证',
+  `cellphone` varchar(32) NOT NULL DEFAULT '' COMMENT '手机号码',
+  `nickname` blob NOT NULL COMMENT '微信昵称',
+  `gender` tinyint(4) NOT NULL DEFAULT '0' COMMENT '性别 0：未知、1：男、2：女',
+  `avatar_url` varchar(255) NOT NULL DEFAULT '' COMMENT '头像',
+  `country` varchar(50) NOT NULL DEFAULT '' COMMENT '国家',
+  `province` varchar(50) NOT NULL DEFAULT '' COMMENT '省份',
+  `city` varchar(50) NOT NULL DEFAULT '' COMMENT '城市',
+  `account_balance` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '账户余额',
+  `key_time` int(10) NOT NULL DEFAULT '0' COMMENT 'key',
   `create_time` datetime NOT NULL DEFAULT '2000-01-01 00:00:00' COMMENT '创建时间',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1:有效,-1:无效',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='用户表';
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `openid` (`openid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户表';
 
 SET FOREIGN_KEY_CHECKS = 1;
