@@ -44,6 +44,16 @@ class User extends Model
      * @Column(type="string", nullable=true, column="access_token")
      */
     public $access_token;
+    /**
+     *
+     * @Column(type="string", nullable=true, column="session_key")
+     */
+    public $session_key;
+    /**
+     *
+     * @Column(type="string", nullable=true, column="session_key_time")
+     */
+    public $session_key_time;
 
 
     /**

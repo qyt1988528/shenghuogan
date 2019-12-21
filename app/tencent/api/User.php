@@ -132,6 +132,10 @@ class User extends Api
         return $token;
     }
 
+    public function get(){
+
+    }
+
 
 
 

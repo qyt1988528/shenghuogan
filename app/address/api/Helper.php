@@ -1,8 +1,8 @@
 <?php
-namespace Secondhand\Api;
+namespace Address\Api;
 
+use Address\Model\Address;
 use MDK\Api;
-use Secondhand\Model\Second;
 
 class Helper extends Api
 {
@@ -10,7 +10,7 @@ class Helper extends Api
     private $_model;
     public function __construct() {
         $this->_config = $this->app->core->config->config->toArray();
-        $this->_model = new Second();
+        $this->_model = new Address();
     }
 
     public function getInsertFields(){

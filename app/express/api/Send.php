@@ -1,38 +1,32 @@
 <?php
-namespace Secondhand\Api;
+namespace Express\Api;
 
+use Express\Model\ExpressSend;
 use MDK\Api;
-use Secondhand\Model\Second;
 
-class Helper extends Api
+class Send extends Api
 {
     private $_config;
     private $_model;
     public function __construct() {
         $this->_config = $this->app->core->config->config->toArray();
-        $this->_model = new Second();
+        $this->_model = new ExpressSend();
     }
 
     public function getInsertFields(){
         return $insertFields = [
-            'img_url',
-            'title',
-            'location',
-            'cost_price',
-            'original_price',
-            'self_price',
-            'stock',
-            'cellphone',
-            'qq',
-            'wechat',
-            'description',
+            'express_company_id',
+            'address_id',
+            'gratuity',
         ];
     }
     public function getDefaultInsertFields($postData){
         $defaultInsertFields = [
-            'is_selling' => $this->_config['selling_status']['selling'],
+            'is_hiring' => $this->_config['hiring_status']['hiring'],
             'create_time' => date('Y-m-d H:i:s'),
             'publish_time' => date('Y-m-d H:i:s'),
+            'remarks' => $postData['remarks'] ?? '',
+            'publish_user_id' => $postData['publish_user_id'] ?? 0
         ];
         if(!isset($postData['together_price']) || empty($postData['together_price'])){
             $defaultInsertFields['together_price'] = $postData['self_price'];
@@ -78,7 +72,7 @@ class Helper extends Api
             }
             $updateData = [
                 'id' => $goodsId,
-                'is_selling' => $this->_config['selling_status']['unselling'],
+                'is_hiring' => $this->_config['hiring_status']['unhiring'],
             ];
             $updateModel->update($updateData);
             return true;
@@ -105,16 +99,17 @@ class Helper extends Api
     }
     public function detail($goodsId){
         $condition = "id = ".$goodsId;
-        $condition .= " and is_selling = ".$this->_config['selling_status']['selling'];
+        $condition .= " and is_hiring = ".$this->_config['hiring_status']['hiring'];
         $condition .= " and status = ".$this->_config['data_status']['valid'];
         $goods = $this->_model->findFirst($condition);
         return $goods;
     }
+    /*
     public function search($goodsName){
         $goods = $this->modelsManager->createBuilder()
             ->columns('*')
             ->from(['sg'=>'Secondhand\Model\Second'])
-            ->where('sg.is_selling = :selling: ',['selling'=>$this->_config['selling_status']['selling']])
+            ->where('sg.is_hiring = :hiring: ',['hiring'=>$this->_config['hiring_status']['hiring']])
             ->andWhere('sg.status = :valid: ',['valid'=>$this->_config['data_status']['valid']])
             ->andWhere('sg.title like :goodsName: ',['goodsName' => '%'.$goodsName.'%'])
             ->orderBy('sort desc')
@@ -122,6 +117,7 @@ class Helper extends Api
             ->execute();
         return $goods;
     }
+    */
 
     public function getList($page=1,$pageSize=10){
         //标题、图片、初始价格、单独购买价格、描述、位置、推荐、排序、点赞、销量
@@ -129,8 +125,8 @@ class Helper extends Api
         $start = ($page-1)*$pageSize;
         $goods = $this->modelsManager->createBuilder()
             ->columns('*')
-            ->from(['sg'=>'Secondhand\Model\Second'])
-            ->where('sg.is_selling = :selling: ',['selling'=>$this->_config['selling_status']['selling']])
+            ->from(['sg'=>'Express\Model\ExpressSend'])
+            ->where('sg.is_hiring = :hiring: ',['hiring'=>$this->_config['hiring_status']['hiring']])
             ->andWhere('sg.status = :valid: ',['valid'=>$this->_config['data_status']['valid']])
             ->orderBy('publish_time desc')
             ->limit($start,$pageSize)

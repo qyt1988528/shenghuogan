@@ -1,14 +1,13 @@
 <?php
-namespace Express\Controller;
+namespace Address\Controller;
 use MDK\Controller;
 
 
 /**
  * Face controller.
- * @RoutePrefix("/express", name="express")
+ * @RoutePrefix("/address", name="address")
  */
 class IndexController extends Controller
 {
-
 
 }

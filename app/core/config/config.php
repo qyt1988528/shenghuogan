@@ -34,6 +34,9 @@ return [
         'invalid_input' => 'Invalid input!',
         'try_later' => 'Network Error. Please Try Again Later',
         'not_exist' => 'It does not exist!',
-    ]
+    ],
+    'express_server' => [],
+    'express_take_specs' => [],
+    'express_take_optional_service' => [],
 
 ];
