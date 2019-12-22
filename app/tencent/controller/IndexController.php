@@ -11,11 +11,13 @@ use MDK\Controller;
 class IndexController extends Controller
 {
     private $_error;
+    private $_userId;
 
     public function initialize()
     {
         $config = $this->app->core->config->config->toArray();
         $this->_error = $config['error_message'];
+        $this->_userId = $this->app->tencent->api->User()->getUserId();
     }
     /**
      * 微信session.
@@ -34,7 +36,7 @@ class IndexController extends Controller
                 $this->resultSet->error(1002,$this->_error['try_later']);
             }
             if(isset($wxdata['session_key'])){
-                //unset($wxdata['session_key']);
+                // unset($wxdata['session_key']);
             }
             $data['data'] = $wxdata;
         }catch (\Exception $e){
@@ -59,12 +61,12 @@ class IndexController extends Controller
             }
         }
         try{
-            $insert = $this->app->tencent->api->Helper()->createUser($postData);
+            $insert = $this->app->tencent->api->User()->createByOpenid($postData);
             if(empty($insert)){
                 $this->resultSet->error(1002,$this->_error['try_later']);
             }
             $data =[
-                'id' => $insert
+                'create_result' => $insert
             ];
         }catch (\Exception $e){
             $this->resultSet->error($e->getCode(),$e->getMessage());
@@ -72,6 +74,27 @@ class IndexController extends Controller
         $this->resultSet->success()->setData($data);
         $this->response->success($this->resultSet->toObject());
     }
+
+    public function getTokenAction(){
+        $openid = $this->request->getParam('openid',null,'');
+        if(empty($jsCode)){
+            $this->resultSet->error(1001,$this->_error['invalid_input']);
+        }
+        try{
+            $insert = $this->app->tencent->api->User()->getInfoByOpenid($openid);
+            if(empty($insert)){
+                $this->resultSet->error(1002,$this->_error['not_exist']);
+            }
+            $data['data'] =[
+                'access_token' => $insert['access_token'] ?? ''
+            ];
+        }catch (\Exception $e){
+            $this->resultSet->error($e->getCode(),$e->getMessage());
+        }
+        $this->resultSet->success()->setData($data);
+        $this->response->success($this->resultSet->toObject());
+    }
+
     /**
     public function getSessionKeyAction()
     {

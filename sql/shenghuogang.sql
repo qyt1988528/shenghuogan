@@ -63,7 +63,10 @@ CREATE TABLE `catering` (
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1:有效,-1:无效',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=FIXED COMMENT='餐饮表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4  COMMENT='餐饮表';
+
+INSERT INTO `catering` (`id`, `merchant_id`, `title`, `title_pinyin`, `img_url`, `cost_price`, `original_price`, `self_price`, `together_price`, `description`, `location`, `stock`, `is_selling`, `is_recommend`, `sort`, `base_fav_count`, `base_order_count`, `create_time`, `update_time`, `status`) VALUES
+(1, 0, '香格里拉美食', 'xianggelilameishi', 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', '11.00', '10.00', '9.00', '9.00', '香格里拉描述', '友谊路', 100, 1, -1, 999, 48, 33, '2019-12-14 22:27:15', '2019-12-14 14:27:15', 1);
 
 -- ----------------------------
 -- Table structure for core_config_data
@@ -75,7 +78,7 @@ CREATE TABLE `core_config_data` (
   `path` varchar(255) DEFAULT NULL,
   `value` text COMMENT '值',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='公共配置';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8  COMMENT='公共配置';
 
 -- ----------------------------
 -- Records of core_config_data
@@ -117,7 +120,7 @@ DROP TABLE IF EXISTS `express`;
 CREATE TABLE `express` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=FIXED COMMENT='快递表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4  COMMENT='快递表';
 
 -- ----------------------------
 -- Table structure for express_send
@@ -189,7 +192,7 @@ CREATE TABLE `hotel` (
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1:有效,-1:无效',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=FIXED COMMENT='酒店表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4  COMMENT='酒店表';
 
 -- ----------------------------
 -- Table structure for lostfound
@@ -206,11 +209,17 @@ CREATE TABLE `lostfound` (
   `qq` varchar(20) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT 'QQ号',
   `wechat` varchar(30) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '微信号',
   `publish_time` datetime NOT NULL DEFAULT '2000-01-01 00:00:00' COMMENT '发布时间',
+  `stock` int(10) NOT NULL DEFAULT '0' COMMENT '库存',
+  `is_selling` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1:在售,-1:下架',
   `create_time` datetime NOT NULL DEFAULT '2000-01-01 00:00:00' COMMENT '创建时间',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1:有效,-1:无效',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=FIXED COMMENT='失物招领表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4  COMMENT='失物招领表';
+
+INSERT INTO `lostfound` (`id`, `merchant_id`, `img_url`, `title`, `description`, `location`, `cellphone`, `qq`, `wechat`, `stock`, `is_selling`, `publish_time`, `create_time`, `update_time`, `status`) VALUES
+(1, 0, 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', '保利水韵长滩', '测试二手物', '保利', '1', '404', '404', 1, -1, '2019-12-18 21:48:05', '2019-12-18 21:48:05', '2019-12-18 13:48:05', 1),
+(2, 0, 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', '失物招领-2', '测试二手物', '保利', '1', '404', '404', 1, 1, '2019-12-18 21:50:20', '2019-12-18 21:50:20', '2019-12-18 13:50:20', 1);
 
 -- ----------------------------
 -- Table structure for merchant
@@ -227,7 +236,7 @@ CREATE TABLE `merchant` (
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1:有效,-1无效',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='商户表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4  COMMENT='商户表';
 
 -- ----------------------------
 -- Table structure for merchant_operation_log
@@ -242,7 +251,7 @@ CREATE TABLE `merchant_operation_log` (
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1:有效,-1:无效',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='商户操作日志表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4  COMMENT='商户操作日志表';
 
 -- ----------------------------
 -- Table structure for operation_mode
@@ -258,7 +267,7 @@ CREATE TABLE `operation_mode` (
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1:有效,-1:无效',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='经营模式';
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4  COMMENT='经营模式';
 
 -- ----------------------------
 -- Records of operation_mode
@@ -288,7 +297,7 @@ CREATE TABLE `operation_mode_type` (
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1:有效,-1:无效',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='经营模式下的类别表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4  COMMENT='经营模式下的类别表';
 
 -- ----------------------------
 -- Table structure for order
@@ -402,7 +411,10 @@ CREATE TABLE `parttimejob` (
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1:有效,-1:无效',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='兼职表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4  COMMENT='兼职表';
+
+INSERT INTO `parttimejob` (`id`, `user_id`, `merchant_id`, `title`, `title_pinyin`, `description`, `location`, `commission`, `cellphone`, `qq`, `wechat`, `is_hiring`, `publish_time`, `end_time`, `create_time`, `update_time`, `status`) VALUES
+(1, 0, 0, '兼职标题', 'jianzhibiaoti', '兼职描述', '友谊路436', '9.00', '1', '1', '1', 1, '2019-12-14 22:55:08', '2000-01-01 00:00:00', '2019-12-14 22:55:08', '2019-12-14 14:55:08', 1);
 
 -- ----------------------------
 -- Table structure for position
@@ -415,7 +427,7 @@ CREATE TABLE `position` (
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1:有效,-1:无效',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='显示位置表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4  COMMENT='显示位置表';
 
 -- ----------------------------
 -- Table structure for region
@@ -479,7 +491,7 @@ INSERT INTO `region` VALUES (120223, '静海县', 120100, '静海', 3, '022', '3
 INSERT INTO `region` VALUES (120225, '蓟县', 120100, '蓟县', 3, '022', '301900', '中国,天津,天津市,蓟县', 117.408, 40.0457, 'Jixian');
 INSERT INTO `region` VALUES (130000, '河北省', 100000, '河北', 1, '', '', '中国,河北省', 114.502, 38.0455, 'Hebei');
 INSERT INTO `region` VALUES (130100, '石家庄市', 130000, '石家庄', 2, '0311', '050011', '中国,河北省,石家庄市', 114.502, 38.0455, 'Shijiazhuang');
-INSERT INTO `region` VALUES (130102, '长安区', 130100, '长安', 3, '0311', '050011', '中国,河北省,石家庄市,长安区', 114.539, 38.0367, 'Chang\'an');
+INSERT INTO `region` VALUES (130102, '长安区', 130100, '长安', 3, '0311', '050011', '中国,河北省,石家庄市,长安区', 114.539, 38.0367, 'Changan');
 INSERT INTO `region` VALUES (130104, '桥西区', 130100, '桥西', 3, '0311', '050091', '中国,河北省,石家庄市,桥西区', 114.47, 38.0322, 'Qiaoxi');
 INSERT INTO `region` VALUES (130105, '新华区', 130100, '新华', 3, '0311', '050051', '中国,河北省,石家庄市,新华区', 114.463, 38.0509, 'Xinhua');
 INSERT INTO `region` VALUES (130107, '井陉矿区', 130100, '井陉矿区', 3, '0311', '050100', '中国,河北省,石家庄市,井陉矿区', 114.065, 38.0671, 'Jingxingkuangqu');
@@ -515,7 +527,7 @@ INSERT INTO `region` VALUES (130225, '乐亭县', 130200, '乐亭', 3, '0315', '
 INSERT INTO `region` VALUES (130227, '迁西县', 130200, '迁西', 3, '0315', '064300', '中国,河北省,唐山市,迁西县', 118.316, 40.1459, 'Qianxi');
 INSERT INTO `region` VALUES (130229, '玉田县', 130200, '玉田', 3, '0315', '064100', '中国,河北省,唐山市,玉田县', 117.739, 39.9005, 'Yutian');
 INSERT INTO `region` VALUES (130281, '遵化市', 130200, '遵化', 3, '0315', '064200', '中国,河北省,唐山市,遵化市', 117.964, 40.1874, 'Zunhua');
-INSERT INTO `region` VALUES (130283, '迁安市', 130200, '迁安', 3, '0315', '064400', '中国,河北省,唐山市,迁安市', 118.701, 39.9983, 'Qian\'an');
+INSERT INTO `region` VALUES (130283, '迁安市', 130200, '迁安', 3, '0315', '064400', '中国,河北省,唐山市,迁安市', 118.701, 39.9983, 'Qianan');
 INSERT INTO `region` VALUES (130300, '秦皇岛市', 130000, '秦皇岛', 2, '0335', '066000', '中国,河北省,秦皇岛市', 119.587, 39.9425, 'Qinhuangdao');
 INSERT INTO `region` VALUES (130302, '海港区', 130300, '海港', 3, '0335', '066000', '中国,河北省,秦皇岛市,海港区', 119.61, 39.9345, 'Haigang');
 INSERT INTO `region` VALUES (130303, '山海关区', 130300, '山海关', 3, '0335', '066200', '中国,河北省,秦皇岛市,山海关区', 119.776, 39.9787, 'Shanhaiguan');
@@ -531,7 +543,7 @@ INSERT INTO `region` VALUES (130404, '复兴区', 130400, '复兴', 3, '0310', '
 INSERT INTO `region` VALUES (130406, '峰峰矿区', 130400, '峰峰矿区', 3, '0310', '056200', '中国,河北省,邯郸市,峰峰矿区', 114.211, 36.4194, 'Fengfengkuangqu');
 INSERT INTO `region` VALUES (130421, '邯郸县', 130400, '邯郸', 3, '0310', '056101', '中国,河北省,邯郸市,邯郸县', 114.531, 36.5938, 'Handan');
 INSERT INTO `region` VALUES (130423, '临漳县', 130400, '临漳', 3, '0310', '056600', '中国,河北省,邯郸市,临漳县', 114.619, 36.3346, 'Linzhang');
-INSERT INTO `region` VALUES (130424, '成安县', 130400, '成安', 3, '0310', '056700', '中国,河北省,邯郸市,成安县', 114.67, 36.4441, 'Cheng\'an');
+INSERT INTO `region` VALUES (130424, '成安县', 130400, '成安', 3, '0310', '056700', '中国,河北省,邯郸市,成安县', 114.67, 36.4441, 'Chengan');
 INSERT INTO `region` VALUES (130425, '大名县', 130400, '大名', 3, '0310', '056900', '中国,河北省,邯郸市,大名县', 115.154, 36.2799, 'Daming');
 INSERT INTO `region` VALUES (130426, '涉县', 130400, '涉县', 3, '0310', '056400', '中国,河北省,邯郸市,涉县', 113.692, 36.5807, 'Shexian');
 INSERT INTO `region` VALUES (130427, '磁县', 130400, '磁县', 3, '0310', '056500', '中国,河北省,邯郸市,磁县', 114.374, 36.3739, 'Cixian');
@@ -543,7 +555,7 @@ INSERT INTO `region` VALUES (130432, '广平县', 130400, '广平', 3, '0310', '
 INSERT INTO `region` VALUES (130433, '馆陶县', 130400, '馆陶', 3, '0310', '057750', '中国,河北省,邯郸市,馆陶县', 115.299, 36.5372, 'Guantao');
 INSERT INTO `region` VALUES (130434, '魏县', 130400, '魏县', 3, '0310', '056800', '中国,河北省,邯郸市,魏县', 114.935, 36.3617, 'Weixian');
 INSERT INTO `region` VALUES (130435, '曲周县', 130400, '曲周', 3, '0310', '057250', '中国,河北省,邯郸市,曲周县', 114.952, 36.7767, 'Quzhou');
-INSERT INTO `region` VALUES (130481, '武安市', 130400, '武安', 3, '0310', '056300', '中国,河北省,邯郸市,武安市', 114.202, 36.6928, 'Wu\'an');
+INSERT INTO `region` VALUES (130481, '武安市', 130400, '武安', 3, '0310', '056300', '中国,河北省,邯郸市,武安市', 114.202, 36.6928, 'Wuan');
 INSERT INTO `region` VALUES (130500, '邢台市', 130000, '邢台', 2, '0319', '054001', '中国,河北省,邢台市', 114.509, 37.0682, 'Xingtai');
 INSERT INTO `region` VALUES (130502, '桥东区', 130500, '桥东', 3, '0319', '054001', '中国,河北省,邢台市,桥东区', 114.507, 37.068, 'Qiaodong');
 INSERT INTO `region` VALUES (130503, '桥西区', 130500, '桥西', 3, '0319', '054000', '中国,河北省,邢台市,桥西区', 114.468, 37.0598, 'Qiaoxi');
@@ -602,7 +614,7 @@ INSERT INTO `region` VALUES (130724, '沽源县', 130700, '沽源', 3, '0313', '
 INSERT INTO `region` VALUES (130725, '尚义县', 130700, '尚义', 3, '0313', '076750', '中国,河北省,张家口市,尚义县', 113.971, 41.0778, 'Shangyi');
 INSERT INTO `region` VALUES (130726, '蔚县', 130700, '蔚县', 3, '0313', '075700', '中国,河北省,张家口市,蔚县', 114.589, 39.8407, 'Yuxian');
 INSERT INTO `region` VALUES (130727, '阳原县', 130700, '阳原', 3, '0313', '075800', '中国,河北省,张家口市,阳原县', 114.151, 40.1036, 'Yangyuan');
-INSERT INTO `region` VALUES (130728, '怀安县', 130700, '怀安', 3, '0313', '076150', '中国,河北省,张家口市,怀安县', 114.386, 40.6743, 'Huai\'an');
+INSERT INTO `region` VALUES (130728, '怀安县', 130700, '怀安', 3, '0313', '076150', '中国,河北省,张家口市,怀安县', 114.386, 40.6743, 'Huaian');
 INSERT INTO `region` VALUES (130729, '万全县', 130700, '万全', 3, '0313', '076250', '中国,河北省,张家口市,万全县', 114.741, 40.7669, 'Wanquan');
 INSERT INTO `region` VALUES (130730, '怀来县', 130700, '怀来', 3, '0313', '075400', '中国,河北省,张家口市,怀来县', 115.518, 40.4154, 'Huailai');
 INSERT INTO `region` VALUES (130731, '涿鹿县', 130700, '涿鹿', 3, '0313', '075600', '中国,河北省,张家口市,涿鹿县', 115.224, 40.3764, 'Zhuolu');
@@ -640,11 +652,11 @@ INSERT INTO `region` VALUES (130984, '河间市', 130900, '河间', 3, '0317', '
 INSERT INTO `region` VALUES (131000, '廊坊市', 130000, '廊坊', 2, '0316', '065000', '中国,河北省,廊坊市', 116.714, 39.5292, 'Langfang');
 INSERT INTO `region` VALUES (131002, '安次区', 131000, '安次', 3, '0316', '065000', '中国,河北省,廊坊市,安次区', 116.703, 39.5206, 'Anci');
 INSERT INTO `region` VALUES (131003, '广阳区', 131000, '广阳', 3, '0316', '065000', '中国,河北省,廊坊市,广阳区', 116.711, 39.5228, 'Guangyang');
-INSERT INTO `region` VALUES (131022, '固安县', 131000, '固安', 3, '0316', '065500', '中国,河北省,廊坊市,固安县', 116.299, 39.4383, 'Gu\'an');
+INSERT INTO `region` VALUES (131022, '固安县', 131000, '固安', 3, '0316', '065500', '中国,河北省,廊坊市,固安县', 116.299, 39.4383, 'Guan');
 INSERT INTO `region` VALUES (131023, '永清县', 131000, '永清', 3, '0316', '065600', '中国,河北省,廊坊市,永清县', 116.501, 39.3207, 'Yongqing');
 INSERT INTO `region` VALUES (131024, '香河县', 131000, '香河', 3, '0316', '065400', '中国,河北省,廊坊市,香河县', 117.006, 39.7613, 'Xianghe');
 INSERT INTO `region` VALUES (131025, '大城县', 131000, '大城', 3, '0316', '065900', '中国,河北省,廊坊市,大城县', 116.654, 38.7053, 'Daicheng');
-INSERT INTO `region` VALUES (131026, '文安县', 131000, '文安', 3, '0316', '065800', '中国,河北省,廊坊市,文安县', 116.458, 38.8732, 'Wen\'an');
+INSERT INTO `region` VALUES (131026, '文安县', 131000, '文安', 3, '0316', '065800', '中国,河北省,廊坊市,文安县', 116.458, 38.8732, 'Wenan');
 INSERT INTO `region` VALUES (131028, '大厂回族自治县', 131000, '大厂', 3, '0316', '065300', '中国,河北省,廊坊市,大厂回族自治县', 116.989, 39.8865, 'Dachang');
 INSERT INTO `region` VALUES (131081, '霸州市', 131000, '霸州', 3, '0316', '065700', '中国,河北省,廊坊市,霸州市', 116.392, 39.1257, 'Bazhou');
 INSERT INTO `region` VALUES (131082, '三河市', 131000, '三河', 3, '0316', '065200', '中国,河北省,廊坊市,三河市', 117.072, 39.9836, 'Sanhe');
@@ -937,7 +949,7 @@ INSERT INTO `region` VALUES (210302, '铁东区', 210300, '铁东', 3, '0412', '
 INSERT INTO `region` VALUES (210303, '铁西区', 210300, '铁西', 3, '0413', '114013', '中国,辽宁省,鞍山市,铁西区', 122.97, 41.1198, 'Tiexi');
 INSERT INTO `region` VALUES (210304, '立山区', 210300, '立山', 3, '0414', '114031', '中国,辽宁省,鞍山市,立山区', 123.029, 41.1501, 'Lishan');
 INSERT INTO `region` VALUES (210311, '千山区', 210300, '千山', 3, '0415', '114041', '中国,辽宁省,鞍山市,千山区', 122.96, 41.0751, 'Qianshan');
-INSERT INTO `region` VALUES (210321, '台安县', 210300, '台安', 3, '0417', '114100', '中国,辽宁省,鞍山市,台安县', 122.436, 41.4127, 'Tai\'an');
+INSERT INTO `region` VALUES (210321, '台安县', 210300, '台安', 3, '0417', '114100', '中国,辽宁省,鞍山市,台安县', 122.436, 41.4127, 'Taian');
 INSERT INTO `region` VALUES (210323, '岫岩满族自治县', 210300, '岫岩', 3, '0418', '114300', '中国,辽宁省,鞍山市,岫岩满族自治县', 123.289, 40.28, 'Xiuyan');
 INSERT INTO `region` VALUES (210381, '海城市', 210300, '海城', 3, '0416', '114200', '中国,辽宁省,鞍山市,海城市', 122.685, 40.8814, 'Haicheng');
 INSERT INTO `region` VALUES (210400, '抚顺市', 210000, '抚顺', 2, '024', '113008', '中国,辽宁省,抚顺市', 123.921, 41.876, 'Fushun');
@@ -958,7 +970,7 @@ INSERT INTO `region` VALUES (210522, '桓仁满族自治县', 210500, '桓仁', 
 INSERT INTO `region` VALUES (210600, '丹东市', 210000, '丹东', 2, '0415', '118000', '中国,辽宁省,丹东市', 124.383, 40.1243, 'Dandong');
 INSERT INTO `region` VALUES (210602, '元宝区', 210600, '元宝', 3, '0415', '118000', '中国,辽宁省,丹东市,元宝区', 124.396, 40.1365, 'Yuanbao');
 INSERT INTO `region` VALUES (210603, '振兴区', 210600, '振兴', 3, '0415', '118002', '中国,辽宁省,丹东市,振兴区', 124.36, 40.1049, 'Zhenxing');
-INSERT INTO `region` VALUES (210604, '振安区', 210600, '振安', 3, '0415', '118001', '中国,辽宁省,丹东市,振安区', 124.428, 40.1583, 'Zhen\'an');
+INSERT INTO `region` VALUES (210604, '振安区', 210600, '振安', 3, '0415', '118001', '中国,辽宁省,丹东市,振安区', 124.428, 40.1583, 'Zhenan');
 INSERT INTO `region` VALUES (210624, '宽甸满族自治县', 210600, '宽甸', 3, '0415', '118200', '中国,辽宁省,丹东市,宽甸满族自治县', 124.782, 40.7319, 'Kuandian');
 INSERT INTO `region` VALUES (210681, '东港市', 210600, '东港', 3, '0415', '118300', '中国,辽宁省,丹东市,东港市', 124.163, 39.8626, 'Donggang');
 INSERT INTO `region` VALUES (210682, '凤城市', 210600, '凤城', 3, '0415', '118100', '中国,辽宁省,丹东市,凤城市', 124.067, 40.453, 'Fengcheng');
@@ -1034,7 +1046,7 @@ INSERT INTO `region` VALUES (220105, '二道区', 220100, '二道', 3, '0431', '
 INSERT INTO `region` VALUES (220106, '绿园区', 220100, '绿园', 3, '0431', '130062', '中国,吉林省,长春市,绿园区', 125.256, 43.8805, 'Lvyuan');
 INSERT INTO `region` VALUES (220112, '双阳区', 220100, '双阳', 3, '0431', '130600', '中国,吉林省,长春市,双阳区', 125.656, 43.528, 'Shuangyang');
 INSERT INTO `region` VALUES (220113, '九台区', 220100, '九台', 3, '0431', '130500', '中国,吉林省,长春市,九台区', 125.84, 44.1516, 'Jiutai');
-INSERT INTO `region` VALUES (220122, '农安县', 220100, '农安', 3, '0431', '130200', '中国,吉林省,长春市,农安县', 125.185, 44.4327, 'Nong\'an');
+INSERT INTO `region` VALUES (220122, '农安县', 220100, '农安', 3, '0431', '130200', '中国,吉林省,长春市,农安县', 125.185, 44.4327, 'Nongan');
 INSERT INTO `region` VALUES (220182, '榆树市', 220100, '榆树', 3, '0431', '130400', '中国,吉林省,长春市,榆树市', 126.557, 44.8252, 'Yushu');
 INSERT INTO `region` VALUES (220183, '德惠市', 220100, '德惠', 3, '0431', '130300', '中国,吉林省,长春市,德惠市', 125.705, 44.5372, 'Dehui');
 INSERT INTO `region` VALUES (220200, '吉林市', 220000, '吉林', 2, '0432', '132011', '中国,吉林省,吉林市', 126.553, 43.8436, 'Jilin');
@@ -1056,7 +1068,7 @@ INSERT INTO `region` VALUES (220381, '公主岭市', 220300, '公主岭', 3, '04
 INSERT INTO `region` VALUES (220382, '双辽市', 220300, '双辽', 3, '0434', '136400', '中国,吉林省,四平市,双辽市', 123.501, 43.521, 'Shuangliao');
 INSERT INTO `region` VALUES (220400, '辽源市', 220000, '辽源', 2, '0437', '136200', '中国,吉林省,辽源市', 125.145, 42.9027, 'Liaoyuan');
 INSERT INTO `region` VALUES (220402, '龙山区', 220400, '龙山', 3, '0437', '136200', '中国,吉林省,辽源市,龙山区', 125.136, 42.8971, 'Longshan');
-INSERT INTO `region` VALUES (220403, '西安区', 220400, '西安', 3, '0437', '136201', '中国,吉林省,辽源市,西安区', 125.149, 42.927, 'Xi\'an');
+INSERT INTO `region` VALUES (220403, '西安区', 220400, '西安', 3, '0437', '136201', '中国,吉林省,辽源市,西安区', 125.149, 42.927, 'Xian');
 INSERT INTO `region` VALUES (220421, '东丰县', 220400, '东丰', 3, '0437', '136300', '中国,吉林省,辽源市,东丰县', 125.532, 42.6783, 'Dongfeng');
 INSERT INTO `region` VALUES (220422, '东辽县', 220400, '东辽', 3, '0437', '136600', '中国,吉林省,辽源市,东辽县', 124.986, 42.9249, 'Dongliao');
 INSERT INTO `region` VALUES (220500, '通化市', 220000, '通化', 2, '0435', '134001', '中国,吉林省,通化市', 125.937, 41.7212, 'Tonghua');
@@ -1066,7 +1078,7 @@ INSERT INTO `region` VALUES (220521, '通化县', 220500, '通化', 3, '0435', '
 INSERT INTO `region` VALUES (220523, '辉南县', 220500, '辉南', 3, '0435', '135100', '中国,吉林省,通化市,辉南县', 126.047, 42.685, 'Huinan');
 INSERT INTO `region` VALUES (220524, '柳河县', 220500, '柳河', 3, '0435', '135300', '中国,吉林省,通化市,柳河县', 125.745, 42.2847, 'Liuhe');
 INSERT INTO `region` VALUES (220581, '梅河口市', 220500, '梅河口', 3, '0435', '135000', '中国,吉林省,通化市,梅河口市', 125.71, 42.5383, 'Meihekou');
-INSERT INTO `region` VALUES (220582, '集安市', 220500, '集安', 3, '0435', '134200', '中国,吉林省,通化市,集安市', 126.188, 41.1227, 'Ji\'an');
+INSERT INTO `region` VALUES (220582, '集安市', 220500, '集安', 3, '0435', '134200', '中国,吉林省,通化市,集安市', 126.188, 41.1227, 'Jian');
 INSERT INTO `region` VALUES (220600, '白山市', 220000, '白山', 2, '0439', '134300', '中国,吉林省,白山市', 126.428, 41.9425, 'Baishan');
 INSERT INTO `region` VALUES (220602, '浑江区', 220600, '浑江', 3, '0439', '134300', '中国,吉林省,白山市,浑江区', 126.422, 41.9457, 'Hunjiang');
 INSERT INTO `region` VALUES (220605, '江源区', 220600, '江源', 3, '0439', '134700', '中国,吉林省,白山市,江源区', 126.591, 42.0566, 'Jiangyuan');
@@ -1078,14 +1090,14 @@ INSERT INTO `region` VALUES (220700, '松原市', 220000, '松原', 2, '0438', '
 INSERT INTO `region` VALUES (220702, '宁江区', 220700, '宁江', 3, '0438', '138000', '中国,吉林省,松原市,宁江区', 124.817, 45.1717, 'Ningjiang');
 INSERT INTO `region` VALUES (220721, '前郭尔罗斯蒙古族自治县', 220700, '前郭尔罗斯', 3, '0438', '138000', '中国,吉林省,松原市,前郭尔罗斯蒙古族自治县', 124.824, 45.1173, 'Qianguoerluosi');
 INSERT INTO `region` VALUES (220722, '长岭县', 220700, '长岭', 3, '0438', '131500', '中国,吉林省,松原市,长岭县', 123.967, 44.2758, 'Changling');
-INSERT INTO `region` VALUES (220723, '乾安县', 220700, '乾安', 3, '0438', '131400', '中国,吉林省,松原市,乾安县', 124.027, 45.0107, 'Qian\'an');
+INSERT INTO `region` VALUES (220723, '乾安县', 220700, '乾安', 3, '0438', '131400', '中国,吉林省,松原市,乾安县', 124.027, 45.0107, 'Qianan');
 INSERT INTO `region` VALUES (220781, '扶余市', 220700, '扶余', 3, '0438', '131200', '中国,吉林省,松原市,扶余市', 126.043, 44.9862, 'Fuyu');
 INSERT INTO `region` VALUES (220800, '白城市', 220000, '白城', 2, '0436', '137000', '中国,吉林省,白城市', 122.841, 45.619, 'Baicheng');
 INSERT INTO `region` VALUES (220802, '洮北区', 220800, '洮北', 3, '0436', '137000', '中国,吉林省,白城市,洮北区', 122.851, 45.6217, 'Taobei');
 INSERT INTO `region` VALUES (220821, '镇赉县', 220800, '镇赉', 3, '0436', '137300', '中国,吉林省,白城市,镇赉县', 123.199, 45.8478, 'Zhenlai');
 INSERT INTO `region` VALUES (220822, '通榆县', 220800, '通榆', 3, '0436', '137200', '中国,吉林省,白城市,通榆县', 123.088, 44.8139, 'Tongyu');
 INSERT INTO `region` VALUES (220881, '洮南市', 220800, '洮南', 3, '0436', '137100', '中国,吉林省,白城市,洮南市', 122.788, 45.335, 'Taonan');
-INSERT INTO `region` VALUES (220882, '大安市', 220800, '大安', 3, '0436', '131300', '中国,吉林省,白城市,大安市', 124.295, 45.5085, 'Da\'an');
+INSERT INTO `region` VALUES (220882, '大安市', 220800, '大安', 3, '0436', '131300', '中国,吉林省,白城市,大安市', 124.295, 45.5085, 'Daan');
 INSERT INTO `region` VALUES (222400, '延边朝鲜族自治州', 220000, '延边', 2, '0433', '133000', '中国,吉林省,延边朝鲜族自治州', 129.513, 42.9048, 'Yanbian');
 INSERT INTO `region` VALUES (222401, '延吉市', 222400, '延吉', 3, '0433', '133000', '中国,吉林省,延边朝鲜族自治州,延吉市', 129.514, 42.9068, 'Yanji');
 INSERT INTO `region` VALUES (222402, '图们市', 222400, '图们', 3, '0433', '133100', '中国,吉林省,延边朝鲜族自治州,图们市', 129.844, 42.968, 'Tumen');
@@ -1104,7 +1116,7 @@ INSERT INTO `region` VALUES (230108, '平房区', 230100, '平房', 3, '0451', '
 INSERT INTO `region` VALUES (230109, '松北区', 230100, '松北', 3, '0451', '150028', '中国,黑龙江省,哈尔滨市,松北区', 126.563, 45.8083, 'Songbei');
 INSERT INTO `region` VALUES (230110, '香坊区', 230100, '香坊', 3, '0451', '150036', '中国,黑龙江省,哈尔滨市,香坊区', 126.68, 45.7238, 'Xiangfang');
 INSERT INTO `region` VALUES (230111, '呼兰区', 230100, '呼兰', 3, '0451', '150500', '中国,黑龙江省,哈尔滨市,呼兰区', 126.588, 45.889, 'Hulan');
-INSERT INTO `region` VALUES (230112, '阿城区', 230100, '阿城', 3, '0451', '150300', '中国,黑龙江省,哈尔滨市,阿城区', 126.975, 45.5414, 'A\'cheng');
+INSERT INTO `region` VALUES (230112, '阿城区', 230100, '阿城', 3, '0451', '150300', '中国,黑龙江省,哈尔滨市,阿城区', 126.975, 45.5414, 'Acheng');
 INSERT INTO `region` VALUES (230113, '双城区', 230100, '双城', 3, '0451', '150100', '中国,黑龙江省,哈尔滨市,双城区', 126.309, 45.3779, 'Shuangcheng');
 INSERT INTO `region` VALUES (230123, '依兰县', 230100, '依兰', 3, '0451', '154800', '中国,黑龙江省,哈尔滨市,依兰县', 129.568, 46.3247, 'Yilan');
 INSERT INTO `region` VALUES (230124, '方正县', 230100, '方正', 3, '0451', '150800', '中国,黑龙江省,哈尔滨市,方正县', 128.83, 45.8516, 'Fangzheng');
@@ -1124,7 +1136,7 @@ INSERT INTO `region` VALUES (230206, '富拉尔基区', 230200, '富拉尔基', 
 INSERT INTO `region` VALUES (230207, '碾子山区', 230200, '碾子山', 3, '0452', '161046', '中国,黑龙江省,齐齐哈尔市,碾子山区', 122.882, 47.5166, 'Nianzishan');
 INSERT INTO `region` VALUES (230208, '梅里斯达斡尔族区', 230200, '梅里斯', 3, '0452', '161021', '中国,黑龙江省,齐齐哈尔市,梅里斯达斡尔族区', 123.753, 47.3095, 'Meilisi');
 INSERT INTO `region` VALUES (230221, '龙江县', 230200, '龙江', 3, '0452', '161100', '中国,黑龙江省,齐齐哈尔市,龙江县', 123.205, 47.3387, 'Longjiang');
-INSERT INTO `region` VALUES (230223, '依安县', 230200, '依安', 3, '0452', '161500', '中国,黑龙江省,齐齐哈尔市,依安县', 125.309, 47.8931, 'Yi\'an');
+INSERT INTO `region` VALUES (230223, '依安县', 230200, '依安', 3, '0452', '161500', '中国,黑龙江省,齐齐哈尔市,依安县', 125.309, 47.8931, 'Yian');
 INSERT INTO `region` VALUES (230224, '泰来县', 230200, '泰来', 3, '0452', '162400', '中国,黑龙江省,齐齐哈尔市,泰来县', 123.423, 46.3939, 'Tailai');
 INSERT INTO `region` VALUES (230225, '甘南县', 230200, '甘南', 3, '0452', '162100', '中国,黑龙江省,齐齐哈尔市,甘南县', 123.503, 47.9244, 'Gannan');
 INSERT INTO `region` VALUES (230227, '富裕县', 230200, '富裕', 3, '0452', '161200', '中国,黑龙江省,齐齐哈尔市,富裕县', 124.475, 47.7743, 'Fuyu');
@@ -1146,7 +1158,7 @@ INSERT INTO `region` VALUES (230400, '鹤岗市', 230000, '鹤岗', 2, '0468', '
 INSERT INTO `region` VALUES (230402, '向阳区', 230400, '向阳', 3, '0468', '154100', '中国,黑龙江省,鹤岗市,向阳区', 130.294, 47.3425, 'Xiangyang');
 INSERT INTO `region` VALUES (230403, '工农区', 230400, '工农', 3, '0468', '154101', '中国,黑龙江省,鹤岗市,工农区', 130.275, 47.3187, 'Gongnong');
 INSERT INTO `region` VALUES (230404, '南山区', 230400, '南山', 3, '0468', '154104', '中国,黑龙江省,鹤岗市,南山区', 130.277, 47.314, 'Nanshan');
-INSERT INTO `region` VALUES (230405, '兴安区', 230400, '兴安', 3, '0468', '154102', '中国,黑龙江省,鹤岗市,兴安区', 130.24, 47.2526, 'Xing\'an');
+INSERT INTO `region` VALUES (230405, '兴安区', 230400, '兴安', 3, '0468', '154102', '中国,黑龙江省,鹤岗市,兴安区', 130.24, 47.2526, 'Xingan');
 INSERT INTO `region` VALUES (230406, '东山区', 230400, '东山', 3, '0468', '154106', '中国,黑龙江省,鹤岗市,东山区', 130.317, 47.3385, 'Dongshan');
 INSERT INTO `region` VALUES (230407, '兴山区', 230400, '兴山', 3, '0468', '154105', '中国,黑龙江省,鹤岗市,兴山区', 130.293, 47.3578, 'Xingshan');
 INSERT INTO `region` VALUES (230421, '萝北县', 230400, '萝北', 3, '0468', '154200', '中国,黑龙江省,鹤岗市,萝北县', 130.833, 47.5796, 'Luobei');
@@ -1205,29 +1217,29 @@ INSERT INTO `region` VALUES (230903, '桃山区', 230900, '桃山', 3, '0464', '
 INSERT INTO `region` VALUES (230904, '茄子河区', 230900, '茄子河', 3, '0464', '154622', '中国,黑龙江省,七台河市,茄子河区', 131.068, 45.7852, 'Qiezihe');
 INSERT INTO `region` VALUES (230921, '勃利县', 230900, '勃利', 3, '0464', '154500', '中国,黑龙江省,七台河市,勃利县', 130.592, 45.755, 'Boli');
 INSERT INTO `region` VALUES (231000, '牡丹江市', 230000, '牡丹江', 2, '0453', '157000', '中国,黑龙江省,牡丹江市', 129.619, 44.583, 'Mudanjiang');
-INSERT INTO `region` VALUES (231002, '东安区', 231000, '东安', 3, '0453', '157000', '中国,黑龙江省,牡丹江市,东安区', 129.627, 44.5813, 'Dong\'an');
+INSERT INTO `region` VALUES (231002, '东安区', 231000, '东安', 3, '0453', '157000', '中国,黑龙江省,牡丹江市,东安区', 129.627, 44.5813, 'Dongan');
 INSERT INTO `region` VALUES (231003, '阳明区', 231000, '阳明', 3, '0453', '157013', '中国,黑龙江省,牡丹江市,阳明区', 129.635, 44.596, 'Yangming');
 INSERT INTO `region` VALUES (231004, '爱民区', 231000, '爱民', 3, '0453', '157009', '中国,黑龙江省,牡丹江市,爱民区', 129.591, 44.5965, 'Aimin');
-INSERT INTO `region` VALUES (231005, '西安区', 231000, '西安', 3, '0453', '157000', '中国,黑龙江省,牡丹江市,西安区', 129.616, 44.5777, 'Xi\'an');
+INSERT INTO `region` VALUES (231005, '西安区', 231000, '西安', 3, '0453', '157000', '中国,黑龙江省,牡丹江市,西安区', 129.616, 44.5777, 'Xian');
 INSERT INTO `region` VALUES (231024, '东宁县', 231000, '东宁', 3, '0453', '157200', '中国,黑龙江省,牡丹江市,东宁县', 131.128, 44.0661, 'Dongning');
 INSERT INTO `region` VALUES (231025, '林口县', 231000, '林口', 3, '0453', '157600', '中国,黑龙江省,牡丹江市,林口县', 130.284, 45.2781, 'Linkou');
 INSERT INTO `region` VALUES (231081, '绥芬河市', 231000, '绥芬河', 3, '0453', '157300', '中国,黑龙江省,牡丹江市,绥芬河市', 131.151, 44.4125, 'Suifenhe');
 INSERT INTO `region` VALUES (231083, '海林市', 231000, '海林', 3, '0453', '157100', '中国,黑龙江省,牡丹江市,海林市', 129.382, 44.59, 'Hailin');
-INSERT INTO `region` VALUES (231084, '宁安市', 231000, '宁安', 3, '0453', '157400', '中国,黑龙江省,牡丹江市,宁安市', 129.483, 44.3402, 'Ning\'an');
+INSERT INTO `region` VALUES (231084, '宁安市', 231000, '宁安', 3, '0453', '157400', '中国,黑龙江省,牡丹江市,宁安市', 129.483, 44.3402, 'Ningan');
 INSERT INTO `region` VALUES (231085, '穆棱市', 231000, '穆棱', 3, '0453', '157500', '中国,黑龙江省,牡丹江市,穆棱市', 130.525, 44.919, 'Muling');
 INSERT INTO `region` VALUES (231100, '黑河市', 230000, '黑河', 2, '0456', '164300', '中国,黑龙江省,黑河市', 127.499, 50.2496, 'Heihe');
 INSERT INTO `region` VALUES (231102, '爱辉区', 231100, '爱辉', 3, '0456', '164300', '中国,黑龙江省,黑河市,爱辉区', 127.501, 50.252, 'Aihui');
 INSERT INTO `region` VALUES (231121, '嫩江县', 231100, '嫩江', 3, '0456', '161400', '中国,黑龙江省,黑河市,嫩江县', 125.226, 49.1784, 'Nenjiang');
 INSERT INTO `region` VALUES (231123, '逊克县', 231100, '逊克', 3, '0456', '164400', '中国,黑龙江省,黑河市,逊克县', 128.479, 49.5798, 'Xunke');
 INSERT INTO `region` VALUES (231124, '孙吴县', 231100, '孙吴', 3, '0456', '164200', '中国,黑龙江省,黑河市,孙吴县', 127.336, 49.4254, 'Sunwu');
-INSERT INTO `region` VALUES (231181, '北安市', 231100, '北安', 3, '0456', '164000', '中国,黑龙江省,黑河市,北安市', 126.482, 48.2387, 'Bei\'an');
+INSERT INTO `region` VALUES (231181, '北安市', 231100, '北安', 3, '0456', '164000', '中国,黑龙江省,黑河市,北安市', 126.482, 48.2387, 'Beian');
 INSERT INTO `region` VALUES (231182, '五大连池市', 231100, '五大连池', 3, '0456', '164100', '中国,黑龙江省,黑河市,五大连池市', 126.203, 48.5151, 'Wudalianchi');
 INSERT INTO `region` VALUES (231200, '绥化市', 230000, '绥化', 2, '0455', '152000', '中国,黑龙江省,绥化市', 126.993, 46.6374, 'Suihua');
 INSERT INTO `region` VALUES (231202, '北林区', 231200, '北林', 3, '0455', '152000', '中国,黑龙江省,绥化市,北林区', 126.986, 46.6373, 'Beilin');
 INSERT INTO `region` VALUES (231221, '望奎县', 231200, '望奎', 3, '0455', '152100', '中国,黑龙江省,绥化市,望奎县', 126.482, 46.8308, 'Wangkui');
 INSERT INTO `region` VALUES (231222, '兰西县', 231200, '兰西', 3, '0455', '151500', '中国,黑龙江省,绥化市,兰西县', 126.29, 46.2525, 'Lanxi');
 INSERT INTO `region` VALUES (231223, '青冈县', 231200, '青冈', 3, '0455', '151600', '中国,黑龙江省,绥化市,青冈县', 126.113, 46.6853, 'Qinggang');
-INSERT INTO `region` VALUES (231224, '庆安县', 231200, '庆安', 3, '0455', '152400', '中国,黑龙江省,绥化市,庆安县', 127.508, 46.8802, 'Qing\'an');
+INSERT INTO `region` VALUES (231224, '庆安县', 231200, '庆安', 3, '0455', '152400', '中国,黑龙江省,绥化市,庆安县', 127.508, 46.8802, 'Qingan');
 INSERT INTO `region` VALUES (231225, '明水县', 231200, '明水', 3, '0455', '151700', '中国,黑龙江省,绥化市,明水县', 125.906, 47.1733, 'Mingshui');
 INSERT INTO `region` VALUES (231226, '绥棱县', 231200, '绥棱', 3, '0455', '152200', '中国,黑龙江省,绥化市,绥棱县', 127.116, 47.2427, 'Suileng');
 INSERT INTO `region` VALUES (231281, '安达市', 231200, '安达', 3, '0455', '151400', '中国,黑龙江省,绥化市,安达市', 125.344, 46.4177, 'Anda');
@@ -1246,7 +1258,7 @@ INSERT INTO `region` VALUES (310100, '上海市', 310000, '上海', 2, '021', '2
 INSERT INTO `region` VALUES (310101, '黄浦区', 310100, '黄浦', 3, '021', '200001', '中国,上海,上海市,黄浦区', 121.493, 31.2234, 'Huangpu');
 INSERT INTO `region` VALUES (310104, '徐汇区', 310100, '徐汇', 3, '021', '200030', '中国,上海,上海市,徐汇区', 121.437, 31.1883, 'Xuhui');
 INSERT INTO `region` VALUES (310105, '长宁区', 310100, '长宁', 3, '021', '200050', '中国,上海,上海市,长宁区', 121.425, 31.2204, 'Changning');
-INSERT INTO `region` VALUES (310106, '静安区', 310100, '静安', 3, '021', '200040', '中国,上海,上海市,静安区', 121.444, 31.2288, 'Jing\'an');
+INSERT INTO `region` VALUES (310106, '静安区', 310100, '静安', 3, '021', '200040', '中国,上海,上海市,静安区', 121.444, 31.2288, 'Jingan');
 INSERT INTO `region` VALUES (310107, '普陀区', 310100, '普陀', 3, '021', '200333', '中国,上海,上海市,普陀区', 121.397, 31.2495, 'Putuo');
 INSERT INTO `region` VALUES (310108, '闸北区', 310100, '闸北', 3, '021', '200070', '中国,上海,上海市,闸北区', 121.446, 31.2808, 'Zhabei');
 INSERT INTO `region` VALUES (310109, '虹口区', 310100, '虹口', 3, '021', '200086', '中国,上海,上海市,虹口区', 121.482, 31.2779, 'Hongkou');
@@ -1274,7 +1286,7 @@ INSERT INTO `region` VALUES (320116, '六合区', 320100, '六合', 3, '025', '2
 INSERT INTO `region` VALUES (320117, '溧水区', 320100, '溧水', 3, '025', '211200', '中国,江苏省,南京市,溧水区', 119.029, 31.6531, 'Lishui');
 INSERT INTO `region` VALUES (320118, '高淳区', 320100, '高淳', 3, '025', '211300', '中国,江苏省,南京市,高淳区', 118.876, 31.3271, 'Gaochun');
 INSERT INTO `region` VALUES (320200, '无锡市', 320000, '无锡', 2, '0510', '214000', '中国,江苏省,无锡市', 120.302, 31.5747, 'Wuxi');
-INSERT INTO `region` VALUES (320202, '崇安区', 320200, '崇安', 3, '0510', '214001', '中国,江苏省,无锡市,崇安区', 120.3, 31.58, 'Chong\'an');
+INSERT INTO `region` VALUES (320202, '崇安区', 320200, '崇安', 3, '0510', '214001', '中国,江苏省,无锡市,崇安区', 120.3, 31.58, 'Chongan');
 INSERT INTO `region` VALUES (320203, '南长区', 320200, '南长', 3, '0510', '214021', '中国,江苏省,无锡市,南长区', 120.309, 31.5636, 'Nanchang');
 INSERT INTO `region` VALUES (320204, '北塘区', 320200, '北塘', 3, '0510', '214044', '中国,江苏省,无锡市,北塘区', 120.294, 31.6059, 'Beitang');
 INSERT INTO `region` VALUES (320205, '锡山区', 320200, '锡山', 3, '0510', '214101', '中国,江苏省,无锡市,锡山区', 120.357, 31.5886, 'Xishan');
@@ -1315,7 +1327,7 @@ INSERT INTO `region` VALUES (320600, '南通市', 320000, '南通', 2, '0513', '
 INSERT INTO `region` VALUES (320602, '崇川区', 320600, '崇川', 3, '0513', '226001', '中国,江苏省,南通市,崇川区', 120.857, 32.0098, 'Chongchuan');
 INSERT INTO `region` VALUES (320611, '港闸区', 320600, '港闸', 3, '0513', '226001', '中国,江苏省,南通市,港闸区', 120.818, 32.0316, 'Gangzha');
 INSERT INTO `region` VALUES (320612, '通州区', 320600, '通州', 3, '0513', '226300', '中国,江苏省,南通市,通州区', 121.073, 32.0676, 'Tongzhou');
-INSERT INTO `region` VALUES (320621, '海安县', 320600, '海安', 3, '0513', '226600', '中国,江苏省,南通市,海安县', 120.459, 32.5451, 'Hai\'an');
+INSERT INTO `region` VALUES (320621, '海安县', 320600, '海安', 3, '0513', '226600', '中国,江苏省,南通市,海安县', 120.459, 32.5451, 'Haian');
 INSERT INTO `region` VALUES (320623, '如东县', 320600, '如东', 3, '0513', '226400', '中国,江苏省,南通市,如东县', 121.189, 32.3144, 'Rudong');
 INSERT INTO `region` VALUES (320681, '启东市', 320600, '启东', 3, '0513', '226200', '中国,江苏省,南通市,启东市', 121.66, 31.8108, 'Qidong');
 INSERT INTO `region` VALUES (320682, '如皋市', 320600, '如皋', 3, '0513', '226500', '中国,江苏省,南通市,如皋市', 120.56, 32.376, 'Rugao');
@@ -1327,9 +1339,9 @@ INSERT INTO `region` VALUES (320707, '赣榆区', 320700, '赣榆', 3, '0518', '
 INSERT INTO `region` VALUES (320722, '东海县', 320700, '东海', 3, '0518', '222300', '中国,江苏省,连云港市,东海县', 118.771, 34.5421, 'Donghai');
 INSERT INTO `region` VALUES (320723, '灌云县', 320700, '灌云', 3, '0518', '222200', '中国,江苏省,连云港市,灌云县', 119.239, 34.2839, 'Guanyun');
 INSERT INTO `region` VALUES (320724, '灌南县', 320700, '灌南', 3, '0518', '222500', '中国,江苏省,连云港市,灌南县', 119.356, 34.09, 'Guannan');
-INSERT INTO `region` VALUES (320800, '淮安市', 320000, '淮安', 2, '0517', '223001', '中国,江苏省,淮安市', 119.021, 33.5975, 'Huai\'an');
+INSERT INTO `region` VALUES (320800, '淮安市', 320000, '淮安', 2, '0517', '223001', '中国,江苏省,淮安市', 119.021, 33.5975, 'Huaian');
 INSERT INTO `region` VALUES (320802, '清河区', 320800, '清河', 3, '0517', '223001', '中国,江苏省,淮安市,清河区', 119.008, 33.5995, 'Qinghe');
-INSERT INTO `region` VALUES (320803, '淮安区', 320800, '淮安', 3, '0517', '223200', '中国,江苏省,淮安市,淮安区', 119.021, 33.5975, 'Huai\'an');
+INSERT INTO `region` VALUES (320803, '淮安区', 320800, '淮安', 3, '0517', '223200', '中国,江苏省,淮安市,淮安区', 119.021, 33.5975, 'Huaian');
 INSERT INTO `region` VALUES (320804, '淮阴区', 320800, '淮阴', 3, '0517', '223300', '中国,江苏省,淮安市,淮阴区', 119.035, 33.6317, 'Huaiyin');
 INSERT INTO `region` VALUES (320811, '清浦区', 320800, '清浦', 3, '0517', '223002', '中国,江苏省,淮安市,清浦区', 119.026, 33.5523, 'Qingpu');
 INSERT INTO `region` VALUES (320826, '涟水县', 320800, '涟水', 3, '0517', '223400', '中国,江苏省,淮安市,涟水县', 119.261, 33.7809, 'Lianshui');
@@ -1384,10 +1396,10 @@ INSERT INTO `region` VALUES (330108, '滨江区', 330100, '滨江', 3, '0571', '
 INSERT INTO `region` VALUES (330109, '萧山区', 330100, '萧山', 3, '0571', '311200', '中国,浙江省,杭州市,萧山区', 120.265, 30.185, 'Xiaoshan');
 INSERT INTO `region` VALUES (330110, '余杭区', 330100, '余杭', 3, '0571', '311100', '中国,浙江省,杭州市,余杭区', 120.3, 30.4183, 'Yuhang');
 INSERT INTO `region` VALUES (330122, '桐庐县', 330100, '桐庐', 3, '0571', '311500', '中国,浙江省,杭州市,桐庐县', 119.689, 29.7978, 'Tonglu');
-INSERT INTO `region` VALUES (330127, '淳安县', 330100, '淳安', 3, '0571', '311700', '中国,浙江省,杭州市,淳安县', 119.043, 29.6099, 'Chun\'an');
+INSERT INTO `region` VALUES (330127, '淳安县', 330100, '淳安', 3, '0571', '311700', '中国,浙江省,杭州市,淳安县', 119.043, 29.6099, 'Chunan');
 INSERT INTO `region` VALUES (330182, '建德市', 330100, '建德', 3, '0571', '311600', '中国,浙江省,杭州市,建德市', 119.282, 29.476, 'Jiande');
 INSERT INTO `region` VALUES (330183, '富阳区', 330100, '富阳', 3, '0571', '311400', '中国,浙江省,杭州市,富阳区', 119.96, 30.0488, 'Fuyang');
-INSERT INTO `region` VALUES (330185, '临安市', 330100, '临安', 3, '0571', '311300', '中国,浙江省,杭州市,临安市', 119.725, 30.2345, 'Lin\'an');
+INSERT INTO `region` VALUES (330185, '临安市', 330100, '临安', 3, '0571', '311300', '中国,浙江省,杭州市,临安市', 119.725, 30.2345, 'Linan');
 INSERT INTO `region` VALUES (330200, '宁波市', 330000, '宁波', 2, '0574', '315000', '中国,浙江省,宁波市', 121.55, 29.8684, 'Ningbo');
 INSERT INTO `region` VALUES (330203, '海曙区', 330200, '海曙', 3, '0574', '315000', '中国,浙江省,宁波市,海曙区', 121.551, 29.8598, 'Haishu');
 INSERT INTO `region` VALUES (330204, '江东区', 330200, '江东', 3, '0574', '315040', '中国,浙江省,宁波市,江东区', 121.57, 29.867, 'Jiangdong');
@@ -1410,7 +1422,7 @@ INSERT INTO `region` VALUES (330326, '平阳县', 330300, '平阳', 3, '0577', '
 INSERT INTO `region` VALUES (330327, '苍南县', 330300, '苍南', 3, '0577', '325800', '中国,浙江省,温州市,苍南县', 120.426, 27.5174, 'Cangnan');
 INSERT INTO `region` VALUES (330328, '文成县', 330300, '文成', 3, '0577', '325300', '中国,浙江省,温州市,文成县', 120.091, 27.7868, 'Wencheng');
 INSERT INTO `region` VALUES (330329, '泰顺县', 330300, '泰顺', 3, '0577', '325500', '中国,浙江省,温州市,泰顺县', 119.718, 27.5569, 'Taishun');
-INSERT INTO `region` VALUES (330381, '瑞安市', 330300, '瑞安', 3, '0577', '325200', '中国,浙江省,温州市,瑞安市', 120.655, 27.7804, 'Rui\'an');
+INSERT INTO `region` VALUES (330381, '瑞安市', 330300, '瑞安', 3, '0577', '325200', '中国,浙江省,温州市,瑞安市', 120.655, 27.7804, 'Ruian');
 INSERT INTO `region` VALUES (330382, '乐清市', 330300, '乐清', 3, '0577', '325600', '中国,浙江省,温州市,乐清市', 120.962, 28.124, 'Yueqing');
 INSERT INTO `region` VALUES (330400, '嘉兴市', 330000, '嘉兴', 2, '0573', '314000', '中国,浙江省,嘉兴市', 120.751, 30.7627, 'Jiaxing');
 INSERT INTO `region` VALUES (330402, '南湖区', 330400, '南湖', 3, '0573', '314051', '中国,浙江省,嘉兴市,南湖区', 120.785, 30.7486, 'Nanhu');
@@ -1438,7 +1450,7 @@ INSERT INTO `region` VALUES (330702, '婺城区', 330700, '婺城', 3, '0579', '
 INSERT INTO `region` VALUES (330703, '金东区', 330700, '金东', 3, '0579', '321000', '中国,浙江省,金华市,金东区', 119.693, 29.0991, 'Jindong');
 INSERT INTO `region` VALUES (330723, '武义县', 330700, '武义', 3, '0579', '321200', '中国,浙江省,金华市,武义县', 119.816, 28.8933, 'Wuyi');
 INSERT INTO `region` VALUES (330726, '浦江县', 330700, '浦江', 3, '0579', '322200', '中国,浙江省,金华市,浦江县', 119.892, 29.4535, 'Pujiang');
-INSERT INTO `region` VALUES (330727, '磐安县', 330700, '磐安', 3, '0579', '322300', '中国,浙江省,金华市,磐安县', 120.45, 29.0573, 'Pan\'an');
+INSERT INTO `region` VALUES (330727, '磐安县', 330700, '磐安', 3, '0579', '322300', '中国,浙江省,金华市,磐安县', 120.45, 29.0573, 'Panan');
 INSERT INTO `region` VALUES (330781, '兰溪市', 330700, '兰溪', 3, '0579', '321100', '中国,浙江省,金华市,兰溪市', 119.46, 29.2084, 'Lanxi');
 INSERT INTO `region` VALUES (330782, '义乌市', 330700, '义乌', 3, '0579', '322000', '中国,浙江省,金华市,义乌市', 120.074, 29.3056, 'Yiwu');
 INSERT INTO `region` VALUES (330783, '东阳市', 330700, '东阳', 3, '0579', '322100', '中国,浙江省,金华市,东阳市', 120.242, 29.2894, 'Dongyang');
@@ -1521,7 +1533,7 @@ INSERT INTO `region` VALUES (340404, '谢家集区', 340400, '谢家集', 3, '05
 INSERT INTO `region` VALUES (340405, '八公山区', 340400, '八公山', 3, '0554', '232072', '中国,安徽省,淮南市,八公山区', 116.837, 32.6294, 'Bagongshan');
 INSERT INTO `region` VALUES (340406, '潘集区', 340400, '潘集', 3, '0554', '232082', '中国,安徽省,淮南市,潘集区', 116.816, 32.7829, 'Panji');
 INSERT INTO `region` VALUES (340421, '凤台县', 340400, '凤台', 3, '0554', '232100', '中国,安徽省,淮南市,凤台县', 116.716, 32.7075, 'Fengtai');
-INSERT INTO `region` VALUES (340500, '马鞍山市', 340000, '马鞍山', 2, '0555', '243001', '中国,安徽省,马鞍山市', 118.508, 31.6894, 'Ma\'anshan');
+INSERT INTO `region` VALUES (340500, '马鞍山市', 340000, '马鞍山', 2, '0555', '243001', '中国,安徽省,马鞍山市', 118.508, 31.6894, 'Maanshan');
 INSERT INTO `region` VALUES (340503, '花山区', 340500, '花山', 3, '0555', '243000', '中国,安徽省,马鞍山市,花山区', 118.512, 31.7001, 'Huashan');
 INSERT INTO `region` VALUES (340504, '雨山区', 340500, '雨山', 3, '0555', '243071', '中国,安徽省,马鞍山市,雨山区', 118.499, 31.6822, 'Yushan');
 INSERT INTO `region` VALUES (340506, '博望区', 340500, '博望', 3, '0555', '243131', '中国,安徽省,马鞍山市,博望区', 118.844, 31.5619, 'Bowang');
@@ -1561,7 +1573,7 @@ INSERT INTO `region` VALUES (341024, '祁门县', 341000, '祁门', 3, '0559', '
 INSERT INTO `region` VALUES (341100, '滁州市', 340000, '滁州', 2, '0550', '239000', '中国,安徽省,滁州市', 118.316, 32.3036, 'Chuzhou');
 INSERT INTO `region` VALUES (341102, '琅琊区', 341100, '琅琊', 3, '0550', '239000', '中国,安徽省,滁州市,琅琊区', 118.305, 32.2952, 'Langya');
 INSERT INTO `region` VALUES (341103, '南谯区', 341100, '南谯', 3, '0550', '239000', '中国,安徽省,滁州市,南谯区', 118.312, 32.3186, 'Nanqiao');
-INSERT INTO `region` VALUES (341122, '来安县', 341100, '来安', 3, '0550', '239200', '中国,安徽省,滁州市,来安县', 118.434, 32.4518, 'Lai\'an');
+INSERT INTO `region` VALUES (341122, '来安县', 341100, '来安', 3, '0550', '239200', '中国,安徽省,滁州市,来安县', 118.434, 32.4518, 'Laian');
 INSERT INTO `region` VALUES (341124, '全椒县', 341100, '全椒', 3, '0550', '239500', '中国,安徽省,滁州市,全椒县', 118.273, 32.0852, 'Quanjiao');
 INSERT INTO `region` VALUES (341125, '定远县', 341100, '定远', 3, '0550', '233200', '中国,安徽省,滁州市,定远县', 117.68, 32.5249, 'Dingyuan');
 INSERT INTO `region` VALUES (341126, '凤阳县', 341100, '凤阳', 3, '0550', '233100', '中国,安徽省,滁州市,凤阳县', 117.565, 32.8651, 'Fengyang');
@@ -1582,9 +1594,9 @@ INSERT INTO `region` VALUES (341321, '砀山县', 341300, '砀山', 3, '0557', '
 INSERT INTO `region` VALUES (341322, '萧县', 341300, '萧县', 3, '0557', '235200', '中国,安徽省,宿州市,萧县', 116.945, 34.1879, 'Xiaoxian');
 INSERT INTO `region` VALUES (341323, '灵璧县', 341300, '灵璧', 3, '0557', '234200', '中国,安徽省,宿州市,灵璧县', 117.558, 33.5434, 'Lingbi');
 INSERT INTO `region` VALUES (341324, '泗县', 341300, '泗县', 3, '0557', '234300', '中国,安徽省,宿州市,泗县', 117.91, 33.4829, 'Sixian');
-INSERT INTO `region` VALUES (341500, '六安市', 340000, '六安', 2, '0564', '237000', '中国,安徽省,六安市', 116.508, 31.7529, 'Lu\'an');
-INSERT INTO `region` VALUES (341502, '金安区', 341500, '金安', 3, '0564', '237005', '中国,安徽省,六安市,金安区', 116.509, 31.7557, 'Jin\'an');
-INSERT INTO `region` VALUES (341503, '裕安区', 341500, '裕安', 3, '0564', '237010', '中国,安徽省,六安市,裕安区', 116.48, 31.7379, 'Yu\'an');
+INSERT INTO `region` VALUES (341500, '六安市', 340000, '六安', 2, '0564', '237000', '中国,安徽省,六安市', 116.508, 31.7529, 'Luan');
+INSERT INTO `region` VALUES (341502, '金安区', 341500, '金安', 3, '0564', '237005', '中国,安徽省,六安市,金安区', 116.509, 31.7557, 'Jinan');
+INSERT INTO `region` VALUES (341503, '裕安区', 341500, '裕安', 3, '0564', '237010', '中国,安徽省,六安市,裕安区', 116.48, 31.7379, 'Yuan');
 INSERT INTO `region` VALUES (341521, '寿县', 341500, '寿县', 3, '0564', '232200', '中国,安徽省,六安市,寿县', 116.785, 32.5765, 'Shouxian');
 INSERT INTO `region` VALUES (341522, '霍邱县', 341500, '霍邱', 3, '0564', '237400', '中国,安徽省,六安市,霍邱县', 116.278, 32.353, 'Huoqiu');
 INSERT INTO `region` VALUES (341523, '舒城县', 341500, '舒城', 3, '0564', '231300', '中国,安徽省,六安市,舒城县', 116.945, 31.4641, 'Shucheng');
@@ -1614,7 +1626,7 @@ INSERT INTO `region` VALUES (350102, '鼓楼区', 350100, '鼓楼', 3, '0591', '
 INSERT INTO `region` VALUES (350103, '台江区', 350100, '台江', 3, '0591', '350004', '中国,福建省,福州市,台江区', 119.309, 26.062, 'Taijiang');
 INSERT INTO `region` VALUES (350104, '仓山区', 350100, '仓山', 3, '0591', '350007', '中国,福建省,福州市,仓山区', 119.315, 26.0434, 'Cangshan');
 INSERT INTO `region` VALUES (350105, '马尾区', 350100, '马尾', 3, '0591', '350015', '中国,福建省,福州市,马尾区', 119.455, 25.9894, 'Mawei');
-INSERT INTO `region` VALUES (350111, '晋安区', 350100, '晋安', 3, '0591', '350011', '中国,福建省,福州市,晋安区', 119.328, 26.0818, 'Jin\'an');
+INSERT INTO `region` VALUES (350111, '晋安区', 350100, '晋安', 3, '0591', '350011', '中国,福建省,福州市,晋安区', 119.328, 26.0818, 'Jinan');
 INSERT INTO `region` VALUES (350121, '闽侯县', 350100, '闽侯', 3, '0591', '350100', '中国,福建省,福州市,闽侯县', 119.134, 26.1501, 'Minhou');
 INSERT INTO `region` VALUES (350122, '连江县', 350100, '连江', 3, '0591', '350500', '中国,福建省,福州市,连江县', 119.534, 26.1947, 'Lianjiang');
 INSERT INTO `region` VALUES (350123, '罗源县', 350100, '罗源', 3, '0591', '350600', '中国,福建省,福州市,罗源县', 119.551, 26.4875, 'Luoyuan');
@@ -1628,8 +1640,8 @@ INSERT INTO `region` VALUES (350203, '思明区', 350200, '思明', 3, '0592', '
 INSERT INTO `region` VALUES (350205, '海沧区', 350200, '海沧', 3, '0592', '361026', '中国,福建省,厦门市,海沧区', 118.033, 24.4846, 'Haicang');
 INSERT INTO `region` VALUES (350206, '湖里区', 350200, '湖里', 3, '0592', '361006', '中国,福建省,厦门市,湖里区', 118.146, 24.5125, 'Huli');
 INSERT INTO `region` VALUES (350211, '集美区', 350200, '集美', 3, '0592', '361021', '中国,福建省,厦门市,集美区', 118.097, 24.5758, 'Jimei');
-INSERT INTO `region` VALUES (350212, '同安区', 350200, '同安', 3, '0592', '361100', '中国,福建省,厦门市,同安区', 118.152, 24.7231, 'Tong\'an');
-INSERT INTO `region` VALUES (350213, '翔安区', 350200, '翔安', 3, '0592', '361101', '中国,福建省,厦门市,翔安区', 118.248, 24.6186, 'Xiang\'an');
+INSERT INTO `region` VALUES (350212, '同安区', 350200, '同安', 3, '0592', '361100', '中国,福建省,厦门市,同安区', 118.152, 24.7231, 'Tongan');
+INSERT INTO `region` VALUES (350213, '翔安区', 350200, '翔安', 3, '0592', '361101', '中国,福建省,厦门市,翔安区', 118.248, 24.6186, 'Xiangan');
 INSERT INTO `region` VALUES (350300, '莆田市', 350000, '莆田', 2, '0594', '351100', '中国,福建省,莆田市', 119.008, 25.431, 'Putian');
 INSERT INTO `region` VALUES (350302, '城厢区', 350300, '城厢', 3, '0594', '351100', '中国,福建省,莆田市,城厢区', 118.995, 25.4187, 'Chengxiang');
 INSERT INTO `region` VALUES (350303, '涵江区', 350300, '涵江', 3, '0594', '351111', '中国,福建省,莆田市,涵江区', 119.116, 25.4588, 'Hanjiang');
@@ -1648,31 +1660,31 @@ INSERT INTO `region` VALUES (350427, '沙县', 350400, '沙县', 3, '0598', '365
 INSERT INTO `region` VALUES (350428, '将乐县', 350400, '将乐', 3, '0598', '353300', '中国,福建省,三明市,将乐县', 117.473, 26.7284, 'Jiangle');
 INSERT INTO `region` VALUES (350429, '泰宁县', 350400, '泰宁', 3, '0598', '354400', '中国,福建省,三明市,泰宁县', 117.176, 26.9001, 'Taining');
 INSERT INTO `region` VALUES (350430, '建宁县', 350400, '建宁', 3, '0598', '354500', '中国,福建省,三明市,建宁县', 116.846, 26.8309, 'Jianning');
-INSERT INTO `region` VALUES (350481, '永安市', 350400, '永安', 3, '0598', '366000', '中国,福建省,三明市,永安市', 117.365, 25.9414, 'Yong\'an');
+INSERT INTO `region` VALUES (350481, '永安市', 350400, '永安', 3, '0598', '366000', '中国,福建省,三明市,永安市', 117.365, 25.9414, 'Yongan');
 INSERT INTO `region` VALUES (350500, '泉州市', 350000, '泉州', 2, '0595', '362000', '中国,福建省,泉州市', 118.589, 24.9089, 'Quanzhou');
 INSERT INTO `region` VALUES (350502, '鲤城区', 350500, '鲤城', 3, '0595', '362000', '中国,福建省,泉州市,鲤城区', 118.566, 24.8874, 'Licheng');
 INSERT INTO `region` VALUES (350503, '丰泽区', 350500, '丰泽', 3, '0595', '362000', '中国,福建省,泉州市,丰泽区', 118.613, 24.8912, 'Fengze');
 INSERT INTO `region` VALUES (350504, '洛江区', 350500, '洛江', 3, '0595', '362011', '中国,福建省,泉州市,洛江区', 118.671, 24.9398, 'Luojiang');
 INSERT INTO `region` VALUES (350505, '泉港区', 350500, '泉港', 3, '0595', '362114', '中国,福建省,泉州市,泉港区', 118.916, 25.1201, 'Quangang');
-INSERT INTO `region` VALUES (350521, '惠安县', 350500, '惠安', 3, '0595', '362100', '中国,福建省,泉州市,惠安县', 118.797, 25.0306, 'Hui\'an');
+INSERT INTO `region` VALUES (350521, '惠安县', 350500, '惠安', 3, '0595', '362100', '中国,福建省,泉州市,惠安县', 118.797, 25.0306, 'Huian');
 INSERT INTO `region` VALUES (350524, '安溪县', 350500, '安溪', 3, '0595', '362400', '中国,福建省,泉州市,安溪县', 118.187, 25.0563, 'Anxi');
 INSERT INTO `region` VALUES (350525, '永春县', 350500, '永春', 3, '0595', '362600', '中国,福建省,泉州市,永春县', 118.294, 25.3218, 'Yongchun');
 INSERT INTO `region` VALUES (350526, '德化县', 350500, '德化', 3, '0595', '362500', '中国,福建省,泉州市,德化县', 118.242, 25.4922, 'Dehua');
 INSERT INTO `region` VALUES (350527, '金门县', 350500, '金门', 3, '', '', '中国,福建省,泉州市,金门县', 118.323, 24.4292, 'Jinmen');
 INSERT INTO `region` VALUES (350581, '石狮市', 350500, '石狮', 3, '0595', '362700', '中国,福建省,泉州市,石狮市', 118.648, 24.7324, 'Shishi');
 INSERT INTO `region` VALUES (350582, '晋江市', 350500, '晋江', 3, '0595', '362200', '中国,福建省,泉州市,晋江市', 118.552, 24.7814, 'Jinjiang');
-INSERT INTO `region` VALUES (350583, '南安市', 350500, '南安', 3, '0595', '362300', '中国,福建省,泉州市,南安市', 118.386, 24.9606, 'Nan\'an');
+INSERT INTO `region` VALUES (350583, '南安市', 350500, '南安', 3, '0595', '362300', '中国,福建省,泉州市,南安市', 118.386, 24.9606, 'Nanan');
 INSERT INTO `region` VALUES (350600, '漳州市', 350000, '漳州', 2, '0596', '363005', '中国,福建省,漳州市', 117.662, 24.5109, 'Zhangzhou');
 INSERT INTO `region` VALUES (350602, '芗城区', 350600, '芗城', 3, '0596', '363000', '中国,福建省,漳州市,芗城区', 117.654, 24.5108, 'Xiangcheng');
 INSERT INTO `region` VALUES (350603, '龙文区', 350600, '龙文', 3, '0596', '363005', '中国,福建省,漳州市,龙文区', 117.71, 24.5032, 'Longwen');
 INSERT INTO `region` VALUES (350622, '云霄县', 350600, '云霄', 3, '0596', '363300', '中国,福建省,漳州市,云霄县', 117.341, 23.9553, 'Yunxiao');
 INSERT INTO `region` VALUES (350623, '漳浦县', 350600, '漳浦', 3, '0596', '363200', '中国,福建省,漳州市,漳浦县', 117.614, 24.1171, 'Zhangpu');
-INSERT INTO `region` VALUES (350624, '诏安县', 350600, '诏安', 3, '0596', '363500', '中国,福建省,漳州市,诏安县', 117.175, 23.7115, 'Zhao\'an');
+INSERT INTO `region` VALUES (350624, '诏安县', 350600, '诏安', 3, '0596', '363500', '中国,福建省,漳州市,诏安县', 117.175, 23.7115, 'Zhaoan');
 INSERT INTO `region` VALUES (350625, '长泰县', 350600, '长泰', 3, '0596', '363900', '中国,福建省,漳州市,长泰县', 117.759, 24.6253, 'Changtai');
 INSERT INTO `region` VALUES (350626, '东山县', 350600, '东山', 3, '0596', '363400', '中国,福建省,漳州市,东山县', 117.428, 23.7011, 'Dongshan');
 INSERT INTO `region` VALUES (350627, '南靖县', 350600, '南靖', 3, '0596', '363600', '中国,福建省,漳州市,南靖县', 117.357, 24.5145, 'Nanjing');
 INSERT INTO `region` VALUES (350628, '平和县', 350600, '平和', 3, '0596', '363700', '中国,福建省,漳州市,平和县', 117.312, 24.364, 'Pinghe');
-INSERT INTO `region` VALUES (350629, '华安县', 350600, '华安', 3, '0596', '363800', '中国,福建省,漳州市,华安县', 117.541, 25.0056, 'Hua\'an');
+INSERT INTO `region` VALUES (350629, '华安县', 350600, '华安', 3, '0596', '363800', '中国,福建省,漳州市,华安县', 117.541, 25.0056, 'Huaan');
 INSERT INTO `region` VALUES (350681, '龙海市', 350600, '龙海', 3, '0596', '363100', '中国,福建省,漳州市,龙海市', 117.818, 24.4466, 'Longhai');
 INSERT INTO `region` VALUES (350700, '南平市', 350000, '南平', 2, '0599', '353000', '中国,福建省,南平市', 118.178, 26.6356, 'Nanping');
 INSERT INTO `region` VALUES (350702, '延平区', 350700, '延平', 3, '0600', '353000', '中国,福建省,南平市,延平区', 118.182, 26.6374, 'Yanping');
@@ -1701,7 +1713,7 @@ INSERT INTO `region` VALUES (350923, '屏南县', 350900, '屏南', 3, '0593', '
 INSERT INTO `region` VALUES (350924, '寿宁县', 350900, '寿宁', 3, '0593', '355500', '中国,福建省,宁德市,寿宁县', 119.504, 27.46, 'Shouning');
 INSERT INTO `region` VALUES (350925, '周宁县', 350900, '周宁', 3, '0593', '355400', '中国,福建省,宁德市,周宁县', 119.338, 27.1066, 'Zhouning');
 INSERT INTO `region` VALUES (350926, '柘荣县', 350900, '柘荣', 3, '0593', '355300', '中国,福建省,宁德市,柘荣县', 119.9, 27.2354, 'Zherong');
-INSERT INTO `region` VALUES (350981, '福安市', 350900, '福安', 3, '0593', '355000', '中国,福建省,宁德市,福安市', 119.649, 27.0867, 'Fu\'an');
+INSERT INTO `region` VALUES (350981, '福安市', 350900, '福安', 3, '0593', '355000', '中国,福建省,宁德市,福安市', 119.649, 27.0867, 'Fuan');
 INSERT INTO `region` VALUES (350982, '福鼎市', 350900, '福鼎', 3, '0593', '355200', '中国,福建省,宁德市,福鼎市', 120.217, 27.3243, 'Fuding');
 INSERT INTO `region` VALUES (360000, '江西省', 100000, '江西', 1, '', '', '中国,江西省', 115.892, 28.6765, 'Jiangxi');
 INSERT INTO `region` VALUES (360100, '南昌市', 360000, '南昌', 2, '0791', '330008', '中国,江西省,南昌市', 115.892, 28.6765, 'Nanchang');
@@ -1732,7 +1744,7 @@ INSERT INTO `region` VALUES (360421, '九江县', 360400, '九江', 3, '0792', '
 INSERT INTO `region` VALUES (360423, '武宁县', 360400, '武宁', 3, '0792', '332300', '中国,江西省,九江市,武宁县', 115.101, 29.2584, 'Wuning');
 INSERT INTO `region` VALUES (360424, '修水县', 360400, '修水', 3, '0792', '332400', '中国,江西省,九江市,修水县', 114.547, 29.0254, 'Xiushui');
 INSERT INTO `region` VALUES (360425, '永修县', 360400, '永修', 3, '0792', '330300', '中国,江西省,九江市,永修县', 115.809, 29.0209, 'Yongxiu');
-INSERT INTO `region` VALUES (360426, '德安县', 360400, '德安', 3, '0792', '330400', '中国,江西省,九江市,德安县', 115.756, 29.3134, 'De\'an');
+INSERT INTO `region` VALUES (360426, '德安县', 360400, '德安', 3, '0792', '330400', '中国,江西省,九江市,德安县', 115.756, 29.3134, 'Dean');
 INSERT INTO `region` VALUES (360427, '星子县', 360400, '星子', 3, '0792', '332800', '中国,江西省,九江市,星子县', 116.045, 29.4461, 'Xingzi');
 INSERT INTO `region` VALUES (360428, '都昌县', 360400, '都昌', 3, '0792', '332600', '中国,江西省,九江市,都昌县', 116.204, 29.2733, 'Duchang');
 INSERT INTO `region` VALUES (360429, '湖口县', 360400, '湖口', 3, '0792', '332500', '中国,江西省,九江市,湖口县', 116.219, 29.7382, 'Hukou');
@@ -1765,17 +1777,17 @@ INSERT INTO `region` VALUES (360733, '会昌县', 360700, '会昌', 3, '0797', '
 INSERT INTO `region` VALUES (360734, '寻乌县', 360700, '寻乌', 3, '0797', '342200', '中国,江西省,赣州市,寻乌县', 115.649, 24.9551, 'Xunwu');
 INSERT INTO `region` VALUES (360735, '石城县', 360700, '石城', 3, '0797', '342700', '中国,江西省,赣州市,石城县', 116.344, 26.3262, 'Shicheng');
 INSERT INTO `region` VALUES (360781, '瑞金市', 360700, '瑞金', 3, '0797', '342500', '中国,江西省,赣州市,瑞金市', 116.027, 25.8856, 'Ruijin');
-INSERT INTO `region` VALUES (360800, '吉安市', 360000, '吉安', 2, '0796', '343000', '中国,江西省,吉安市', 114.986, 27.1117, 'Ji\'an');
+INSERT INTO `region` VALUES (360800, '吉安市', 360000, '吉安', 2, '0796', '343000', '中国,江西省,吉安市', 114.986, 27.1117, 'Jian');
 INSERT INTO `region` VALUES (360802, '吉州区', 360800, '吉州', 3, '0796', '343000', '中国,江西省,吉安市,吉州区', 114.976, 27.1067, 'Jizhou');
 INSERT INTO `region` VALUES (360803, '青原区', 360800, '青原', 3, '0796', '343009', '中国,江西省,吉安市,青原区', 115.017, 27.1058, 'Qingyuan');
-INSERT INTO `region` VALUES (360821, '吉安县', 360800, '吉安', 3, '0796', '343100', '中国,江西省,吉安市,吉安县', 114.907, 27.0405, 'Ji\'an');
+INSERT INTO `region` VALUES (360821, '吉安县', 360800, '吉安', 3, '0796', '343100', '中国,江西省,吉安市,吉安县', 114.907, 27.0405, 'Jian');
 INSERT INTO `region` VALUES (360822, '吉水县', 360800, '吉水', 3, '0796', '331600', '中国,江西省,吉安市,吉水县', 115.134, 27.2107, 'Jishui');
 INSERT INTO `region` VALUES (360823, '峡江县', 360800, '峡江', 3, '0796', '331409', '中国,江西省,吉安市,峡江县', 115.317, 27.576, 'Xiajiang');
 INSERT INTO `region` VALUES (360824, '新干县', 360800, '新干', 3, '0796', '331300', '中国,江西省,吉安市,新干县', 115.393, 27.7409, 'Xingan');
 INSERT INTO `region` VALUES (360825, '永丰县', 360800, '永丰', 3, '0796', '331500', '中国,江西省,吉安市,永丰县', 115.442, 27.3179, 'Yongfeng');
 INSERT INTO `region` VALUES (360826, '泰和县', 360800, '泰和', 3, '0796', '343700', '中国,江西省,吉安市,泰和县', 114.908, 26.7911, 'Taihe');
 INSERT INTO `region` VALUES (360827, '遂川县', 360800, '遂川', 3, '0796', '343900', '中国,江西省,吉安市,遂川县', 114.516, 26.326, 'Suichuan');
-INSERT INTO `region` VALUES (360828, '万安县', 360800, '万安', 3, '0796', '343800', '中国,江西省,吉安市,万安县', 114.787, 26.4593, 'Wan\'an');
+INSERT INTO `region` VALUES (360828, '万安县', 360800, '万安', 3, '0796', '343800', '中国,江西省,吉安市,万安县', 114.787, 26.4593, 'Wanan');
 INSERT INTO `region` VALUES (360829, '安福县', 360800, '安福', 3, '0796', '343200', '中国,江西省,吉安市,安福县', 114.62, 27.3928, 'Anfu');
 INSERT INTO `region` VALUES (360830, '永新县', 360800, '永新', 3, '0796', '343400', '中国,江西省,吉安市,永新县', 114.242, 26.9449, 'Yongxin');
 INSERT INTO `region` VALUES (360881, '井冈山市', 360800, '井冈山', 3, '0796', '343600', '中国,江西省,吉安市,井冈山市', 114.289, 26.748, 'Jinggangshan');
@@ -1785,18 +1797,18 @@ INSERT INTO `region` VALUES (360921, '奉新县', 360900, '奉新', 3, '0795', '
 INSERT INTO `region` VALUES (360922, '万载县', 360900, '万载', 3, '0795', '336100', '中国,江西省,宜春市,万载县', 114.446, 28.1066, 'Wanzai');
 INSERT INTO `region` VALUES (360923, '上高县', 360900, '上高', 3, '0795', '336400', '中国,江西省,宜春市,上高县', 114.925, 28.2342, 'Shanggao');
 INSERT INTO `region` VALUES (360924, '宜丰县', 360900, '宜丰', 3, '0795', '336300', '中国,江西省,宜春市,宜丰县', 114.78, 28.3855, 'Yifeng');
-INSERT INTO `region` VALUES (360925, '靖安县', 360900, '靖安', 3, '0795', '330600', '中国,江西省,宜春市,靖安县', 115.363, 28.8617, 'Jing\'an');
+INSERT INTO `region` VALUES (360925, '靖安县', 360900, '靖安', 3, '0795', '330600', '中国,江西省,宜春市,靖安县', 115.363, 28.8617, 'Jingan');
 INSERT INTO `region` VALUES (360926, '铜鼓县', 360900, '铜鼓', 3, '0795', '336200', '中国,江西省,宜春市,铜鼓县', 114.37, 28.5231, 'Tonggu');
 INSERT INTO `region` VALUES (360981, '丰城市', 360900, '丰城', 3, '0795', '331100', '中国,江西省,宜春市,丰城市', 115.771, 28.1592, 'Fengcheng');
 INSERT INTO `region` VALUES (360982, '樟树市', 360900, '樟树', 3, '0795', '331200', '中国,江西省,宜春市,樟树市', 115.547, 28.0533, 'Zhangshu');
-INSERT INTO `region` VALUES (360983, '高安市', 360900, '高安', 3, '0795', '330800', '中国,江西省,宜春市,高安市', 115.375, 28.4178, 'Gao\'an');
+INSERT INTO `region` VALUES (360983, '高安市', 360900, '高安', 3, '0795', '330800', '中国,江西省,宜春市,高安市', 115.375, 28.4178, 'Gaoan');
 INSERT INTO `region` VALUES (361000, '抚州市', 360000, '抚州', 2, '0794', '344000', '中国,江西省,抚州市', 116.358, 27.9839, 'Fuzhou');
 INSERT INTO `region` VALUES (361002, '临川区', 361000, '临川', 3, '0794', '344000', '中国,江西省,抚州市,临川区', 116.359, 27.9772, 'Linchuan');
 INSERT INTO `region` VALUES (361021, '南城县', 361000, '南城', 3, '0794', '344700', '中国,江西省,抚州市,南城县', 116.644, 27.5538, 'Nancheng');
 INSERT INTO `region` VALUES (361022, '黎川县', 361000, '黎川', 3, '0794', '344600', '中国,江西省,抚州市,黎川县', 116.908, 27.2823, 'Lichuan');
 INSERT INTO `region` VALUES (361023, '南丰县', 361000, '南丰', 3, '0794', '344500', '中国,江西省,抚州市,南丰县', 116.526, 27.2184, 'Nanfeng');
 INSERT INTO `region` VALUES (361024, '崇仁县', 361000, '崇仁', 3, '0794', '344200', '中国,江西省,抚州市,崇仁县', 116.06, 27.7596, 'Chongren');
-INSERT INTO `region` VALUES (361025, '乐安县', 361000, '乐安', 3, '0794', '344300', '中国,江西省,抚州市,乐安县', 115.831, 27.4281, 'Le\'an');
+INSERT INTO `region` VALUES (361025, '乐安县', 361000, '乐安', 3, '0794', '344300', '中国,江西省,抚州市,乐安县', 115.831, 27.4281, 'Lean');
 INSERT INTO `region` VALUES (361026, '宜黄县', 361000, '宜黄', 3, '0794', '344400', '中国,江西省,抚州市,宜黄县', 116.236, 27.5549, 'Yihuang');
 INSERT INTO `region` VALUES (361027, '金溪县', 361000, '金溪', 3, '0794', '344800', '中国,江西省,抚州市,金溪县', 116.774, 27.9075, 'Jinxi');
 INSERT INTO `region` VALUES (361028, '资溪县', 361000, '资溪', 3, '0794', '335300', '中国,江西省,抚州市,资溪县', 117.069, 27.7049, 'Zixi');
@@ -1838,7 +1850,7 @@ INSERT INTO `region` VALUES (370281, '胶州市', 370200, '胶州', 3, '0532', '
 INSERT INTO `region` VALUES (370282, '即墨市', 370200, '即墨', 3, '0532', '266200', '中国,山东省,青岛市,即墨市', 120.447, 36.3891, 'Jimo');
 INSERT INTO `region` VALUES (370283, '平度市', 370200, '平度', 3, '0532', '266700', '中国,山东省,青岛市,平度市', 119.96, 36.7869, 'Pingdu');
 INSERT INTO `region` VALUES (370285, '莱西市', 370200, '莱西', 3, '0532', '266600', '中国,山东省,青岛市,莱西市', 120.518, 36.888, 'Laixi');
-INSERT INTO `region` VALUES (370286, '西海岸新区', 370200, '西海岸', 3, '0532', '266500', '中国,山东省,青岛市,西海岸新区', 120.198, 35.9607, 'Xihai\'an');
+INSERT INTO `region` VALUES (370286, '西海岸新区', 370200, '西海岸', 3, '0532', '266500', '中国,山东省,青岛市,西海岸新区', 120.198, 35.9607, 'Xihaian');
 INSERT INTO `region` VALUES (370300, '淄博市', 370000, '淄博', 2, '0533', '255039', '中国,山东省,淄博市', 118.048, 36.8149, 'Zibo');
 INSERT INTO `region` VALUES (370302, '淄川区', 370300, '淄川', 3, '0533', '255100', '中国,山东省,淄博市,淄川区', 117.967, 36.6434, 'Zichuan');
 INSERT INTO `region` VALUES (370303, '张店区', 370300, '张店', 3, '0533', '255022', '中国,山东省,淄博市,张店区', 118.018, 36.8068, 'Zhangdian');
@@ -1899,7 +1911,7 @@ INSERT INTO `region` VALUES (370831, '泗水县', 370800, '泗水', 3, '0537', '
 INSERT INTO `region` VALUES (370832, '梁山县', 370800, '梁山', 3, '0537', '272600', '中国,山东省,济宁市,梁山县', 116.097, 35.8032, 'Liangshan');
 INSERT INTO `region` VALUES (370881, '曲阜市', 370800, '曲阜', 3, '0537', '273100', '中国,山东省,济宁市,曲阜市', 116.986, 35.5809, 'Qufu');
 INSERT INTO `region` VALUES (370883, '邹城市', 370800, '邹城', 3, '0537', '273500', '中国,山东省,济宁市,邹城市', 116.973, 35.4053, 'Zoucheng');
-INSERT INTO `region` VALUES (370900, '泰安市', 370000, '泰安', 2, '0538', '271000', '中国,山东省,泰安市', 117.129, 36.195, 'Tai\'an');
+INSERT INTO `region` VALUES (370900, '泰安市', 370000, '泰安', 2, '0538', '271000', '中国,山东省,泰安市', 117.129, 36.195, 'Taian');
 INSERT INTO `region` VALUES (370902, '泰山区', 370900, '泰山', 3, '0538', '271000', '中国,山东省,泰安市,泰山区', 117.134, 36.1941, 'Taishan');
 INSERT INTO `region` VALUES (370911, '岱岳区', 370900, '岱岳', 3, '0538', '271000', '中国,山东省,泰安市,岱岳区', 117.042, 36.1875, 'Daiyue');
 INSERT INTO `region` VALUES (370921, '宁阳县', 370900, '宁阳', 3, '0538', '271400', '中国,山东省,泰安市,宁阳县', 116.805, 35.7599, 'Ningyang');
@@ -1949,7 +1961,7 @@ INSERT INTO `region` VALUES (371502, '东昌府区', 371500, '东昌府', 3, '06
 INSERT INTO `region` VALUES (371521, '阳谷县', 371500, '阳谷', 3, '0635', '252300', '中国,山东省,聊城市,阳谷县', 115.791, 36.1144, 'Yanggu');
 INSERT INTO `region` VALUES (371522, '莘县', 371500, '莘县', 3, '0635', '252400', '中国,山东省,聊城市,莘县', 115.67, 36.2342, 'Shenxian');
 INSERT INTO `region` VALUES (371523, '茌平县', 371500, '茌平', 3, '0635', '252100', '中国,山东省,聊城市,茌平县', 116.255, 36.5797, 'Chiping');
-INSERT INTO `region` VALUES (371524, '东阿县', 371500, '东阿', 3, '0635', '252200', '中国,山东省,聊城市,东阿县', 116.25, 36.3321, 'Dong\'e');
+INSERT INTO `region` VALUES (371524, '东阿县', 371500, '东阿', 3, '0635', '252200', '中国,山东省,聊城市,东阿县', 116.25, 36.3321, 'Donge');
 INSERT INTO `region` VALUES (371525, '冠县', 371500, '冠县', 3, '0635', '252500', '中国,山东省,聊城市,冠县', 115.442, 36.4843, 'Guanxian');
 INSERT INTO `region` VALUES (371526, '高唐县', 371500, '高唐', 3, '0635', '252800', '中国,山东省,聊城市,高唐县', 116.232, 36.8653, 'Gaotang');
 INSERT INTO `region` VALUES (371581, '临清市', 371500, '临清', 3, '0635', '252600', '中国,山东省,聊城市,临清市', 115.706, 36.8395, 'Linqing');
@@ -2004,7 +2016,7 @@ INSERT INTO `region` VALUES (410305, '涧西区', 410300, '涧西', 3, '0379', '
 INSERT INTO `region` VALUES (410306, '吉利区', 410300, '吉利', 3, '0379', '471012', '中国,河南省,洛阳市,吉利区', 112.589, 34.9009, 'Jili');
 INSERT INTO `region` VALUES (410311, '洛龙区', 410300, '洛龙', 3, '0379', '471000', '中国,河南省,洛阳市,洛龙区', 112.464, 34.6187, 'Luolong');
 INSERT INTO `region` VALUES (410322, '孟津县', 410300, '孟津', 3, '0379', '471100', '中国,河南省,洛阳市,孟津县', 112.444, 34.826, 'Mengjin');
-INSERT INTO `region` VALUES (410323, '新安县', 410300, '新安', 3, '0379', '471800', '中国,河南省,洛阳市,新安县', 112.132, 34.7281, 'Xin\'an');
+INSERT INTO `region` VALUES (410323, '新安县', 410300, '新安', 3, '0379', '471800', '中国,河南省,洛阳市,新安县', 112.132, 34.7281, 'Xinan');
 INSERT INTO `region` VALUES (410324, '栾川县', 410300, '栾川', 3, '0379', '471500', '中国,河南省,洛阳市,栾川县', 111.618, 33.7858, 'Luanchuan');
 INSERT INTO `region` VALUES (410325, '嵩县', 410300, '嵩县', 3, '0379', '471400', '中国,河南省,洛阳市,嵩县', 112.085, 34.1347, 'Songxian');
 INSERT INTO `region` VALUES (410326, '汝阳县', 410300, '汝阳', 3, '0379', '471200', '中国,河南省,洛阳市,汝阳县', 112.473, 34.1539, 'Ruyang');
@@ -2027,7 +2039,7 @@ INSERT INTO `region` VALUES (410500, '安阳市', 410000, '安阳', 2, '0372', '
 INSERT INTO `region` VALUES (410502, '文峰区', 410500, '文峰', 3, '0372', '455000', '中国,河南省,安阳市,文峰区', 114.357, 36.0905, 'Wenfeng');
 INSERT INTO `region` VALUES (410503, '北关区', 410500, '北关', 3, '0372', '455001', '中国,河南省,安阳市,北关区', 114.357, 36.1187, 'Beiguan');
 INSERT INTO `region` VALUES (410505, '殷都区', 410500, '殷都', 3, '0372', '455004', '中国,河南省,安阳市,殷都区', 114.303, 36.1099, 'Yindu');
-INSERT INTO `region` VALUES (410506, '龙安区', 410500, '龙安', 3, '0372', '455001', '中国,河南省,安阳市,龙安区', 114.348, 36.119, 'Long\'an');
+INSERT INTO `region` VALUES (410506, '龙安区', 410500, '龙安', 3, '0372', '455001', '中国,河南省,安阳市,龙安区', 114.348, 36.119, 'Longan');
 INSERT INTO `region` VALUES (410522, '安阳县', 410500, '安阳', 3, '0372', '455000', '中国,河南省,安阳市,安阳县', 114.366, 36.067, 'Anyang');
 INSERT INTO `region` VALUES (410523, '汤阴县', 410500, '汤阴', 3, '0372', '456150', '中国,河南省,安阳市,汤阴县', 114.358, 35.9215, 'Tangyin');
 INSERT INTO `region` VALUES (410526, '滑县', 410500, '滑县', 3, '0372', '456400', '中国,河南省,安阳市,滑县', 114.521, 35.5807, 'Huaxian');
@@ -2151,7 +2163,7 @@ INSERT INTO `region` VALUES (419000, '直辖县级', 410000, ' ', 2, '', '', '�
 INSERT INTO `region` VALUES (419001, '济源市', 419000, '济源', 3, '0391', '454650', '中国,河南省,直辖县级,济源市', 112.59, 35.0904, 'Jiyuan');
 INSERT INTO `region` VALUES (420000, '湖北省', 100000, '湖北', 1, '', '', '中国,湖北省', 114.299, 30.5844, 'Hubei');
 INSERT INTO `region` VALUES (420100, '武汉市', 420000, '武汉', 2, '', '430014', '中国,湖北省,武汉市', 114.299, 30.5844, 'Wuhan');
-INSERT INTO `region` VALUES (420102, '江岸区', 420100, '江岸', 3, '027', '430014', '中国,湖北省,武汉市,江岸区', 114.309, 30.5998, 'Jiang\'an');
+INSERT INTO `region` VALUES (420102, '江岸区', 420100, '江岸', 3, '027', '430014', '中国,湖北省,武汉市,江岸区', 114.309, 30.5998, 'Jiangan');
 INSERT INTO `region` VALUES (420103, '江汉区', 420100, '江汉', 3, '027', '430021', '中国,湖北省,武汉市,江汉区', 114.271, 30.6015, 'Jianghan');
 INSERT INTO `region` VALUES (420104, '硚口区', 420100, '硚口', 3, '027', '430033', '中国,湖北省,武汉市,硚口区', 114.264, 30.5695, 'Qiaokou');
 INSERT INTO `region` VALUES (420105, '汉阳区', 420100, '汉阳', 3, '027', '430050', '中国,湖北省,武汉市,汉阳区', 114.275, 30.5492, 'Hanyang');
@@ -2186,7 +2198,7 @@ INSERT INTO `region` VALUES (420503, '伍家岗区', 420500, '伍家岗', 3, '07
 INSERT INTO `region` VALUES (420504, '点军区', 420500, '点军', 3, '0717', '443006', '中国,湖北省,宜昌市,点军区', 111.268, 30.6934, 'Dianjun');
 INSERT INTO `region` VALUES (420505, '猇亭区', 420500, '猇亭', 3, '0717', '443007', '中国,湖北省,宜昌市,猇亭区', 111.441, 30.5266, 'Xiaoting');
 INSERT INTO `region` VALUES (420506, '夷陵区', 420500, '夷陵', 3, '0717', '443100', '中国,湖北省,宜昌市,夷陵区', 111.326, 30.7688, 'Yiling');
-INSERT INTO `region` VALUES (420525, '远安县', 420500, '远安', 3, '0717', '444200', '中国,湖北省,宜昌市,远安县', 111.642, 31.0599, 'Yuan\'an');
+INSERT INTO `region` VALUES (420525, '远安县', 420500, '远安', 3, '0717', '444200', '中国,湖北省,宜昌市,远安县', 111.642, 31.0599, 'Yuanan');
 INSERT INTO `region` VALUES (420526, '兴山县', 420500, '兴山', 3, '0717', '443711', '中国,湖北省,宜昌市,兴山县', 110.75, 31.3469, 'Xingshan');
 INSERT INTO `region` VALUES (420527, '秭归县', 420500, '秭归', 3, '0717', '443600', '中国,湖北省,宜昌市,秭归县', 110.982, 30.827, 'Zigui');
 INSERT INTO `region` VALUES (420528, '长阳土家族自治县', 420500, '长阳', 3, '0717', '443500', '中国,湖北省,宜昌市,长阳土家族自治县', 111.201, 30.4705, 'Changyang');
@@ -2225,7 +2237,7 @@ INSERT INTO `region` VALUES (420984, '汉川市', 420900, '汉川', 3, '0712', '
 INSERT INTO `region` VALUES (421000, '荆州市', 420000, '荆州', 2, '0716', '434000', '中国,湖北省,荆州市', 112.238, 30.3269, 'Jingzhou');
 INSERT INTO `region` VALUES (421002, '沙市区', 421000, '沙市', 3, '0716', '434000', '中国,湖北省,荆州市,沙市区', 112.255, 30.3111, 'Shashi');
 INSERT INTO `region` VALUES (421003, '荆州区', 421000, '荆州', 3, '0716', '434020', '中国,湖北省,荆州市,荆州区', 112.19, 30.3526, 'Jingzhou');
-INSERT INTO `region` VALUES (421022, '公安县', 421000, '公安', 3, '0716', '434300', '中国,湖北省,荆州市,公安县', 112.232, 30.059, 'Gong\'an');
+INSERT INTO `region` VALUES (421022, '公安县', 421000, '公安', 3, '0716', '434300', '中国,湖北省,荆州市,公安县', 112.232, 30.059, 'Gongan');
 INSERT INTO `region` VALUES (421023, '监利县', 421000, '监利', 3, '0716', '433300', '中国,湖北省,荆州市,监利县', 112.895, 29.8149, 'Jianli');
 INSERT INTO `region` VALUES (421024, '江陵县', 421000, '江陵', 3, '0716', '434101', '中国,湖北省,荆州市,江陵县', 112.425, 30.0417, 'Jiangling');
 INSERT INTO `region` VALUES (421081, '石首市', 421000, '石首', 3, '0716', '434400', '中国,湖北省,荆州市,石首市', 112.426, 29.7213, 'Shishou');
@@ -2234,7 +2246,7 @@ INSERT INTO `region` VALUES (421087, '松滋市', 421000, '松滋', 3, '0716', '
 INSERT INTO `region` VALUES (421100, '黄冈市', 420000, '黄冈', 2, '0713', '438000', '中国,湖北省,黄冈市', 114.879, 30.4477, 'Huanggang');
 INSERT INTO `region` VALUES (421102, '黄州区', 421100, '黄州', 3, '0713', '438000', '中国,湖北省,黄冈市,黄州区', 114.88, 30.4344, 'Huangzhou');
 INSERT INTO `region` VALUES (421121, '团风县', 421100, '团风', 3, '0713', '438800', '中国,湖北省,黄冈市,团风县', 114.872, 30.6436, 'Tuanfeng');
-INSERT INTO `region` VALUES (421122, '红安县', 421100, '红安', 3, '0713', '438401', '中国,湖北省,黄冈市,红安县', 114.622, 31.2867, 'Hong\'an');
+INSERT INTO `region` VALUES (421122, '红安县', 421100, '红安', 3, '0713', '438401', '中国,湖北省,黄冈市,红安县', 114.622, 31.2867, 'Hongan');
 INSERT INTO `region` VALUES (421123, '罗田县', 421100, '罗田', 3, '0713', '438600', '中国,湖北省,黄冈市,罗田县', 115.4, 30.7826, 'Luotian');
 INSERT INTO `region` VALUES (421124, '英山县', 421100, '英山', 3, '0713', '438700', '中国,湖北省,黄冈市,英山县', 115.681, 30.7352, 'Yingshan');
 INSERT INTO `region` VALUES (421125, '浠水县', 421100, '浠水', 3, '0713', '438200', '中国,湖北省,黄冈市,浠水县', 115.269, 30.4527, 'Xishui');
@@ -2243,7 +2255,7 @@ INSERT INTO `region` VALUES (421127, '黄梅县', 421100, '黄梅', 3, '0713', '
 INSERT INTO `region` VALUES (421181, '麻城市', 421100, '麻城', 3, '0713', '438300', '中国,湖北省,黄冈市,麻城市', 115.01, 31.1723, 'Macheng');
 INSERT INTO `region` VALUES (421182, '武穴市', 421100, '武穴', 3, '0713', '435400', '中国,湖北省,黄冈市,武穴市', 115.56, 29.8445, 'Wuxue');
 INSERT INTO `region` VALUES (421200, '咸宁市', 420000, '咸宁', 2, '0715', '437000', '中国,湖北省,咸宁市', 114.329, 29.8328, 'Xianning');
-INSERT INTO `region` VALUES (421202, '咸安区', 421200, '咸安', 3, '0715', '437000', '中国,湖北省,咸宁市,咸安区', 114.299, 29.8529, 'Xian\'an');
+INSERT INTO `region` VALUES (421202, '咸安区', 421200, '咸安', 3, '0715', '437000', '中国,湖北省,咸宁市,咸安区', 114.299, 29.8529, 'Xianan');
 INSERT INTO `region` VALUES (421221, '嘉鱼县', 421200, '嘉鱼', 3, '0715', '437200', '中国,湖北省,咸宁市,嘉鱼县', 113.939, 29.9705, 'Jiayu');
 INSERT INTO `region` VALUES (421222, '通城县', 421200, '通城', 3, '0715', '437400', '中国,湖北省,咸宁市,通城县', 113.816, 29.2457, 'Tongcheng');
 INSERT INTO `region` VALUES (421223, '崇阳县', 421200, '崇阳', 3, '0715', '437500', '中国,湖北省,咸宁市,崇阳县', 114.04, 29.5556, 'Chongyang');
@@ -2368,7 +2380,7 @@ INSERT INTO `region` VALUES (431100, '永州市', 430000, '永州', 2, '0746', '
 INSERT INTO `region` VALUES (431102, '零陵区', 431100, '零陵', 3, '0746', '425100', '中国,湖南省,永州市,零陵区', 111.621, 26.2211, 'Lingling');
 INSERT INTO `region` VALUES (431103, '冷水滩区', 431100, '冷水滩', 3, '0746', '425100', '中国,湖南省,永州市,冷水滩区', 111.592, 26.4611, 'Lengshuitan');
 INSERT INTO `region` VALUES (431121, '祁阳县', 431100, '祁阳', 3, '0746', '426100', '中国,湖南省,永州市,祁阳县', 111.84, 26.5801, 'Qiyang');
-INSERT INTO `region` VALUES (431122, '东安县', 431100, '东安', 3, '0746', '425900', '中国,湖南省,永州市,东安县', 111.316, 26.392, 'Dong\'an');
+INSERT INTO `region` VALUES (431122, '东安县', 431100, '东安', 3, '0746', '425900', '中国,湖南省,永州市,东安县', 111.316, 26.392, 'Dongan');
 INSERT INTO `region` VALUES (431123, '双牌县', 431100, '双牌', 3, '0746', '425200', '中国,湖南省,永州市,双牌县', 111.659, 25.9599, 'Shuangpai');
 INSERT INTO `region` VALUES (431124, '道县', 431100, '道县', 3, '0746', '425300', '中国,湖南省,永州市,道县', 111.602, 25.5277, 'Daoxian');
 INSERT INTO `region` VALUES (431125, '江永县', 431100, '江永', 3, '0746', '425400', '中国,湖南省,永州市,江永县', 111.341, 25.2723, 'Jiangyong');
@@ -2432,7 +2444,7 @@ INSERT INTO `region` VALUES (440300, '深圳市', 440000, '深圳', 2, '0755', '
 INSERT INTO `region` VALUES (440303, '罗湖区', 440300, '罗湖', 3, '0755', '518021', '中国,广东省,深圳市,罗湖区', 114.131, 22.5484, 'Luohu');
 INSERT INTO `region` VALUES (440304, '福田区', 440300, '福田', 3, '0755', '518048', '中国,广东省,深圳市,福田区', 114.056, 22.5224, 'Futian');
 INSERT INTO `region` VALUES (440305, '南山区', 440300, '南山', 3, '0755', '518051', '中国,广东省,深圳市,南山区', 113.93, 22.5329, 'Nanshan');
-INSERT INTO `region` VALUES (440306, '宝安区', 440300, '宝安', 3, '0755', '518101', '中国,广东省,深圳市,宝安区', 113.883, 22.5537, 'Bao\'an');
+INSERT INTO `region` VALUES (440306, '宝安区', 440300, '宝安', 3, '0755', '518101', '中国,广东省,深圳市,宝安区', 113.883, 22.5537, 'Baoan');
 INSERT INTO `region` VALUES (440307, '龙岗区', 440300, '龙岗', 3, '0755', '518172', '中国,广东省,深圳市,龙岗区', 114.248, 22.7199, 'Longgang');
 INSERT INTO `region` VALUES (440308, '盐田区', 440300, '盐田', 3, '0755', '518081', '中国,广东省,深圳市,盐田区', 114.237, 22.5578, 'Yantian');
 INSERT INTO `region` VALUES (440309, '光明新区', 440300, '光明新区', 3, '0755', '518100', '中国,广东省,深圳市,光明新区', 113.896, 22.7773, 'Guangmingxinqu');
@@ -2562,7 +2574,7 @@ INSERT INTO `region` VALUES (441928, '塘厦镇', 441900, '塘厦', 3, '0769', '
 INSERT INTO `region` VALUES (441929, '虎门镇', 441900, '虎门', 3, '0769', '523932', '中国,广东省,东莞市,虎门镇', 113.711, 22.8262, 'Humen');
 INSERT INTO `region` VALUES (441930, '厚街镇', 441900, '厚街', 3, '0769', '523960', '中国,广东省,东莞市,厚街镇', 113.673, 22.9408, 'Houjie');
 INSERT INTO `region` VALUES (441931, '凤岗镇', 441900, '凤岗', 3, '0769', '523690', '中国,广东省,东莞市,凤岗镇', 114.141, 22.7446, 'Fenggang');
-INSERT INTO `region` VALUES (441932, '长安镇', 441900, '长安', 3, '0769', '523850', '中国,广东省,东莞市,长安镇', 113.804, 22.8166, 'Chang\'an');
+INSERT INTO `region` VALUES (441932, '长安镇', 441900, '长安', 3, '0769', '523850', '中国,广东省,东莞市,长安镇', 113.804, 22.8166, 'Changan');
 INSERT INTO `region` VALUES (442000, '中山市', 440000, '中山', 2, '0760', '528403', '中国,广东省,中山市', 113.382, 22.5211, 'Zhongshan');
 INSERT INTO `region` VALUES (442001, '石岐区', 442000, '石岐', 3, '0760', '528400', '中国,广东省,中山市,石岐区', 113.379, 22.5252, 'Shiqi');
 INSERT INTO `region` VALUES (442004, '南区', 442000, '南区', 3, '0760', '528400', '中国,广东省,中山市,南区', 113.356, 22.4866, 'Nanqu');
@@ -2588,7 +2600,7 @@ INSERT INTO `region` VALUES (442023, '神湾镇', 442000, '神湾', 3, '0760', '
 INSERT INTO `region` VALUES (442024, '坦洲镇', 442000, '坦洲', 3, '0760', '528467', '中国,广东省,中山市,坦洲镇', 113.486, 22.2613, 'Tanzhou');
 INSERT INTO `region` VALUES (445100, '潮州市', 440000, '潮州', 2, '0768', '521000', '中国,广东省,潮州市', 116.632, 23.6617, 'Chaozhou');
 INSERT INTO `region` VALUES (445102, '湘桥区', 445100, '湘桥', 3, '0768', '521000', '中国,广东省,潮州市,湘桥区', 116.628, 23.6745, 'Xiangqiao');
-INSERT INTO `region` VALUES (445103, '潮安区', 445100, '潮安', 3, '0768', '515638', '中国,广东省,潮州市,潮安区', 116.593, 23.6437, 'Chao\'an');
+INSERT INTO `region` VALUES (445103, '潮安区', 445100, '潮安', 3, '0768', '515638', '中国,广东省,潮州市,潮安区', 116.593, 23.6437, 'Chaoan');
 INSERT INTO `region` VALUES (445122, '饶平县', 445100, '饶平', 3, '0768', '515700', '中国,广东省,潮州市,饶平县', 117.007, 23.6699, 'Raoping');
 INSERT INTO `region` VALUES (445200, '揭阳市', 440000, '揭阳', 2, '0633', '522000', '中国,广东省,揭阳市', 116.356, 23.5438, 'Jieyang');
 INSERT INTO `region` VALUES (445202, '榕城区', 445200, '榕城', 3, '0633', '522000', '中国,广东省,揭阳市,榕城区', 116.367, 23.5251, 'Rongcheng');
@@ -2598,7 +2610,7 @@ INSERT INTO `region` VALUES (445224, '惠来县', 445200, '惠来', 3, '0633', '
 INSERT INTO `region` VALUES (445281, '普宁市', 445200, '普宁', 3, '0633', '515300', '中国,广东省,揭阳市,普宁市', 116.166, 23.2973, 'Puning');
 INSERT INTO `region` VALUES (445300, '云浮市', 440000, '云浮', 2, '0766', '527300', '中国,广东省,云浮市', 112.044, 22.9298, 'Yunfu');
 INSERT INTO `region` VALUES (445302, '云城区', 445300, '云城', 3, '0766', '527300', '中国,广东省,云浮市,云城区', 112.039, 22.93, 'Yuncheng');
-INSERT INTO `region` VALUES (445303, '云安区', 445300, '云安', 3, '0766', '527500', '中国,广东省,云浮市,云安区', 112.009, 23.0778, 'Yun\'an');
+INSERT INTO `region` VALUES (445303, '云安区', 445300, '云安', 3, '0766', '527500', '中国,广东省,云浮市,云安区', 112.009, 23.0778, 'Yunan');
 INSERT INTO `region` VALUES (445321, '新兴县', 445300, '新兴', 3, '0766', '527400', '中国,广东省,云浮市,新兴县', 112.23, 22.6973, 'Xinxing');
 INSERT INTO `region` VALUES (445322, '郁南县', 445300, '郁南', 3, '0766', '527100', '中国,广东省,云浮市,郁南县', 111.534, 23.2331, 'Yunan');
 INSERT INTO `region` VALUES (445381, '罗定市', 445300, '罗定', 3, '0766', '527200', '中国,广东省,云浮市,罗定市', 111.57, 22.7697, 'Luoding');
@@ -2611,7 +2623,7 @@ INSERT INTO `region` VALUES (450107, '西乡塘区', 450100, '西乡塘', 3, '07
 INSERT INTO `region` VALUES (450108, '良庆区', 450100, '良庆', 3, '0771', '530219', '中国,广西壮族自治区,南宁市,良庆区', 108.413, 22.7491, 'Liangqing');
 INSERT INTO `region` VALUES (450109, '邕宁区', 450100, '邕宁', 3, '0771', '530200', '中国,广西壮族自治区,南宁市,邕宁区', 108.487, 22.7563, 'Yongning');
 INSERT INTO `region` VALUES (450122, '武鸣县', 450100, '武鸣', 3, '0771', '530100', '中国,广西壮族自治区,南宁市,武鸣县', 108.277, 23.1564, 'Wuming');
-INSERT INTO `region` VALUES (450123, '隆安县', 450100, '隆安', 3, '0771', '532700', '中国,广西壮族自治区,南宁市,隆安县', 107.692, 23.1734, 'Long\'an');
+INSERT INTO `region` VALUES (450123, '隆安县', 450100, '隆安', 3, '0771', '532700', '中国,广西壮族自治区,南宁市,隆安县', 107.692, 23.1734, 'Longan');
 INSERT INTO `region` VALUES (450124, '马山县', 450100, '马山', 3, '0771', '530600', '中国,广西壮族自治区,南宁市,马山县', 108.177, 23.7093, 'Mashan');
 INSERT INTO `region` VALUES (450125, '上林县', 450100, '上林', 3, '0771', '530500', '中国,广西壮族自治区,南宁市,上林县', 108.605, 23.432, 'Shanglin');
 INSERT INTO `region` VALUES (450126, '宾阳县', 450100, '宾阳', 3, '0771', '530400', '中国,广西壮族自治区,南宁市,宾阳县', 108.812, 23.2196, 'Binyang');
@@ -2625,7 +2637,7 @@ INSERT INTO `region` VALUES (450205, '柳北区', 450200, '柳北', 3, '0772', '
 INSERT INTO `region` VALUES (450221, '柳江县', 450200, '柳江', 3, '0772', '545100', '中国,广西壮族自治区,柳州市,柳江县', 109.333, 24.256, 'Liujiang');
 INSERT INTO `region` VALUES (450222, '柳城县', 450200, '柳城', 3, '0772', '545200', '中国,广西壮族自治区,柳州市,柳城县', 109.239, 24.6495, 'Liucheng');
 INSERT INTO `region` VALUES (450223, '鹿寨县', 450200, '鹿寨', 3, '0772', '545600', '中国,广西壮族自治区,柳州市,鹿寨县', 109.752, 24.4731, 'Luzhai');
-INSERT INTO `region` VALUES (450224, '融安县', 450200, '融安', 3, '0772', '545400', '中国,广西壮族自治区,柳州市,融安县', 109.398, 25.2246, 'Rong\'an');
+INSERT INTO `region` VALUES (450224, '融安县', 450200, '融安', 3, '0772', '545400', '中国,广西壮族自治区,柳州市,融安县', 109.398, 25.2246, 'Rongan');
 INSERT INTO `region` VALUES (450225, '融水苗族自治县', 450200, '融水', 3, '0772', '545300', '中国,广西壮族自治区,柳州市,融水苗族自治县', 109.256, 25.0663, 'Rongshui');
 INSERT INTO `region` VALUES (450226, '三江侗族自治县', 450200, '三江', 3, '0772', '545500', '中国,广西壮族自治区,柳州市,三江侗族自治县', 109.604, 25.7843, 'Sanjiang');
 INSERT INTO `region` VALUES (450227, '柳东新区', 450200, '柳东', 3, '0772', '545000', '中国,广西壮族自治区,柳州市,柳东新区', 109.437, 24.3292, 'Liudong');
@@ -2639,7 +2651,7 @@ INSERT INTO `region` VALUES (450312, '临桂区', 450300, '临桂', 3, '0773', '
 INSERT INTO `region` VALUES (450321, '阳朔县', 450300, '阳朔', 3, '0773', '541900', '中国,广西壮族自治区,桂林市,阳朔县', 110.495, 24.7758, 'Yangshuo');
 INSERT INTO `region` VALUES (450323, '灵川县', 450300, '灵川', 3, '0773', '541200', '中国,广西壮族自治区,桂林市,灵川县', 110.329, 25.4129, 'Lingchuan');
 INSERT INTO `region` VALUES (450324, '全州县', 450300, '全州', 3, '0773', '541503', '中国,广西壮族自治区,桂林市,全州县', 111.072, 25.928, 'Quanzhou');
-INSERT INTO `region` VALUES (450325, '兴安县', 450300, '兴安', 3, '0773', '541300', '中国,广西壮族自治区,桂林市,兴安县', 110.671, 25.6117, 'Xing\'an');
+INSERT INTO `region` VALUES (450325, '兴安县', 450300, '兴安', 3, '0773', '541300', '中国,广西壮族自治区,桂林市,兴安县', 110.671, 25.6117, 'Xingan');
 INSERT INTO `region` VALUES (450326, '永福县', 450300, '永福', 3, '0773', '541800', '中国,广西壮族自治区,桂林市,永福县', 109.983, 24.98, 'Yongfu');
 INSERT INTO `region` VALUES (450327, '灌阳县', 450300, '灌阳', 3, '0773', '541600', '中国,广西壮族自治区,桂林市,灌阳县', 111.16, 25.488, 'Guanyang');
 INSERT INTO `region` VALUES (450328, '龙胜各族自治县', 450300, '龙胜', 3, '0773', '541700', '中国,广西壮族自治区,桂林市,龙胜各族自治县', 110.012, 25.7961, 'Longsheng');
@@ -2713,7 +2725,7 @@ INSERT INTO `region` VALUES (451224, '东兰县', 451200, '东兰', 3, '0784', '
 INSERT INTO `region` VALUES (451225, '罗城仫佬族自治县', 451200, '罗城', 3, '0785', '546400', '中国,广西壮族自治区,河池市,罗城仫佬族自治县', 108.908, 24.7792, 'Luocheng');
 INSERT INTO `region` VALUES (451226, '环江毛南族自治县', 451200, '环江', 3, '0786', '547100', '中国,广西壮族自治区,河池市,环江毛南族自治县', 108.261, 24.8292, 'Huanjiang');
 INSERT INTO `region` VALUES (451227, '巴马瑶族自治县', 451200, '巴马', 3, '0787', '547500', '中国,广西壮族自治区,河池市,巴马瑶族自治县', 107.253, 24.1413, 'Bama');
-INSERT INTO `region` VALUES (451228, '都安瑶族自治县', 451200, '都安', 3, '0788', '530700', '中国,广西壮族自治区,河池市,都安瑶族自治县', 108.101, 23.9324, 'Du\'an');
+INSERT INTO `region` VALUES (451228, '都安瑶族自治县', 451200, '都安', 3, '0788', '530700', '中国,广西壮族自治区,河池市,都安瑶族自治县', 108.101, 23.9324, 'Duan');
 INSERT INTO `region` VALUES (451229, '大化瑶族自治县', 451200, '大化', 3, '0789', '530800', '中国,广西壮族自治区,河池市,大化瑶族自治县', 107.998, 23.7449, 'Dahua');
 INSERT INTO `region` VALUES (451281, '宜州市', 451200, '宜州', 3, '0780', '546300', '中国,广西壮族自治区,河池市,宜州市', 108.653, 24.4939, 'Yizhou');
 INSERT INTO `region` VALUES (451300, '来宾市', 450000, '来宾', 2, '0772', '546100', '中国,广西壮族自治区,来宾市', 109.23, 23.7338, 'Laibin');
@@ -2753,7 +2765,7 @@ INSERT INTO `region` VALUES (469003, '儋州市', 469000, '儋州', 3, '0898', '
 INSERT INTO `region` VALUES (469005, '文昌市', 469000, '文昌', 3, '0898', '571339', '中国,海南省,直辖县级,文昌市', 110.754, 19.613, 'Wenchang');
 INSERT INTO `region` VALUES (469006, '万宁市', 469000, '万宁', 3, '0898', '571500', '中国,海南省,直辖县级,万宁市', 110.389, 18.7962, 'Wanning');
 INSERT INTO `region` VALUES (469007, '东方市', 469000, '东方', 3, '0898', '572600', '中国,海南省,直辖县级,东方市', 108.654, 19.102, 'Dongfang');
-INSERT INTO `region` VALUES (469021, '定安县', 469000, '定安', 3, '0898', '571200', '中国,海南省,直辖县级,定安县', 110.324, 19.6992, 'Ding\'an');
+INSERT INTO `region` VALUES (469021, '定安县', 469000, '定安', 3, '0898', '571200', '中国,海南省,直辖县级,定安县', 110.324, 19.6992, 'Dingan');
 INSERT INTO `region` VALUES (469022, '屯昌县', 469000, '屯昌', 3, '0898', '571600', '中国,海南省,直辖县级,屯昌县', 110.103, 19.3629, 'Tunchang');
 INSERT INTO `region` VALUES (469023, '澄迈县', 469000, '澄迈', 3, '0898', '571900', '中国,海南省,直辖县级,澄迈县', 110.007, 19.7371, 'Chengmai');
 INSERT INTO `region` VALUES (469024, '临高县', 469000, '临高', 3, '0898', '571800', '中国,海南省,直辖县级,临高县', 109.688, 19.9083, 'Lingao');
@@ -2772,7 +2784,7 @@ INSERT INTO `region` VALUES (500104, '大渡口区', 500100, '大渡口', 3, '02
 INSERT INTO `region` VALUES (500105, '江北区', 500100, '江北', 3, '023', '400020', '中国,重庆,重庆市,江北区', 106.574, 29.6066, 'Jiangbei');
 INSERT INTO `region` VALUES (500106, '沙坪坝区', 500100, '沙坪坝', 3, '023', '400030', '中国,重庆,重庆市,沙坪坝区', 106.458, 29.5411, 'Shapingba');
 INSERT INTO `region` VALUES (500107, '九龙坡区', 500100, '九龙坡', 3, '023', '400050', '中国,重庆,重庆市,九龙坡区', 106.511, 29.502, 'Jiulongpo');
-INSERT INTO `region` VALUES (500108, '南岸区', 500100, '南岸', 3, '023', '400064', '中国,重庆,重庆市,南岸区', 106.563, 29.5231, 'Nan\'an');
+INSERT INTO `region` VALUES (500108, '南岸区', 500100, '南岸', 3, '023', '400064', '中国,重庆,重庆市,南岸区', 106.563, 29.5231, 'Nanan');
 INSERT INTO `region` VALUES (500109, '北碚区', 500100, '北碚', 3, '023', '400700', '中国,重庆,重庆市,北碚区', 106.396, 29.8057, 'Beibei');
 INSERT INTO `region` VALUES (500110, '綦江区', 500100, '綦江', 3, '023', '400800', '中国,重庆,重庆市,綦江区', 106.927, 28.9607, 'Qijiang');
 INSERT INTO `region` VALUES (500111, '大足区', 500100, '大足', 3, '023', '400900', '中国,重庆,重庆市,大足区', 105.768, 29.484, 'Dazu');
@@ -2831,7 +2843,7 @@ INSERT INTO `region` VALUES (510184, '崇州市', 510100, '崇州', 3, '028', '6
 INSERT INTO `region` VALUES (510300, '自贡市', 510000, '自贡', 2, '0813', '643000', '中国,四川省,自贡市', 104.773, 29.3528, 'Zigong');
 INSERT INTO `region` VALUES (510302, '自流井区', 510300, '自流井', 3, '0813', '643000', '中国,四川省,自贡市,自流井区', 104.777, 29.3375, 'Ziliujing');
 INSERT INTO `region` VALUES (510303, '贡井区', 510300, '贡井', 3, '0813', '643020', '中国,四川省,自贡市,贡井区', 104.715, 29.3458, 'Gongjing');
-INSERT INTO `region` VALUES (510304, '大安区', 510300, '大安', 3, '0813', '643010', '中国,四川省,自贡市,大安区', 104.774, 29.3636, 'Da\'an');
+INSERT INTO `region` VALUES (510304, '大安区', 510300, '大安', 3, '0813', '643010', '中国,四川省,自贡市,大安区', 104.774, 29.3636, 'Daan');
 INSERT INTO `region` VALUES (510311, '沿滩区', 510300, '沿滩', 3, '0813', '643030', '中国,四川省,自贡市,沿滩区', 104.88, 29.2661, 'Yantan');
 INSERT INTO `region` VALUES (510321, '荣县', 510300, '荣县', 3, '0813', '643100', '中国,四川省,自贡市,荣县', 104.418, 29.4445, 'Rongxian');
 INSERT INTO `region` VALUES (510322, '富顺县', 510300, '富顺', 3, '0813', '643200', '中国,四川省,自贡市,富顺县', 104.975, 29.1812, 'Fushun');
@@ -2904,7 +2916,7 @@ INSERT INTO `region` VALUES (511303, '高坪区', 511300, '高坪', 3, '0817', '
 INSERT INTO `region` VALUES (511304, '嘉陵区', 511300, '嘉陵', 3, '0817', '637100', '中国,四川省,南充市,嘉陵区', 106.071, 30.7585, 'Jialing');
 INSERT INTO `region` VALUES (511321, '南部县', 511300, '南部', 3, '0817', '637300', '中国,四川省,南充市,南部县', 106.067, 31.3545, 'Nanbu');
 INSERT INTO `region` VALUES (511322, '营山县', 511300, '营山', 3, '0817', '637700', '中国,四川省,南充市,营山县', 106.566, 31.0775, 'Yingshan');
-INSERT INTO `region` VALUES (511323, '蓬安县', 511300, '蓬安', 3, '0817', '637800', '中国,四川省,南充市,蓬安县', 106.413, 31.0296, 'Peng\'an');
+INSERT INTO `region` VALUES (511323, '蓬安县', 511300, '蓬安', 3, '0817', '637800', '中国,四川省,南充市,蓬安县', 106.413, 31.0296, 'Pengan');
 INSERT INTO `region` VALUES (511324, '仪陇县', 511300, '仪陇', 3, '0817', '637600', '中国,四川省,南充市,仪陇县', 106.3, 31.2763, 'Yilong');
 INSERT INTO `region` VALUES (511325, '西充县', 511300, '西充', 3, '0817', '637200', '中国,四川省,南充市,西充县', 105.9, 30.9969, 'Xichong');
 INSERT INTO `region` VALUES (511381, '阆中市', 511300, '阆中', 3, '0817', '637400', '中国,四川省,南充市,阆中市', 106.005, 31.5583, 'Langzhong');
@@ -2919,15 +2931,15 @@ INSERT INTO `region` VALUES (511500, '宜宾市', 510000, '宜宾', 2, '0831', '
 INSERT INTO `region` VALUES (511502, '翠屏区', 511500, '翠屏', 3, '0831', '644000', '中国,四川省,宜宾市,翠屏区', 104.62, 28.7657, 'Cuiping');
 INSERT INTO `region` VALUES (511503, '南溪区', 511500, '南溪', 3, '0831', '644100', '中国,四川省,宜宾市,南溪区', 104.981, 28.8398, 'Nanxi');
 INSERT INTO `region` VALUES (511521, '宜宾县', 511500, '宜宾', 3, '0831', '644600', '中国,四川省,宜宾市,宜宾县', 104.533, 28.69, 'Yibin');
-INSERT INTO `region` VALUES (511523, '江安县', 511500, '江安', 3, '0831', '644200', '中国,四川省,宜宾市,江安县', 105.067, 28.7239, 'Jiang\'an');
+INSERT INTO `region` VALUES (511523, '江安县', 511500, '江安', 3, '0831', '644200', '中国,四川省,宜宾市,江安县', 105.067, 28.7239, 'Jiangan');
 INSERT INTO `region` VALUES (511524, '长宁县', 511500, '长宁', 3, '0831', '644300', '中国,四川省,宜宾市,长宁县', 104.925, 28.5778, 'Changning');
 INSERT INTO `region` VALUES (511525, '高县', 511500, '高县', 3, '0831', '645150', '中国,四川省,宜宾市,高县', 104.518, 28.4362, 'Gaoxian');
 INSERT INTO `region` VALUES (511526, '珙县', 511500, '珙县', 3, '0831', '644500', '中国,四川省,宜宾市,珙县', 104.714, 28.4451, 'Gongxian');
 INSERT INTO `region` VALUES (511527, '筠连县', 511500, '筠连', 3, '0831', '645250', '中国,四川省,宜宾市,筠连县', 104.512, 28.1649, 'Junlian');
 INSERT INTO `region` VALUES (511528, '兴文县', 511500, '兴文', 3, '0831', '644400', '中国,四川省,宜宾市,兴文县', 105.237, 28.3044, 'Xingwen');
 INSERT INTO `region` VALUES (511529, '屏山县', 511500, '屏山', 3, '0831', '645350', '中国,四川省,宜宾市,屏山县', 104.163, 28.6437, 'Pingshan');
-INSERT INTO `region` VALUES (511600, '广安市', 510000, '广安', 2, '0826', '638000', '中国,四川省,广安市', 106.633, 30.4564, 'Guang\'an');
-INSERT INTO `region` VALUES (511602, '广安区', 511600, '广安', 3, '0826', '638000', '中国,四川省,广安市,广安区', 106.642, 30.4739, 'Guang\'an');
+INSERT INTO `region` VALUES (511600, '广安市', 510000, '广安', 2, '0826', '638000', '中国,四川省,广安市', 106.633, 30.4564, 'Guangan');
+INSERT INTO `region` VALUES (511602, '广安区', 511600, '广安', 3, '0826', '638000', '中国,四川省,广安市,广安区', 106.642, 30.4739, 'Guangan');
 INSERT INTO `region` VALUES (511603, '前锋区', 511600, '前锋', 3, '0826', '638019', '中国,四川省,广安市,前锋区', 106.894, 30.4946, 'Qianfeng');
 INSERT INTO `region` VALUES (511621, '岳池县', 511600, '岳池', 3, '0826', '638300', '中国,四川省,广安市,岳池县', 106.441, 30.5392, 'Yuechi');
 INSERT INTO `region` VALUES (511622, '武胜县', 511600, '武胜', 3, '0826', '638400', '中国,四川省,广安市,武胜县', 106.296, 30.3493, 'Wusheng');
@@ -2941,7 +2953,7 @@ INSERT INTO `region` VALUES (511723, '开江县', 511700, '开江', 3, '0818', '
 INSERT INTO `region` VALUES (511724, '大竹县', 511700, '大竹', 3, '0818', '635100', '中国,四川省,达州市,大竹县', 107.209, 30.7415, 'Dazhu');
 INSERT INTO `region` VALUES (511725, '渠县', 511700, '渠县', 3, '0818', '635200', '中国,四川省,达州市,渠县', 106.974, 30.8376, 'Quxian');
 INSERT INTO `region` VALUES (511781, '万源市', 511700, '万源', 3, '0818', '636350', '中国,四川省,达州市,万源市', 108.036, 32.0809, 'Wanyuan');
-INSERT INTO `region` VALUES (511800, '雅安市', 510000, '雅安', 2, '0835', '625000', '中国,四川省,雅安市', 103.001, 29.9877, 'Ya\'an');
+INSERT INTO `region` VALUES (511800, '雅安市', 510000, '雅安', 2, '0835', '625000', '中国,四川省,雅安市', 103.001, 29.9877, 'Yaan');
 INSERT INTO `region` VALUES (511802, '雨城区', 511800, '雨城', 3, '0835', '625000', '中国,四川省,雅安市,雨城区', 103.033, 30.0053, 'Yucheng');
 INSERT INTO `region` VALUES (511803, '名山区', 511800, '名山', 3, '0835', '625100', '中国,四川省,雅安市,名山区', 103.112, 30.0847, 'Mingshan');
 INSERT INTO `region` VALUES (511822, '荥经县', 511800, '荥经', 3, '0835', '625200', '中国,四川省,雅安市,荥经县', 102.847, 29.794, 'Yingjing');
@@ -3035,7 +3047,7 @@ INSERT INTO `region` VALUES (520303, '汇川区', 520300, '汇川', 3, '0852', '
 INSERT INTO `region` VALUES (520321, '遵义县', 520300, '遵义', 3, '0852', '563100', '中国,贵州省,遵义市,遵义县', 106.833, 27.5377, 'Zunyi');
 INSERT INTO `region` VALUES (520322, '桐梓县', 520300, '桐梓', 3, '0852', '563200', '中国,贵州省,遵义市,桐梓县', 106.826, 28.1381, 'Tongzi');
 INSERT INTO `region` VALUES (520323, '绥阳县', 520300, '绥阳', 3, '0852', '563300', '中国,贵州省,遵义市,绥阳县', 107.191, 27.947, 'Suiyang');
-INSERT INTO `region` VALUES (520324, '正安县', 520300, '正安', 3, '0852', '563400', '中国,贵州省,遵义市,正安县', 107.444, 28.5512, 'Zheng\'an');
+INSERT INTO `region` VALUES (520324, '正安县', 520300, '正安', 3, '0852', '563400', '中国,贵州省,遵义市,正安县', 107.444, 28.5512, 'Zhengan');
 INSERT INTO `region` VALUES (520325, '道真仡佬族苗族自治县', 520300, '道真', 3, '0852', '563500', '中国,贵州省,遵义市,道真仡佬族苗族自治县', 107.612, 28.864, 'Daozhen');
 INSERT INTO `region` VALUES (520326, '务川仡佬族苗族自治县', 520300, '务川', 3, '0852', '564300', '中国,贵州省,遵义市,务川仡佬族苗族自治县', 107.889, 28.5223, 'Wuchuan');
 INSERT INTO `region` VALUES (520327, '凤冈县', 520300, '凤冈', 3, '0852', '564200', '中国,贵州省,遵义市,凤冈县', 107.717, 27.9546, 'Fenggang');
@@ -3074,7 +3086,7 @@ INSERT INTO `region` VALUES (520628, '松桃苗族自治县', 520600, '松桃', 
 INSERT INTO `region` VALUES (522300, '黔西南布依族苗族自治州', 520000, '黔西南', 2, '0859', '562400', '中国,贵州省,黔西南布依族苗族自治州', 104.898, 25.0881, 'Qianxinan');
 INSERT INTO `region` VALUES (522301, '兴义市 ', 522300, '兴义', 3, '0859', '562400', '中国,贵州省,黔西南布依族苗族自治州,兴义市 ', 104.895, 25.0921, 'Xingyi');
 INSERT INTO `region` VALUES (522322, '兴仁县', 522300, '兴仁', 3, '0859', '562300', '中国,贵州省,黔西南布依族苗族自治州,兴仁县', 105.187, 25.4328, 'Xingren');
-INSERT INTO `region` VALUES (522323, '普安县', 522300, '普安', 3, '0859', '561500', '中国,贵州省,黔西南布依族苗族自治州,普安县', 104.955, 25.786, 'Pu\'an');
+INSERT INTO `region` VALUES (522323, '普安县', 522300, '普安', 3, '0859', '561500', '中国,贵州省,黔西南布依族苗族自治州,普安县', 104.955, 25.786, 'Puan');
 INSERT INTO `region` VALUES (522324, '晴隆县', 522300, '晴隆', 3, '0859', '561400', '中国,贵州省,黔西南布依族苗族自治州,晴隆县', 105.219, 25.8352, 'Qinglong');
 INSERT INTO `region` VALUES (522325, '贞丰县', 522300, '贞丰', 3, '0859', '562200', '中国,贵州省,黔西南布依族苗族自治州,贞丰县', 105.655, 25.3846, 'Zhenfeng');
 INSERT INTO `region` VALUES (522326, '望谟县', 522300, '望谟', 3, '0859', '552300', '中国,贵州省,黔西南布依族苗族自治州,望谟县', 106.1, 25.1782, 'Wangmo');
@@ -3102,7 +3114,7 @@ INSERT INTO `region` VALUES (522701, '都匀市', 522700, '都匀', 3, '0854', '
 INSERT INTO `region` VALUES (522702, '福泉市', 522700, '福泉', 3, '0854', '550500', '中国,贵州省,黔南布依族苗族自治州,福泉市', 107.517, 26.6799, 'Fuquan');
 INSERT INTO `region` VALUES (522722, '荔波县', 522700, '荔波', 3, '0854', '558400', '中国,贵州省,黔南布依族苗族自治州,荔波县', 107.886, 25.4139, 'Libo');
 INSERT INTO `region` VALUES (522723, '贵定县', 522700, '贵定', 3, '0854', '551300', '中国,贵州省,黔南布依族苗族自治州,贵定县', 107.237, 26.5781, 'Guiding');
-INSERT INTO `region` VALUES (522725, '瓮安县', 522700, '瓮安', 3, '0854', '550400', '中国,贵州省,黔南布依族苗族自治州,瓮安县', 107.476, 27.0681, 'Weng\'an');
+INSERT INTO `region` VALUES (522725, '瓮安县', 522700, '瓮安', 3, '0854', '550400', '中国,贵州省,黔南布依族苗族自治州,瓮安县', 107.476, 27.0681, 'Wengan');
 INSERT INTO `region` VALUES (522726, '独山县', 522700, '独山', 3, '0854', '558200', '中国,贵州省,黔南布依族苗族自治州,独山县', 107.541, 25.8245, 'Dushan');
 INSERT INTO `region` VALUES (522727, '平塘县', 522700, '平塘', 3, '0854', '558300', '中国,贵州省,黔南布依族苗族自治州,平塘县', 107.324, 25.8329, 'Pingtang');
 INSERT INTO `region` VALUES (522728, '罗甸县', 522700, '罗甸', 3, '0854', '550100', '中国,贵州省,黔南布依族苗族自治州,罗甸县', 106.752, 25.4259, 'Luodian');
@@ -3170,7 +3182,7 @@ INSERT INTO `region` VALUES (530721, '玉龙纳西族自治县', 530700, '玉龙
 INSERT INTO `region` VALUES (530722, '永胜县', 530700, '永胜', 3, '0888', '674200', '中国,云南省,丽江市,永胜县', 100.747, 26.6859, 'Yongsheng');
 INSERT INTO `region` VALUES (530723, '华坪县', 530700, '华坪', 3, '0888', '674800', '中国,云南省,丽江市,华坪县', 101.266, 26.6297, 'Huaping');
 INSERT INTO `region` VALUES (530724, '宁蒗彝族自治县', 530700, '宁蒗', 3, '0888', '674300', '中国,云南省,丽江市,宁蒗彝族自治县', 100.851, 27.2818, 'Ninglang');
-INSERT INTO `region` VALUES (530800, '普洱市', 530000, '普洱', 2, '0879', '665000', '中国,云南省,普洱市', 100.972, 22.7773, 'Pu\'er');
+INSERT INTO `region` VALUES (530800, '普洱市', 530000, '普洱', 2, '0879', '665000', '中国,云南省,普洱市', 100.972, 22.7773, 'Puer');
 INSERT INTO `region` VALUES (530802, '思茅区', 530800, '思茅', 3, '0879', '665000', '中国,云南省,普洱市,思茅区', 100.977, 22.7869, 'Simao');
 INSERT INTO `region` VALUES (530821, '宁洱哈尼族彝族自治县', 530800, '宁洱', 3, '0879', '665100', '中国,云南省,普洱市,宁洱哈尼族彝族自治县', 101.047, 23.0634, 'Ninger');
 INSERT INTO `region` VALUES (530822, '墨江哈尼族自治县', 530800, '墨江', 3, '0879', '654800', '中国,云南省,普洱市,墨江哈尼族自治县', 101.692, 23.4321, 'Mojiang');
@@ -3195,7 +3207,7 @@ INSERT INTO `region` VALUES (532301, '楚雄市', 532300, '楚雄', 3, '0878', '
 INSERT INTO `region` VALUES (532322, '双柏县', 532300, '双柏', 3, '0878', '675100', '中国,云南省,楚雄彝族自治州,双柏县', 101.642, 24.6888, 'Shuangbai');
 INSERT INTO `region` VALUES (532323, '牟定县', 532300, '牟定', 3, '0878', '675500', '中国,云南省,楚雄彝族自治州,牟定县', 101.54, 25.3155, 'Mouding');
 INSERT INTO `region` VALUES (532324, '南华县', 532300, '南华', 3, '0878', '675200', '中国,云南省,楚雄彝族自治州,南华县', 101.273, 25.1929, 'Nanhua');
-INSERT INTO `region` VALUES (532325, '姚安县', 532300, '姚安', 3, '0878', '675300', '中国,云南省,楚雄彝族自治州,姚安县', 101.243, 25.5047, 'Yao\'an');
+INSERT INTO `region` VALUES (532325, '姚安县', 532300, '姚安', 3, '0878', '675300', '中国,云南省,楚雄彝族自治州,姚安县', 101.243, 25.5047, 'Yaoan');
 INSERT INTO `region` VALUES (532326, '大姚县', 532300, '大姚', 3, '0878', '675400', '中国,云南省,楚雄彝族自治州,大姚县', 101.324, 25.7222, 'Dayao');
 INSERT INTO `region` VALUES (532327, '永仁县', 532300, '永仁', 3, '0878', '651400', '中国,云南省,楚雄彝族自治州,永仁县', 101.672, 26.0579, 'Yongren');
 INSERT INTO `region` VALUES (532328, '元谋县', 532300, '元谋', 3, '0878', '651300', '中国,云南省,楚雄彝族自治州,元谋县', 101.877, 25.7044, 'Yuanmou');
@@ -3339,7 +3351,7 @@ INSERT INTO `region` VALUES (542625, '波密县', 542600, '波密', 3, '0894', '
 INSERT INTO `region` VALUES (542626, '察隅县', 542600, '察隅', 3, '0894', '855100', '中国,西藏自治区,林芝地区,察隅县', 97.4668, 28.6618, 'Chayu');
 INSERT INTO `region` VALUES (542627, '朗县', 542600, '朗县', 3, '0894', '856500', '中国,西藏自治区,林芝地区,朗县', 93.0754, 29.0455, 'Langxian');
 INSERT INTO `region` VALUES (610000, '陕西省', 100000, '陕西', 1, '', '', '中国,陕西省', 108.948, 34.2632, 'Shaanxi');
-INSERT INTO `region` VALUES (610100, '西安市', 610000, '西安', 2, '029', '710003', '中国,陕西省,西安市', 108.948, 34.2632, 'Xi\'an');
+INSERT INTO `region` VALUES (610100, '西安市', 610000, '西安', 2, '029', '710003', '中国,陕西省,西安市', 108.948, 34.2632, 'Xian');
 INSERT INTO `region` VALUES (610102, '新城区', 610100, '新城', 3, '029', '710004', '中国,陕西省,西安市,新城区', 108.961, 34.2664, 'Xincheng');
 INSERT INTO `region` VALUES (610103, '碑林区', 610100, '碑林', 3, '029', '710001', '中国,陕西省,西安市,碑林区', 108.934, 34.2304, 'Beilin');
 INSERT INTO `region` VALUES (610104, '莲湖区', 610100, '莲湖', 3, '029', '710003', '中国,陕西省,西安市,莲湖区', 108.94, 34.2671, 'Lianhu');
@@ -3348,7 +3360,7 @@ INSERT INTO `region` VALUES (610112, '未央区', 610100, '未央', 3, '029', '7
 INSERT INTO `region` VALUES (610113, '雁塔区', 610100, '雁塔', 3, '029', '710061', '中国,陕西省,西安市,雁塔区', 108.949, 34.2225, 'Yanta');
 INSERT INTO `region` VALUES (610114, '阎良区', 610100, '阎良', 3, '029', '710087', '中国,陕西省,西安市,阎良区', 109.226, 34.6622, 'Yanliang');
 INSERT INTO `region` VALUES (610115, '临潼区', 610100, '临潼', 3, '029', '710600', '中国,陕西省,西安市,临潼区', 109.214, 34.3666, 'Lintong');
-INSERT INTO `region` VALUES (610116, '长安区', 610100, '长安', 3, '029', '710100', '中国,陕西省,西安市,长安区', 108.946, 34.1556, 'Chang\'an');
+INSERT INTO `region` VALUES (610116, '长安区', 610100, '长安', 3, '029', '710100', '中国,陕西省,西安市,长安区', 108.946, 34.1556, 'Changan');
 INSERT INTO `region` VALUES (610122, '蓝田县', 610100, '蓝田', 3, '029', '710500', '中国,陕西省,西安市,蓝田县', 109.323, 34.1513, 'Lantian');
 INSERT INTO `region` VALUES (610124, '周至县', 610100, '周至', 3, '029', '710400', '中国,陕西省,西安市,周至县', 108.222, 34.1634, 'Zhouzhi');
 INSERT INTO `region` VALUES (610125, '户县', 610100, '户县', 3, '029', '710300', '中国,陕西省,西安市,户县', 108.605, 34.1086, 'Huxian');
@@ -3398,7 +3410,7 @@ INSERT INTO `region` VALUES (610527, '白水县', 610500, '白水', 3, '0913', '
 INSERT INTO `region` VALUES (610528, '富平县', 610500, '富平', 3, '0913', '711700', '中国,陕西省,渭南市,富平县', 109.18, 34.7511, 'Fuping');
 INSERT INTO `region` VALUES (610581, '韩城市', 610500, '韩城', 3, '0913', '715400', '中国,陕西省,渭南市,韩城市', 110.442, 35.4793, 'Hancheng');
 INSERT INTO `region` VALUES (610582, '华阴市', 610500, '华阴', 3, '0913', '714200', '中国,陕西省,渭南市,华阴市', 110.088, 34.5661, 'Huayin');
-INSERT INTO `region` VALUES (610600, '延安市', 610000, '延安', 2, '0911', '716000', '中国,陕西省,延安市', 109.491, 36.5965, 'Yan\'an');
+INSERT INTO `region` VALUES (610600, '延安市', 610000, '延安', 2, '0911', '716000', '中国,陕西省,延安市', 109.491, 36.5965, 'Yanan');
 INSERT INTO `region` VALUES (610602, '宝塔区', 610600, '宝塔', 3, '0911', '716000', '中国,陕西省,延安市,宝塔区', 109.493, 36.5915, 'Baota');
 INSERT INTO `region` VALUES (610621, '延长县', 610600, '延长', 3, '0911', '717100', '中国,陕西省,延安市,延长县', 110.011, 36.579, 'Yanchang');
 INSERT INTO `region` VALUES (610622, '延川县', 610600, '延川', 3, '0911', '717200', '中国,陕西省,延安市,延川县', 110.194, 36.8782, 'Yanchuan');
@@ -3454,7 +3466,7 @@ INSERT INTO `region` VALUES (611021, '洛南县', 611000, '洛南', 3, '0914', '
 INSERT INTO `region` VALUES (611022, '丹凤县', 611000, '丹凤', 3, '0914', '726200', '中国,陕西省,商洛市,丹凤县', 110.335, 33.6947, 'Danfeng');
 INSERT INTO `region` VALUES (611023, '商南县', 611000, '商南', 3, '0914', '726300', '中国,陕西省,商洛市,商南县', 110.884, 33.5258, 'Shangnan');
 INSERT INTO `region` VALUES (611024, '山阳县', 611000, '山阳', 3, '0914', '726400', '中国,陕西省,商洛市,山阳县', 109.888, 33.5293, 'Shanyang');
-INSERT INTO `region` VALUES (611025, '镇安县', 611000, '镇安', 3, '0914', '711500', '中国,陕西省,商洛市,镇安县', 109.154, 33.4237, 'Zhen\'an');
+INSERT INTO `region` VALUES (611025, '镇安县', 611000, '镇安', 3, '0914', '711500', '中国,陕西省,商洛市,镇安县', 109.154, 33.4237, 'Zhenan');
 INSERT INTO `region` VALUES (611026, '柞水县', 611000, '柞水', 3, '0914', '711400', '中国,陕西省,商洛市,柞水县', 109.111, 33.6831, 'Zhashui');
 INSERT INTO `region` VALUES (611100, '西咸新区', 610000, '西咸', 2, '029', '712000', '中国,陕西省,西咸新区', 108.811, 34.3071, 'Xixian');
 INSERT INTO `region` VALUES (611101, '空港新城', 611100, '空港', 3, '0374', '461000', '中国,陕西省,西咸新区,空港新城', 108.761, 34.4409, 'Konggang');
@@ -3489,7 +3501,7 @@ INSERT INTO `region` VALUES (620500, '天水市', 620000, '天水', 2, '0938', '
 INSERT INTO `region` VALUES (620502, '秦州区', 620500, '秦州', 3, '0938', '741000', '中国,甘肃省,天水市,秦州区', 105.724, 34.5809, 'Qinzhou');
 INSERT INTO `region` VALUES (620503, '麦积区', 620500, '麦积', 3, '0938', '741020', '中国,甘肃省,天水市,麦积区', 105.89, 34.5707, 'Maiji');
 INSERT INTO `region` VALUES (620521, '清水县', 620500, '清水', 3, '0938', '741400', '中国,甘肃省,天水市,清水县', 106.137, 34.7503, 'Qingshui');
-INSERT INTO `region` VALUES (620522, '秦安县', 620500, '秦安', 3, '0938', '741600', '中国,甘肃省,天水市,秦安县', 105.67, 34.8589, 'Qin\'an');
+INSERT INTO `region` VALUES (620522, '秦安县', 620500, '秦安', 3, '0938', '741600', '中国,甘肃省,天水市,秦安县', 105.67, 34.8589, 'Qinan');
 INSERT INTO `region` VALUES (620523, '甘谷县', 620500, '甘谷', 3, '0938', '741200', '中国,甘肃省,天水市,甘谷县', 105.333, 34.7366, 'Gangu');
 INSERT INTO `region` VALUES (620524, '武山县', 620500, '武山', 3, '0938', '741300', '中国,甘肃省,天水市,武山县', 104.884, 34.7212, 'Wushan');
 INSERT INTO `region` VALUES (620525, '张家川回族自治县', 620500, '张家川', 3, '0938', '741500', '中国,甘肃省,天水市,张家川回族自治县', 106.216, 34.9958, 'Zhangjiachuan');
@@ -3577,7 +3589,7 @@ INSERT INTO `region` VALUES (630122, '湟中县', 630100, '湟中', 3, '0971', '
 INSERT INTO `region` VALUES (630123, '湟源县', 630100, '湟源', 3, '0971', '812100', '中国,青海省,西宁市,湟源县', 101.256, 36.6824, 'Huangyuan');
 INSERT INTO `region` VALUES (630200, '海东市', 630000, '海东', 2, '0972', '810700', '中国,青海省,海东市', 102.103, 36.5029, 'Haidong');
 INSERT INTO `region` VALUES (630202, '乐都区', 630200, '乐都', 3, '0972', '810700', '中国,青海省,海东市,乐都区', 102.402, 36.4803, 'Ledu');
-INSERT INTO `region` VALUES (630221, '平安县', 630200, '平安', 3, '0972', '810600', '中国,青海省,海东市,平安县', 102.104, 36.5027, 'Ping\'an');
+INSERT INTO `region` VALUES (630221, '平安县', 630200, '平安', 3, '0972', '810600', '中国,青海省,海东市,平安县', 102.104, 36.5027, 'Pingan');
 INSERT INTO `region` VALUES (630222, '民和回族土族自治县', 630200, '民和', 3, '0972', '810800', '中国,青海省,海东市,民和回族土族自治县', 102.804, 36.3295, 'Minhe');
 INSERT INTO `region` VALUES (630223, '互助土族自治县', 630200, '互助', 3, '0972', '810500', '中国,青海省,海东市,互助土族自治县', 101.957, 36.8399, 'Huzhu');
 INSERT INTO `region` VALUES (630224, '化隆回族自治县', 630200, '化隆', 3, '0972', '810900', '中国,青海省,海东市,化隆回族自治县', 102.262, 36.0983, 'Hualong');
@@ -3769,7 +3781,7 @@ INSERT INTO `region` VALUES (710000, '台湾', 100000, '台湾', 1, '', '', '中
 INSERT INTO `region` VALUES (710100, '台北市', 710000, '台北', 2, '02', '1', '中国,台湾,台北市', 121.565, 25.0378, 'Taipei');
 INSERT INTO `region` VALUES (710101, '松山区', 710100, '松山', 3, '02', '105', '中国,台湾,台北市,松山区', 121.577, 25.0497, 'Songshan');
 INSERT INTO `region` VALUES (710102, '信义区', 710100, '信义', 3, '02', '110', '中国,台湾,台北市,信义区', 121.751, 25.1294, 'Xinyi');
-INSERT INTO `region` VALUES (710103, '大安区', 710100, '大安', 3, '02', '106', '中国,台湾,台北市,大安区', 121.535, 25.0264, 'Da\'an');
+INSERT INTO `region` VALUES (710103, '大安区', 710100, '大安', 3, '02', '106', '中国,台湾,台北市,大安区', 121.535, 25.0264, 'Daan');
 INSERT INTO `region` VALUES (710104, '中山区', 710100, '中山', 3, '02', '104', '中国,台湾,台北市,中山区', 121.533, 25.0644, 'Zhongshan');
 INSERT INTO `region` VALUES (710105, '中正区', 710100, '中正', 3, '02', '100', '中国,台湾,台北市,中正区', 121.518, 25.0324, 'Zhongzheng');
 INSERT INTO `region` VALUES (710106, '大同区', 710100, '大同', 3, '02', '103', '中国,台湾,台北市,大同区', 121.516, 25.066, 'Datong');
@@ -3806,7 +3818,7 @@ INSERT INTO `region` VALUES (710223, '阿莲区', 710200, '阿莲', 3, '07', '82
 INSERT INTO `region` VALUES (710224, '路竹区', 710200, '路竹', 3, '07', '821', '中国,台湾,高雄市,路竹区', 120.262, 22.8569, 'Luzhu');
 INSERT INTO `region` VALUES (710225, '湖内区', 710200, '湖内', 3, '07', '829', '中国,台湾,高雄市,湖内区', 120.212, 22.9082, 'Huna');
 INSERT INTO `region` VALUES (710226, '茄萣区', 710200, '茄萣', 3, '07', '852', '中国,台湾,高雄市,茄萣区', 120.183, 22.9066, 'Qieding');
-INSERT INTO `region` VALUES (710227, '永安区', 710200, '永安', 3, '07', '828', '中国,台湾,高雄市,永安区', 120.225, 22.8186, 'Yong\'an');
+INSERT INTO `region` VALUES (710227, '永安区', 710200, '永安', 3, '07', '828', '中国,台湾,高雄市,永安区', 120.225, 22.8186, 'Yongan');
 INSERT INTO `region` VALUES (710228, '弥陀区', 710200, '弥陀', 3, '07', '827', '中国,台湾,高雄市,弥陀区', 120.247, 22.7829, 'Mituo');
 INSERT INTO `region` VALUES (710229, '梓官区', 710200, '梓官', 3, '07', '826', '中国,台湾,高雄市,梓官区', 120.267, 22.7605, 'Ziguan');
 INSERT INTO `region` VALUES (710230, '旗山区', 710200, '旗山', 3, '07', '842', '中国,台湾,高雄市,旗山区', 120.484, 22.8885, 'Qishan');
@@ -3848,7 +3860,7 @@ INSERT INTO `region` VALUES (710418, '大雅区', 710400, '大雅', 3, '04', '42
 INSERT INTO `region` VALUES (710419, '新社区', 710400, '新社', 3, '04', '426', '中国,台湾,台中市,新社区', 120.81, 24.2341, 'Xinshe');
 INSERT INTO `region` VALUES (710420, '石冈区', 710400, '石冈', 3, '04', '422', '中国,台湾,台中市,石冈区', 120.78, 24.275, 'Shigang');
 INSERT INTO `region` VALUES (710421, '外埔区', 710400, '外埔', 3, '04', '438', '中国,台湾,台中市,外埔区', 120.654, 24.332, 'Waipu');
-INSERT INTO `region` VALUES (710422, '大安区', 710400, '大安', 3, '04', '439', '中国,台湾,台中市,大安区', 120.587, 24.3461, 'Da\'an');
+INSERT INTO `region` VALUES (710422, '大安区', 710400, '大安', 3, '04', '439', '中国,台湾,台中市,大安区', 120.587, 24.3461, 'Daan');
 INSERT INTO `region` VALUES (710423, '乌日区', 710400, '乌日', 3, '04', '414', '中国,台湾,台中市,乌日区', 120.624, 24.1045, 'Wuri');
 INSERT INTO `region` VALUES (710424, '大肚区', 710400, '大肚', 3, '04', '432', '中国,台湾,台中市,大肚区', 120.541, 24.1537, 'Dadu');
 INSERT INTO `region` VALUES (710425, '龙井区', 710400, '龙井', 3, '04', '434', '中国,台湾,台中市,龙井区', 120.546, 24.1927, 'Longjing');
@@ -3990,7 +4002,7 @@ INSERT INTO `region` VALUES (712533, '西湖乡', 712500, '西湖', 3, '037', '3
 INSERT INTO `region` VALUES (712534, '造桥乡', 712500, '造桥', 3, '037', '361', '中国,台湾,苗栗县,造桥乡', 120.862, 24.6375, 'Zaoqiao');
 INSERT INTO `region` VALUES (712535, '三湾乡', 712500, '三湾', 3, '037', '352', '中国,台湾,苗栗县,三湾乡', 120.951, 24.6511, 'Sanwan');
 INSERT INTO `region` VALUES (712536, '狮潭乡', 712500, '狮潭', 3, '037', '354', '中国,台湾,苗栗县,狮潭乡', 120.918, 24.54, 'Shitan');
-INSERT INTO `region` VALUES (712537, '泰安乡', 712500, '泰安', 3, '037', '365', '中国,台湾,苗栗县,泰安乡', 120.904, 24.4426, 'Tai\'an');
+INSERT INTO `region` VALUES (712537, '泰安乡', 712500, '泰安', 3, '037', '365', '中国,台湾,苗栗县,泰安乡', 120.904, 24.4426, 'Taian');
 INSERT INTO `region` VALUES (712700, '彰化县', 710000, '彰化', 2, '04', '5', '中国,台湾,彰化县', 120.416, 24, 'Changhua');
 INSERT INTO `region` VALUES (712701, '彰化市', 712700, '彰化市', 3, '04', '500', '中国,台湾,彰化县,彰化市', 120.542, 24.0809, 'Zhanghuashi');
 INSERT INTO `region` VALUES (712721, '鹿港镇', 712700, '鹿港', 3, '04', '505', '中国,台湾,彰化县,鹿港镇', 120.435, 24.0569, 'Lugang');
@@ -4128,7 +4140,7 @@ INSERT INTO `region` VALUES (713501, '花莲市', 713500, '花莲', 3, '03', '97
 INSERT INTO `region` VALUES (713521, '凤林镇', 713500, '凤林', 3, '03', '975', '中国,台湾,花莲县,凤林镇', 121.452, 23.7446, 'Fenglin');
 INSERT INTO `region` VALUES (713522, '玉里镇', 713500, '玉里', 3, '03', '981', '中国,台湾,花莲县,玉里镇', 121.316, 23.3365, 'Yuli');
 INSERT INTO `region` VALUES (713523, '新城乡', 713500, '新城', 3, '03', '971', '中国,台湾,花莲县,新城乡', 121.641, 24.1281, 'Xincheng');
-INSERT INTO `region` VALUES (713524, '吉安乡', 713500, '吉安', 3, '03', '973', '中国,台湾,花莲县,吉安乡', 121.568, 23.9616, 'Ji\'an');
+INSERT INTO `region` VALUES (713524, '吉安乡', 713500, '吉安', 3, '03', '973', '中国,台湾,花莲县,吉安乡', 121.568, 23.9616, 'Jian');
 INSERT INTO `region` VALUES (713525, '寿丰乡', 713500, '寿丰', 3, '03', '974', '中国,台湾,花莲县,寿丰乡', 121.509, 23.8707, 'Shoufeng');
 INSERT INTO `region` VALUES (713526, '光复乡', 713500, '光复', 3, '03', '976', '中国,台湾,花莲县,光复乡', 121.423, 23.6691, 'Guangfu');
 INSERT INTO `region` VALUES (713527, '丰滨乡', 713500, '丰滨', 3, '03', '977', '中国,台湾,花莲县,丰滨乡', 121.519, 23.5971, 'Fengbin');
@@ -4142,7 +4154,7 @@ INSERT INTO `region` VALUES (713601, '马公市', 713600, '马公', 3, '06', '88
 INSERT INTO `region` VALUES (713621, '湖西乡', 713600, '湖西', 3, '06', '885', '中国,台湾,澎湖县,湖西乡', 119.66, 23.5834, 'Huxi');
 INSERT INTO `region` VALUES (713622, '白沙乡', 713600, '白沙', 3, '06', '884', '中国,台湾,澎湖县,白沙乡', 119.598, 23.6661, 'Baisha');
 INSERT INTO `region` VALUES (713623, '西屿乡', 713600, '西屿', 3, '06', '881', '中国,台湾,澎湖县,西屿乡', 119.507, 23.6008, 'Xiyu');
-INSERT INTO `region` VALUES (713624, '望安乡', 713600, '望安', 3, '06', '882', '中国,台湾,澎湖县,望安乡', 119.501, 23.3575, 'Wang\'an');
+INSERT INTO `region` VALUES (713624, '望安乡', 713600, '望安', 3, '06', '882', '中国,台湾,澎湖县,望安乡', 119.501, 23.3575, 'Wangan');
 INSERT INTO `region` VALUES (713625, '七美乡', 713600, '七美', 3, '06', '883', '中国,台湾,澎湖县,七美乡', 119.424, 23.206, 'Qimei');
 INSERT INTO `region` VALUES (713700, '金门县', 710000, '金门', 2, '082', '8', '中国,台湾,金门县', 118.317, 24.4327, 'Jinmen');
 INSERT INTO `region` VALUES (713701, '金城镇', 713700, '金城', 3, '082', '893', '中国,台湾,金门县,金城镇', 118.317, 24.4167, 'Jincheng');
@@ -4186,9 +4198,9 @@ INSERT INTO `region` VALUES (820103, '大堂区', 820100, '大堂', 3, '00853', 
 INSERT INTO `region` VALUES (820104, '望德堂区', 820100, '望德堂区', 3, '00853', '999078', '中国,澳门特别行政区,澳门半岛,望德堂区', 113.551, 22.1941, 'Sao Lazaro');
 INSERT INTO `region` VALUES (820105, '风顺堂区', 820100, '风顺堂区', 3, '00853', '999078', '中国,澳门特别行政区,澳门半岛,风顺堂区', 113.542, 22.1874, 'Sao Lourenco');
 INSERT INTO `region` VALUES (820200, '氹仔岛', 820000, '氹仔岛', 2, '00853', '999078', '中国,澳门特别行政区,氹仔岛', 113.578, 22.1568, 'Taipa');
-INSERT INTO `region` VALUES (820201, '嘉模堂区', 820200, '嘉模堂区', 3, '00853', '999078', '中国,澳门特别行政区,氹仔岛,嘉模堂区', 113.565, 22.149, 'Our Lady Of Carmel\'s Parish');
+INSERT INTO `region` VALUES (820201, '嘉模堂区', 820200, '嘉模堂区', 3, '00853', '999078', '中国,澳门特别行政区,氹仔岛,嘉模堂区', 113.565, 22.149, 'Our Lady Of Carmels Parish');
 INSERT INTO `region` VALUES (820300, '路环岛', 820000, '路环岛', 2, '00853', '999078', '中国,澳门特别行政区,路环岛', 113.565, 22.1162, 'Coloane');
-INSERT INTO `region` VALUES (820301, '圣方济各堂区', 820300, '圣方济各堂区', 3, '00853', '999078', '中国,澳门特别行政区,路环岛,圣方济各堂区', 113.56, 22.1235, 'St Francis Xavier\'s Parish');
+INSERT INTO `region` VALUES (820301, '圣方济各堂区', 820300, '圣方济各堂区', 3, '00853', '999078', '中国,澳门特别行政区,路环岛,圣方济各堂区', 113.56, 22.1235, 'St Francis Xaviers Parish');
 INSERT INTO `region` VALUES (900000, '钓鱼岛', 100000, '钓鱼岛', 1, '', '', '中国,钓鱼岛', 123.478, 25.7424, 'DiaoyuDao');
 COMMIT;
 
@@ -4220,7 +4232,11 @@ CREATE TABLE `rent_car` (
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1:有效,-1:无效',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=FIXED COMMENT='租车表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4  COMMENT='租车表';
+
+INSERT INTO `rent_car` (`id`, `merchant_id`, `img_url`, `title`, `title_pinyin`, `stock`, `cost_price`, `original_price`, `self_price`, `together_price`, `phone`, `location`, `description`, `is_selling`, `is_recommend`, `sort`, `base_fav_count`, `base_order_count`, `publish_time`, `create_time`, `update_time`, `status`) VALUES
+(1, 0, 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', '保利水韵长滩', '', 0, '0.00', '0.00', '0.00', '0.00', '', '友谊路', '测试租房', 0, -1, 999, 16, 7, '2000-01-01 00:00:00', '2019-12-15 22:57:43', '2019-12-15 14:57:43', 1),
+(2, 0, 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', '保利水韵长滩', '', 1, '100.00', '11.00', '10.00', '10.00', '', '保利', '测试租车', 1, -1, 999, 37, 35, '2000-01-01 00:00:00', '2019-12-15 23:14:50', '2019-12-15 15:14:50', 1);
 
 -- ----------------------------
 -- Table structure for rent_house
@@ -4247,7 +4263,9 @@ CREATE TABLE `rent_house` (
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1:有效,-1:无效',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='对外出租房源表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4  COMMENT='对外出租房源表';
+INSERT INTO `rent_house` (`id`, `merchant_id`, `title`, `square`, `img_url`, `room`, `parlour`, `toilet`, `orientations`, `location`, `rental`, `cellphone`, `qq`, `wechat`, `publish_time`, `description`, `create_time`, `update_time`, `status`) VALUES
+(1, 0, '保利水韵长滩', '11.00', 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', 1, 1, 1, '10.00', '友谊路', '100.00', '1', '1', '1', '2019-12-15 23:10:08', '测试租房', '2019-12-15 23:10:08', '2019-12-15 15:10:08', 1);
 
 -- ----------------------------
 -- Table structure for school
@@ -4256,7 +4274,7 @@ DROP TABLE IF EXISTS `school`;
 CREATE TABLE `school` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=FIXED COMMENT='校园表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4  COMMENT='校园表';
 
 -- ----------------------------
 -- Table structure for second
@@ -4283,7 +4301,10 @@ CREATE TABLE `second` (
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1:有效,-1:无效',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=FIXED COMMENT='二手物品表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4  COMMENT='二手物品表';
+INSERT INTO `second` (`id`, `merchant_id`, `img_url`, `title`, `location`, `cost_price`, `original_price`, `self_price`, `together_price`, `stock`, `is_selling`, `cellphone`, `qq`, `wechat`, `description`, `publish_time`, `create_time`, `update_time`, `status`) VALUES
+(1, 0, 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', '保利水韵长滩', '保利', '100.00', '11.00', '10.00', '10.00', 1, 1, '1', '404', '404', '测试二手物1', '2019-12-18 21:21:59', '2019-12-18 21:21:59', '2019-12-18 13:21:59', 1),
+(2, 0, 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', '保利水韵长滩', '保利', '100.00', '11.00', '10.00', '10.00', 1, 1, '1', '404', '404', '测试二手物', '2019-12-18 21:24:02', '2019-12-18 21:24:02', '2019-12-18 13:24:02', 1);
 
 -- ----------------------------
 -- Table structure for supermarket_goods
@@ -4313,7 +4334,11 @@ CREATE TABLE `supermarket_goods` (
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1:有效,-1:无效',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='超市商品表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4  COMMENT='超市商品表';
+
+
+INSERT INTO `supermarket_goods` (`id`, `merchant_id`, `title`, `title_pinyin`, `img_url`, `type_id`, `cost_price`, `original_price`, `self_price`, `together_price`, `description`, `specs_unit_id`, `specs`, `stock`, `is_selling`, `is_recommend`, `sort`, `base_fav_count`, `base_order_count`, `create_time`, `update_time`, `status`) VALUES
+(1, 0, '西红柿', '', 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', 1, '11.00', '10.00', '9.00', '9.00', '西红柿描述', 1, '1', 100, 1, -1, 999, 44, 47, '2019-12-14 22:39:44', '2019-12-14 14:39:44', 1);
 
 -- ----------------------------
 -- Table structure for supermarket_goods_type
@@ -4350,7 +4375,11 @@ CREATE TABLE `ticket` (
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1:有效,-1:无效',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=FIXED COMMENT='门票表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4  COMMENT='门票表';
+
+
+INSERT INTO `ticket` (`id`, `merchant_id`, `title`, `title_pinyin`, `img_url`, `cost_price`, `original_price`, `self_price`, `together_price`, `description`, `location`, `stock`, `is_selling`, `is_recommend`, `sort`, `base_fav_count`, `base_order_count`, `create_time`, `update_time`, `status`) VALUES
+(1, 0, '香格里拉餐饮2', 'wandaertongzhutileyuanmenpiao', 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', '11.00', '10.00', '9.00', '9.00', '香格里拉描述更新', '友谊路更新1', 100, 1, -1, 999, 32, 44, '2019-12-14 20:36:31', '2019-12-14 12:36:31', 1);
 
 -- ----------------------------
 -- Table structure for user

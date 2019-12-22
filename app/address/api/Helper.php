@@ -15,32 +15,23 @@ class Helper extends Api
 
     public function getInsertFields(){
         return $insertFields = [
-            'img_url',
-            'title',
-            'location',
-            'cost_price',
-            'original_price',
-            'self_price',
-            'stock',
+            'user_id',
+            'name',
             'cellphone',
-            'qq',
-            'wechat',
-            'description',
+            'province',
+            'city',
+            'county',
+            'detailed_address',
         ];
     }
     public function getDefaultInsertFields($postData){
         $defaultInsertFields = [
-            'is_selling' => $this->_config['selling_status']['selling'],
+            'is_default' => $this->_config['address_status']['undefault'],
             'create_time' => date('Y-m-d H:i:s'),
-            'publish_time' => date('Y-m-d H:i:s'),
         ];
-        if(!isset($postData['together_price']) || empty($postData['together_price'])){
-            $defaultInsertFields['together_price'] = $postData['self_price'];
-        }
-        //is_recommend、sort、update_time、status采用默认值
         return $defaultInsertFields;
     }
-    public function createSecond($postData){
+    public function createAddress($postData){
         try{
             $insertData = $this->getDefaultInsertFields($postData);
             foreach ($this->getInsertFields() as $v){
@@ -53,13 +44,14 @@ class Helper extends Api
             return 0;
         }
     }
-    public function updateSecond($postData){
+    public function updateAddress($postData){
         try{
             $updateData = ['id' => $postData['id']];
             $updateModel = $this->_model->findFirstById($postData['id']);
             if(empty($updateModel)){
                 return false;
             }
+            // $updateData = $this->getDefaultInsertFields($postData);
             foreach ($this->getInsertFields() as $v){
                 $updateData[$v] = $postData[$v];
             }
@@ -70,7 +62,7 @@ class Helper extends Api
         }
     }
     //下架
-    public function withdrawSecond($goodsId){
+    public function withdrawAddress($goodsId){
         try{
             $updateModel = $this->_model->findFirstById($goodsId);
             if(empty($updateModel)){
@@ -86,7 +78,7 @@ class Helper extends Api
             return false;
         }
     }
-    public function deleteSecond($goodsId){
+    public function deleteAddress($goodsId){
         try{
             $invalid = $this->_config['data_status']['invalid'];
             $updateModel = $this->_model->findFirstById($goodsId);
@@ -110,11 +102,11 @@ class Helper extends Api
         $goods = $this->_model->findFirst($condition);
         return $goods;
     }
+    /*
     public function search($goodsName){
         $goods = $this->modelsManager->createBuilder()
             ->columns('*')
-            ->from(['sg'=>'Secondhand\Model\Second'])
-            ->where('sg.is_selling = :selling: ',['selling'=>$this->_config['selling_status']['selling']])
+            ->from(['sg'=>'Address\Model\Address'])
             ->andWhere('sg.status = :valid: ',['valid'=>$this->_config['data_status']['valid']])
             ->andWhere('sg.title like :goodsName: ',['goodsName' => '%'.$goodsName.'%'])
             ->orderBy('sort desc')
@@ -122,6 +114,7 @@ class Helper extends Api
             ->execute();
         return $goods;
     }
+    */
 
     public function getList($page=1,$pageSize=10){
         //标题、图片、初始价格、单独购买价格、描述、位置、推荐、排序、点赞、销量
@@ -129,10 +122,9 @@ class Helper extends Api
         $start = ($page-1)*$pageSize;
         $goods = $this->modelsManager->createBuilder()
             ->columns('*')
-            ->from(['sg'=>'Secondhand\Model\Second'])
-            ->where('sg.is_selling = :selling: ',['selling'=>$this->_config['selling_status']['selling']])
+            ->from(['sg'=>'Address\Model\Address'])
             ->andWhere('sg.status = :valid: ',['valid'=>$this->_config['data_status']['valid']])
-            ->orderBy('publish_time desc')
+            ->orderBy('create_time desc')
             ->limit($start,$pageSize)
             ->getQuery()
             ->execute();

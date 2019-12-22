@@ -141,13 +141,14 @@ class WeChat extends Api
 
         $sessionInfo = $this->app->core->api->Image()->imageFileGetContents($url);
         //wx.login({success (res){console.log(res)}});
-        $json = '{"session_key":"jHwS8qG\/Gwn40YJ6Zhevwg==","openid":"oSbAs5NzFZyCiez1WZNm3JkjCeH4"}';
-        $json = '{"errcode":40029,"errmsg":"invalid code, hints: [ req_id: ihlEY24ce-GYdrra ]"}';
+        // $json = '{"session_key":"jHwS8qG\/Gwn40YJ6Zhevwg==","openid":"oSbAs5NzFZyCiez1WZNm3JkjCeH4"}';
+        // $json = '{"errcode":40029,"errmsg":"invalid code, hints: [ req_id: ihlEY24ce-GYdrra ]"}';
         if(empty($sessionInfo) || (isset($sessionInfo['errcode']) &&  $sessionInfo['errcode']!= 0) ){
             return [];
         }else{
             $sessionInfo = json_decode($sessionInfo,true);
             if(isset($sessionInfo['session_key']) && isset($sessionInfo['openid'])){
+                $this->app->tencent->api->User()->getInfoByOpenid($sessionInfo['openid'],$sessionInfo['session_key']);
                 return $sessionInfo;
             }else{
                 return [];

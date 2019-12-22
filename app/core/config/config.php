@@ -34,9 +34,14 @@ return [
         'invalid_input' => 'Invalid input!',
         'try_later' => 'Network Error. Please Try Again Later',
         'not_exist' => 'It does not exist!',
+        'unlogin' => 'Not logged in.Please Login!',
     ],
     'express_server' => [],
     'express_take_specs' => [],
     'express_take_optional_service' => [],
+    'address_status' => [
+        'default' => 1,
+        'undefault' => -1,
+    ],
 
 ];
