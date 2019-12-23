@@ -4,7 +4,7 @@ namespace Address\Model;
 
 use MDK\Model;
 
-class Address extends Model
+class Region extends Model
 {
     /**
      *
@@ -16,60 +16,56 @@ class Address extends Model
 
     /**
      *
-     * @Column(type="integer", size="11", nullable=true, column="user_id")
+     * @Column(type="string", nullable=true, column="name")
      */
-    public $user_id;
+    public $name;
 
     /**
      *
-     * @Column(type="string", size="45", nullable=true, column="name")
+     * @Column(type="integer", size="11", nullable=true, column="pid")
      */
-    public $name;
+    public $pid;
     /**
      *
-     * @Column(type="string", nullable=true, column="cellphone")
+     * @Column(type="string", size="255", nullable=true, column="sname")
      */
-    public $cellphone;
+    public $sname;
     /**
      *
-     * @Column(type="integer", nullable=true, column="province_id")
+     * @Column(type="integer", nullable=true, column="level")
      */
-    public $province_id;
+    public $level;
     /**
      *
-     * @Column(type="integer", nullable=true, column="city_id")
+     * @Column(type="string", nullable=true, column="citycode")
      */
-    public $city_id;
+    public $citycode;
     /**
      *
-     * @Column(type="integer", nullable=true, column="county_id")
+     * @Column(type="string", nullable=true, column="yzcode")
      */
-    public $county_id;
+    public $yzcode;
     /**
      *
-     * @Column(type="string", nullable=true, column="detailed_address")
+     * @Column(type="string", nullable=true, column="mername")
      */
-    public $detailed_address;
+    public $mername;
     /**
      *
-     * @Column(type="integer", nullable=true, column="is_default")
+     * @Column(type="float", nullable=true, column="lng")
      */
-    public $is_default;
+    public $lng;
     /**
      *
-     * @Column(type="string", nullable=true, column="create_time")
+     * @Column(type="float", nullable=true, column="lat")
      */
-    public $create_time;
+    public $lat;
     /**
      *
-     * @Column(type="string", nullable=true, column="update_time")
+     * @Column(type="string", nullable=true, column="pinyin")
      */
-    public $update_time;
-    /**
-     *
-     * @Column(type="integer", size="4", nullable=true, column="status")
-     */
-    public $status;
+    public $pinyin;
+
 
     /**
      * Initialize method for model.

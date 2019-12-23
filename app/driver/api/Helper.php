@@ -1,5 +1,5 @@
 <?php
-namespace Ticket\Api;
+namespace Driver\Api;
 
 use MDK\Api;
 use Ticket\Model\Ticket;

@@ -36,7 +36,7 @@ class IndexController extends Controller
                 $this->resultSet->error(1002,$this->_error['try_later']);
             }
             if(isset($wxdata['session_key'])){
-                // unset($wxdata['session_key']);
+                unset($wxdata['session_key']);
             }
             $data['data'] = $wxdata;
         }catch (\Exception $e){
@@ -54,14 +54,14 @@ class IndexController extends Controller
     public function createAction() {
         //权限验证
         $postData = $this->request->getPost();
-        $insertFields = $this->app->tencent->api->Helper()->getInsertFields();
+        $insertFields = $this->app->tencent->api->User()->getInsertFields();
         foreach ($insertFields as $v){
             if(empty($postData[$v])){
                 $this->resultSet->error(1001,$this->_error['invalid_input']);
             }
         }
         try{
-            $insert = $this->app->tencent->api->User()->createByOpenid($postData);
+            $insert = $this->app->tencent->api->User()->updateByOpenid($postData);
             if(empty($insert)){
                 $this->resultSet->error(1002,$this->_error['try_later']);
             }
@@ -77,7 +77,7 @@ class IndexController extends Controller
 
     public function getTokenAction(){
         $openid = $this->request->getParam('openid',null,'');
-        if(empty($jsCode)){
+        if(empty($openid)){
             $this->resultSet->error(1001,$this->_error['invalid_input']);
         }
         try{

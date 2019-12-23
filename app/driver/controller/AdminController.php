@@ -1,11 +1,11 @@
 <?php
-namespace Ticket\Controller;
+namespace Driver\Controller;
 use MDK\Controller;
 
 
 /**
  * Admin controller.
- * @RoutePrefix("/ticketadmin", name="ticketadmin")
+ * @RoutePrefix("/driveradmin", name="driveradmin")
  */
 class AdminController extends Controller
 {
@@ -21,7 +21,7 @@ private $_error;
      * 创建
      * Create action.
      * @return void
-     * @Route("/create", methods="POST", name="ticketadmin")
+     * @Route("/create", methods="POST", name="driveradmin")
      */
     public function createAction() {
         //权限验证
@@ -51,7 +51,7 @@ private $_error;
      * 删除
      * Create action.
      * @return void
-     * @Route("/delete", methods="POST", name="ticketadmin")
+     * @Route("/delete", methods="POST", name="driveradmin")
      */
     public function deleteAction() {
         //权限验证
@@ -79,7 +79,7 @@ private $_error;
      * 下架
      * Create action.
      * @return void
-     * @Route("/withdraw", methods="POST", name="ticketadmin")
+     * @Route("/withdraw", methods="POST", name="driveradmin")
      */
     public function withdrawAction() {
         //权限验证
@@ -106,7 +106,7 @@ private $_error;
      * 更新
      * Create action.
      * @return void
-     * @Route("/update", methods="POST", name="ticketadmin")
+     * @Route("/update", methods="POST", name="driveradmin")
      */
     public function updateAction() {
         //权限验证

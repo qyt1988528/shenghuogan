@@ -43,5 +43,10 @@ return [
         'default' => 1,
         'undefault' => -1,
     ],
+    'region_level' => [
+        'province' => 1,
+        'city' => 2,
+        'county' => 3,
+    ],
 
 ];

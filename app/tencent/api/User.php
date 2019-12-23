@@ -1,6 +1,6 @@
 <?php
 
-namespace Ticket\Api;
+namespace Tencent\Api;
 
 use MDK\Api;
 use Tencent\Model\User as UserModel;
@@ -32,7 +32,7 @@ class User extends Api
 
     public function getInsertFields()
     {
-        return $insertFields = [
+        return [
             'nickname',
             'openid',
             // 'avatar_url',
@@ -142,7 +142,7 @@ class User extends Api
 
     public function getInfoByOpenid($openid, $sessionKey='')
     {
-        $condition = " openid = " . $openid;
+        $condition = " openid = '" . $openid."'";
         $condition .= " and status = " . $this->_config['data_status']['valid'];
         $user = $this->_model->findFirst($condition);
         if (empty($user)) {
@@ -178,9 +178,10 @@ class User extends Api
         if(!isset($postData['openid']) || empty($postData['openid'])){
             return false;
         }
-        $condition = " openid = " . $postData['openid'];
+        $condition = " openid = '" . $postData['openid']."'";
         $condition .= " and status = " . $this->_config['data_status']['valid'];
         $user = $this->_model->findFirst($condition);
+        var_dump($user);exit;
         if(empty($user)){
             return false;
         }else{
@@ -193,7 +194,7 @@ class User extends Api
         if(empty($postData['openid'])){
             return false;
         }
-        $condition = " openid = " . $postData['openid'];
+        $condition = " openid = '" . $postData['openid']."'";
         $condition .= " and status = " . $this->_config['data_status']['valid'];
         $user = $this->_model->findFirst($condition);
         if(empty($user)){
@@ -209,7 +210,7 @@ class User extends Api
         if(empty($accessToken)){
             return 0;
         }
-        $condition = " openid = " . $accessToken;
+        $condition = " access_token = " . $accessToken;
         $condition .= " and status = " . $this->_config['data_status']['valid'];
         $user = $this->_model->findFirst($condition);
         if(empty($user)){
