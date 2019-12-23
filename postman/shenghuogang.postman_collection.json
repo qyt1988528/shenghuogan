@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "75569c09-4e06-469c-9c64-9b76bcf9be64",
+		"_postman_id": "f4c82b01-65b9-4088-a4d4-accf7e727f66",
 		"name": "shenghuogang",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -279,10 +279,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "http://47.104.69.159/supermarket/specs",
 							"protocol": "http",
@@ -305,10 +301,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "http://47.104.69.159/supermarket",
 							"protocol": "http",
@@ -330,10 +322,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "http://47.104.69.159/supermarket/detail?id=1",
 							"protocol": "http",
@@ -362,10 +350,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "http://47.104.69.159/supermarket/search?keywords=西",
 							"protocol": "http",
@@ -389,7 +373,8 @@
 					},
 					"response": []
 				}
-			]
+			],
+			"protocolProfileBehavior": {}
 		},
 		{
 			"name": "住宿-酒店",
@@ -621,10 +606,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "http://47.104.69.159/hotel?page=1",
 							"protocol": "http",
@@ -653,10 +634,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "http://47.104.69.159/hotel/detail?id=1",
 							"protocol": "http",
@@ -686,10 +663,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "http://47.104.69.159/hotel/search?keywords=店",
 							"protocol": "http",
@@ -714,7 +687,8 @@
 					},
 					"response": []
 				}
-			]
+			],
+			"protocolProfileBehavior": {}
 		},
 		{
 			"name": "餐饮-美食",
@@ -942,10 +916,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "http://47.104.69.159/catering?page=1",
 							"protocol": "http",
@@ -974,10 +944,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "http://47.104.69.159/catering/detail?id=1",
 							"protocol": "http",
@@ -1006,10 +972,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "http://47.104.69.159/catering/search?keywords=香",
 							"protocol": "http",
@@ -1034,7 +996,8 @@
 					},
 					"response": []
 				}
-			]
+			],
+			"protocolProfileBehavior": {}
 		},
 		{
 			"name": "门票",
@@ -1270,10 +1233,6 @@
 								"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "http://47.104.69.159/ticket?page=1",
 							"protocol": "http",
@@ -1302,10 +1261,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "http://47.104.69.159/ticket/detail?id=1",
 							"protocol": "http",
@@ -1335,10 +1290,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "http://47.104.69.159/ticket/search?keywords=\b票",
 							"protocol": "http",
@@ -1363,7 +1314,8 @@
 					},
 					"response": []
 				}
-			]
+			],
+			"protocolProfileBehavior": {}
 		},
 		{
 			"name": "兼职",
@@ -1720,11 +1672,13 @@
 					},
 					"response": []
 				}
-			]
+			],
+			"protocolProfileBehavior": {}
 		},
 		{
 			"name": "校园网",
-			"item": []
+			"item": [],
+			"protocolProfileBehavior": {}
 		},
 		{
 			"name": "租房",
@@ -2014,10 +1968,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "http://47.104.69.159/showhouse?page=1",
 							"protocol": "http",
@@ -2046,10 +1996,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "http://47.104.69.159/showhouse/detail?id=1",
 							"protocol": "http",
@@ -2078,10 +2024,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "http://47.104.69.159/showhouse/search?keywords=&room=0&price_min=0&price_max=2000&page=1",
 							"protocol": "http",
@@ -2126,7 +2068,8 @@
 					},
 					"response": []
 				}
-			]
+			],
+			"protocolProfileBehavior": {}
 		},
 		{
 			"name": "租车",
@@ -2367,10 +2310,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "http://47.104.69.159/showcar?page=1",
 							"protocol": "http",
@@ -2399,10 +2338,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "http://47.104.69.159/showcar/detail?id=2",
 							"protocol": "http",
@@ -2426,7 +2361,8 @@
 					},
 					"response": []
 				}
-			]
+			],
+			"protocolProfileBehavior": {}
 		},
 		{
 			"name": "二手物品",
@@ -2691,10 +2627,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "http://47.104.69.159/secondhand?page=1",
 							"protocol": "http",
@@ -2723,10 +2655,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "http://47.104.69.159/secondhand/detail?id=2",
 							"protocol": "http",
@@ -2750,11 +2678,13 @@
 					},
 					"response": []
 				}
-			]
+			],
+			"protocolProfileBehavior": {}
 		},
 		{
 			"name": "快递",
-			"item": []
+			"item": [],
+			"protocolProfileBehavior": {}
 		},
 		{
 			"name": "失物招领",
@@ -2983,10 +2913,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "http://47.104.69.159/lostfound?page=1",
 							"protocol": "http",
@@ -3015,10 +2941,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "http://47.104.69.159/lostfound/detail?id=2",
 							"protocol": "http",
@@ -3042,11 +2964,89 @@
 					},
 					"response": []
 				}
-			]
+			],
+			"protocolProfileBehavior": {}
 		},
 		{
 			"name": "驾照报名",
-			"item": []
+			"item": [],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "地址管理",
+			"item": [
+				{
+					"name": "省份-列表",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://shenghuogang/address/provinceList",
+							"protocol": "http",
+							"host": [
+								"shenghuogang"
+							],
+							"path": [
+								"address",
+								"provinceList"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "市-列表",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://shenghuogang/address/cityList?id=140000",
+							"protocol": "http",
+							"host": [
+								"shenghuogang"
+							],
+							"path": [
+								"address",
+								"cityList"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "140000",
+									"description": "省份id"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "区-列表",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://shenghuogang/address/countyList?id=140100",
+							"protocol": "http",
+							"host": [
+								"shenghuogang"
+							],
+							"path": [
+								"address",
+								"countyList"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "140100"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
 		},
 		{
 			"name": "上传图片",
@@ -3082,13 +3082,9 @@
 		},
 		{
 			"name": "登录",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {},
 				"url": {
 					"raw": "http://47.104.69.159/tencent/login?js_code=071chPWR044FX52xPGXR0vjPWR0chPWQ",
 					"protocol": "http",
@@ -3166,6 +3162,7 @@
 						{
 							"key": "openid",
 							"value": "",
+							"description": "微信用户唯一标识",
 							"type": "text"
 						}
 					]
@@ -3187,5 +3184,6 @@
 			},
 			"response": []
 		}
-	]
+	],
+	"protocolProfileBehavior": {}
 }
