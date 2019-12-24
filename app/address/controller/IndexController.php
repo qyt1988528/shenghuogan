@@ -65,7 +65,7 @@ class IndexController extends Controller
         }
         try{
             $provinceData = $this->app->address->api->Helper()->getRegionById($provinceId);
-            if(empty($provinceData) || $provinceData['level']==$this->_level['province']){
+            if(empty($provinceData) || $provinceData->level==$this->_level['province']){
                 $this->resultSet->error(1002,$this->_error['try_later']);
             }
             $result = $this->app->address->api->Helper()->getListByPid($provinceId);
@@ -97,7 +97,7 @@ class IndexController extends Controller
         }
         try{
             $cityData = $this->app->address->api->Helper()->getRegionById($cityId);
-            if(empty($cityData) || $cityData['level']==$this->_level['city']){
+            if(empty($cityData) || $cityData->level==$this->_level['city']){
                 $this->resultSet->error(1002,$this->_error['try_later']);
             }
             $result = $this->app->address->api->Helper()->getListByPid($cityId);

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50726
 File Encoding         : 65001
 
-Date: 2019-12-23 17:49:22
+Date: 2019-12-24 18:07:15
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -355,7 +355,7 @@ CREATE TABLE `order` (
   `create_time` datetime NOT NULL DEFAULT '2000-01-01 00:00:00' COMMENT '创建时间',
   `update_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '修改时间',
   PRIMARY KEY (`order_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=320 DEFAULT CHARSET=utf8 COMMENT='订单表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='订单表';
 
 -- ----------------------------
 -- Records of order
@@ -383,7 +383,7 @@ CREATE TABLE `order_detail` (
   `create_time` datetime NOT NULL DEFAULT '2000-01-01 00:00:00' COMMENT '创建时间',
   `update_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '修改时间',
   PRIMARY KEY (`order_detail_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=306 DEFAULT CHARSET=utf8 COMMENT='订单详情表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='订单详情表';
 
 -- ----------------------------
 -- Records of order_detail
@@ -409,7 +409,7 @@ CREATE TABLE `order_goods` (
   `create_time` datetime NOT NULL DEFAULT '2000-01-01 00:00:00' COMMENT '创建时间',
   `update_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '修改时间',
   PRIMARY KEY (`order_goods_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=311 DEFAULT CHARSET=utf8 COMMENT='订单商品表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='订单商品表';
 
 -- ----------------------------
 -- Records of order_goods
@@ -4467,7 +4467,7 @@ CREATE TABLE `user` (
   `session_key_time` datetime DEFAULT '2000-01-01 00:00:00' COMMENT '当前session_key的获取时间',
   `access_token` varchar(64) DEFAULT '' COMMENT 'access_token登录凭证',
   `cellphone` varchar(32) DEFAULT '' COMMENT '手机号码',
-  `nickname` blob COMMENT '微信昵称',
+  `nickname` varchar(255) DEFAULT NULL COMMENT '微信昵称',
   `gender` tinyint(4) DEFAULT '0' COMMENT '性别 0：未知、1：男、2：女',
   `avatar_url` varchar(255) DEFAULT '' COMMENT '头像',
   `country` varchar(50) DEFAULT '' COMMENT '国家',
@@ -4485,4 +4485,4 @@ CREATE TABLE `user` (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('1', '111', '', '0', 'abc', '', '2000-01-01 00:00:00', '', '', null, '0', '', '', '', '', '0.00', '0', '2000-01-01 00:00:00', '2019-12-23 17:20:48', '1');
+INSERT INTO `user` VALUES ('1', '111', '', '0', 'abc', '', '2000-01-01 00:00:00', 'f747b0e96c9ebb3bdd6ea019a840434b', '', '1', '1', '123', '1', '1', '1', '0.00', '1577181672', '2000-01-01 00:00:00', '2019-12-23 17:20:48', '1');
