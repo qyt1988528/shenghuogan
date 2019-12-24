@@ -88,7 +88,7 @@ class UserApi extends Api
         }
     }
 
-    public function updateUser($postData)
+    public function updateUser($postData,$create)
     {
         try {
             $updateModel = $this->_model->findFirstById($postData['id']);
@@ -99,6 +99,11 @@ class UserApi extends Api
             $updateData['id'] = $postData['id'];
             foreach ($this->getInsertFields() as $v) {
                 $updateData[$v] = $postData[$v];
+            }
+            if($create){
+                $keyTime = time();
+                $updateData['key_time'] = $keyTime;
+                $updateData['access_token'] = $this->makeAccessToken($updateData['id'], $keyTime);
             }
             $updateModel->update($updateData);
             return true;
@@ -177,7 +182,7 @@ class UserApi extends Api
         }
     }
 
-    public function updateByOpenid($postData)
+    public function updateByOpenid($postData,$create=false)
     {
         if(!isset($postData['openid']) || empty($postData['openid'])){
             return false;
@@ -187,7 +192,7 @@ class UserApi extends Api
             return false;
         }else{
             $postData['id'] = $user->id ?? 0;
-            return $this->updateUser($postData);
+            return $this->updateUser($postData,$create);
         }
     }
 

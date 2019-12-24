@@ -61,12 +61,14 @@ class IndexController extends Controller
             }
         }
         try{
-            $insert = $this->app->tencent->api->UserApi()->updateByOpenid($postData);
+            $insert = $this->app->tencent->api->UserApi()->updateByOpenid($postData,true);
             if(empty($insert)){
                 $this->resultSet->error(1002,$this->_error['try_later']);
             }
+            $tokenData =  $this->app->tencent->api->UserApi()->getInfoByOpenid($postData['openid']);
             $data['data'] =[
-                'create_result' => $insert
+                'create_result' => $insert,
+                'access_token' => $tokenData['access_token'] ?? ''
             ];
         }catch (\Exception $e){
             $this->resultSet->error($e->getCode(),$e->getMessage());
