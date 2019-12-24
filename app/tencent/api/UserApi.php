@@ -3,9 +3,9 @@
 namespace Tencent\Api;
 
 use MDK\Api;
-use Tencent\Model\User as UserModel;
+use Tencent\Model\User;
 
-class User extends Api
+class UserApi extends Api
 {
 
     const SECRET = '^&*IUgHGJoiJLYGUYUiyuigOl';
@@ -17,7 +17,7 @@ class User extends Api
     public function __construct()
     {
         $this->_config = $this->app->core->config->config->toArray();
-        $this->_model = new UserModel();
+        $this->_model = new User();
     }
 
     public function getUserId()
@@ -139,12 +139,16 @@ class User extends Api
         $token = md5(self::SECRET . $keyTime . $userId);
         return $token;
     }
-
-    public function getInfoByOpenid($openid, $sessionKey='')
-    {
+    public function getUserByOpenid($openid){
         $condition = " openid = '" . $openid."'";
         $condition .= " and status = " . $this->_config['data_status']['valid'];
         $user = $this->_model->findFirst($condition);
+        return $user;
+    }
+
+    public function getInfoByOpenid($openid, $sessionKey='')
+    {
+        $user = $this->getUserByOpenid($openid);
         if (empty($user)) {
             //之前没有此用户的记录
             //保存openid、session_key、session_key_time
@@ -161,13 +165,13 @@ class User extends Api
             return [];
         } else {
             //之前有此用户的记录
-            if (empty($user['nickname'])) {//微信昵称不能为空
+            if (empty($user->nickname)) {//微信昵称不能为空
                 //未保存用户信息
                 return [];
             } else {
                 //保存过用户信息
                 return [
-                    'access_token' => $user['access_token'] ?? ''
+                    'access_token' => $user->access_token ?? ''
                 ];
             }
         }
@@ -178,33 +182,15 @@ class User extends Api
         if(!isset($postData['openid']) || empty($postData['openid'])){
             return false;
         }
-        $condition = " openid = '" . $postData['openid']."'";
-        $condition .= " and status = " . $this->_config['data_status']['valid'];
-        $user = $this->_model->findFirst($condition);
-        var_dump($user);exit;
+        $user = $this->getUserByOpenid($postData['openid']);
         if(empty($user)){
             return false;
         }else{
-            $postData['id'] = $user['id'];
+            $postData['id'] = $user->id ?? 0;
             return $this->updateUser($postData);
         }
     }
 
-    public function createByOpenid($postData){
-        if(empty($postData['openid'])){
-            return false;
-        }
-        $condition = " openid = '" . $postData['openid']."'";
-        $condition .= " and status = " . $this->_config['data_status']['valid'];
-        $user = $this->_model->findFirst($condition);
-        if(empty($user)){
-            return false;
-        }else{
-            $postData['id'] = $user['id'];
-            return $this->updateUser($postData);
-        }
-
-    }
 
     public function getUserIdByToken($accessToken){
         if(empty($accessToken)){
@@ -216,7 +202,7 @@ class User extends Api
         if(empty($user)){
             return 0;
         }else{
-            return $user['id'] ?? 0;
+            return $user->id ?? 0;
         }
     }
 

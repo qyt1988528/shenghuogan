@@ -148,7 +148,7 @@ class WeChat extends Api
         }else{
             $sessionInfo = json_decode($sessionInfo,true);
             if(isset($sessionInfo['session_key']) && isset($sessionInfo['openid'])){
-                $this->app->tencent->api->User()->getInfoByOpenid($sessionInfo['openid'],$sessionInfo['session_key']);
+                $this->app->tencent->api->UserApi()->getInfoByOpenid($sessionInfo['openid'],$sessionInfo['session_key']);
                 return $sessionInfo;
             }else{
                 return [];

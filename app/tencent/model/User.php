@@ -28,22 +28,17 @@ class User extends Model
     public $password;
 
     /**
-     * 
-     * @Column(type="string", nullable=true, column="merchant_id")
+     *
+     * @Column(type="integer", nullable=true, column="merchant_id")
      */
     public $merchant_id;
 
     /**
-     *
+     * @Unique
      * @Column(type="string", nullable=true, column="openid")
      */
     public $openid;
 
-    /**
-     *
-     * @Column(type="string", nullable=true, column="access_token")
-     */
-    public $access_token;
     /**
      *
      * @Column(type="string", nullable=true, column="session_key")
@@ -54,14 +49,16 @@ class User extends Model
      * @Column(type="string", nullable=true, column="session_key_time")
      */
     public $session_key_time;
-
-
+    /**
+     *
+     * @Column(type="string", nullable=true, column="access_token")
+     */
+    public $access_token;
     /**
      *
      * @Column(type="string", nullable=true, column="cellphone")
      */
     public $cellphone;
-
     /**
      *
      * @Column(type="string", nullable=true, column="nickname")
@@ -93,6 +90,11 @@ class User extends Model
      * @Column(type="string", nullable=true, column="city")
      */
     public $city;
+    /**
+     *
+     * @Column(type="float", nullable=true, column="account_balance")
+     */
+    public $account_balance;
     /**
      *
      * @Column(type="integer", nullable=true, column="key_time")

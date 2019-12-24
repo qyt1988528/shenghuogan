@@ -17,7 +17,7 @@ class AdminController extends Controller
         $config = $this->app->core->config->config->toArray();
         $this->_error = $config['error_message'];
         //验证用户是否登录
-        $this->_userId = $this->app->tencent->api->User()->getUserId();
+        $this->_userId = $this->app->tencent->api->UserApi()->getUserId();
         if(empty($this->_userId)){
             $this->resultSet->error(1010,$this->_error['unlogin']);exit;
         }

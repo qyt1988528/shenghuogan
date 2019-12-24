@@ -17,7 +17,7 @@ class IndexController extends Controller
     {
         $config = $this->app->core->config->config->toArray();
         $this->_error = $config['error_message'];
-        $this->_userId = $this->app->tencent->api->User()->getUserId();
+        $this->_userId = $this->app->tencent->api->UserApi()->getUserId();
     }
     /**
      * 微信session.
@@ -54,18 +54,18 @@ class IndexController extends Controller
     public function createAction() {
         //权限验证
         $postData = $this->request->getPost();
-        $insertFields = $this->app->tencent->api->User()->getInsertFields();
+        $insertFields = $this->app->tencent->api->UserApi()->getInsertFields();
         foreach ($insertFields as $v){
             if(empty($postData[$v])){
                 $this->resultSet->error(1001,$this->_error['invalid_input']);
             }
         }
         try{
-            $insert = $this->app->tencent->api->User()->updateByOpenid($postData);
+            $insert = $this->app->tencent->api->UserApi()->updateByOpenid($postData);
             if(empty($insert)){
                 $this->resultSet->error(1002,$this->_error['try_later']);
             }
-            $data =[
+            $data['data'] =[
                 'create_result' => $insert
             ];
         }catch (\Exception $e){
@@ -81,7 +81,7 @@ class IndexController extends Controller
             $this->resultSet->error(1001,$this->_error['invalid_input']);
         }
         try{
-            $insert = $this->app->tencent->api->User()->getInfoByOpenid($openid);
+            $insert = $this->app->tencent->api->UserApi()->getInfoByOpenid($openid);
             if(empty($insert)){
                 $this->resultSet->error(1002,$this->_error['not_exist']);
             }
