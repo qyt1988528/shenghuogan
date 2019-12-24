@@ -21,16 +21,6 @@ class IndexController extends Controller
 
     /**
      * 获取省
-     * test action.
-     * @return void
-     * @Route("/test", methods="GET", name="address")
-     */
-    public function testAction(){
-        var_dump(111);exit;
-
-    }
-    /**
-     * 获取省
      * provinceList action.
      * @return void
      * @Route("/provinceList", methods="GET", name="address")
@@ -43,7 +33,7 @@ class IndexController extends Controller
                     'province_list' => $result
                 ];
             }else{
-                $this->resultSet->error(1002,$this->_error['try_later']);
+                $this->resultSet->error(1001,$this->_error['try_later']);
             }
         }catch (\Exception $e){
             $this->resultSet->error($e->getCode(),$e->getMessage());
@@ -74,7 +64,7 @@ class IndexController extends Controller
                     'city_list' => $result
                 ];
             }else{
-                $this->resultSet->error(1002,$this->_error['try_later']);
+                $this->resultSet->error(1003,$this->_error['try_later']);
             }
         }catch (\Exception $e){
             $this->resultSet->error($e->getCode(),$e->getMessage());
@@ -106,7 +96,7 @@ class IndexController extends Controller
                     'county_list' => $result
                 ];
             }else{
-                $this->resultSet->error(1002,$this->_error['try_later']);
+                $this->resultSet->error(1003,$this->_error['try_later']);
             }
         }catch (\Exception $e){
             $this->resultSet->error($e->getCode(),$e->getMessage());
