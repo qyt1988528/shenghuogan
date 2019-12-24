@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50726
 File Encoding         : 65001
 
-Date: 2019-12-24 18:07:15
+Date: 2019-12-24 21:30:48
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -21,23 +21,26 @@ SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `address`;
 CREATE TABLE `address` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '账号ID',
-  `name` varchar(45) NOT NULL DEFAULT '' COMMENT '姓名',
-  `cellphone` varchar(16) NOT NULL DEFAULT '手机号码',
-  `province_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '省',
-  `city_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '城市',
-  `county_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '区县',
-  `detailed_address` varchar(256) NOT NULL DEFAULT '' COMMENT '详细地址',
-  `is_default` tinyint(4) NOT NULL DEFAULT '0' COMMENT '是否为默认地址',
-  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态',
-  `create_time` datetime NOT NULL DEFAULT '2000-01-01 00:00:00' COMMENT '创建时间',
-  `update_time` int(11) NOT NULL,
+  `user_id` int(11) unsigned DEFAULT '0' COMMENT '账号ID',
+  `name` varchar(45) DEFAULT '' COMMENT '姓名',
+  `cellphone` varchar(16) DEFAULT '手机号码',
+  `province_id` int(11) unsigned DEFAULT '0' COMMENT '省',
+  `city_id` int(11) unsigned DEFAULT '0' COMMENT '城市',
+  `county_id` int(11) unsigned DEFAULT '0' COMMENT '区县',
+  `detailed_address` varchar(256) DEFAULT '' COMMENT '详细地址',
+  `is_default` tinyint(4) DEFAULT '0' COMMENT '是否为默认地址',
+  `status` tinyint(1) DEFAULT '1' COMMENT '状态',
+  `create_time` datetime DEFAULT '2000-01-01 00:00:00' COMMENT '创建时间',
+  `update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='地址管理';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='地址管理';
 
 -- ----------------------------
 -- Records of address
 -- ----------------------------
+INSERT INTO `address` VALUES ('1', '1', '测试姓名', '13800001111', '110000', '110100', '110101', '北京市东城区测试详细地址', '-1', '-1', '2019-12-24 20:13:24', '2019-12-24 20:40:01');
+INSERT INTO `address` VALUES ('2', '1', '测试姓名', '13800001111', '110000', '110100', '110101', '北京市东城区测试详细地址', '-1', '1', '2019-12-24 20:32:40', '2019-12-24 20:32:40');
+INSERT INTO `address` VALUES ('3', '1', '测试姓名', '13800001111', '110000', '110100', '110101', '北京市东城区测试详细地址', '-1', '1', '2019-12-24 20:58:11', '2019-12-24 20:58:11');
 
 -- ----------------------------
 -- Table structure for `catering`
@@ -4479,10 +4482,11 @@ CREATE TABLE `user` (
   `update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `status` tinyint(4) DEFAULT '1' COMMENT '1:有效,-1:无效',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `openid` (`openid`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='用户表';
+  UNIQUE KEY `openid` (`openid`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='用户表';
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
 INSERT INTO `user` VALUES ('1', '111', '', '0', 'abc', '', '2000-01-01 00:00:00', 'f747b0e96c9ebb3bdd6ea019a840434b', '', '1', '1', '123', '1', '1', '1', '0.00', '1577181672', '2000-01-01 00:00:00', '2019-12-23 17:20:48', '1');
+INSERT INTO `user` VALUES ('2', '', '', '0', 'bbb', '', '2000-01-01 00:00:00', '8102de236a86e5b8c4c63260e11fbcd9', '', '1', '1', '123', '1', '1', '1', '0.00', '1577191087', '2000-01-01 00:00:00', '2019-12-24 20:37:35', '1');

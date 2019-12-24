@@ -40,12 +40,13 @@ class AdminController extends Controller
             }
         }
         try{
-            $insert = $this->app->address->api->Helper()->createAddress($postData);
-            if(empty($insert)){
+            $insertId = $this->app->address->api->Helper()->createAddress($postData);
+            if(empty($insertId)){
                 $this->resultSet->error(1002,$this->_error['try_later']);
             }
             $data['data'] =[
-                'id' => $insert
+                'create_result' => true,
+                'id' => (int)$insertId
             ];
         }catch (\Exception $e){
             $this->resultSet->error($e->getCode(),$e->getMessage());
@@ -61,7 +62,37 @@ class AdminController extends Controller
      * @Route("/update", methods="POST", name="addressadmin")
      */
     public function updateAction() {
-
+        //权限验证
+        $postData = $this->request->getPost();
+        $postData['user_id'] = $this->_userId;
+        $insertFields = $this->app->address->api->Helper()->getInsertFields();
+        foreach ($insertFields as $v){
+            if(empty($postData[$v])){
+                $this->resultSet->error(1001,$this->_error['invalid_input']);
+            }
+        }
+        $addressId = $this->request->getPost('id',null,0);
+        if(empty($addressId)){
+            $this->resultSet->error(1002,$this->_error['invalid_input']);
+        }
+        try{
+            $deleteResult = $this->app->address->api->Helper()->deleteAddress($postData);
+            if(empty($deleteResult)){
+                $this->resultSet->error(1003,$this->_error['try_later']);
+            }
+            $insertId = $this->app->address->api->Helper()->createAddress($postData);
+            if(empty($insertId)){
+                $this->resultSet->error(1004,$this->_error['try_later']);
+            }
+            $data['data'] =[
+                'update_result' => true,
+//                'id' => (int)$insertId
+            ];
+        }catch (\Exception $e){
+            $this->resultSet->error($e->getCode(),$e->getMessage());
+        }
+        $this->resultSet->success()->setData($data);
+        $this->response->success($this->resultSet->toObject());
     }
     /**
      * 删除地址
@@ -70,6 +101,25 @@ class AdminController extends Controller
      * @Route("/delete", methods="POST", name="addressadmin")
      */
     public function deleteAction() {
-
+        //权限验证
+        $addressId = $this->request->getPost('id',null,0);
+        if(empty($addressId)){
+            $this->resultSet->error(1001,$this->_error['invalid_input']);
+        }
+        try{
+            $postData['user_id'] = $this->_userId;
+            $postData['id'] = $addressId;
+            $deleteResult = $this->app->address->api->Helper()->deleteAddress($postData);
+            if(empty($deleteResult)){
+                $this->resultSet->error(1002,$this->_error['try_later']);
+            }
+            $data['data'] =[
+                'delete_result' => $deleteResult,
+            ];
+        }catch (\Exception $e){
+            $this->resultSet->error($e->getCode(),$e->getMessage());
+        }
+        $this->resultSet->success()->setData($data);
+        $this->response->success($this->resultSet->toObject());
     }
 }

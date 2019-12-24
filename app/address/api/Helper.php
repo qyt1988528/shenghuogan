@@ -25,9 +25,9 @@ class Helper extends Api
             'user_id',
             'name',
             'cellphone',
-            'province',
-            'city',
-            'county',
+            'province_id',
+            'city_id',
+            'county_id',
             'detailed_address',
         ];
     }
@@ -94,20 +94,27 @@ class Helper extends Api
         }
     }
 
-    public function deleteAddress($goodsId)
+    public function deleteAddress($postData)
     {
+        if(empty($postData['id']) || empty($postData['user_id'])){
+            return false;
+        }
+        //权限
+        $addressData = $this->detail($postData['id']);
+        if(empty($addressData) || (int)$addressData->user_id != (int)$postData['user_id']){
+            return false;
+        }
         try {
             $invalid = $this->_config['data_status']['invalid'];
-            $updateModel = $this->_model->findFirstById($goodsId);
+            $updateModel = $this->_model->findFirstById($postData['id']);
             if (empty($updateModel)) {
                 return false;
             }
             $updateData = [
-                'id' => $goodsId,
+                'id' => $postData['id'],
                 'status' => $invalid,
             ];
-            $updateModel->update($updateData);
-            return true;
+            return $updateModel->update($updateData);
         } catch (\Exception $e) {
             return false;
         }
@@ -152,9 +159,21 @@ class Helper extends Api
 
     }
 
-    public function getListByPid($pid=0){
+    public function getListByPid($pid=0,$level=0){
+        $colums = 'id,name,pid';
+        switch ($level){
+            case $this->_config['region_level']['province'] - 1:
+                $colums .=',id as province_id';
+                break;
+            case $this->_config['region_level']['city'] - 1:
+                $colums .=',id as city_id';
+                break;
+            case $this->_config['region_level']['county'] - 1:
+                $colums .=',id as county_id';
+                break;
+        }
         $areaList = $this->modelsManager->createBuilder()
-            ->columns('id,name,pid')
+            ->columns($colums)
             ->from(['sg' => 'Address\Model\Region'])
             ->where('sg.pid = :pid: ', ['pid' => $pid==0 ?  $this->_china_id : $pid])
             ->orderBy('id')

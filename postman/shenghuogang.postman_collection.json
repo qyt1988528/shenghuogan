@@ -2981,10 +2981,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://shenghuogang/address/provinceList",
+							"raw": "http://47.104.69.159/address/provinceList",
 							"protocol": "http",
 							"host": [
-								"shenghuogang"
+								"47",
+								"104",
+								"69",
+								"159"
 							],
 							"path": [
 								"address",
@@ -3000,10 +3003,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://shenghuogang/address/cityList?id=140000",
+							"raw": "http://47.104.69.159/address/cityList?id=140000",
 							"protocol": "http",
 							"host": [
-								"shenghuogang"
+								"47",
+								"104",
+								"69",
+								"159"
 							],
 							"path": [
 								"address",
@@ -3026,10 +3032,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://shenghuogang/address/countyList?id=140100",
+							"raw": "http://47.104.69.159/address/countyList?id=140100",
 							"protocol": "http",
 							"host": [
-								"shenghuogang"
+								"47",
+								"104",
+								"69",
+								"159"
 							],
 							"path": [
 								"address",
@@ -3040,6 +3049,177 @@
 									"key": "id",
 									"value": "140100"
 								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "地址-添加",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"description": "用户token",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "测试姓名",
+									"description": "姓名",
+									"type": "text"
+								},
+								{
+									"key": "cellphone",
+									"value": "13800001111",
+									"description": "手机号",
+									"type": "text"
+								},
+								{
+									"key": "province_id",
+									"value": "110000",
+									"description": "省id",
+									"type": "text"
+								},
+								{
+									"key": "city_id",
+									"value": "110100",
+									"description": "市id",
+									"type": "text"
+								},
+								{
+									"key": "county_id",
+									"value": "110101",
+									"description": "区id",
+									"type": "text"
+								},
+								{
+									"key": "detailed_address",
+									"value": "北京市东城区测试详细地址",
+									"description": "详细地址",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://shenghuogang/addressadmin/create",
+							"protocol": "http",
+							"host": [
+								"shenghuogang"
+							],
+							"path": [
+								"addressadmin",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "地址-更新",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"description": "用户token",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "测试姓名",
+									"description": "姓名",
+									"type": "text"
+								},
+								{
+									"key": "cellphone",
+									"value": "13800001111",
+									"description": "手机号",
+									"type": "text"
+								},
+								{
+									"key": "province_id",
+									"value": "110000",
+									"description": "省id",
+									"type": "text"
+								},
+								{
+									"key": "city_id",
+									"value": "110100",
+									"description": "市id",
+									"type": "text"
+								},
+								{
+									"key": "county_id",
+									"value": "110101",
+									"description": "区id",
+									"type": "text"
+								},
+								{
+									"key": "detailed_address",
+									"value": "北京市东城区测试详细地址",
+									"description": "详细地址",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://shenghuogang/addressadmin/update",
+							"protocol": "http",
+							"host": [
+								"shenghuogang"
+							],
+							"path": [
+								"addressadmin",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "地址-删除",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"description": "用户token",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "地址id",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://shenghuogang/addressadmin/delete",
+							"protocol": "http",
+							"host": [
+								"shenghuogang"
+							],
+							"path": [
+								"addressadmin",
+								"delete"
 							]
 						}
 					},
@@ -3119,49 +3299,49 @@
 					"formdata": [
 						{
 							"key": "avatar_url",
-							"value": "",
+							"value": "123",
 							"description": "头像",
 							"type": "text"
 						},
 						{
 							"key": "country",
-							"value": "",
+							"value": "1",
 							"description": "国家",
 							"type": "text"
 						},
 						{
 							"key": "province",
-							"value": "",
+							"value": "1",
 							"description": "省",
 							"type": "text"
 						},
 						{
 							"key": "city",
-							"value": "",
+							"value": "1",
 							"description": "市",
 							"type": "text"
 						},
 						{
 							"key": "nickname",
-							"value": "",
+							"value": "1",
 							"description": "昵称",
 							"type": "text"
 						},
 						{
 							"key": "gender",
-							"value": "",
+							"value": "1",
 							"description": "性别",
 							"type": "text"
 						},
 						{
 							"key": "language",
-							"value": "",
+							"value": "1",
 							"description": "语言",
 							"type": "text"
 						},
 						{
 							"key": "openid",
-							"value": "",
+							"value": "abc",
 							"description": "微信用户唯一标识",
 							"type": "text"
 						}

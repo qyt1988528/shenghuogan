@@ -201,7 +201,7 @@ class UserApi extends Api
         if(empty($accessToken)){
             return 0;
         }
-        $condition = " access_token = " . $accessToken;
+        $condition = " access_token = '" . $accessToken."'";
         $condition .= " and status = " . $this->_config['data_status']['valid'];
         $user = $this->_model->findFirst($condition);
         if(empty($user)){
@@ -223,6 +223,10 @@ class UserApi extends Api
                 $header = $headers['Authorization'];
             }elseif(isset($headers['ACCESS_TOKEN'])){
                 $header = $headers['ACCESS_TOKEN'];
+            }elseif(isset($headers['access_token'])){
+                $header = $headers['access_token'];
+            }elseif(isset($headers['Token'])){
+                $header = $headers['Token'];
             }
         }
         return $header;

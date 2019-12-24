@@ -63,7 +63,7 @@ class IndexController extends Controller
             if (empty($provinceData) || (int)$provinceData->level != $this->_level['province']) {
                 $this->resultSet->error(1002, $this->_error['try_later']);
             }
-            $result = $this->app->address->api->Helper()->getListByPid($provinceId);
+            $result = $this->app->address->api->Helper()->getListByPid($provinceId,$this->_level['province']);
             if (!empty($result)) {
                 $data['data'] = [
                     'city_list' => $result
@@ -97,7 +97,7 @@ class IndexController extends Controller
             if (empty($cityData) || (int)$cityData->level != $this->_level['city']) {
                 $this->resultSet->error(1002, $this->_error['try_later']);
             }
-            $result = $this->app->address->api->Helper()->getListByPid($cityId);
+            $result = $this->app->address->api->Helper()->getListByPid($cityId,$this->_level['city']);
             if (!empty($result)) {
                 $data['data'] = [
                     'county_list' => $result
