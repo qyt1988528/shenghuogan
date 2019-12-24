@@ -3003,7 +3003,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://47.104.69.159/address/cityList?id=140000",
+							"raw": "http://47.104.69.159/address/cityList?id=110000",
 							"protocol": "http",
 							"host": [
 								"47",
@@ -3018,7 +3018,7 @@
 							"query": [
 								{
 									"key": "id",
-									"value": "140000",
+									"value": "110000",
 									"description": "省份id"
 								}
 							]
@@ -3137,6 +3137,12 @@
 							"mode": "formdata",
 							"formdata": [
 								{
+									"key": "id",
+									"value": "1",
+									"description": "地址id",
+									"type": "text"
+								},
+								{
 									"key": "name",
 									"value": "测试姓名",
 									"description": "姓名",
@@ -3175,10 +3181,13 @@
 							]
 						},
 						"url": {
-							"raw": "http://shenghuogang/addressadmin/update",
+							"raw": "http://47.104.69.159/addressadmin/update",
 							"protocol": "http",
 							"host": [
-								"shenghuogang"
+								"47",
+								"104",
+								"69",
+								"159"
 							],
 							"path": [
 								"addressadmin",
@@ -3195,7 +3204,7 @@
 						"header": [
 							{
 								"key": "Token",
-								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"value": "8102de236a86e5b8c4c63260e11fbcd9",
 								"description": "用户token",
 								"type": "text"
 							}
@@ -3212,10 +3221,13 @@
 							]
 						},
 						"url": {
-							"raw": "http://shenghuogang/addressadmin/delete",
+							"raw": "http://47.104.69.159/addressadmin/delete",
 							"protocol": "http",
 							"host": [
-								"shenghuogang"
+								"47",
+								"104",
+								"69",
+								"159"
 							],
 							"path": [
 								"addressadmin",
@@ -3341,7 +3353,7 @@
 						},
 						{
 							"key": "openid",
-							"value": "abc",
+							"value": "bbb",
 							"description": "微信用户唯一标识",
 							"type": "text"
 						}
