@@ -188,4 +188,11 @@ class Helper extends Api
         return $regionData;
     }
 
+    public function getAddressListByUserId($userId){
+        $condition = "user_id = " . $userId;
+        $condition .= " and status = " . $this->_config['data_status']['valid'];
+        $addressList = $this->_model->find($condition);
+        return $addressList;
+    }
+
 }

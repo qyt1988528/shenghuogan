@@ -20,25 +20,23 @@ class Take extends Api
             'optional_service_id',
             'description',
             'num',
+            'publish_user_id'
         ];
     }
     public function getDefaultInsertFields($postData){
         $defaultInsertFields = [
+            'remarks' => $postData['remarks'] ?? '',
+            'gratuity' => $postData['gratuity'] ?? 0,
             'is_hiring' => $this->_config['hiring_status']['hiring'],
             'create_time' => date('Y-m-d H:i:s'),
             'publish_time' => date('Y-m-d H:i:s'),
-            'remarks' => $postData['remarks'] ?? '',
-            'gratuity' => $postData['gratuity'] ?? 0,
-            'publish_user_id' => $postData['publish_user_id'] ?? 0
+            // 'publish_user_id' => $postData['publish_user_id'] ?? 0
         ];
-        if(!isset($postData['together_price']) || empty($postData['together_price'])){
-            $defaultInsertFields['together_price'] = $postData['self_price'];
-        }
-        $defaultInsertFields['total_price'] = 0;
+        $defaultInsertFields['total_price'] = $this->calcTotalPrice($postData);
         //is_recommend、sort、update_time、status采用默认值
         return $defaultInsertFields;
     }
-    public function createSecond($postData){
+    public function createTake($postData){
         try{
             $insertData = $this->getDefaultInsertFields($postData);
             foreach ($this->getInsertFields() as $v){
@@ -51,7 +49,7 @@ class Take extends Api
             return 0;
         }
     }
-    public function updateSecond($postData){
+    public function updateTake($postData){
         try{
             $updateData = ['id' => $postData['id']];
             $updateModel = $this->_model->findFirstById($postData['id']);
@@ -68,7 +66,7 @@ class Take extends Api
         }
     }
     //下架
-    public function withdrawSecond($goodsId){
+    public function withdrawTake($goodsId){
         try{
             $updateModel = $this->_model->findFirstById($goodsId);
             if(empty($updateModel)){
@@ -84,7 +82,7 @@ class Take extends Api
             return false;
         }
     }
-    public function deleteSecond($goodsId){
+    public function deleteTake($goodsId){
         try{
             $invalid = $this->_config['data_status']['invalid'];
             $updateModel = $this->_model->findFirstById($goodsId);
@@ -138,6 +136,30 @@ class Take extends Api
             ->execute();
         return $goods;
 
+    }
+
+    public function calcTotalPrice($postData){
+        $total = 0;
+        $num = $postData['num'] ?? 0;
+        $num = (int) $num;
+        //规格
+        $specsId = $postData['specs_id'] ?? 0;
+        $specsData = $this->app->express->api->Helper()->detail($specsId);
+        if(!empty($specsData) && isset($specsData->gratuity)){
+            $total += (float)$specsData->gratuity;
+        }
+        //可选
+        $optionalServiceId = $postData['optional_service_id'] ?? 0;
+        $optionalServiceData = $this->app->express->api->Helper()->detail($optionalServiceId);
+        if(!empty($optionalServiceData) && isset($optionalServiceData->gratuity)){
+            $total += (float)$optionalServiceData->gratuity;
+        }
+        $total = $total * $num;
+        //小费
+        if(isset($postData['gratuity'])){
+            $total += (float)$postData['gratuity'];
+        }
+        return $total;
     }
 
 }

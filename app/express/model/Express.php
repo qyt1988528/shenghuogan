@@ -4,7 +4,7 @@ namespace Express\Model;
 
 use MDK\Model;
 
-class ExpressSend extends Model
+class Express extends Model
 {
     /**
      *
@@ -16,46 +16,19 @@ class ExpressSend extends Model
 
     /**
      *
-     * @Column(type="integer", nullable=true, column="express_company_id")
+     * @Column(type="integer", nullable=true, column="type_id")
      */
-    public $express_company_id;
-
-
+    public $type_id;
     /**
      *
-     * @Column(type="integer", size="11", nullable=true, column="user_address_id")
+     * @Column(type="string", size="255", nullable=true, column="description")
      */
-    public $user_address_id;
-    /**
-     *
-     * @Column(type="integer", size="11", nullable=true, column="address_id")
-     */
-    public $address_id;
-    /**
-     *
-     * @Column(type="string", size="255", nullable=true, column="remarks")
-     */
-    public $remarks;
+    public $description;
     /**
      *
      * @Column(type="float", nullable=true, column="gratuity")
      */
     public $gratuity;
-    /**
-     *
-     * @Column(type="int", nullable=true, column="is_hiring")
-     */
-    public $is_hiring;
-    /**
-     *
-     * @Column(type="int", nullable=true, column="publish_user_id")
-     */
-    public $publish_user_id;
-    /**
-     *
-     * @Column(type="time", nullable=true, column="publish_time")
-     */
-    public $publish_time;
     /**
      *
      * @Column(type="string", nullable=true, column="create_time")

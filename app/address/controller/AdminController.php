@@ -122,4 +122,23 @@ class AdminController extends Controller
         $this->resultSet->success()->setData($data);
         $this->response->success($this->resultSet->toObject());
     }
+
+    /**
+     * 地址列表
+     * Create action.
+     * @return void
+     * @Route("/list", methods="GET", name="addressadmin")
+     */
+    public function listAction() {
+        try{
+            $deleteResult = $this->app->address->api->Helper()->getAddressListByUserId($this->_userId);
+            $data['data'] =[
+                'address_list' => $deleteResult,
+            ];
+        }catch (\Exception $e){
+            $this->resultSet->error($e->getCode(),$e->getMessage());
+        }
+        $this->resultSet->success()->setData($data);
+        $this->response->success($this->resultSet->toObject());
+    }
 }

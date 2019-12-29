@@ -17,7 +17,9 @@ class Send extends Api
         return $insertFields = [
             'express_company_id',
             'address_id',
+            'user_address_id',
             'gratuity',
+            'publish_user_id',
         ];
     }
     public function getDefaultInsertFields($postData){
@@ -26,7 +28,7 @@ class Send extends Api
             'create_time' => date('Y-m-d H:i:s'),
             'publish_time' => date('Y-m-d H:i:s'),
             'remarks' => $postData['remarks'] ?? '',
-            'publish_user_id' => $postData['publish_user_id'] ?? 0
+            // 'publish_user_id' => $postData['publish_user_id'] ?? 0
         ];
         if(!isset($postData['together_price']) || empty($postData['together_price'])){
             $defaultInsertFields['together_price'] = $postData['self_price'];

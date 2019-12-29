@@ -1,8 +1,8 @@
 <?php
-namespace Secondhand\Api;
+namespace Express\Api;
 
+use Express\Model\Express;
 use MDK\Api;
-use Secondhand\Model\Second;
 
 class Helper extends Api
 {
@@ -10,7 +10,7 @@ class Helper extends Api
     private $_model;
     public function __construct() {
         $this->_config = $this->app->core->config->config->toArray();
-        $this->_model = new Second();
+        $this->_model = new Express();
     }
 
     public function getInsertFields(){
@@ -103,12 +103,11 @@ class Helper extends Api
             return false;
         }
     }
-    public function detail($goodsId){
-        $condition = "id = ".$goodsId;
-        $condition .= " and is_selling = ".$this->_config['selling_status']['selling'];
+    public function detail($id){
+        $condition = "id = ".$id;
         $condition .= " and status = ".$this->_config['data_status']['valid'];
-        $goods = $this->_model->findFirst($condition);
-        return $goods;
+        $expressConfig = $this->_model->findFirst($condition);
+        return $expressConfig;
     }
     public function search($goodsName){
         $goods = $this->modelsManager->createBuilder()
@@ -123,17 +122,19 @@ class Helper extends Api
         return $goods;
     }
 
-    public function getList($page=1,$pageSize=10){
-        //标题、图片、初始价格、单独购买价格、描述、位置、推荐、排序、点赞、销量
+    /**
+     * 获取快递配置列表
+     * 1-寄快递，2-取件规格，3-可选服务，4快递列表
+     * @param int $typeId
+     * @return mixed
+     */
+    public function getTypeList($typeId=1){
         //分页
-        $start = ($page-1)*$pageSize;
         $goods = $this->modelsManager->createBuilder()
-            ->columns('*')
-            ->from(['sg'=>'Secondhand\Model\Second'])
-            ->where('sg.is_selling = :selling: ',['selling'=>$this->_config['selling_status']['selling']])
+            ->columns('id,type_id,description,gratuity')
+            ->from(['sg'=>'Express\Model\Express'])
+            ->Where('sg.type_id = :type_id: ',['type_id'=>$typeId])
             ->andWhere('sg.status = :valid: ',['valid'=>$this->_config['data_status']['valid']])
-            ->orderBy('publish_time desc')
-            ->limit($start,$pageSize)
             ->getQuery()
             ->execute();
         return $goods;
