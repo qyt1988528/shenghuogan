@@ -36,7 +36,7 @@ class Send extends Api
         //is_recommend、sort、update_time、status采用默认值
         return $defaultInsertFields;
     }
-    public function createSecond($postData){
+    public function createSend($postData){
         try{
             $insertData = $this->getDefaultInsertFields($postData);
             foreach ($this->getInsertFields() as $v){
@@ -49,7 +49,7 @@ class Send extends Api
             return 0;
         }
     }
-    public function updateSecond($postData){
+    public function updateSend($postData){
         try{
             $updateData = ['id' => $postData['id']];
             $updateModel = $this->_model->findFirstById($postData['id']);
@@ -66,7 +66,7 @@ class Send extends Api
         }
     }
     //下架
-    public function withdrawSecond($goodsId){
+    public function withdrawSend($goodsId){
         try{
             $updateModel = $this->_model->findFirstById($goodsId);
             if(empty($updateModel)){
@@ -82,7 +82,7 @@ class Send extends Api
             return false;
         }
     }
-    public function deleteSecond($goodsId){
+    public function deleteSend($goodsId){
         try{
             $invalid = $this->_config['data_status']['invalid'];
             $updateModel = $this->_model->findFirstById($goodsId);
