@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "f4c82b01-65b9-4088-a4d4-accf7e727f66",
+		"_postman_id": "f5f56257-a4c2-473e-82dc-5efcf8f6a8a9",
 		"name": "shenghuogang",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -12,7 +12,13 @@
 					"name": "超市-添加商品",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "formdata",
 							"formdata": [
@@ -92,7 +98,13 @@
 					"name": "超市-更新商品",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "formdata",
 							"formdata": [
@@ -169,7 +181,13 @@
 					"name": "超市-下架商品",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "formdata",
 							"formdata": [
@@ -246,7 +264,13 @@
 					"name": "超市-删除商品",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "formdata",
 							"formdata": [
@@ -279,6 +303,10 @@
 					"request": {
 						"method": "GET",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "http://47.104.69.159/supermarket/specs",
 							"protocol": "http",
@@ -301,6 +329,10 @@
 					"request": {
 						"method": "GET",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "http://47.104.69.159/supermarket",
 							"protocol": "http",
@@ -322,6 +354,10 @@
 					"request": {
 						"method": "GET",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "http://47.104.69.159/supermarket/detail?id=1",
 							"protocol": "http",
@@ -350,6 +386,10 @@
 					"request": {
 						"method": "GET",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "http://47.104.69.159/supermarket/search?keywords=西",
 							"protocol": "http",
@@ -373,8 +413,7 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "住宿-酒店",
@@ -383,7 +422,13 @@
 					"name": "住宿-添加",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "formdata",
 							"formdata": [
@@ -458,7 +503,13 @@
 					"name": "住宿-更新",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "formdata",
 							"formdata": [
@@ -539,7 +590,13 @@
 					"name": "住宿-下架",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "formdata",
 							"formdata": [
@@ -572,7 +629,13 @@
 					"name": "住宿-删除",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "formdata",
 							"formdata": [
@@ -606,6 +669,10 @@
 					"request": {
 						"method": "GET",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "http://47.104.69.159/hotel?page=1",
 							"protocol": "http",
@@ -634,6 +701,10 @@
 					"request": {
 						"method": "GET",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "http://47.104.69.159/hotel/detail?id=1",
 							"protocol": "http",
@@ -663,6 +734,10 @@
 					"request": {
 						"method": "GET",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "http://47.104.69.159/hotel/search?keywords=店",
 							"protocol": "http",
@@ -687,8 +762,7 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "餐饮-美食",
@@ -697,7 +771,13 @@
 					"name": "餐饮-添加",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "formdata",
 							"formdata": [
@@ -771,7 +851,13 @@
 					"name": "餐饮-更新",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "formdata",
 							"formdata": [
@@ -851,7 +937,13 @@
 					"name": "餐饮-下架",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "formdata",
 							"formdata": [
@@ -883,7 +975,13 @@
 					"name": "餐饮-删除",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "formdata",
 							"formdata": [
@@ -916,6 +1014,10 @@
 					"request": {
 						"method": "GET",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "http://47.104.69.159/catering?page=1",
 							"protocol": "http",
@@ -944,6 +1046,10 @@
 					"request": {
 						"method": "GET",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "http://47.104.69.159/catering/detail?id=1",
 							"protocol": "http",
@@ -972,6 +1078,10 @@
 					"request": {
 						"method": "GET",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "http://47.104.69.159/catering/search?keywords=香",
 							"protocol": "http",
@@ -996,8 +1106,7 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "门票",
@@ -1006,7 +1115,13 @@
 					"name": "门票-添加",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "formdata",
 							"formdata": [
@@ -1076,7 +1191,13 @@
 					"name": "门票-更新",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "formdata",
 							"formdata": [
@@ -1157,7 +1278,13 @@
 					"name": "门票-下架",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "formdata",
 							"formdata": [
@@ -1190,7 +1317,13 @@
 					"name": "门票-删除",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "formdata",
 							"formdata": [
@@ -1233,6 +1366,10 @@
 								"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36"
 							}
 						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "http://47.104.69.159/ticket?page=1",
 							"protocol": "http",
@@ -1261,6 +1398,10 @@
 					"request": {
 						"method": "GET",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "http://47.104.69.159/ticket/detail?id=1",
 							"protocol": "http",
@@ -1290,6 +1431,10 @@
 					"request": {
 						"method": "GET",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "http://47.104.69.159/ticket/search?keywords=\b票",
 							"protocol": "http",
@@ -1314,8 +1459,7 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "兼职",
@@ -1324,7 +1468,13 @@
 					"name": "兼职-添加",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "formdata",
 							"formdata": [
@@ -1387,7 +1537,13 @@
 					"name": "兼职-更新",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "formdata",
 							"formdata": [
@@ -1459,7 +1615,13 @@
 					"name": "兼职-下架",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "formdata",
 							"formdata": [
@@ -1536,7 +1698,13 @@
 					"name": "兼职-删除",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "formdata",
 							"formdata": [
@@ -1672,13 +1840,11 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "校园网",
-			"item": [],
-			"protocolProfileBehavior": {}
+			"item": []
 		},
 		{
 			"name": "租房",
@@ -1687,7 +1853,13 @@
 					"name": "租房-添加",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "formdata",
 							"formdata": [
@@ -1792,7 +1964,13 @@
 					"name": "租房-更新",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "formdata",
 							"formdata": [
@@ -1903,7 +2081,13 @@
 					"name": "租房-下架",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "formdata",
 							"formdata": [
@@ -1935,7 +2119,13 @@
 					"name": "租房-删除",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "formdata",
 							"formdata": [
@@ -1968,6 +2158,10 @@
 					"request": {
 						"method": "GET",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "http://47.104.69.159/showhouse?page=1",
 							"protocol": "http",
@@ -1996,6 +2190,10 @@
 					"request": {
 						"method": "GET",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "http://47.104.69.159/showhouse/detail?id=1",
 							"protocol": "http",
@@ -2024,6 +2222,10 @@
 					"request": {
 						"method": "GET",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "http://47.104.69.159/showhouse/search?keywords=&room=0&price_min=0&price_max=2000&page=1",
 							"protocol": "http",
@@ -2068,8 +2270,7 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "租车",
@@ -2078,7 +2279,13 @@
 					"name": "租车-添加",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "formdata",
 							"formdata": [
@@ -2159,7 +2366,13 @@
 					"name": "租车-更新",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "formdata",
 							"formdata": [
@@ -2245,7 +2458,13 @@
 					"name": "租车-下架",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "formdata",
 							"formdata": [
@@ -2277,7 +2496,13 @@
 					"name": "租车-删除",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "formdata",
 							"formdata": [
@@ -2310,6 +2535,10 @@
 					"request": {
 						"method": "GET",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "http://47.104.69.159/showcar?page=1",
 							"protocol": "http",
@@ -2338,6 +2567,10 @@
 					"request": {
 						"method": "GET",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "http://47.104.69.159/showcar/detail?id=2",
 							"protocol": "http",
@@ -2361,8 +2594,7 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "二手物品",
@@ -2371,7 +2603,13 @@
 					"name": "二手好物-添加",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "formdata",
 							"formdata": [
@@ -2464,7 +2702,13 @@
 					"name": "二手好物-更新",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "formdata",
 							"formdata": [
@@ -2562,7 +2806,13 @@
 					"name": "二手好物-下架",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "formdata",
 							"formdata": [
@@ -2594,7 +2844,13 @@
 					"name": "二手好物-删除",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "formdata",
 							"formdata": [
@@ -2627,6 +2883,10 @@
 					"request": {
 						"method": "GET",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "http://47.104.69.159/secondhand?page=1",
 							"protocol": "http",
@@ -2655,6 +2915,10 @@
 					"request": {
 						"method": "GET",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "http://47.104.69.159/secondhand/detail?id=2",
 							"protocol": "http",
@@ -2678,13 +2942,235 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
-			"name": "快递",
-			"item": [],
-			"protocolProfileBehavior": {}
+			"name": "快递-未接入支付",
+			"item": [
+				{
+					"name": "快递\b-配置列表",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://47.104.69.159/express/getExpressConfig?type_id=1",
+							"protocol": "http",
+							"host": [
+								"47",
+								"104",
+								"69",
+								"159"
+							],
+							"path": [
+								"express",
+								"getExpressConfig"
+							],
+							"query": [
+								{
+									"key": "type_id",
+									"value": "1",
+									"description": "1-寄快递，2-取件规格，3-可选服务，4快递列表"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "快递-待取快递列表",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://47.104.69.159/express/takeList",
+							"protocol": "http",
+							"host": [
+								"47",
+								"104",
+								"69",
+								"159"
+							],
+							"path": [
+								"express",
+								"takeList"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "快递-待寄出快递列表",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://47.104.69.159/express/sendList",
+							"protocol": "http",
+							"host": [
+								"47",
+								"104",
+								"69",
+								"159"
+							],
+							"path": [
+								"express",
+								"sendList"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "快递-\b添加待取快递",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "address_id",
+									"value": "1",
+									"description": "地址id",
+									"type": "text"
+								},
+								{
+									"key": "specs_id",
+									"value": "1",
+									"description": "取件规格id",
+									"type": "text"
+								},
+								{
+									"key": "optional_service_id",
+									"value": "2",
+									"description": "可选服务id",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "\b【丰巢】请凭取件码『80649951』",
+									"description": "取件信息",
+									"type": "text"
+								},
+								{
+									"key": "num",
+									"value": "1",
+									"description": "数量",
+									"type": "text"
+								},
+								{
+									"key": "remarks\b",
+									"value": "取件备注test",
+									"description": "备注信息(非必填)",
+									"type": "text"
+								},
+								{
+									"key": "gratuity",
+									"value": "0.5",
+									"description": "小费金额(非必填)",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://47.104.69.159/express/createTake",
+							"protocol": "http",
+							"host": [
+								"47",
+								"104",
+								"69",
+								"159"
+							],
+							"path": [
+								"express",
+								"createTake"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "快递-添加待\b寄出快递",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "address_id",
+									"value": "1",
+									"description": "地址id(寄往)",
+									"type": "text"
+								},
+								{
+									"key": "user_address_id",
+									"value": "2",
+									"description": "\b用户地址id",
+									"type": "text"
+								},
+								{
+									"key": "express_company_id",
+									"value": "1",
+									"description": "快递公司id",
+									"type": "text"
+								},
+								{
+									"key": "gratuity",
+									"value": "2",
+									"description": "小费金额",
+									"type": "text"
+								},
+								{
+									"key": "remarks\b",
+									"value": "寄件备注test",
+									"description": "备注信息(非必填)",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://47.104.69.159/express/createSend",
+							"protocol": "http",
+							"host": [
+								"47",
+								"104",
+								"69",
+								"159"
+							],
+							"path": [
+								"express",
+								"createSend"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		},
 		{
 			"name": "失物招领",
@@ -2693,7 +3179,13 @@
 					"name": "失物招领-添加",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "formdata",
 							"formdata": [
@@ -2768,7 +3260,13 @@
 					"name": "失物招领-更新",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "formdata",
 							"formdata": [
@@ -2848,7 +3346,13 @@
 					"name": "失物招领-下架",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "formdata",
 							"formdata": [
@@ -2880,7 +3384,13 @@
 					"name": "失物招领-删除",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "formdata",
 							"formdata": [
@@ -2913,6 +3423,10 @@
 					"request": {
 						"method": "GET",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "http://47.104.69.159/lostfound?page=1",
 							"protocol": "http",
@@ -2941,6 +3455,10 @@
 					"request": {
 						"method": "GET",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "http://47.104.69.159/lostfound/detail?id=2",
 							"protocol": "http",
@@ -2964,13 +3482,11 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "驾照报名",
-			"item": [],
-			"protocolProfileBehavior": {}
+			"item": []
 		},
 		{
 			"name": "地址管理",
@@ -2980,6 +3496,10 @@
 					"request": {
 						"method": "GET",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "http://47.104.69.159/address/provinceList",
 							"protocol": "http",
@@ -3002,6 +3522,10 @@
 					"request": {
 						"method": "GET",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "http://47.104.69.159/address/cityList?id=110000",
 							"protocol": "http",
@@ -3031,6 +3555,10 @@
 					"request": {
 						"method": "GET",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "http://47.104.69.159/address/countyList?id=140100",
 							"protocol": "http",
@@ -3236,9 +3764,59 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "地址-列表(获取当前用户已保存的地址列表)",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"description": "用户token",
+								"key": "Token",
+								"type": "text",
+								"value": "8102de236a86e5b8c4c63260e11fbcd9"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "地址id",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://47.104.69.159/addressadmin/list",
+							"protocol": "http",
+							"host": [
+								"47",
+								"104",
+								"69",
+								"159"
+							],
+							"path": [
+								"addressadmin",
+								"list"
+							]
+						}
+					},
+					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
+		},
+		{
+			"name": "订单-用户",
+			"item": []
+		},
+		{
+			"name": "订单-商家",
+			"item": []
 		},
 		{
 			"name": "上传图片",
@@ -3277,6 +3855,10 @@
 			"request": {
 				"method": "GET",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"url": {
 					"raw": "http://47.104.69.159/tencent/login?js_code=071chPWR044FX52xPGXR0vjPWR0chPWQ",
 					"protocol": "http",
@@ -3376,6 +3958,5 @@
 			},
 			"response": []
 		}
-	],
-	"protocolProfileBehavior": {}
+	]
 }
