@@ -33,6 +33,7 @@ class Helper extends Api
             'base_order_count' => mt_rand(20,50),
             'create_time' => date('Y-m-d H:i:s'),
             'publish_time' => date('Y-m-d H:i:s'),
+            'promise_description' => $this->getPromise($postData),
         ];
         //promise_description
         if(!isset($postData['together_price']) || empty($postData['together_price'])){
