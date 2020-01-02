@@ -112,6 +112,20 @@ class Helper extends Api
         $goods = $this->_model->findFirst($condition);
         return $goods;
     }
+    public function detailNew($id){
+        $arr = [];
+        $data = $this->detail($id);
+        if(!empty($data)){
+            foreach ($data as $k=>$v){
+                if($k == 'promise_description'){
+                    $arr['promise_data'] = json_decode($v,true);
+                }else{
+                    $arr[$k] = $v;
+                }
+            }
+        }
+        return (object)$arr;
+    }
     public function search($goodsName){
         /*
         $slideAds = $this->modelsManager->createBuilder()

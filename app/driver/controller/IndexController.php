@@ -50,15 +50,11 @@ class IndexController extends Controller
             $this->resultSet->error(1001,$this->_error['invalid_input']);
         }
         try{
-            $result = $this->app->driver->api->Helper()->detail($goodsId);
+            $result = $this->app->driver->api->Helper()->detailNew($goodsId);
             if(empty($result)){
                 $this->resultSet->error(1002,$this->_error['not_exist']);
             }
             $data['data'] = $result;
-            if(isset($result->promise_description)){
-                $promiseData = json_decode($result->promise_description,true);
-                $data['data']['promise_data'] = $promiseData;
-            }
         }catch (\Exception $e){
             $this->resultSet->error($e->getCode(),$e->getMessage());
         }
