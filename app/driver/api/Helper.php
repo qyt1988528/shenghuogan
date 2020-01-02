@@ -1,8 +1,8 @@
 <?php
 namespace Driver\Api;
 
+use Driver\Model\DrivingTest;
 use MDK\Api;
-use Ticket\Model\Ticket;
 
 class Helper extends Api
 {
@@ -10,18 +10,19 @@ class Helper extends Api
     private $_model;
     public function __construct() {
         $this->_config = $this->app->core->config->config->toArray();
-        $this->_model = new Ticket();
+        $this->_model = new DrivingTest();
     }
 
     public function getInsertFields(){
         return $insertFields = [
+            //'merchant_id',
             'img_url',
             'title',
-            'stock',
+            'location',
             'cost_price',
             'original_price',
             'self_price',
-            'location',
+            // 'stock',
             'description',
         ];
     }
@@ -31,12 +32,11 @@ class Helper extends Api
             'base_fav_count' => mt_rand(20,50),
             'base_order_count' => mt_rand(20,50),
             'create_time' => date('Y-m-d H:i:s'),
+            'publish_time' => date('Y-m-d H:i:s'),
         ];
+        //promise_description
         if(!isset($postData['together_price']) || empty($postData['together_price'])){
             $defaultInsertFields['together_price'] = $postData['self_price'];
-        }
-        if(!empty($postData['title'])){
-            $defaultInsertFields['title_pinyin'] = $this->app->core->api->Pinyin()->getpy($postData['title']);
         }
         //is_recommend、sort、update_time、status采用默认值
         return $defaultInsertFields;
@@ -126,7 +126,7 @@ class Helper extends Api
         $goodsName = trim($goodsName);
         $goods = $this->modelsManager->createBuilder()
             ->columns('id,stock,title,img_url,original_price,self_price,description,location,is_recommend,sort,base_fav_count,base_order_count')
-            ->from(['sg'=>'Ticket\Model\Ticket'])
+            ->from(['sg'=>'Driver\Model\DrivingTest'])
             ->where('sg.is_selling = :selling: ',['selling'=>$this->_config['selling_status']['selling']])
             ->andWhere('sg.status = :valid: ',['valid'=>$this->_config['data_status']['valid']])
             ->andWhere('sg.title like :goodsName: ',['goodsName' => '%'.$goodsName.'%'])
@@ -141,8 +141,8 @@ class Helper extends Api
         //分页
         $start = ($page-1)*$pageSize;
         $goods = $this->modelsManager->createBuilder()
-            ->columns('id,stock,title,img_url,original_price,self_price,description,location,is_recommend,sort,base_fav_count,base_order_count')
-            ->from(['sg'=>'Ticket\Model\Ticket'])
+            ->columns('*')
+            ->from(['sg'=>'Driver\Model\DrivingTest'])
             ->where('sg.is_selling = :selling: ',['selling'=>$this->_config['selling_status']['selling']])
             ->andWhere('sg.status = :valid: ',['valid'=>$this->_config['data_status']['valid']])
             ->orderBy('sort desc')
@@ -151,6 +151,22 @@ class Helper extends Api
             ->execute();
         return $goods;
 
+    }
+
+    public function getPromise($postData){
+        //郑重承诺标题
+        $countTitle = isset($postData['promise_title']) ? count($postData['promise_title']) : 0;
+        //郑重承诺内容
+        $countDescription = isset($postData['promise_description']) ? count($postData['promise_description']) : 0;
+        $count = min($countTitle,$countDescription);
+        $promiseData = [];
+        for($i=0;$i<$count;$i++){
+            $promiseData[] = [
+                'promise_title' => $postData['promise_title'][$i],
+                'promise_description' => $postData['promise_description'][$i],
+            ];
+        }
+        return json_encode($promiseData);
     }
 
 

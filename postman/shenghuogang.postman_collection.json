@@ -2957,7 +2957,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://47.104.69.159/express/getExpressConfig?type_id=1",
+							"raw": "http://47.104.69.159/express/getExpressConfig?type=4",
 							"protocol": "http",
 							"host": [
 								"47",
@@ -2971,8 +2971,8 @@
 							],
 							"query": [
 								{
-									"key": "type_id",
-									"value": "1",
+									"key": "type",
+									"value": "4",
 									"description": "1-寄快递，2-取件规格，3-可选服务，4快递列表"
 								}
 							]
@@ -3091,7 +3091,7 @@
 							]
 						},
 						"url": {
-							"raw": "http://47.104.69.159/express/createTake",
+							"raw": "http://47.104.69.159/expressadmin/createTake",
 							"protocol": "http",
 							"host": [
 								"47",
@@ -3100,7 +3100,7 @@
 								"159"
 							],
 							"path": [
-								"express",
+								"expressadmin",
 								"createTake"
 							]
 						}
@@ -3154,7 +3154,7 @@
 							]
 						},
 						"url": {
-							"raw": "http://47.104.69.159/express/createSend",
+							"raw": "http://47.104.69.159/expressadmin/createSend",
 							"protocol": "http",
 							"host": [
 								"47",
@@ -3163,7 +3163,7 @@
 								"159"
 							],
 							"path": [
-								"express",
+								"expressadmin",
 								"createSend"
 							]
 						}

@@ -26,14 +26,14 @@ private $_error;
     public function createAction() {
         //权限验证
         $postData = $this->request->getPost();
-        $insertFields = $this->app->ticket->api->Helper()->getInsertFields();
+        $insertFields = $this->app->driver->api->Helper()->getInsertFields();
         foreach ($insertFields as $v){
             if(empty($postData[$v])){
                 $this->resultSet->error(1001,$this->_error['invalid_input']);
             }
         }
         try{
-            $insert = $this->app->ticket->api->Helper()->createTicket($postData);
+            $insert = $this->app->driver->api->Helper()->createTicket($postData);
             if(empty($insert)){
                 $this->resultSet->error(1002,$this->_error['try_later']);
             }
@@ -60,7 +60,7 @@ private $_error;
             $this->resultSet->error(1001,$this->_error['invalid_input']);
         }
         try{
-           $result = $this->app->ticket->api->Helper()->deleteTicket($cateringId);
+           $result = $this->app->driver->api->Helper()->deleteTicket($cateringId);
            if($result){
                $data = [
                    'del_success' => $result
@@ -88,7 +88,7 @@ private $_error;
             $this->resultSet->error(1001,$this->_error['invalid_input']);
         }
         try{
-           $result = $this->app->ticket->api->Helper()->withdrawTicket($cateringId);
+           $result = $this->app->driver->api->Helper()->withdrawTicket($cateringId);
            if($result){
                $data = [
                    'withdraw_success' => $result
@@ -114,14 +114,14 @@ private $_error;
         if(empty($postData['id'])){
             $this->resultSet->error(1001,$this->_error['invalid_input']);
         }
-        $updateFields = $this->app->ticket->api->Helper()->getInsertFields();
+        $updateFields = $this->app->driver->api->Helper()->getInsertFields();
         foreach ($updateFields as $v){
             if(empty($postData[$v])){
                 $this->resultSet->error(1001,$this->_error['invalid_input']);
             }
         }
         try{
-            $result = $this->app->ticket->api->Helper()->updateTicket($postData);
+            $result = $this->app->driver->api->Helper()->updateTicket($postData);
             if($result){
                 $data = [
                     'update_success' => $result

@@ -89,7 +89,7 @@ class DrivingTest extends Model
     public $sort;
     /**
      *
-     * @Column(type="integer", size="19", nullable=true, column="base_fav_count")
+     * @Column(type="integer", size="10", nullable=true, column="base_fav_count")
      */
     public $base_fav_count;
     /**
