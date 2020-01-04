@@ -42,9 +42,9 @@ CREATE TABLE `address` (
 -- Records of address
 -- ----------------------------
 BEGIN;
-INSERT INTO `address` VALUES (1, 1, '测试姓名', '13800001111', 110000, 110100, 110101, '北京市东城区测试详细地址', -1, -1, '2019-12-24 20:13:24', '2019-12-24 20:40:01');
-INSERT INTO `address` VALUES (2, 1, '测试姓名', '13800001111', 110000, 110100, 110101, '北京市东城区测试详细地址', -1, 1, '2019-12-24 20:32:40', '2019-12-24 20:32:40');
-INSERT INTO `address` VALUES (3, 1, '测试姓名', '13800001111', 110000, 110100, 110101, '北京市东城区测试详细地址', -1, 1, '2019-12-24 20:58:11', '2019-12-24 20:58:11');
+INSERT INTO `address` VALUES (1, 1, '测试姓名', '13800001111', 110000, 110100, 110101, '北京市东城区测试详细地址', -1,'address', -1, '2019-12-24 20:13:24', '2019-12-24 20:40:01');
+INSERT INTO `address` VALUES (2, 1, '测试姓名', '13800001111', 110000, 110100, 110101, '北京市东城区测试详细地址', -1,'address', 1, '2019-12-24 20:32:40', '2019-12-24 20:32:40');
+INSERT INTO `address` VALUES (3, 1, '测试姓名', '13800001111', 110000, 110100, 110101, '北京市东城区测试详细地址', -1,'address', 1, '2019-12-24 20:58:11', '2019-12-24 20:58:11');
 COMMIT;
 
 -- ----------------------------
@@ -80,7 +80,7 @@ CREATE TABLE `catering` (
 -- Records of catering
 -- ----------------------------
 BEGIN;
-INSERT INTO `catering` VALUES (1, 0, '香格里拉美食', 'xianggelilameishi', 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', 11.00, 10.00, 9.00, 9.00, '香格里拉描述', '友谊路', 100, 1, -1, 999, 48, 33, '2019-12-14 22:27:15', '2019-12-14 14:27:15', 1);
+INSERT INTO `catering` VALUES (1, 0, '香格里拉美食', 'xianggelilameishi', 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', 11.00, 10.00, 9.00, 9.00, '香格里拉描述', '友谊路', 100, 1, -1, 999, 48, 33,'catering', '2019-12-14 22:27:15', '2019-12-14 14:27:15', 1);
 COMMIT;
 
 -- ----------------------------
@@ -275,8 +275,8 @@ CREATE TABLE `lostfound` (
 -- Records of lostfound
 -- ----------------------------
 BEGIN;
-INSERT INTO `lostfound` VALUES (1, 0, 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', '保利水韵长滩', '测试二手物', '保利', '1', '404', '404', '2019-12-18 21:48:05', 1, -1, '2019-12-18 21:48:05', '2019-12-18 13:48:05', 1);
-INSERT INTO `lostfound` VALUES (2, 0, 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', '失物招领-2', '测试二手物', '保利', '1', '404', '404', '2019-12-18 21:50:20', 1, 1, '2019-12-18 21:50:20', '2019-12-18 13:50:20', 1);
+INSERT INTO `lostfound` VALUES (1, 0, 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', '保利水韵长滩', '测试二手物', '保利', '1', '404', '404', '2019-12-18 21:48:05', 1, -1,'lostfound', '2019-12-18 21:48:05', '2019-12-18 13:48:05', 1);
+INSERT INTO `lostfound` VALUES (2, 0, 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', '失物招领-2', '测试二手物', '保利', '1', '404', '404', '2019-12-18 21:50:20', 1, 1,'lostfound', '2019-12-18 21:50:20', '2019-12-18 13:50:20', 1);
 COMMIT;
 
 -- ----------------------------
@@ -477,7 +477,7 @@ CREATE TABLE `parttimejob` (
 -- Records of parttimejob
 -- ----------------------------
 BEGIN;
-INSERT INTO `parttimejob` VALUES (1, 0, 0, '兼职标题', 'jianzhibiaoti', '兼职描述', '友谊路436', 9.00, '1', '1', '1', 1, '2019-12-14 22:55:08', '2000-01-01 00:00:00', '2019-12-14 22:55:08', '2019-12-14 14:55:08', 1);
+INSERT INTO `parttimejob` VALUES (1, 0, 0, '兼职标题', 'jianzhibiaoti', '兼职描述', '友谊路436', 9.00, '1', '1', '1', 1, '2019-12-14 22:55:08', '2000-01-01 00:00:00',999,'parttimejob', '2019-12-14 22:55:08', '2019-12-14 14:55:08', 1);
 COMMIT;
 
 -- ----------------------------
@@ -4292,7 +4292,6 @@ CREATE TABLE `rent_car` (
   `base_fav_count` int(10) NOT NULL DEFAULT '16' COMMENT '基础点赞人数',
   `base_order_count` int(10) NOT NULL DEFAULT '7' COMMENT '基础租赁人数',
   `publish_time` datetime NOT NULL DEFAULT '2000-01-01 00:00:00' COMMENT '发布时间',
-  `sort` int(10) NOT NULL DEFAULT '999' COMMENT '排序',
   `goods_type` varchar(50) NOT NULL DEFAULT 'rent_car' COMMENT '驾考表',
   `create_time` datetime NOT NULL DEFAULT '2000-01-01 00:00:00' COMMENT '创建时间',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
@@ -4304,8 +4303,8 @@ CREATE TABLE `rent_car` (
 -- Records of rent_car
 -- ----------------------------
 BEGIN;
-INSERT INTO `rent_car` VALUES (1, 0, 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', '保利水韵长滩', '', 0, 0.00, 0.00, 0.00, 0.00, '', '友谊路', '测试租房', 0, -1, 999, 16, 7, '2000-01-01 00:00:00', '2019-12-15 22:57:43', '2019-12-15 14:57:43', 1);
-INSERT INTO `rent_car` VALUES (2, 0, 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', '保利水韵长滩', '', 1, 100.00, 11.00, 10.00, 10.00, '', '保利', '测试租车', 1, -1, 999, 37, 35, '2000-01-01 00:00:00', '2019-12-15 23:14:50', '2019-12-15 15:14:50', 1);
+INSERT INTO `rent_car` VALUES (1, 0, 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', '保利水韵长滩', '', 0, 0.00, 0.00, 0.00, 0.00, '', '友谊路', '测试租房', 0, -1, 999, 16, 7, '2000-01-01 00:00:00', 'rent_car', '2019-12-15 22:57:43', '2019-12-15 14:57:43', 1);
+INSERT INTO `rent_car` VALUES (2, 0, 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', '保利水韵长滩', '', 1, 100.00, 11.00, 10.00, 10.00, '', '保利', '测试租车', 1, -1, 999, 37, 35, '2000-01-01 00:00:00', 'rent_car', '2019-12-15 23:14:50', '2019-12-15 15:14:50', 1);
 COMMIT;
 
 -- ----------------------------
@@ -4340,7 +4339,7 @@ CREATE TABLE `rent_house` (
 -- Records of rent_house
 -- ----------------------------
 BEGIN;
-INSERT INTO `rent_house` VALUES (1, 0, '保利水韵长滩', 11.00, 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', 1, 1, 1, '10.00', '友谊路', 100.00, '1', '1', '1', '2019-12-15 23:10:08', '测试租房', '2019-12-15 23:10:08', '2019-12-15 15:10:08', 1);
+INSERT INTO `rent_house` VALUES (1, 0, '保利水韵长滩', 11.00, 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', 1, 1, 1, '10.00', '友谊路', 100.00, '1', '1', '1', '2019-12-15 23:10:08', '测试租房','rent_house', '2019-12-15 23:10:08', '2019-12-15 15:10:08', 1);
 COMMIT;
 
 -- ----------------------------
@@ -4385,8 +4384,8 @@ CREATE TABLE `second` (
 -- Records of second
 -- ----------------------------
 BEGIN;
-INSERT INTO `second` VALUES (1, 0, 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', '保利水韵长滩', '保利', 100.00, 11.00, 10.00, 10.00, 1, 1, '1', '404', '404', '测试二手物1', '2019-12-18 21:21:59', '2019-12-18 21:21:59', '2019-12-18 13:21:59', 1);
-INSERT INTO `second` VALUES (2, 0, 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', '保利水韵长滩', '保利', 100.00, 11.00, 10.00, 10.00, 1, 1, '1', '404', '404', '测试二手物', '2019-12-18 21:24:02', '2019-12-18 21:24:02', '2019-12-18 13:24:02', 1);
+INSERT INTO `second` VALUES (1, 0, 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', '保利水韵长滩', '保利', 100.00, 11.00, 10.00, 10.00, 1, 1, '1', '404', '404', '测试二手物1', '2019-12-18 21:21:59', 999, 'second', '2019-12-18 21:21:59', '2019-12-18 13:21:59', 1);
+INSERT INTO `second` VALUES (2, 0, 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', '保利水韵长滩', '保利', 100.00, 11.00, 10.00, 10.00, 1, 1, '1', '404', '404', '测试二手物', '2019-12-18 21:24:02', 999, 'second', '2019-12-18 21:24:02', '2019-12-18 13:24:02', 1);
 COMMIT;
 
 -- ----------------------------
@@ -4424,7 +4423,7 @@ CREATE TABLE `supermarket_goods` (
 -- Records of supermarket_goods
 -- ----------------------------
 BEGIN;
-INSERT INTO `supermarket_goods` VALUES (1, 0, '西红柿', '', 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', 1, 11.00, 10.00, 9.00, 9.00, '西红柿描述', 1, '1', 100, 1, -1, 999, 44, 47, '2019-12-14 22:39:44', '2019-12-14 14:39:44', 1);
+INSERT INTO `supermarket_goods` VALUES (1, 0, '西红柿', '', 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', 1, 11.00, 10.00, 9.00, 9.00, '西红柿描述', 1, '1', 100, 1, -1, 999, 44, 47,'supermarket_goods', '2019-12-14 22:39:44', '2019-12-14 14:39:44', 1);
 COMMIT;
 
 -- ----------------------------
@@ -4469,7 +4468,7 @@ CREATE TABLE `ticket` (
 -- Records of ticket
 -- ----------------------------
 BEGIN;
-INSERT INTO `ticket` VALUES (1, 0, '香格里拉餐饮2', 'wandaertongzhutileyuanmenpiao', 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', 11.00, 10.00, 9.00, 9.00, '香格里拉描述更新', '友谊路更新1', 100, 1, -1, 999, 32, 44, '2019-12-14 20:36:31', '2019-12-14 12:36:31', 1);
+INSERT INTO `ticket` VALUES (1, 0, '香格里拉餐饮2', 'wandaertongzhutileyuanmenpiao', 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', 11.00, 10.00, 9.00, 9.00, '香格里拉描述更新', '友谊路更新1', 100, 1, -1, 999, 32, 44,'ticket', '2019-12-14 20:36:31', '2019-12-14 12:36:31', 1);
 COMMIT;
 
 -- ----------------------------
