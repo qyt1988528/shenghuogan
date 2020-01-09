@@ -73,6 +73,11 @@ class Lostfound extends Model
      * @Column(type="string", size="255", nullable=true, column="description")
      */
     public $description;
+    /**
+     *
+     * @Column(type="string", nullable=true, column="goods_type")
+     */
+    public $goods_type;
 
     /**
      *

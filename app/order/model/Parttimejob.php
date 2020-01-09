@@ -1,10 +1,10 @@
 <?php
 
-namespace Express\Model;
+namespace Order\Model;
 
 use MDK\Model;
 
-class ExpressTake extends Model
+class Order extends Model
 {
     /**
      *
@@ -16,65 +16,71 @@ class ExpressTake extends Model
 
     /**
      *
-     * @Column(type="integer", size="11", nullable=true, column="address_id")
+     * @Column(type="integer", size="11", nullable=true, column="user_id")
      */
-    public $address_id;
+    public $user_id;
+    /**
+     *
+     * @Column(type="integer", size="11", nullable=true, column="merchant_id")
+     */
+    public $merchant_id;
+
 
     /**
      *
-     * @Column(type="string", size="100", nullable=true, column="specs_id")
+     * @Column(type="string", size="100", nullable=true, column="title")
      */
-    public $specs_id;
+    public $title;
     /**
      *
-     * @Column(type="string", size="255", nullable=true, column="optional_service_id")
+     * @Column(type="string", size="255", nullable=true, column="title_pinyin")
      */
-    public $optional_service_id;
+    public $title_pinyin;
     /**
      *
-     * @Column(type="string", nullable=true, column="description")
+     * @Column(type="string", size="255", nullable=true, column="description")
      */
     public $description;
     /**
      *
-     * @Column(type="float", nullable=true, column="remarks")
+     * @Column(type="string", size="255", nullable=true, column="location")
      */
-    public $remarks;
+    public $location;
     /**
      *
-     * @Column(type="float", nullable=true, column="num")
+     * @Column(type="float", nullable=true, column="commission")
      */
-    public $num;
+    public $commission;
     /**
      *
-     * @Column(type="float", nullable=true, column="gratuity")
+     * @Column(type="string", size="20", nullable=true, column="cellphone")
      */
-    public $gratuity;
+    public $cellphone;
     /**
      *
-     * @Column(type="float", nullable=true, column="total_price")
+     * @Column(type="string", size="20", nullable=true, column="qq")
      */
-    public $total_price;
+    public $qq;
     /**
      *
-     * @Column(type="string", size="255", nullable=true, column="is_hiring")
+     * @Column(type="string", size="30", nullable=true, column="wechat")
+     */
+    public $wechat;
+    /**
+     *
+     * @Column(type="integer", nullable=true, column="is_hiring")
      */
     public $is_hiring;
     /**
      *
-     * @Column(type="string", nullable=true, column="publish_user_id")
-     */
-    public $publish_user_id;
-    /**
-     *
-     * @Column(type="integer", size="10", nullable=true, column="publish_time")
+     * @Column(type="string", nullable=true, column="publish_time")
      */
     public $publish_time;
     /**
      *
-     * @Column(type="string", nullable=true, column="goods_type")
+     * @Column(type="string", nullable=true, column="end_time")
      */
-    public $goods_type;
+    public $end_time;
     /**
      *
      * @Column(type="string", nullable=true, column="create_time")
@@ -119,5 +125,6 @@ class ExpressTake extends Model
     {
         return parent::findFirst($parameters);
     }
+
 
 }

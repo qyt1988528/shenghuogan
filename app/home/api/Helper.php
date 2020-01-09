@@ -109,5 +109,12 @@ class Helper extends Api
 
     }
 
+    public function getIndexData(){
+        //今日推荐
+        //兼职
+        //生活信息
+        
+    }
+
 
 }

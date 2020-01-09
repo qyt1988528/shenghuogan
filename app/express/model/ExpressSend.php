@@ -58,6 +58,11 @@ class ExpressSend extends Model
     public $publish_time;
     /**
      *
+     * @Column(type="string", nullable=true, column="goods_type")
+     */
+    public $goods_type;
+    /**
+     *
      * @Column(type="string", nullable=true, column="create_time")
      */
     public $create_time;

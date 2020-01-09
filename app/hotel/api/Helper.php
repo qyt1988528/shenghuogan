@@ -130,7 +130,8 @@ class Helper extends Api
         //暂时不支持房间搜索
         $goodsName = trim($goodsName);
         $goods = $this->modelsManager->createBuilder()
-            ->columns('id,stock,title,img_url,original_price,self_price,description,location,is_recommend,sort,base_fav_count,base_order_count')
+            ->columns('*')
+            // ->columns('id,stock,title,img_url,original_price,self_price,description,location,is_recommend,sort,base_fav_count,base_order_count')
             ->from(['sg' => 'Hotel\Model\Hotel'])
             ->where('sg.is_selling = :selling: ', ['selling' => $this->_config['selling_status']['selling']])
             ->andWhere('sg.status = :valid: ', ['valid' => $this->_config['data_status']['valid']])
@@ -147,7 +148,8 @@ class Helper extends Api
         //分页
         $start = ($page - 1) * $pageSize;
         $goods = $this->modelsManager->createBuilder()
-            ->columns('id,stock,title,img_url,original_price,self_price,description,location,is_recommend,sort,base_fav_count,base_order_count')
+            ->columns('*')
+            // ->columns('id,stock,title,img_url,original_price,self_price,description,location,is_recommend,sort,base_fav_count,base_order_count')
             ->from(['sg' => 'Hotel\Model\Hotel'])
             ->where('sg.is_selling = :selling: ', ['selling' => $this->_config['selling_status']['selling']])
             ->andWhere('sg.status = :valid: ', ['valid' => $this->_config['data_status']['valid']])

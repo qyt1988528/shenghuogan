@@ -99,6 +99,11 @@ class DrivingTest extends Model
     public $base_order_count;
     /**
      *
+     * @Column(type="string", nullable=true, column="goods_type")
+     */
+    public $goods_type;
+    /**
+     *
      * @Column(type="string", nullable=true, column="create_time")
      */
     public $create_time;

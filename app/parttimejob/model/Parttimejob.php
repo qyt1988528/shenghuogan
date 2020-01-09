@@ -83,6 +83,16 @@ class Parttimejob extends Model
     public $end_time;
     /**
      *
+     * @Column(type="integer", nullable=true, column="sort")
+     */
+    public $sort;
+    /**
+     *
+     * @Column(type="string", nullable=true, column="goods_type")
+     */
+    public $goods_type;
+    /**
+     *
      * @Column(type="string", nullable=true, column="create_time")
      */
     public $create_time;

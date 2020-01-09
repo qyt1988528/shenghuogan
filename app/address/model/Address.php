@@ -57,6 +57,11 @@ class Address extends Model
     public $is_default;
     /**
      *
+     * @Column(type="string", nullable=true, column="goods_type")
+     */
+    public $goods_type;
+    /**
+     *
      * @Column(type="string", nullable=true, column="create_time")
      */
     public $create_time;
