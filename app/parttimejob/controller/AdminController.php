@@ -146,7 +146,7 @@ class AdminController extends Controller
      * 我发布的兼职列表
      * Create action.
      * @return void
-     * @Route("/list", methods="POST", name="parttimejobadmin")
+     * @Route("/list", methods="GET", name="parttimejobadmin")
      */
     public function listAction() {
         //权限验证
@@ -158,10 +158,11 @@ class AdminController extends Controller
                     'parttimejob_list' => $result
                 ];
             }
+            $ret['data'] = $data;
         }catch (\Exception $e){
             $this->resultSet->error($e->getCode(),$e->getMessage());
         }
-        $this->resultSet->success()->setData($data);
+        $this->resultSet->success()->setData($ret);
         $this->response->success($this->resultSet->toObject());
     }
 

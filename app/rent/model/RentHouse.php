@@ -93,6 +93,11 @@ class RentHouse extends Model
     public $description;
     /**
      *
+     * @Column(type="integer", size="4", nullable=true, column="is_renting")
+     */
+    public $is_renting;
+    /**
+     *
      * @Column(type="string", nullable=true, column="goods_type")
      */
     public $goods_type;

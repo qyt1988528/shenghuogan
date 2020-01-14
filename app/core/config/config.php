@@ -22,6 +22,10 @@ return [
         'selling' => 1,//在售
         'unselling' => -1,//下架
     ],
+    'renting_status' => [
+        'renting' => 1,//在租
+        'unrenting' => -1,//已租出去
+    ],
     'is_recommend' => [
         'recommend' => 1,//推荐
         'normal' => -1,//正常
@@ -35,6 +39,7 @@ return [
         'try_later' => 'Network Error. Please Try Again Later',
         'not_exist' => 'It does not exist!',
         'unlogin' => 'Not logged in.Please Login!',
+        'unmerchant' => 'Not Merchant.Please contact the platform!',
     ],
     'express_server' => [],
     'express_take_specs' => [],

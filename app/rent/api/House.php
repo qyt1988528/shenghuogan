@@ -29,6 +29,7 @@ class House extends Api
             'qq',
             'wechat',
             'description',
+            'merchant_id',
         ];
     }
     public function getDefaultInsertFields($postData){
@@ -153,13 +154,26 @@ class House extends Api
         $goods = $this->modelsManager->createBuilder()
             ->columns('*')
             ->from(['sg'=>'Rent\Model\RentHouse'])
-            // ->where('sg.is_selling = :selling: ',['selling'=>$this->_config['selling_status']['selling']])
+            ->where('sg.is_renting = :renting: ',['renting'=>$this->_config['renting_status']['renting']])
             ->andWhere('sg.status = :valid: ',['valid'=>$this->_config['data_status']['valid']])
             ->orderBy('publish_time desc')
             ->limit($start,$pageSize)
             ->getQuery()
             ->execute();
         return $goods;
+
+    }
+    public function getListByMerchantId($merchantId){
+        $houses = $this->modelsManager->createBuilder()
+            ->columns('*')
+            ->from(['sg'=>'Rent\Model\RentHouse'])
+            // ->where('sg.is_hiring = :hiring: ', ['hiring' => $this->_config['hiring_status']['hiring']])
+            ->andWhere('sg.merchant_id = :merchant_id: ', ['merchant_id' => $merchantId])
+            ->andWhere('sg.status = :valid: ', ['valid' => $this->_config['data_status']['valid']])
+            ->orderBy('publish_time desc')
+            ->getQuery()
+            ->execute();
+        return $houses;
 
     }
 

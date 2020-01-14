@@ -10,11 +10,23 @@ use MDK\Controller;
 class HouseController extends Controller
 {
     private $_error;
+    private $_userId;
+    private $_merchantId;
 
     public function initialize()
     {
         $config = $this->app->core->config->config->toArray();
         $this->_error = $config['error_message'];
+        //验证用户是否登录
+        $this->_userId = $this->app->tencent->api->UserApi()->getUserId();
+        if(empty($this->_userId)){
+            $this->resultSet->error(1010,$this->_error['unlogin']);exit;
+        }
+        //验证是否为商户
+        $this->_merchantId = $this->app->tencent->api->UserApi()->getMerchantIdByUserId($this->_userId);
+        if(empty($this->_merchantId)){
+            $this->resultSet->error(1011,$this->_error['unmerchant']);exit;
+        }
     }
 
     /**
@@ -26,6 +38,7 @@ class HouseController extends Controller
     public function createAction() {
         //权限验证
         $postData = $this->request->getPost();
+        $postData['merchant_id'] = $this->_merchantId;
         $insertFields = $this->app->rent->api->House()->getInsertFields();
         foreach ($insertFields as $v){
             if(empty($postData[$v])){
@@ -133,6 +146,29 @@ class HouseController extends Controller
             $this->resultSet->error($e->getCode(),$e->getMessage());
         }
         $this->resultSet->success()->setData($data);
+        $this->response->success($this->resultSet->toObject());
+    }
+    /**
+     * 我发布的租房列表
+     * Create action.
+     * @return void
+     * @Route("/list", methods="GET", name="renthouseadmin")
+     */
+    public function listAction() {
+        //权限验证
+        try{
+            $data = [];
+            $result = $this->app->rent->api->House()->getListByMerchantId($this->_merchantId);
+            if(!empty($result)){
+                $data = [
+                    'renthouse_list' => $result
+                ];
+            }
+            $ret['data'] = $data;
+        }catch (\Exception $e){
+            $this->resultSet->error($e->getCode(),$e->getMessage());
+        }
+        $this->resultSet->success()->setData($ret);
         $this->response->success($this->resultSet->toObject());
     }
 

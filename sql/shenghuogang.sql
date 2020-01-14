@@ -11,7 +11,7 @@
  Target Server Version : 50722
  File Encoding         : 65001
 
- Date: 04/01/2020 16:18:14
+ Date: 14/01/2020 12:09:12
 */
 
 SET NAMES utf8mb4;
@@ -42,9 +42,9 @@ CREATE TABLE `address` (
 -- Records of address
 -- ----------------------------
 BEGIN;
-INSERT INTO `address` VALUES (1, 1, '测试姓名', '13800001111', 110000, 110100, 110101, '北京市东城区测试详细地址', -1,'address', -1, '2019-12-24 20:13:24', '2019-12-24 20:40:01');
-INSERT INTO `address` VALUES (2, 1, '测试姓名', '13800001111', 110000, 110100, 110101, '北京市东城区测试详细地址', -1,'address', 1, '2019-12-24 20:32:40', '2019-12-24 20:32:40');
-INSERT INTO `address` VALUES (3, 1, '测试姓名', '13800001111', 110000, 110100, 110101, '北京市东城区测试详细地址', -1,'address', 1, '2019-12-24 20:58:11', '2019-12-24 20:58:11');
+INSERT INTO `address` VALUES (1, 1, '测试姓名', '13800001111', 110000, 110100, 110101, '北京市东城区测试详细地址', -1, 'address', -1, '2019-12-24 20:13:24', '2019-12-24 20:40:01');
+INSERT INTO `address` VALUES (2, 1, '测试姓名', '13800001111', 110000, 110100, 110101, '北京市东城区测试详细地址', -1, 'address', 1, '2019-12-24 20:32:40', '2019-12-24 20:32:40');
+INSERT INTO `address` VALUES (3, 1, '测试姓名', '13800001111', 110000, 110100, 110101, '北京市东城区测试详细地址', -1, 'address', 1, '2019-12-24 20:58:11', '2019-12-24 20:58:11');
 COMMIT;
 
 -- ----------------------------
@@ -80,7 +80,7 @@ CREATE TABLE `catering` (
 -- Records of catering
 -- ----------------------------
 BEGIN;
-INSERT INTO `catering` VALUES (1, 0, '香格里拉美食', 'xianggelilameishi', 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', 11.00, 10.00, 9.00, 9.00, '香格里拉描述', '友谊路', 100, 1, -1, 999, 48, 33,'catering', '2019-12-14 22:27:15', '2019-12-14 14:27:15', 1);
+INSERT INTO `catering` VALUES (1, 0, '香格里拉美食', 'xianggelilameishi', 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', 11.00, 10.00, 9.00, 9.00, '香格里拉描述', '友谊路', 100, 1, -1, 999, 48, 33, 'catering', '2019-12-14 22:27:15', '2019-12-14 14:27:15', 1);
 COMMIT;
 
 -- ----------------------------
@@ -130,7 +130,14 @@ CREATE TABLE `driving_test` (
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1:有效,-1:无效',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='驾考';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='驾考';
+
+-- ----------------------------
+-- Records of driving_test
+-- ----------------------------
+BEGIN;
+INSERT INTO `driving_test` VALUES (2, 0, 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', '驾校1', '友谊路', 11.00, 10.00, 9.00, 9.00, 1, 1, '驾校描述', '[{\"promise_title\":\"\\u4e00\\u6b21\\u6536\\u8d39 \\u7edd\\u65e0\\u4e8c\\u6b21\",\"promise_description\":\"\\u4e3e\\u62a5\\u9000\\u5168\\u90e8\\u5b66\\u8d39\"},{\"promise_title\":\"\\u675c\\u7edd \\u5403 \\u62ff \\u8981\",\"promise_description\":\"\\u4e3e\\u62a5\\u5956\\u52b11000\\u5143\"}]', '2020-01-03 00:41:06', 999, 48, 49, 'driving_test', '2020-01-03 00:41:06', '2020-01-03 00:41:06', 1);
+COMMIT;
 
 -- ----------------------------
 -- Table structure for express
@@ -190,7 +197,14 @@ CREATE TABLE `express_send` (
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1:有效,-1:无效',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='代发快递表';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='代发快递表';
+
+-- ----------------------------
+-- Records of express_send
+-- ----------------------------
+BEGIN;
+INSERT INTO `express_send` VALUES (1, 1, 2, 1, '', 2.00, 1, 1, '2019-12-30 00:22:06', 'express_send', '2019-12-30 00:22:06', '2019-12-30 00:22:06', 1);
+COMMIT;
 
 -- ----------------------------
 -- Table structure for express_take
@@ -214,7 +228,14 @@ CREATE TABLE `express_take` (
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1:有效,-1:无效',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='代取快递表';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='代取快递表';
+
+-- ----------------------------
+-- Records of express_take
+-- ----------------------------
+BEGIN;
+INSERT INTO `express_take` VALUES (1, 1, 1, 2, '【丰巢】请凭取件码『80649951』', '0', 1, 0.50, 5.50, 1, 1, '2019-12-30 00:20:05', 'express_take', '2019-12-30 00:20:05', '2019-12-30 00:20:05', 1);
+COMMIT;
 
 -- ----------------------------
 -- Table structure for hotel
@@ -275,8 +296,8 @@ CREATE TABLE `lostfound` (
 -- Records of lostfound
 -- ----------------------------
 BEGIN;
-INSERT INTO `lostfound` VALUES (1, 0, 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', '保利水韵长滩', '测试二手物', '保利', '1', '404', '404', '2019-12-18 21:48:05', 1, -1,'lostfound', '2019-12-18 21:48:05', '2019-12-18 13:48:05', 1);
-INSERT INTO `lostfound` VALUES (2, 0, 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', '失物招领-2', '测试二手物', '保利', '1', '404', '404', '2019-12-18 21:50:20', 1, 1,'lostfound', '2019-12-18 21:50:20', '2019-12-18 13:50:20', 1);
+INSERT INTO `lostfound` VALUES (1, 0, 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', '保利水韵长滩', '测试二手物', '保利', '1', '404', '404', '2019-12-18 21:48:05', 1, -1, 'lostfound', '2019-12-18 21:48:05', '2019-12-18 13:48:05', 1);
+INSERT INTO `lostfound` VALUES (2, 0, 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', '失物招领-2', '测试二手物', '保利', '1', '404', '404', '2019-12-18 21:50:20', 1, 1, 'lostfound', '2019-12-18 21:50:20', '2019-12-18 13:50:20', 1);
 COMMIT;
 
 -- ----------------------------
@@ -471,13 +492,23 @@ CREATE TABLE `parttimejob` (
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1:有效,-1:无效',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='兼职表';
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COMMENT='兼职表';
 
 -- ----------------------------
 -- Records of parttimejob
 -- ----------------------------
 BEGIN;
-INSERT INTO `parttimejob` VALUES (1, 0, 0, '兼职标题', 'jianzhibiaoti', '兼职描述', '友谊路436', 9.00, '1', '1', '1', 1, '2019-12-14 22:55:08', '2000-01-01 00:00:00',999,'parttimejob', '2019-12-14 22:55:08', '2019-12-14 14:55:08', 1);
+INSERT INTO `parttimejob` VALUES (1, 3, 0, '兼职标题', 'jianzhibiaoti', '兼职描述', '友谊路436', 9.00, '1', '1', '1', 1, '2019-12-14 22:55:08', '2000-01-01 00:00:00', 999, 'parttimejob', '2019-12-14 22:55:08', '2020-01-14 10:45:30', 1);
+INSERT INTO `parttimejob` VALUES (2, 3, 0, '招聘lol代打', 'zhaopinloldaida', '废铁以上不收', '鸟巢', 10000000.00, '18714516069', '781817342', 'wyzdlowy', 1, '2020-01-13 15:59:19', '2000-01-01 00:00:00', 999, 'parttimejob', '2020-01-13 15:59:19', '2020-01-14 10:45:30', 1);
+INSERT INTO `parttimejob` VALUES (3, 3, 0, 'asd', 'asd', 'asd', 'asd', 0.00, '18714516069', 'w', 'w', 1, '2020-01-13 16:00:13', '2000-01-01 00:00:00', 999, 'parttimejob', '2020-01-13 16:00:13', '2020-01-14 10:45:30', 1);
+INSERT INTO `parttimejob` VALUES (4, 3, 0, '1', '1', '1', '1', 1.00, '11111111111', '1', '1', 1, '2020-01-13 16:00:46', '2000-01-01 00:00:00', 999, 'parttimejob', '2020-01-13 16:00:46', '2020-01-14 10:45:30', 1);
+INSERT INTO `parttimejob` VALUES (5, 3, 0, '1', '1', '1', '1', 1.00, '18714516069', '1', '1', 1, '2020-01-13 16:01:56', '2000-01-01 00:00:00', 999, 'parttimejob', '2020-01-13 16:01:56', '2020-01-14 10:45:30', 1);
+INSERT INTO `parttimejob` VALUES (6, 3, 0, '1', '1', '1', '1', 1.00, '11111111111', '1', '1', 1, '2020-01-13 16:04:27', '2000-01-01 00:00:00', 999, 'parttimejob', '2020-01-13 16:04:27', '2020-01-14 10:45:30', 1);
+INSERT INTO `parttimejob` VALUES (7, 3, 0, '兼职标题', 'jianzhibiaoti', '兼职描述', '友谊路436', 9.00, '1', '1', '1', 1, '2020-01-13 16:11:40', '2000-01-01 00:00:00', 999, 'parttimejob', '2020-01-13 16:11:40', '2020-01-14 10:45:30', 1);
+INSERT INTO `parttimejob` VALUES (8, 3, 0, '1', '1', '1', '1', 1.00, '11111111111', '1', '1', 1, '2020-01-13 16:12:26', '2000-01-01 00:00:00', 999, 'parttimejob', '2020-01-13 16:12:26', '2020-01-14 10:45:30', 1);
+INSERT INTO `parttimejob` VALUES (9, 3, 0, '测试new', 'ceshinew', '没有补充', '工作地点', 100.00, '18714516069', '781817342', 'wyzdlowy', 1, '2020-01-13 16:14:03', '2000-01-01 00:00:00', 999, 'parttimejob', '2020-01-13 16:14:03', '2020-01-14 10:45:30', 1);
+INSERT INTO `parttimejob` VALUES (10, 3, 0, 'aaaaaaaaaa', 'aaaaaaaaaa', '补充说明', '1', 1.00, '11111111111', '1', '1', 1, '2020-01-13 16:17:59', '2000-01-01 00:00:00', 999, 'parttimejob', '2020-01-13 16:17:59', '2020-01-14 10:45:30', 1);
+INSERT INTO `parttimejob` VALUES (11, 3, 0, '啦啦啦啦', 'lalalala', '啦啦啦啦', '啦啦啦啦', 111.00, '11111111111', '11111111', '111111111', 1, '2020-01-13 16:18:33', '2000-01-01 00:00:00', 999, 'parttimejob', '2020-01-13 16:18:33', '2020-01-14 10:45:30', 1);
 COMMIT;
 
 -- ----------------------------
@@ -4327,6 +4358,7 @@ CREATE TABLE `rent_house` (
   `qq` varchar(20) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT 'QQ号',
   `wechat` varchar(30) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '微信号',
   `publish_time` datetime NOT NULL DEFAULT '2000-01-01 00:00:00' COMMENT '发布时间',
+  `is_renting` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1-出租，-1-已租出去',
   `description` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '详情',
   `goods_type` varchar(50) NOT NULL DEFAULT 'rent_house' COMMENT '驾考表',
   `create_time` datetime NOT NULL DEFAULT '2000-01-01 00:00:00' COMMENT '创建时间',
@@ -4339,7 +4371,7 @@ CREATE TABLE `rent_house` (
 -- Records of rent_house
 -- ----------------------------
 BEGIN;
-INSERT INTO `rent_house` VALUES (1, 0, '保利水韵长滩', 11.00, 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', 1, 1, 1, '10.00', '友谊路', 100.00, '1', '1', '1', '2019-12-15 23:10:08', '测试租房','rent_house', '2019-12-15 23:10:08', '2019-12-15 15:10:08', 1);
+INSERT INTO `rent_house` VALUES (1, 0, '保利水韵长滩', 11.00, 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', 1, 1, 1, '10.00', '友谊路', 100.00, '1', '1', '1', '2019-12-15 23:10:08', 1, '测试租房', 'rent_house', '2019-12-15 23:10:08', '2019-12-15 15:10:08', 1);
 COMMIT;
 
 -- ----------------------------
@@ -4423,7 +4455,7 @@ CREATE TABLE `supermarket_goods` (
 -- Records of supermarket_goods
 -- ----------------------------
 BEGIN;
-INSERT INTO `supermarket_goods` VALUES (1, 0, '西红柿', '', 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', 1, 11.00, 10.00, 9.00, 9.00, '西红柿描述', 1, '1', 100, 1, -1, 999, 44, 47,'supermarket_goods', '2019-12-14 22:39:44', '2019-12-14 14:39:44', 1);
+INSERT INTO `supermarket_goods` VALUES (1, 0, '西红柿', '', 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', 1, 11.00, 10.00, 9.00, 9.00, '西红柿描述', 1, '1', 100, 1, -1, 999, 44, 47, 'supermarket_goods', '2019-12-14 22:39:44', '2019-12-14 14:39:44', 1);
 COMMIT;
 
 -- ----------------------------
@@ -4468,7 +4500,7 @@ CREATE TABLE `ticket` (
 -- Records of ticket
 -- ----------------------------
 BEGIN;
-INSERT INTO `ticket` VALUES (1, 0, '香格里拉餐饮2', 'wandaertongzhutileyuanmenpiao', 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', 11.00, 10.00, 9.00, 9.00, '香格里拉描述更新', '友谊路更新1', 100, 1, -1, 999, 32, 44,'ticket', '2019-12-14 20:36:31', '2019-12-14 12:36:31', 1);
+INSERT INTO `ticket` VALUES (1, 0, '香格里拉餐饮2', 'wandaertongzhutileyuanmenpiao', 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', 11.00, 10.00, 9.00, 9.00, '香格里拉描述更新', '友谊路更新1', 100, 1, -1, 999, 32, 44, 'ticket', '2019-12-14 20:36:31', '2019-12-14 12:36:31', 1);
 COMMIT;
 
 -- ----------------------------
@@ -4498,14 +4530,15 @@ CREATE TABLE `user` (
   `status` tinyint(4) DEFAULT '1' COMMENT '1:有效,-1:无效',
   PRIMARY KEY (`id`),
   UNIQUE KEY `openid` (`openid`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='用户表';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='用户表';
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
 BEGIN;
 INSERT INTO `user` VALUES (1, '111', '', 0, 'abc', '', '2000-01-01 00:00:00', 'f747b0e96c9ebb3bdd6ea019a840434b', '', '1', 1, '123', '1', '1', '1', 0.00, 1577181672, '2000-01-01 00:00:00', '2019-12-23 17:20:48', 1);
-INSERT INTO `user` VALUES (2, '', '', 0, 'bbb', '', '2000-01-01 00:00:00', '8102de236a86e5b8c4c63260e11fbcd9', '', '1', 1, '123', '1', '1', '1', 0.00, 1577191087, '2000-01-01 00:00:00', '2019-12-24 20:37:35', 1);
+INSERT INTO `user` VALUES (2, '', '', 0, 'bbb', '', '2000-01-01 00:00:00', 'dd5965aec2b3aee379f5667bd88432fc', '', '1', 1, '123', '1', '1', '1', 0.00, 1578898634, '2000-01-01 00:00:00', '2019-12-24 20:37:35', 1);
+INSERT INTO `user` VALUES (3, '', '', 0, 'oSbAs5BDanyRlvvr4c6RURYcq8bY', '/WrUJdvuxfl/qNlFWghmVA==', '2020-01-13 14:44:30', '7acb439c915bca0c040161250bdb88eb', '', 'zwb', 1, 'https://wx.qlogo.cn/mmopen/vi_32/35s3wN37BTPicFhY7bDxgkKJD6QdT6ibGAYgvEYibiakc0f1JTp2fA38Bess4ib5OHXyooaTvK7niaHc0wZgCSUS30xQ/132', 'China', 'Heilongjiang', 'Harbin', 0.00, 1578903553, '2020-01-13 14:44:30', '2020-01-13 14:44:30', 1);
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;

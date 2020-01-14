@@ -29,6 +29,18 @@ class UserApi extends Api
         }
         return $userId;
     }
+    public function getMerchantIdByUserId($userId)
+    {
+        if(empty($userId)){
+            return 0;
+        }
+        $merchant = $this->detail($userId);
+        $merchantId = 0;
+        if (!empty($merchant)) {
+            $merchantId = $merchant->merchant_id ?? 0;
+        }
+        return $merchantId;
+    }
 
     public function getInsertFields()
     {
@@ -131,12 +143,12 @@ class UserApi extends Api
         }
     }
 
-    public function detail($ticketId)
+    public function detail($userId)
     {
-        $condition = "id = " . $ticketId;
+        $condition = "id = " . $userId;
         $condition .= " and status = " . $this->_config['data_status']['valid'];
-        $goods = $this->_model->findFirst($condition);
-        return $goods;
+        $user = $this->_model->findFirst($condition);
+        return $user;
     }
 
     private function makeAccessToken($userId, $keyTime)
