@@ -177,7 +177,7 @@ class House extends Api
 
     }
     public function getFirst(){
-        $condition = " and is_selling = ".$this->_config['selling_status']['selling'];
+        $condition = "  is_renting = ".$this->_config['renting_status']['renting'];
         $condition .= " and status = ".$this->_config['data_status']['valid'];
         $condition .= " order by sort";
         $goods = $this->_model->findFirst($condition);
