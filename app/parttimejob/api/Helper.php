@@ -130,9 +130,19 @@ class Helper extends Api
             ];
             $updateModel = $this->_model->findFirstById($goods->id);
             $updateModel->update($updateData);
-            $goods->total_views = ($goods->views ?? 0) + ($goods->base_views ?? 0) + 1;
+            $goods = $this->addTotalField($goods);
         }
         return $goods;
+    }
+    public function addTotalField($obj){
+        $arr = [];
+        if(!empty($obj)){
+            foreach ($obj as $k=>$v){
+                $arr[$k] = $v;
+            }
+            $arr['total_views'] = ($arr['views'] ?? 0) + ($arr['base_views'] ?? 0);
+        }
+        return (object)$arr;
     }
 
     public function search($goodsName)
@@ -148,7 +158,7 @@ class Helper extends Api
             ->getQuery()
             ->execute();*/
         $goods = $this->modelsManager->createBuilder()
-            ->columns('*,(views+base_views) as total_views')
+            ->columns('*')
             ->from(['sg' => 'Parttimejob\Model\Parttimejob'])
             ->where('sg.is_selling = :selling: ', ['selling' => $this->_config['selling_status']['selling']])
             ->andWhere('sg.status = :valid: ', ['valid' => $this->_config['data_status']['valid']])
@@ -156,29 +166,44 @@ class Helper extends Api
             ->orderBy('sort desc')
             ->getQuery()
             ->execute();
+        if(!empty($goods)){
+            foreach ($goods as &$v){
+                $v = $this->addTotalField($v);
+            }
+        }
         return $goods;
     }
 
     public function getList(){
          $goods = $this->modelsManager->createBuilder()
-            ->columns('*,(views+base_views) as total_views')
+            ->columns('*')
             ->from(['sg' => 'Parttimejob\Model\Parttimejob'])
             ->where('sg.is_hiring = :hiring: ', ['hiring' => $this->_config['hiring_status']['hiring']])
             ->andWhere('sg.status = :valid: ', ['valid' => $this->_config['data_status']['valid']])
             ->getQuery()
             ->execute();
+        if(!empty($goods)){
+            foreach ($goods as &$v){
+                $v = $this->addTotalField($v);
+            }
+        }
         return $goods;
 
     }
     public function getListByUserId($userId){
          $jobs = $this->modelsManager->createBuilder()
-            ->columns('*,(views+base_views) as total_views')
+            ->columns('*')
             ->from(['sg' => 'Parttimejob\Model\Parttimejob'])
             ->where('sg.is_hiring = :hiring: ', ['hiring' => $this->_config['hiring_status']['hiring']])
              ->andWhere('sg.user_id = :user_id: ', ['user_id' => $userId])
             ->andWhere('sg.status = :valid: ', ['valid' => $this->_config['data_status']['valid']])
             ->getQuery()
             ->execute();
+        if(!empty($goods)){
+            foreach ($goods as &$v){
+                $v = $this->addTotalField($v);
+            }
+        }
         return $jobs;
 
     }
