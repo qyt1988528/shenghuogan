@@ -136,12 +136,19 @@ class Helper extends Api
             ->from(['sg' => 'Catering\Model\Catering'])
             ->where('sg.is_selling = :selling: ', ['selling' => $this->_config['selling_status']['selling']])
             ->andWhere('sg.status = :valid: ', ['valid' => $this->_config['data_status']['valid']])
-            ->orderBy('sort desc')
+            ->orderBy('sort')
             ->limit($start, $pageSize)
             ->getQuery()
             ->execute();
         return $goods;
 
+    }
+    public function getFirst(){
+        $condition = " and is_selling = ".$this->_config['selling_status']['selling'];
+        $condition .= " and status = ".$this->_config['data_status']['valid'];
+        $condition .= " order by sort";
+        $goods = $this->_model->findFirst($condition);
+        return $goods;
     }
 
 }

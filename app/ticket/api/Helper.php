@@ -131,7 +131,7 @@ class Helper extends Api
             ->where('sg.is_selling = :selling: ',['selling'=>$this->_config['selling_status']['selling']])
             ->andWhere('sg.status = :valid: ',['valid'=>$this->_config['data_status']['valid']])
             ->andWhere('sg.title like :goodsName: ',['goodsName' => '%'.$goodsName.'%'])
-            ->orderBy('sort desc')
+            ->orderBy('sort')
             ->getQuery()
             ->execute();
         return $goods;
@@ -147,12 +147,19 @@ class Helper extends Api
             ->from(['sg'=>'Ticket\Model\Ticket'])
             ->where('sg.is_selling = :selling: ',['selling'=>$this->_config['selling_status']['selling']])
             ->andWhere('sg.status = :valid: ',['valid'=>$this->_config['data_status']['valid']])
-            ->orderBy('sort desc')
+            ->orderBy('sort')
             ->limit($start,$pageSize)
             ->getQuery()
             ->execute();
         return $goods;
 
+    }
+     public function getFirst(){
+        $condition = " and is_selling = ".$this->_config['selling_status']['selling'];
+        $condition .= " and status = ".$this->_config['data_status']['valid'];
+        $condition .= " order by sort";
+        $goods = $this->_model->findFirst($condition);
+        return $goods;
     }
 
 

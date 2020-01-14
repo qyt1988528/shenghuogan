@@ -4358,6 +4358,7 @@ CREATE TABLE `rent_house` (
   `qq` varchar(20) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT 'QQ号',
   `wechat` varchar(30) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '微信号',
   `publish_time` datetime NOT NULL DEFAULT '2000-01-01 00:00:00' COMMENT '发布时间',
+  `sort` int(10) NOT NULL DEFAULT '999' COMMENT '排序',
   `is_renting` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1-出租，-1-已租出去',
   `description` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '详情',
   `goods_type` varchar(50) NOT NULL DEFAULT 'rent_house' COMMENT '驾考表',
@@ -4371,7 +4372,7 @@ CREATE TABLE `rent_house` (
 -- Records of rent_house
 -- ----------------------------
 BEGIN;
-INSERT INTO `rent_house` VALUES (1, 0, '保利水韵长滩', 11.00, 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', 1, 1, 1, '10.00', '友谊路', 100.00, '1', '1', '1', '2019-12-15 23:10:08', 1, '测试租房', 'rent_house', '2019-12-15 23:10:08', '2019-12-15 15:10:08', 1);
+INSERT INTO `rent_house` VALUES (1, 0, '保利水韵长滩', 11.00, 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', 1, 1, 1, '10.00', '友谊路', 100.00, '1', '1', '1',999, '2019-12-15 23:10:08', 1, '测试租房', 'rent_house', '2019-12-15 23:10:08', '2019-12-15 15:10:08', 1);
 COMMIT;
 
 -- ----------------------------

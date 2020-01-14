@@ -25,6 +25,7 @@ class Helper extends Api
             'specs',
             'specs_unit_id',
             'stock',
+            'merchant_id',
         ];
     }
     public function getDefaultInsertFields($postData){
@@ -111,23 +112,24 @@ class Helper extends Api
         return $goods;
     }
     public function search($goodsName){
-        /*
-        $slideAds = $this->modelsManager->createBuilder()
-            ->columns('cts.image_ratio,cts.image,cts.jump_url,cts.title,cts.ga_name,vc.condition')
-            ->from(['cts'=>'Supermarket\Model\SupermarketGoods'])
-            ->join('Core\Model\VersionControl','vc.table_id = cts.id and vc.table_name="cms_home_top_slide"','vc','LEFT')
-            ->where('is_selling = :selling: and status = :valid: and title like :goodsName:',['store'=>$store])
-            ->andWhere('b.store = :store: AND b.active=1 and platforms like :systemType:',['store'=>$store,'systemType' => '%'.$systemType.'%'])
-            ->orderBy('sort desc')
-            ->getQuery()
-            ->execute();*/
         $goods = $this->modelsManager->createBuilder()
             ->columns('*')
             ->from(['sg'=>'Supermarket\Model\SupermarketGoods'])
             ->where('sg.is_selling = :selling: ',['selling'=>$this->_config['selling_status']['selling']])
             ->andWhere('sg.status = :valid: ',['valid'=>$this->_config['data_status']['valid']])
             ->andWhere('sg.title like :goodsName: ',['goodsName' => '%'.$goodsName.'%'])
-            ->orderBy('sort desc')
+            ->orderBy('sort')
+            ->getQuery()
+            ->execute();
+        return $goods;
+    }
+    public function getList(){
+        $goods = $this->modelsManager->createBuilder()
+            ->columns('*')
+            ->from(['sg'=>'Supermarket\Model\SupermarketGoods'])
+            ->where('sg.is_selling = :selling: ',['selling'=>$this->_config['selling_status']['selling']])
+            ->andWhere('sg.status = :valid: ',['valid'=>$this->_config['data_status']['valid']])
+            ->orderBy('sort')
             ->getQuery()
             ->execute();
         return $goods;

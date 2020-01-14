@@ -111,9 +111,40 @@ class Helper extends Api
 
     public function getIndexData(){
         //今日推荐
+        $data['recommended'] = [];
+        $ticket = $this->app->ticket->api->Helper()->getFirst();
+        if(!empty($ticket)){
+            $data['recommended'][] = $ticket;
+        }
+        $hotel = $this->app->hotel->api->Helper()->getFirst();
+        if(!empty($hotel)){
+            $data['recommended'][] = $hotel;
+        }
+        $catering = $this->app->catering->api->Helper()->getFirst();
+        if(!empty($catering)){
+            $data['recommended'][] = $catering;
+        }
         //兼职
+        $data['parttimejob_list'] = [];
+        $parttimejobs = $this->app->parttimejob->api->Helper()->getList(1,3);
+        if(!empty($parttimejobs)){
+            $data['parttimejob_list'] = $parttimejobs;
+        }
         //生活信息
-
+        $data['life_information'] = [];
+        $car = $this->app->rent->api->Car()->getFirst();
+        if(!empty($car)){
+            $data['life_information'][] = $car;
+        }
+        $house = $this->app->rent->api->House()->getFirst();
+        if(!empty($house)){
+            $data['life_information'][] = $house;
+        }
+        $second = $this->app->secondhand->api->Helper()->getFirst();
+        if(!empty($second)){
+            $data['life_information'][] = $second;
+        }
+        return (object)$data;
     }
 
 

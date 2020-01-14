@@ -169,16 +169,18 @@ class Helper extends Api
         return $goods;
     }
 
-    public function getList(){
-         $goods = $this->modelsManager->createBuilder()
-             ->columns('id,user_id,title,description,location,commission,cellphone,qq,wechat,is_hiring,publish_time,end_time,views,base_views,sort,goods_type,status,(views+base_views) as total_views')
+    public function getList($page = 1, $pageSize = 10){
+        $start = ($page - 1) * $pageSize;
+        $goods = $this->modelsManager->createBuilder()
+            ->columns('id,user_id,title,description,location,commission,cellphone,qq,wechat,is_hiring,publish_time,end_time,views,base_views,sort,goods_type,status,(views+base_views) as total_views')
             ->from(['sg' => 'Parttimejob\Model\Parttimejob'])
             ->where('sg.is_hiring = :hiring: ', ['hiring' => $this->_config['hiring_status']['hiring']])
             ->andWhere('sg.status = :valid: ', ['valid' => $this->_config['data_status']['valid']])
+            ->orderBy('sort')
+            ->limit($start, $pageSize)
             ->getQuery()
             ->execute();
         return $goods;
-
     }
     public function getListByUserId($userId){
          $jobs = $this->modelsManager->createBuilder()

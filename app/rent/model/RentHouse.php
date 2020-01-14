@@ -88,6 +88,11 @@ class RentHouse extends Model
     public $publish_time;
     /**
      *
+     * @Column(type="integer", size="10", nullable=true, column="sort")
+     */
+    public $sort;
+    /**
+     *
      * @Column(type="string", size="255", nullable=true, column="description")
      */
     public $description;
