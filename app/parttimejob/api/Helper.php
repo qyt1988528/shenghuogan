@@ -128,7 +128,8 @@ class Helper extends Api
                 'id' => $goods->id ?? 0,
                 'views' => ($goods->views ?? 0) +1,
             ];
-            $this->updateParttimejob($updateData);
+            $updateModel = $this->_model->findFirstById($goods->id);
+            $updateModel->update($updateData);
             $goods->total_views = ($goods->views ?? 0) + ($goods->base_views ?? 0) + 1;
         }
         return $goods;
