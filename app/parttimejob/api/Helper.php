@@ -26,6 +26,7 @@ class Helper extends Api
             'cellphone',
             'qq',
             'wechat',
+            'user_id',
         ];
     }
 
@@ -158,6 +159,17 @@ class Helper extends Api
         return $goods;
 
     }
+    public function getListByUserId($userId){
+         $jobs = $this->modelsManager->createBuilder()
+            ->columns('*')
+            ->from(['sg' => 'Parttimejob\Model\Parttimejob'])
+            ->where('sg.is_hiring = :hiring: ', ['hiring' => $this->_config['hiring_status']['hiring']])
+             ->andWhere('sg.user_id = :user_id: ', ['user_id' => $userId])
+            ->andWhere('sg.status = :valid: ', ['valid' => $this->_config['data_status']['valid']])
+            ->getQuery()
+            ->execute();
+        return $jobs;
 
+    }
 
 }

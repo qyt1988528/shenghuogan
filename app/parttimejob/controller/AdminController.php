@@ -10,11 +10,17 @@ use MDK\Controller;
 class AdminController extends Controller
 {
     private $_error;
+    private $_userId;
 
     public function initialize()
     {
         $config = $this->app->core->config->config->toArray();
         $this->_error = $config['error_message'];
+        //验证用户是否登录
+        $this->_userId = $this->app->tencent->api->UserApi()->getUserId();
+        if(empty($this->_userId)){
+            $this->resultSet->error(1010,$this->_error['unlogin']);exit;
+        }
     }
 
     /**
@@ -26,6 +32,7 @@ class AdminController extends Controller
     public function createAction() {
         //权限验证
         $postData = $this->request->getPost();
+        $postData['user_id'] = $this->_userId;
         $insertFields = $this->app->parttimejob->api->Helper()->getInsertFields();
         foreach ($insertFields as $v){
             if(empty($postData[$v])){
@@ -135,5 +142,28 @@ class AdminController extends Controller
         $this->resultSet->success()->setData($data);
         $this->response->success($this->resultSet->toObject());
     }
+    /**
+     * 我发布的兼职列表
+     * Create action.
+     * @return void
+     * @Route("/list", methods="POST", name="parttimejobadmin")
+     */
+    public function listAction() {
+        //权限验证
+        try{
+            $data = [];
+            $result = $this->app->parttimejob->api->Helper()->getListByUserId($this->_userId);
+            if(!empty($result)){
+                $data = [
+                    'parttimejob_list' => $result
+                ];
+            }
+        }catch (\Exception $e){
+            $this->resultSet->error($e->getCode(),$e->getMessage());
+        }
+        $this->resultSet->success()->setData($data);
+        $this->response->success($this->resultSet->toObject());
+    }
+
     
 }
