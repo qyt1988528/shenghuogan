@@ -83,6 +83,16 @@ class Parttimejob extends Model
     public $end_time;
     /**
      *
+     * @Column(type="integer", size="10", nullable=true, column="views")
+     */
+    public $views;
+    /**
+     *
+     * @Column(type="integer", size="10", nullable=true, column="base_views")
+     */
+    public $base_views;
+    /**
+     *
      * @Column(type="integer", nullable=true, column="sort")
      */
     public $sort;

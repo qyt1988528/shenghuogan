@@ -56,7 +56,7 @@ CREATE TABLE `catering` (
   `merchant_id` int(11) NOT NULL COMMENT '商户ID',
   `title` varchar(100) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '标题',
   `title_pinyin` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '标题(拼音)',
-  `img_url` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '封面',
+  `img_url` text CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '封面',
   `cost_price` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '成本价格',
   `original_price` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '初始价格',
   `self_price` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '单独购买价格',

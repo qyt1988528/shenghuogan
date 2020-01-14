@@ -36,6 +36,7 @@ class Helper extends Api
             'is_hiring' => $this->_config['hiring_status']['hiring'],
             'create_time' => date('Y-m-d H:i:s'),
             'publish_time' => date('Y-m-d H:i:s'),
+            'base_views' => mt_rand(3,10),
         ];
         if (!empty($postData['title'])) {
             $defaultInsertFields['title_pinyin'] = $this->app->core->api->Pinyin()->getpy($postData['title']);
@@ -121,6 +122,15 @@ class Helper extends Api
         $condition .= " and is_hiring = " . $this->_config['hiring_status']['hiring'];
         $condition .= " and status = " . $this->_config['data_status']['valid'];
         $goods = $this->_model->findFirst($condition);
+        if(!empty($goods)){
+            //点击量+1
+            $updateData = [
+                'id' => $goods->id ?? 0,
+                'views' => ($goods->views ?? 0) +1,
+            ];
+            $this->updateParttimejob($updateData);
+            $goods->total_views = ($goods->views ?? 0) + ($goods->base_views ?? 0) + 1;
+        }
         return $goods;
     }
 
@@ -137,7 +147,7 @@ class Helper extends Api
             ->getQuery()
             ->execute();*/
         $goods = $this->modelsManager->createBuilder()
-            ->columns('*')
+            ->columns('*,(views+base_views) as total_views')
             ->from(['sg' => 'Parttimejob\Model\Parttimejob'])
             ->where('sg.is_selling = :selling: ', ['selling' => $this->_config['selling_status']['selling']])
             ->andWhere('sg.status = :valid: ', ['valid' => $this->_config['data_status']['valid']])
@@ -150,7 +160,7 @@ class Helper extends Api
 
     public function getList(){
          $goods = $this->modelsManager->createBuilder()
-            ->columns('*')
+            ->columns('*,(views+base_views) as total_views')
             ->from(['sg' => 'Parttimejob\Model\Parttimejob'])
             ->where('sg.is_hiring = :hiring: ', ['hiring' => $this->_config['hiring_status']['hiring']])
             ->andWhere('sg.status = :valid: ', ['valid' => $this->_config['data_status']['valid']])
@@ -161,7 +171,7 @@ class Helper extends Api
     }
     public function getListByUserId($userId){
          $jobs = $this->modelsManager->createBuilder()
-            ->columns('*')
+            ->columns('*,(views+base_views) as total_views')
             ->from(['sg' => 'Parttimejob\Model\Parttimejob'])
             ->where('sg.is_hiring = :hiring: ', ['hiring' => $this->_config['hiring_status']['hiring']])
              ->andWhere('sg.user_id = :user_id: ', ['user_id' => $userId])
