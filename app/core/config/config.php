@@ -4,7 +4,7 @@ return [
         'valid' => 1,//有效
         'invalid' => -1,//无效 指删除 这里删除只改状态并非物理删除
     ],
-    'specs_unit' => [
+    'supermarket_specs_unit' => [
         //id=>unit_description
         1 => 'kg',
         2 => '瓶',
@@ -17,6 +17,13 @@ return [
         9 => '桶',
         10 => 'ML',
         11 => 'L',
+    ],
+    'supermarket_goods_type' => [
+        1 => '精选水果',
+        2 => '休闲食品',
+        3 => '酒水饮品',
+        4 => '生活用品',
+        5 => '其他',
     ],
     'selling_status' => [
         'selling' => 1,//在售
