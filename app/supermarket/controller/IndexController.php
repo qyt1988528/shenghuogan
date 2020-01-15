@@ -33,7 +33,7 @@ class IndexController extends Controller
         }
         try{
             $supermarketData = $this->app->supermarket->api->Helper()->getIndexData($typeId,$page);
-            if(empty($supermaketData)){
+            if(empty($supermarketData)){
                 $this->resultSet->error(1002,$this->_error['not_exist']);
             }
             $data['data'] = $supermarketData;
