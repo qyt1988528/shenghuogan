@@ -10,6 +10,13 @@ use Psr\Http\Message\ResponseInterface;
 
 class Helper extends Api
 {
+
+    private $_config;
+
+    public function __construct()
+    {
+        $this->_config = $this->app->core->config->config->toArray();
+    }
     public function getIndex(){
         //location
         //cover
