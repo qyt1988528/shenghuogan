@@ -4,7 +4,7 @@ namespace Home\Model;
 
 use MDK\Model;
 
-class FaceppDetectImages extends Model
+class OperationMode extends Model
 {
 
     /**
@@ -17,46 +17,41 @@ class FaceppDetectImages extends Model
 
     /**
      * 
-     * @Column(type="string", size="255", nullable=true, column="host")
+     * @Column(type="string", size="100", nullable=true, column="name")
      */
-    public $host;
+    public $name;
 
     /**
      * 
-     * @Column(type="string", size="255", nullable=true, column="path")
+     * @Column(type="string", size="255", nullable=true, column="image")
      */
-    public $path;
+    public $image;
     /**
      *
-     * @Column(type="string", size="255", nullable=true, column="image_url")
+     * @Column(type="string", size="255", nullable=true, column="base_url")
      */
-    public $image_url;
+    public $base_url;
     /**
      *
-     * @Column(type="integer", size="4", nullable=true, column="blur")
+     * @Column(type="integer", size="4", nullable=true, column="is_show")
      */
-    public $blur;
+    public $is_show;
     /**
      *
-     * @Column(type="integer", size="11", nullable=true, column="face_num")
+     * @Column(type="integer", size="5", nullable=true, column="sort")
      */
-    public $face_num;
-    /**
-     *
-     * @Column(type="string", nullable=true, column="facepp_result")
-     */
-    public $facepp_result;
+    public $sort;
 
     /**
      *
-     * @Column(type="string", nullable=true, column="created_at")
+     * @Column(type="string", nullable=true, column="create_time")
      */
-    public $created_at;
+    public $create_time;
     /**
      *
-     * @Column(type="string", nullable=true, column="updated_at")
+     * @Column(type="string", nullable=true, column="update_time")
      */
-    public $updated_at;
+    public $update_time;
     /**
      *
      * @Column(type="integer", size="4", nullable=true, column="status")

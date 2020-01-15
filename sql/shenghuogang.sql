@@ -118,7 +118,7 @@ CREATE TABLE `core_config_data_test` (
 -- Records of core_config_data
 -- ----------------------------
 BEGIN;
-INSERT INTO `core_config_data_test` VALUES (1, NULL, 'qiniu', '{\"_url\":\"\\/admin\\/system\\/config\\/multiple\",\"key\":\"qiniu\",\"AccessKey\":\"-V6Rz-fNRU9Jr34zpHXHGYWO9sb-Nc1rjbijwnBO\",\"SecretKey\":\"Lj7N4icmLZReUAhPF5nkInX1vPTY2ooPnbJxkYgZ\",\"buket\":\"test\",\"domain\":\"http://q44vf6gy8.bkt.clouddn.com\",\"lang\":\"en\"}');
+INSERT INTO `core_config_data_test` VALUES (1, NULL, 'qiniu', '{\"_url\":\"\\/admin\\/system\\/config\\/multiple\",\"key\":\"qiniu\",\"AccessKey\":\"-V6Rz-fNRU9Jr34zpHXHGYWO9sb-Nc1rjbijwnBO\",\"SecretKey\":\"Lj7N4icmLZReUAhPF5nkInX1vPTY2ooPnbJxkYgZ\",\"buket\":\"test-qyt-image\",\"domain\":\"http://q44vf6gy8.bkt.clouddn.com/\",\"lang\":\"en\"}');
 COMMIT;
 
 -- ----------------------------

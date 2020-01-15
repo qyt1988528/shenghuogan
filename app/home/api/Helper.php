@@ -109,7 +109,24 @@ class Helper extends Api
 
     }
 
+    public function getMode($page = 1, $pageSize = 10){
+        $start = ($page - 1) * $pageSize;
+        $goods = $this->modelsManager->createBuilder()
+            ->columns('*')
+            // ->columns('id,stock,title,img_url,original_price,self_price,description,location,is_recommend,sort,base_fav_count,base_order_count')
+            ->from(['sg' => 'Home\Model\OperationMode'])
+            ->where('sg.is_show = :selling: ', ['selling' => $this->_config['selling_status']['selling']])
+            ->andWhere('sg.status = :valid: ', ['valid' => $this->_config['data_status']['valid']])
+            ->orderBy('sort')
+            ->limit($start, $pageSize)
+            ->getQuery()
+            ->execute();
+        return $goods;
+    }
+
     public function getIndexData(){
+        $data['cover'] = '';
+        $data['icon_list'] = $this->getMode();
         //今日推荐
         $data['recommended'] = [];
         $ticket = $this->app->ticket->api->Helper()->getFirst();
