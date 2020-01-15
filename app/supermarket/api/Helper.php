@@ -199,7 +199,7 @@ class Helper extends Api
                 'selected' => $type_id == $typeId ? true : false,
             ];
         }
-        $data['type_list'] = (object)$typeList;
+        $data['type_list'] = $typeList;
         //recommend_list
         $data['recommend_list'] = $this->getRecommendList(1,3);
         //goods_list

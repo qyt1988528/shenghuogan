@@ -103,6 +103,24 @@ INSERT INTO `core_config_data` VALUES (1, NULL, 'qiniu', '{\"_url\":\"\\/admin\\
 INSERT INTO `core_config_data` VALUES (2, NULL, 'qiniu/token', '{\"token\":\"o614SUzXUjQy-HP6LCalMo8yYUfdC6lHEJAmyG7F:06xIJEP0nUJ29kP4MBgeakXc21Q=:eyJzY29wZSI6InRlc3QiLCJkZWFkbGluZSI6MTU3MDg3NDcyNn0=\",\"expire\":1570874626}');
 COMMIT;
 
+-- Table structure for core_config_data_test
+-- ----------------------------
+DROP TABLE IF EXISTS `core_config_data_test`;
+CREATE TABLE `core_config_data_test` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `store` varchar(50) DEFAULT NULL,
+  `path` varchar(255) DEFAULT NULL,
+  `value` text COMMENT '值',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='公共配置';
+
+-- ----------------------------
+-- Records of core_config_data
+-- ----------------------------
+BEGIN;
+INSERT INTO `core_config_data_test` VALUES (1, NULL, 'qiniu', '{\"_url\":\"\\/admin\\/system\\/config\\/multiple\",\"key\":\"qiniu\",\"AccessKey\":\"-V6Rz-fNRU9Jr34zpHXHGYWO9sb-Nc1rjbijwnBO\",\"SecretKey\":\"Lj7N4icmLZReUAhPF5nkInX1vPTY2ooPnbJxkYgZ\",\"buket\":\"test\",\"domain\":\"http://q44vf6gy8.bkt.clouddn.com\",\"lang\":\"en\"}');
+COMMIT;
+
 -- ----------------------------
 -- Table structure for driving_test
 -- ----------------------------
