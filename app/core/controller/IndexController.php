@@ -55,7 +55,7 @@ class IndexController extends Controller
      * @return void
      * @Route("/uploadtest", methods="POST", name="core")
      */
-    public function upload2Action() {
+    public function uploadtestAction() {
         $image = $this->request->getParam('image_blob');
         $image = $this->request->getParam('image_base64');
         $imageName = $this->request->getParam('image_name');
