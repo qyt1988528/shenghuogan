@@ -86,6 +86,7 @@ class HelperTest extends Api
 
     public function test(){
         /*
+         * $this->modelsManager->executeQuery()
          * $phql = "SELECT c.* FROM Cars AS c ORDER BY c.name";
 
 $cars = $manager->executeQuery($phql);

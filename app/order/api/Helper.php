@@ -15,6 +15,13 @@ class Helper extends Api
         $this->_config = $this->app->core->config->config->toArray();
         $this->_model = new Parttimejob();
     }
+    public function createOrder(){
+        //开启事务
+        //写订单表
+        //写订单详情表
+        //写订单的商品信息表
+        //结束事务
+    }
 
     public function getInsertFields()
     {

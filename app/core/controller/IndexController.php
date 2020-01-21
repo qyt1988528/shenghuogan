@@ -37,7 +37,8 @@ class IndexController extends Controller
                 $imageName = 'test'.$rand.'/'.date('Ymd').'/'.$time.$rand.'.jpg';
             }
             $imageBlob = $this->app->core->api->Image()->getBlobByBase64($image);
-            $qiniuUploadRet = $this->app->admin->core->api->Qiniu()->uploadBlobToQiniu($imageBlob,$imageName);
+            // $qiniuUploadRet = $this->app->admin->core->api->Qiniu()->uploadBlobToQiniu($imageBlob,$imageName);
+            $qiniuUploadRet = $this->app->admin->core->api->QiniuTest()->uploadBlobToQiniu($imageBlob,$imageName);
             if(!empty($qiniuUploadRet['base_url']) && !empty($qiniuUploadRet['path_url'])){
                 $data['data'] = ['img_url' => $qiniuUploadRet['base_url'].$qiniuUploadRet['path_url']];
             }else{
