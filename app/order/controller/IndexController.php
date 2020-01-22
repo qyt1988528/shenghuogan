@@ -127,8 +127,15 @@ class IndexController extends Controller
     public function createOldAction()
     {
         //用户id 商品id 商品类型
+        $goodsData = $this->request->getPost('goods_data');
+        if(empty($goodsData) || !is_array($goodsData)){
+
+        }
+        $addressId = $this->request->getPost('address_id',null,0);
+
+
         //确认是否需要地址
-        $keys = ['goods', 'user_id', 'address_id'];
+        $keys = ['goods_data', 'user_id', 'address_id'];
         $this->_required($keys);
         $goods = $this->getPost('goods');
         $userId = (int)$this->getPost('user_id');

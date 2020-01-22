@@ -60,5 +60,56 @@ return [
         'city' => 2,
         'county' => 3,
     ],
+    'goods_types' => [
+        'catering' => [
+            'title' => '美食',
+            'model' => 'Catering\Model\Catering'
+        ],
+        'driving_test' => [
+            'title' => '驾考',
+            'model' => 'Driver\Model\DrivingTest'
+        ],
+        'express_send' => [
+            'title' => '代发快递',
+            'model' => 'Express\Model\ExpressSend'
+        ],
+        'express_take' => [
+            'title' => '代取快递',
+            'model' => 'Express\Model\ExpressTake'
+        ],
+        'hotel' => [
+            'title' => '酒店',
+            'model' => 'Hotel\Model\Hotel'
+        ],
+        'lostfound' => [
+            'title' => '失物招领',
+            'model' => 'Lostfound\Model\Lostfound'
+        ],
+        'parttimejob' => [
+            'title' => '兼职',
+            'model' => 'Parttimejob\Model\Parttimejob'
+        ],
+        'rent_car' => [
+            'title' => '租车',
+            'model' => 'Rent\Model\RentCar'
+        ],
+        'rent_house' => [
+            'title' => '租房',
+            'model' => 'Rent\Model\RentHouse'
+        ],
+        'second' => [
+            'title' => '二手物品',
+            'model' => 'Secondhand\Model\Second'
+        ],
+        'supermarket_goods' => [
+            'title' => '超市',
+            'model' => 'Supermarket\Model\SupermarketGoods'
+        ],
+        'ticket' => [
+            'title' => '门票',
+            'model' => 'Ticket\Model\Ticket'
+        ],
+
+    ],
 
 ];
