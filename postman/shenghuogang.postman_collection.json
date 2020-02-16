@@ -4399,25 +4399,25 @@
 								},
 								{
 									"key": "goods_data[0][goods_type]",
-									"value": "",
+									"value": "second",
 									"description": "商品类型",
 									"type": "text"
 								},
 								{
 									"key": "goods_data[0][goods_num]",
-									"value": "2",
+									"value": "1",
 									"description": "购买数量",
 									"type": "text"
 								},
 								{
 									"key": "goods_data[1][goods_id]",
-									"value": "2",
+									"value": "1",
 									"description": "商品id",
 									"type": "text"
 								},
 								{
 									"key": "goods_data[1][goods_type]",
-									"value": "",
+									"value": "supermarket_goods",
 									"description": "商品类型",
 									"type": "text"
 								},
@@ -4432,18 +4432,145 @@
 									"value": "1",
 									"description": "地址Id(非必填)",
 									"type": "text"
+								},
+								{
+									"key": "coupon_no",
+									"value": "abc",
+									"description": "优惠券(非必填)",
+									"type": "text"
 								}
 							]
 						},
 						"url": {
-							"raw": "http://shenghuogang/order/create",
+							"raw": "http://47.104.69.159/order/create",
 							"protocol": "http",
 							"host": [
-								"shenghuogang"
+								"47",
+								"104",
+								"69",
+								"159"
 							],
 							"path": [
 								"order",
 								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "订单详情",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"description": "用户token",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "order_id",
+									"value": "5",
+									"description": "订单Id(必填)",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://47.104.69.159/order/detail",
+							"protocol": "http",
+							"host": [
+								"47",
+								"104",
+								"69",
+								"159"
+							],
+							"path": [
+								"order",
+								"detail"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "订单列表",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"description": "用户token",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://47.104.69.159/order/list",
+							"protocol": "http",
+							"host": [
+								"47",
+								"104",
+								"69",
+								"159"
+							],
+							"path": [
+								"order",
+								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "订单配置字典",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"description": "用户token",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://47.104.69.159/order/dict",
+							"protocol": "http",
+							"host": [
+								"47",
+								"104",
+								"69",
+								"159"
+							],
+							"path": [
+								"order",
+								"dict"
 							]
 						}
 					},
