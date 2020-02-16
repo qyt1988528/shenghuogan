@@ -58,15 +58,9 @@ class OrderGoods extends Model
 // `goods_current_amount` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '商品现价-成交价',
     /**
      *
-     * @Column(type="integer", size="11", nullable=true, column="goods_item_id")
+     * @Column(type="string", nullable=true, column="goods_type")
      */
-    public $goods_item_id;
-// `goods_item_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '商品项目ID',
-    /**
-     *
-     * @Column(type="integer", size="11", nullable=true, column="goods_type_id")
-     */
-    public $goods_type_id;
+    public $goods_type;
 // `goods_type_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '商品类型ID',
     /**
      *

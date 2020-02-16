@@ -34,9 +34,9 @@ class Order extends Model
 // `user_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '用户uid',
     /**
      *
-     * @Column(type="integer", size="11", nullable=true, column="merchant_id")
      */
-    public $merchant_id;
+// * @Column(type="integer", size="11", nullable=true, column="merchant_id")
+//     public $merchant_id;
 // `merchant_id` int(11) NOT NULL DEFAULT '0' COMMENT '商户uid',
     /**
      *

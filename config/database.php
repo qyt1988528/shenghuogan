@@ -9,7 +9,8 @@
 return array (
     'adapter' => 'Mysql',
     //'adapter' => 'Postgresql',
-    'host' => '127.0.0.1',
+    'host' => '47.104.69.159',
+    // 'host' => '127.0.0.1',
     'port' => '3306',
    'username' => 'shenghuogang',
     // 'username' => 'root',

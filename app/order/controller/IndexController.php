@@ -11,6 +11,7 @@ class IndexController extends Controller
 {
     private $_error;
     private $_userId;
+    private $_orderDict;
 
     public function initialize()
     {
@@ -21,6 +22,7 @@ class IndexController extends Controller
         if(empty($this->_userId)){
             $this->resultSet->error(1010,$this->_error['unlogin']);exit;
         }
+        $this->_orderDict = $this->app->core->config->order->toArray();
     }
     /**
      * Index action.
@@ -73,7 +75,7 @@ class IndexController extends Controller
      * mergeFace action.
      * 商品详情
      * @return void
-     * @Route("/detail", methods="GET", name="order")
+     * @Route("/detail1", methods="GET", name="order")
      */
     public function detailiAction(){
         $goodsId = $this->request->getParam('id',null,'');
@@ -94,12 +96,25 @@ class IndexController extends Controller
     }
 
     //查询带有detail和产品信息的订单列表
+    /**
+     * 获取订单详情
+     * Create action.
+     * @return void
+     * @Route("/list", methods="POST", name="order")
+     */
     public function listAction(){
-        $keys = ['order_id', 'order_no', 'serial_no', 'user_id', 'team_id', 'pay_channel', 'pay_status', 'order_status', 'goods_name', 'shipping_status', 'delay_confirm', 'min_order_time', 'max_order_time', 'team_status', 'status', 'page', 'page_size'];
-        $param = $this->getQuerys($keys, true);
-        $svc = new \Service\Order();
-        $list = $svc->getList($param);
-        $this->output($list);
+        try{
+           $result = $this->app->order->api->Helper()->getOrderList($this->_userId);
+           if(!empty($result)){
+               $data['data'] = $result;
+           }else{
+               $this->resultSet->error(1002,$this->_error['try_later']);
+           }
+        }catch (\Exception $e){
+            $this->resultSet->error($e->getCode(),$e->getMessage());
+        }
+        $this->resultSet->success()->setData($data);
+        $this->response->success($this->resultSet->toObject());
     }
 
     //查询不带扩展信息的数据
@@ -113,18 +128,38 @@ class IndexController extends Controller
 
     /**
      * 获取订单详情
+     * Create action.
+     * @return void
+     * @Route("/detail", methods="POST", name="order")
      */
     public function detailAction()
     {
-        $where = $this->getQuery();
-        $result = (new \Service\Order())->detail($where);
-        $this->output($result);
+        //订单id
+        $orderId = $this->request->getPost('order_id',null,0);
+        if(empty($orderId)){
+
+        }
+        try{
+           $result = $this->app->order->api->Helper()->getOrderDetail($orderId,$this->_userId);
+           if(!empty($result)){
+               $data['data'] = $result;
+           }else{
+               $this->resultSet->error(1002,$this->_error['try_later']);
+           }
+        }catch (\Exception $e){
+            $this->resultSet->error($e->getCode(),$e->getMessage());
+        }
+        $this->resultSet->success()->setData($data);
+        $this->response->success($this->resultSet->toObject());
     }
 
     /**
      * 创建订单
+     * Create action.
+     * @return void
+     * @Route("/create", methods="POST", name="order")
      */
-    public function createOldAction()
+    public function createAction()
     {
         //用户id 商品id 商品类型
         $goodsData = $this->request->getPost('goods_data');
@@ -132,8 +167,24 @@ class IndexController extends Controller
 
         }
         $addressId = $this->request->getPost('address_id',null,0);
+        $couponNo = $this->request->getPost('coupon_no',null,0);
+        try{
+           $result = $this->app->order->api->Helper()->createOrder($goodsData, $this->_userId, $addressId,$couponNo);
+           if($result){
+               $data['data'] = [
+                   'order_id' => $result
+               ];
+           }else{
+               $this->resultSet->error(1002,$this->_error['try_later']);
+           }
+        }catch (\Exception $e){
+            $this->resultSet->error($e->getCode(),$e->getMessage());
+        }
+        $this->resultSet->success()->setData($data);
+        $this->response->success($this->resultSet->toObject());
+        exit;
 
-
+        /*
         //确认是否需要地址
         $keys = ['goods_data', 'user_id', 'address_id'];
         $this->_required($keys);
@@ -215,11 +266,12 @@ class IndexController extends Controller
         }
         $result = (new \Transactions\OrderTransaction())->create($order, $orderGoods, $orderDetail);
         $this->output($result);
+        */
     }
     /**
      * 创建订单
      */
-    public function createAction()
+    public function createGcAction()
     {
         $keys = ['goods', 'user_id', 'address_id'];
         $this->_required($keys);
@@ -380,6 +432,25 @@ class IndexController extends Controller
         $svc = new \Service\OrderDetail();
         $ret = $svc->delayConfirm($orderId);
         $this->output($ret);
+    }
+
+    /**
+     * 获取订单配置字典
+     * Create action.
+     * @return void
+     * @Route("/dict", methods="POST", name="order")
+     */
+    public function getOrderConfigAction(){
+        try{
+            $data['data'] = [
+                'order_dict' => $this->_orderDict
+            ];
+        }catch (\Exception $e){
+            $this->resultSet->error($e->getCode(),$e->getMessage());
+        }
+        $this->resultSet->success()->setData($data);
+        $this->response->success($this->resultSet->toObject());
+
     }
 
 }

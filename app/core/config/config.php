@@ -62,51 +62,75 @@ return [
     ],
     'goods_types' => [
         'catering' => [
+            'type_id' => 1,
             'title' => '美食',
+            'desc' => '该美食',
             'model' => 'Catering\Model\Catering'
         ],
         'driving_test' => [
+            'type_id' => 2,
             'title' => '驾考',
+            'desc' => '该驾校',
             'model' => 'Driver\Model\DrivingTest'
         ],
         'express_send' => [
+            'type_id' => 3,
             'title' => '代发快递',
+            'desc' => '该代发快递',
             'model' => 'Express\Model\ExpressSend'
         ],
         'express_take' => [
+            'type_id' => 4,
             'title' => '代取快递',
+            'desc' => '该代取快递',
             'model' => 'Express\Model\ExpressTake'
         ],
         'hotel' => [
+            'type_id' => 5,
             'title' => '酒店',
+            'desc' => '该酒店',
             'model' => 'Hotel\Model\Hotel'
         ],
         'lostfound' => [
+            'type_id' => 6,
             'title' => '失物招领',
+            'desc' => '该失物招领',
             'model' => 'Lostfound\Model\Lostfound'
         ],
         'parttimejob' => [
+            'type_id' => 7,
             'title' => '兼职',
+            'desc' => '该兼职',
             'model' => 'Parttimejob\Model\Parttimejob'
         ],
         'rent_car' => [
+            'type_id' => 8,
             'title' => '租车',
+            'desc' => '该租车',
             'model' => 'Rent\Model\RentCar'
         ],
         'rent_house' => [
+            'type_id' => 9,
             'title' => '租房',
+            'desc' => '该租房',
             'model' => 'Rent\Model\RentHouse'
         ],
         'second' => [
+            'type_id' => 9,
             'title' => '二手物品',
+            'desc' => '该二手物品',
             'model' => 'Secondhand\Model\Second'
         ],
         'supermarket_goods' => [
+            'type_id' => 10,
             'title' => '超市',
+            'desc' => '该超市商品',
             'model' => 'Supermarket\Model\SupermarketGoods'
         ],
         'ticket' => [
+            'type_id' => 11,
             'title' => '门票',
+            'desc' => '该门票',
             'model' => 'Ticket\Model\Ticket'
         ],
 
