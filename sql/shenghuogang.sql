@@ -11,7 +11,7 @@
  Target Server Version : 50562
  File Encoding         : 65001
 
- Date: 15/01/2020 23:14:03
+ Date: 20/02/2020 23:25:40
 */
 
 SET NAMES utf8mb4;
@@ -24,6 +24,7 @@ DROP TABLE IF EXISTS `address`;
 CREATE TABLE `address` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '账号ID',
+  `merchant_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '商户ID',
   `name` varchar(45) NOT NULL DEFAULT '' COMMENT '姓名',
   `cellphone` varchar(16) NOT NULL DEFAULT '' COMMENT '手机号',
   `province_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '省',
@@ -42,9 +43,9 @@ CREATE TABLE `address` (
 -- Records of address
 -- ----------------------------
 BEGIN;
-INSERT INTO `address` VALUES (1, 1, '测试姓名', '13800001111', 110000, 110100, 110101, '北京市东城区测试详细地址', -1, 'address', -1, '2019-12-24 20:13:24', '2019-12-24 12:40:01');
-INSERT INTO `address` VALUES (2, 1, '测试姓名', '13800001111', 110000, 110100, 110101, '北京市东城区测试详细地址', -1, 'address', 1, '2019-12-24 20:32:40', '2019-12-24 12:32:40');
-INSERT INTO `address` VALUES (3, 1, '测试姓名', '13800001111', 110000, 110100, 110101, '北京市东城区测试详细地址', -1, 'address', 1, '2019-12-24 20:58:11', '2019-12-24 12:58:11');
+INSERT INTO `address` VALUES (1, 1,0, '测试姓名', '13800001111', 110000, 110100, 110101, '北京市东城区测试详细地址', -1, 'address', -1, '2019-12-24 20:13:24', '2019-12-24 12:40:01');
+INSERT INTO `address` VALUES (2, 1,0, '测试姓名', '13800001111', 110000, 110100, 110101, '北京市东城区测试详细地址', -1, 'address', 1, '2019-12-24 20:32:40', '2019-12-24 12:32:40');
+INSERT INTO `address` VALUES (3, 1,0, '测试姓名', '13800001111', 110000, 110100, 110101, '北京市东城区测试详细地址', -1, 'address', 1, '2019-12-24 20:58:11', '2019-12-24 12:58:11');
 COMMIT;
 
 -- ----------------------------
@@ -53,10 +54,11 @@ COMMIT;
 DROP TABLE IF EXISTS `catering`;
 CREATE TABLE `catering` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `merchant_id` int(11) NOT NULL COMMENT '商户ID',
+  `user_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
+  `merchant_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '商户ID',
   `title` varchar(100) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '标题',
   `title_pinyin` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '标题(拼音)',
-  `img_url` text CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '封面',
+  `img_url` text CHARACTER SET utf8 NOT NULL COMMENT '封面',
   `cost_price` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '成本价格',
   `original_price` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '初始价格',
   `self_price` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '单独购买价格',
@@ -80,7 +82,7 @@ CREATE TABLE `catering` (
 -- Records of catering
 -- ----------------------------
 BEGIN;
-INSERT INTO `catering` VALUES (1, 0, '香格里拉美食', 'xianggelilameishi', 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', 11.00, 10.00, 9.00, 9.00, '香格里拉描述', '友谊路', 100, 1, -1, 999, 48, 33, 'catering', '2019-12-14 22:27:15', '2019-12-14 06:27:15', 1);
+INSERT INTO `catering` VALUES (1, 0,0, '香格里拉美食', 'xianggelilameishi', 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', 11.00, 10.00, 9.00, 9.00, '香格里拉描述', '友谊路', 100, 1, -1, 999, 48, 33, 'catering', '2019-12-14 22:27:15', '2019-12-14 06:27:15', 1);
 COMMIT;
 
 -- ----------------------------
@@ -100,7 +102,7 @@ CREATE TABLE `core_config_data` (
 -- ----------------------------
 BEGIN;
 INSERT INTO `core_config_data` VALUES (1, NULL, 'qiniu', '{\"_url\":\"\\/admin\\/system\\/config\\/multiple\",\"key\":\"qiniu\",\"AccessKey\":\"o614SUzXUjQy-HP6LCalMo8yYUfdC6lHEJAmyG7F\",\"SecretKey\":\"9Ib0u1h1UP-WiseGny23dmLbrlFRNrOmpRfqkON3\",\"buket\":\"test\",\"domain\":\"http://qiniu.wanjunjiaoyu.com/\",\"lang\":\"en\"}');
-INSERT INTO `core_config_data` VALUES (2, NULL, 'qiniu/token', '{\"token\":\"o614SUzXUjQy-HP6LCalMo8yYUfdC6lHEJAmyG7F:62b7geUD55ukE6UD39j_EAql6Lc=:eyJzY29wZSI6InRlc3QiLCJkZWFkbGluZSI6MTU3OTA3MDA3NX0=\",\"expire\":1579069975}');
+INSERT INTO `core_config_data` VALUES (2, NULL, 'qiniu/token', '{\"token\":\"o614SUzXUjQy-HP6LCalMo8yYUfdC6lHEJAmyG7F:aK1QU0Rk-eOanKQLiV90T9OOEuo=:eyJzY29wZSI6InRlc3QiLCJkZWFkbGluZSI6MTU3OTE2NDY2N30=\",\"expire\":1579164567}');
 COMMIT;
 
 -- ----------------------------
@@ -128,8 +130,9 @@ COMMIT;
 DROP TABLE IF EXISTS `driving_test`;
 CREATE TABLE `driving_test` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
   `merchant_id` int(11) NOT NULL DEFAULT '0' COMMENT '商户ID',
-  `img_url` text CHARACTER SET utf8 NOT NULL  DEFAULT '' COMMENT '图片(json)',
+  `img_url` text CHARACTER SET utf8 NOT NULL COMMENT '图片(json)',
   `title` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '驾考标题',
   `location` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '位置',
   `cost_price` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '成本价格(进价)',
@@ -155,7 +158,7 @@ CREATE TABLE `driving_test` (
 -- Records of driving_test
 -- ----------------------------
 BEGIN;
-INSERT INTO `driving_test` VALUES (2, 0, 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', '驾校1', '友谊路', 11.00, 10.00, 9.00, 9.00, 1, 1, '驾校描述', '[{\"promise_title\":\"\\u4e00\\u6b21\\u6536\\u8d39 \\u7edd\\u65e0\\u4e8c\\u6b21\",\"promise_description\":\"\\u4e3e\\u62a5\\u9000\\u5168\\u90e8\\u5b66\\u8d39\"},{\"promise_title\":\"\\u675c\\u7edd \\u5403 \\u62ff \\u8981\",\"promise_description\":\"\\u4e3e\\u62a5\\u5956\\u52b11000\\u5143\"}]', '2020-01-03 00:41:06', 999, 48, 49, 'driving_test', '2020-01-03 00:41:06', '2020-01-02 16:41:06', 1);
+INSERT INTO `driving_test` VALUES (2, 0,0, 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', '驾校1', '友谊路', 11.00, 10.00, 9.00, 9.00, 1, 1, '驾校描述', '[{\"promise_title\":\"\\u4e00\\u6b21\\u6536\\u8d39 \\u7edd\\u65e0\\u4e8c\\u6b21\",\"promise_description\":\"\\u4e3e\\u62a5\\u9000\\u5168\\u90e8\\u5b66\\u8d39\"},{\"promise_title\":\"\\u675c\\u7edd \\u5403 \\u62ff \\u8981\",\"promise_description\":\"\\u4e3e\\u62a5\\u5956\\u52b11000\\u5143\"}]', '2020-01-03 00:41:06', 999, 48, 49, 'driving_test', '2020-01-03 00:41:06', '2020-01-02 16:41:06', 1);
 COMMIT;
 
 -- ----------------------------
@@ -211,6 +214,7 @@ CREATE TABLE `express_send` (
   `is_hiring` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1:在招人,-1:不招人',
   `publish_user_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
   `publish_time` datetime NOT NULL DEFAULT '2000-01-01 00:00:00' COMMENT '发布时间',
+  `merchant_id` int(11) NOT NULL DEFAULT '0' COMMENT '商户ID',
   `goods_type` varchar(50) NOT NULL DEFAULT 'express_send' COMMENT '驾考表',
   `create_time` datetime NOT NULL DEFAULT '2000-01-01 00:00:00' COMMENT '创建时间',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
@@ -222,7 +226,7 @@ CREATE TABLE `express_send` (
 -- Records of express_send
 -- ----------------------------
 BEGIN;
-INSERT INTO `express_send` VALUES (1, 1, 2, 1, '', 2.00, 1, 1, '2019-12-30 00:22:06', 'express_send', '2019-12-30 00:22:06', '2019-12-29 16:22:06', 1);
+INSERT INTO `express_send` VALUES (1, 1, 2, 1, '', 2.00, 1, 1, '2019-12-30 00:22:06',0, 'express_send', '2019-12-30 00:22:06', '2019-12-29 16:22:06', 1);
 COMMIT;
 
 -- ----------------------------
@@ -242,6 +246,7 @@ CREATE TABLE `express_take` (
   `is_hiring` tinyint(4) unsigned NOT NULL DEFAULT '1' COMMENT '1:在招人,-1:不招人',
   `publish_user_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
   `publish_time` datetime NOT NULL DEFAULT '2000-01-01 00:00:00' COMMENT '发布时间',
+  `merchant_id` int(11) NOT NULL DEFAULT '0' COMMENT '商户ID',
   `goods_type` varchar(50) NOT NULL DEFAULT 'express_take' COMMENT '驾考表',
   `create_time` datetime NOT NULL DEFAULT '2000-01-01 00:00:00' COMMENT '创建时间',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
@@ -253,7 +258,7 @@ CREATE TABLE `express_take` (
 -- Records of express_take
 -- ----------------------------
 BEGIN;
-INSERT INTO `express_take` VALUES (1, 1, 1, 2, '【丰巢】请凭取件码『80649951』', '0', 1, 0.50, 5.50, 1, 1, '2019-12-30 00:20:05', 'express_take', '2019-12-30 00:20:05', '2019-12-29 16:20:05', 1);
+INSERT INTO `express_take` VALUES (1, 1, 1, 2, '【丰巢】请凭取件码『80649951』', '0', 1, 0.50, 5.50, 1, 1, '2019-12-30 00:20:05',0, 'express_take', '2019-12-30 00:20:05', '2019-12-29 16:20:05', 1);
 COMMIT;
 
 -- ----------------------------
@@ -262,6 +267,7 @@ COMMIT;
 DROP TABLE IF EXISTS `hotel`;
 CREATE TABLE `hotel` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
   `merchant_id` int(11) NOT NULL DEFAULT '0' COMMENT '商户ID',
   `title` varchar(255) NOT NULL DEFAULT '' COMMENT '标题',
   `title_pinyin` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '标题(拼音)',
@@ -293,6 +299,7 @@ CREATE TABLE `hotel` (
 DROP TABLE IF EXISTS `lostfound`;
 CREATE TABLE `lostfound` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
   `merchant_id` int(11) NOT NULL DEFAULT '0' COMMENT '商户ID',
   `img_url` text CHARACTER SET utf8 NOT NULL COMMENT '图片(json)',
   `title` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '二手物品标题',
@@ -315,8 +322,8 @@ CREATE TABLE `lostfound` (
 -- Records of lostfound
 -- ----------------------------
 BEGIN;
-INSERT INTO `lostfound` VALUES (1, 0, 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', '保利水韵长滩', '测试二手物', '保利', '1', '404', '404', '2019-12-18 21:48:05', 1, -1, 'lostfound', '2019-12-18 21:48:05', '2019-12-18 05:48:05', 1);
-INSERT INTO `lostfound` VALUES (2, 0, 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', '失物招领-2', '测试二手物', '保利', '1', '404', '404', '2019-12-18 21:50:20', 1, 1, 'lostfound', '2019-12-18 21:50:20', '2019-12-18 05:50:20', 1);
+INSERT INTO `lostfound` VALUES (1, 0,0, 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', '保利水韵长滩', '测试二手物', '保利', '1', '404', '404', '2019-12-18 21:48:05', 1, -1, 'lostfound', '2019-12-18 21:48:05', '2019-12-18 05:48:05', 1);
+INSERT INTO `lostfound` VALUES (2, 0,0, 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', '失物招领-2', '测试二手物', '保利', '1', '404', '404', '2019-12-18 21:50:20', 1, 1, 'lostfound', '2019-12-18 21:50:20', '2019-12-18 05:50:20', 1);
 COMMIT;
 
 -- ----------------------------
@@ -415,14 +422,22 @@ CREATE TABLE `order` (
   `pay_channel` int(6) NOT NULL DEFAULT '0' COMMENT '支付渠道',
   `pay_time` int(11) NOT NULL DEFAULT '0' COMMENT '付款时间',
   `pay_status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1:待付款,3已支付',
-  `order_status` tinyint(4) NOT NULL DEFAULT '10' COMMENT '10:有效,20:失效,30:完成,40:退货',
+  `order_status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1:初始,2:完成,3:生效,4:退货',
   `order_invalid_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '订单失效时间',
   `form_id` varchar(50) NOT NULL DEFAULT '微信form_id',
   `create_time` datetime NOT NULL DEFAULT '2000-01-01 00:00:00' COMMENT '创建时间',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1:有效,-1:无效',
   PRIMARY KEY (`order_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='订单表';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='订单表';
+
+-- ----------------------------
+-- Records of order
+-- ----------------------------
+BEGIN;
+INSERT INTO `order` VALUES (1, '20200206005017-422378049251475', '', 1, 0, 0.00, 0.00, 0.00, '', 0, 0, 1, 1, 1580922317, '', '2020-02-06 00:50:17', '2020-02-06 00:50:17', 1);
+INSERT INTO `order` VALUES (5, '20200216232438-909696027192136', '', 1, 0, 0.00, 0.00, 0.00, '', 0, 0, 1, 1, 1581867578, '', '2020-02-16 23:24:38', '2020-02-16 23:24:18', 1);
+COMMIT;
 
 -- ----------------------------
 -- Table structure for order_detail
@@ -431,6 +446,7 @@ DROP TABLE IF EXISTS `order_detail`;
 CREATE TABLE `order_detail` (
   `order_detail_id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增ID',
   `order_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'order_id',
+  `address_id` int(11) NOT NULL DEFAULT '0' COMMENT '地址Id',
   `receiver` varchar(10) NOT NULL DEFAULT '' COMMENT '收货人的姓名',
   `cellphone` varchar(11) NOT NULL DEFAULT '' COMMENT '收货人的手机',
   `province` varchar(10) NOT NULL DEFAULT '' COMMENT '收货人的省份',
@@ -446,7 +462,15 @@ CREATE TABLE `order_detail` (
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1:有效,-1:无效',
   PRIMARY KEY (`order_detail_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='订单详情表';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='订单详情表';
+
+-- ----------------------------
+-- Records of order_detail
+-- ----------------------------
+BEGIN;
+INSERT INTO `order_detail` VALUES (1, 0, 0, '', '', '', '', '', '', '', '', 0, 10, 0, '2020-02-06 00:50:17', '2020-02-06 00:50:17', 1);
+INSERT INTO `order_detail` VALUES (3, 5, 0, '', '', '', '', '', '', '', '', 0, 10, 0, '2020-02-16 23:24:38', '2020-02-16 23:24:18', 1);
+COMMIT;
 
 -- ----------------------------
 -- Table structure for order_goods
@@ -455,22 +479,31 @@ DROP TABLE IF EXISTS `order_goods`;
 CREATE TABLE `order_goods` (
   `order_goods_id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `order_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'order_id',
+  `merchant_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '商户ID',
   `goods_id` int(11) NOT NULL DEFAULT '0' COMMENT '商品的的id',
   `goods_name` varchar(100) NOT NULL DEFAULT '' COMMENT '商品的名称',
   `goods_num` int(11) NOT NULL DEFAULT '0' COMMENT '商品数量',
   `goods_amount` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '商品原价',
   `goods_cost_amount` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '商品成本价',
   `goods_current_amount` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '商品现价-成交价',
-  `goods_item_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '商品项目ID',
-  `goods_type_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '商品类型ID',
+  `goods_type` varchar(50) NOT NULL DEFAULT '0' COMMENT '商品类型',
   `goods_attr` varchar(200) NOT NULL DEFAULT '' COMMENT '商品规格',
   `goods_cover` varchar(200) NOT NULL DEFAULT '' COMMENT '商品图片',
-  `goods_detail_data` text CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '商品详情快照',
+  `goods_detail_data` text NOT NULL COMMENT '商品详情快照',
   `create_time` datetime NOT NULL DEFAULT '2000-01-01 00:00:00' COMMENT '创建时间',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1:有效,-1:无效',
   PRIMARY KEY (`order_goods_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='订单商品表';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='订单商品表';
+
+-- ----------------------------
+-- Records of order_goods
+-- ----------------------------
+BEGIN;
+INSERT INTO `order_goods` VALUES (1, 0,0, 0, '', 0, 0.00, 0.00, 0.00, '0', '', '', '', '2020-02-06 00:50:17', '2020-02-06 00:50:17', 1);
+INSERT INTO `order_goods` VALUES (2, 5,0, 1, '保利水韵长滩', 1, 11.00, 100.00, 10.00, 'second', '', 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', '{\"id\":\"1\",\"merchant_id\":\"-1\",\"title\":\"\\u4fdd\\u5229\\u6c34\\u97f5\\u957f\\u6ee9\",\"img_url\":\"https:\\/\\/oss.mtlab.meitu.com\\/mtopen\\/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc\\/MTU2OTU5MjgwMA==\\/609fc28e-1e97-4467-b017-473f9bb41138.jpg\",\"location\":\"\\u4fdd\\u5229\",\"cost_price\":\"100.00\",\"original_price\":\"11.00\",\"self_price\":\"10.00\",\"together_price\":\"10.00\",\"stock\":\"1\",\"is_selling\":\"1\",\"cellphone\":\"1\",\"qq\":\"404\",\"wechat\":\"404\",\"publish_time\":\"2019-12-18 21:21:59\",\"description\":\"\\u6d4b\\u8bd5\\u4e8c\\u624b\\u72691\",\"sort\":\"999\",\"goods_type\":\"second\",\"create_time\":\"2019-12-18 21:21:59\",\"update_time\":\"2020-01-14 12:27:33\",\"status\":\"1\"}', '2020-02-16 23:24:39', '2020-02-16 23:24:18', 1);
+INSERT INTO `order_goods` VALUES (3, 5,0, 1, '西红柿', 1, 10.00, 11.00, 9.00, 'supermarket_goods', '1kg', 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', '{\"id\":\"1\",\"merchant_id\":\"0\",\"title\":\"\\u897f\\u7ea2\\u67ff\",\"title_pinyin\":\"\",\"img_url\":\"https:\\/\\/oss.mtlab.meitu.com\\/mtopen\\/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc\\/MTU2OTU5MjgwMA==\\/609fc28e-1e97-4467-b017-473f9bb41138.jpg\",\"type_id\":\"1\",\"cost_price\":\"11.00\",\"original_price\":\"10.00\",\"self_price\":\"9.00\",\"together_price\":\"9.00\",\"description\":\"\\u897f\\u7ea2\\u67ff\\u63cf\\u8ff0\",\"specs_unit_id\":\"1\",\"specs\":\"1\",\"stock\":\"100\",\"is_selling\":\"1\",\"is_recommend\":\"-1\",\"sort\":\"999\",\"base_fav_count\":\"44\",\"base_order_count\":\"47\",\"goods_type\":\"supermarket_goods\",\"create_time\":\"2019-12-14 22:39:44\",\"update_time\":\"2019-12-14 06:39:44\",\"status\":\"1\"}', '2020-02-16 23:24:39', '2020-02-16 23:24:18', 1);
+COMMIT;
 
 -- ----------------------------
 -- Table structure for order_refund
@@ -527,7 +560,7 @@ BEGIN;
 INSERT INTO `parttimejob` VALUES (1, 3, 0, '兼职标题', 'jianzhibiaoti', '兼职描述', '友谊路436', 9.00, '1', '1', '1', 1, '2019-12-14 22:55:08', '2000-01-01 00:00:00', 0, 3, 999, 'parttimejob', '2019-12-14 22:55:08', '2020-01-14 02:45:30', -1);
 INSERT INTO `parttimejob` VALUES (2, 3, 0, '招聘lol代打', 'zhaopinloldaida', '废铁以上不收', '鸟巢', 10000000.00, '18714516069', '781817342', 'wyzdlowy', 1, '2020-01-13 15:59:19', '2000-01-01 00:00:00', 0, 3, 999, 'parttimejob', '2020-01-13 15:59:19', '2020-01-14 02:45:30', -1);
 INSERT INTO `parttimejob` VALUES (3, 3, 0, 'asd', 'asd', 'asd', 'asd', 0.00, '18714516069', 'w', 'w', 1, '2020-01-13 16:00:13', '2000-01-01 00:00:00', 0, 3, 999, 'parttimejob', '2020-01-13 16:00:13', '2020-01-14 02:45:30', -1);
-INSERT INTO `parttimejob` VALUES (4, 3, 0, '1', '1', '1', '1', 1.00, '11111111111', '1', '1', 1, '2020-01-13 16:00:46', '2000-01-01 00:00:00', 0, 3, 999, 'parttimejob', '2020-01-13 16:00:46', '2020-01-14 02:45:30', 1);
+INSERT INTO `parttimejob` VALUES (4, 3, 0, '1', '1', '1', '1', 1.00, '11111111111', '1', '1', 1, '2020-01-13 16:00:46', '2000-01-01 00:00:00', 4, 3, 999, 'parttimejob', '2020-01-13 16:00:46', '2020-01-14 02:45:30', 1);
 INSERT INTO `parttimejob` VALUES (5, 3, 0, '1', '1', '1', '1', 1.00, '18714516069', '1', '1', 1, '2020-01-13 16:01:56', '2000-01-01 00:00:00', 0, 3, 999, 'parttimejob', '2020-01-13 16:01:56', '2020-01-14 02:45:30', 1);
 INSERT INTO `parttimejob` VALUES (6, 3, 0, '1', '1', '1', '1', 1.00, '11111111111', '1', '1', 1, '2020-01-13 16:04:27', '2000-01-01 00:00:00', 0, 3, 999, 'parttimejob', '2020-01-13 16:04:27', '2020-01-14 02:45:30', 1);
 INSERT INTO `parttimejob` VALUES (7, 3, 0, '兼职标题', 'jianzhibiaoti', '兼职描述', '友谊路436', 9.00, '1', '1', '1', 1, '2020-01-13 16:11:40', '2000-01-01 00:00:00', 0, 3, 999, 'parttimejob', '2020-01-13 16:11:40', '2020-01-14 02:45:30', 1);
@@ -4331,7 +4364,8 @@ COMMIT;
 DROP TABLE IF EXISTS `rent_car`;
 CREATE TABLE `rent_car` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `merchant_id` int(11) NOT NULL COMMENT '商户ID',
+  `merchant_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '商户ID',
+  `user_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
   `img_url` text CHARACTER SET utf8 NOT NULL COMMENT '图片json',
   `title` varchar(100) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '标题',
   `title_pinyin` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '拼音标题',
@@ -4360,8 +4394,8 @@ CREATE TABLE `rent_car` (
 -- Records of rent_car
 -- ----------------------------
 BEGIN;
-INSERT INTO `rent_car` VALUES (1, 0, 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', '保利水韵长滩', '', 0, 0.00, 0.00, 0.00, 0.00, '', '友谊路', '测试租房', 0, -1, 999, 16, 7, '2000-01-01 00:00:00', 'rent_car', '2019-12-15 22:57:43', '2019-12-15 06:57:43', 1);
-INSERT INTO `rent_car` VALUES (2, 0, 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', '保利水韵长滩', '', 1, 100.00, 11.00, 10.00, 10.00, '', '保利', '测试租车', 1, -1, 999, 37, 35, '2000-01-01 00:00:00', 'rent_car', '2019-12-15 23:14:50', '2019-12-15 07:14:50', 1);
+INSERT INTO `rent_car` VALUES (1, 0,0, 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', '保利水韵长滩', '', 0, 0.00, 0.00, 0.00, 0.00, '', '友谊路', '测试租房', 0, -1, 999, 16, 7, '2000-01-01 00:00:00', 'rent_car', '2019-12-15 22:57:43', '2019-12-15 06:57:43', 1);
+INSERT INTO `rent_car` VALUES (2, 0,0, 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', '保利水韵长滩', '', 1, 100.00, 11.00, 10.00, 10.00, '', '保利', '测试租车', 1, -1, 999, 37, 35, '2000-01-01 00:00:00', 'rent_car', '2019-12-15 23:14:50', '2019-12-15 07:14:50', 1);
 COMMIT;
 
 -- ----------------------------
@@ -4371,6 +4405,7 @@ DROP TABLE IF EXISTS `rent_house`;
 CREATE TABLE `rent_house` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `merchant_id` int(11) NOT NULL DEFAULT '0' COMMENT '商户ID',
+  `user_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
   `title` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '租房标题',
   `square` decimal(14,2) NOT NULL DEFAULT '0.00' COMMENT '面积',
   `img_url` text CHARACTER SET utf8 NOT NULL COMMENT '图片(json)',
@@ -4392,13 +4427,16 @@ CREATE TABLE `rent_house` (
   `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1:有效,-1:无效',
   `is_renting` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1-出租,-1已租出去',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='对外出租房源表';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COMMENT='对外出租房源表';
 
 -- ----------------------------
 -- Records of rent_house
 -- ----------------------------
 BEGIN;
-INSERT INTO `rent_house` VALUES (1, -1, '保利水韵长滩', 11.00, 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', 1, 1, 1, '10.00', '友谊路', 100.00, '1', '1', '1', '2019-12-15 23:10:08', 999, '测试租房', 'rent_house', '2019-12-15 23:10:08', '2020-01-14 12:27:24', 1, 1);
+INSERT INTO `rent_house` VALUES (1, 0,-1, '保利水韵长滩', 11.00, 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', 1, 1, 1, '10.00', '友谊路', 100.00, '1', '1', '1', '2019-12-15 23:10:08', 999, '测试租房', 'rent_house', '2019-12-15 23:10:08', '2020-01-14 12:27:24', 1, 1);
+INSERT INTO `rent_house` VALUES (2, 0,-1, '地点', 1.00, 'http://qiniu.wanjunjiaoyu.com/test706533/20200116/1579161478706533.jpg,', 1, 1, 1, '1', '22', 111.00, '18714515609', '1111', '1111', '2020-01-16 15:57:59', 999, '111', 'rent_house', '2020-01-16 15:57:59', '2020-01-16 15:57:59', 1, 1);
+INSERT INTO `rent_house` VALUES (3, 0,-1, '测试', 1111.00, 'http://qiniu.wanjunjiaoyu.com/test658981/20200116/1579161654658981.jpg,', 10, 10, 10, '1', '1', 1.00, '18711111111', '781817342', 'wyzdlowy', '2020-01-16 16:00:55', 999, '么得描述', 'rent_house', '2020-01-16 16:00:55', '2020-01-16 16:00:55', 1, 1);
+INSERT INTO `rent_house` VALUES (4, 0,-1, '全世界最好的房子', 1000.00, 'http://qiniu.wanjunjiaoyu.com/test747936/20200116/1579163836747936.jpg,http://qiniu.wanjunjiaoyu.com/test692244/20200116/1579163843692244.jpg,http://qiniu.wanjunjiaoyu.com/test122483/20200116/1579163849122483.jpg,http://qiniu.wanjunjiaoyu.com/test253608/20200116/1579163855253608.jpg', 12, 3, 3, '南', '哈尔滨', 998.00, '18714516069', '18714516069', 'wyzdlowy', '2020-01-16 16:37:40', 999, '应有尽有 想要知道生命的真正意义么 想要真正的活着么', 'rent_house', '2020-01-16 16:37:40', '2020-01-16 16:37:40', 1, 1);
 COMMIT;
 
 -- ----------------------------
@@ -4417,6 +4455,7 @@ DROP TABLE IF EXISTS `second`;
 CREATE TABLE `second` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `merchant_id` int(11) NOT NULL DEFAULT '0' COMMENT '商户ID',
+  `user_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
   `img_url` text CHARACTER SET utf8 NOT NULL COMMENT '图片(json)',
   `title` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '二手物品标题',
   `location` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '位置',
@@ -4443,8 +4482,8 @@ CREATE TABLE `second` (
 -- Records of second
 -- ----------------------------
 BEGIN;
-INSERT INTO `second` VALUES (1, -1, 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', '保利水韵长滩', '保利', 100.00, 11.00, 10.00, 10.00, 1, 1, '1', '404', '404', '测试二手物1', '2019-12-18 21:21:59', 999, 'second', '2019-12-18 21:21:59', '2020-01-14 12:27:33', 1);
-INSERT INTO `second` VALUES (2, -1, 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', '保利水韵长滩', '保利', 100.00, 11.00, 10.00, 10.00, 1, 1, '1', '404', '404', '测试二手物', '2019-12-18 21:24:02', 999, 'second', '2019-12-18 21:24:02', '2020-01-14 12:27:37', 1);
+INSERT INTO `second` VALUES (1, 0,-1, 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', '保利水韵长滩', '保利', 100.00, 11.00, 10.00, 10.00, 1, 1, '1', '404', '404', '测试二手物1', '2019-12-18 21:21:59', 999, 'second', '2019-12-18 21:21:59', '2020-01-14 12:27:33', 1);
+INSERT INTO `second` VALUES (2, 0,-1, 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', '保利水韵长滩', '保利', 100.00, 11.00, 10.00, 10.00, 1, 1, '1', '404', '404', '测试二手物', '2019-12-18 21:24:02', 999, 'second', '2019-12-18 21:24:02', '2020-01-14 12:27:37', 1);
 COMMIT;
 
 -- ----------------------------
@@ -4454,6 +4493,7 @@ DROP TABLE IF EXISTS `supermarket_goods`;
 CREATE TABLE `supermarket_goods` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `merchant_id` int(11) NOT NULL DEFAULT '0' COMMENT '商户ID',
+  `user_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
   `title` varchar(100) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '超市商品名称',
   `title_pinyin` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '标题(拼音)',
   `img_url` text NOT NULL COMMENT '商品图json',
@@ -4482,7 +4522,7 @@ CREATE TABLE `supermarket_goods` (
 -- Records of supermarket_goods
 -- ----------------------------
 BEGIN;
-INSERT INTO `supermarket_goods` VALUES (1, 0, '西红柿', '', 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', 1, 11.00, 10.00, 9.00, 9.00, '西红柿描述', 1, '1', 100, 1, -1, 999, 44, 47, 'supermarket_goods', '2019-12-14 22:39:44', '2019-12-14 06:39:44', 1);
+INSERT INTO `supermarket_goods` VALUES (1, 0,0, '西红柿', '', 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', 1, 11.00, 10.00, 9.00, 9.00, '西红柿描述', 1, '1', 100, 1, -1, 999, 44, 47, 'supermarket_goods', '2019-12-14 22:39:44', '2019-12-14 06:39:44', 1);
 COMMIT;
 
 -- ----------------------------
@@ -4501,6 +4541,7 @@ DROP TABLE IF EXISTS `ticket`;
 CREATE TABLE `ticket` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `merchant_id` int(11) NOT NULL COMMENT '商户ID',
+  `user_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
   `title` varchar(100) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '标题',
   `title_pinyin` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '标题(拼音)',
   `img_url` text CHARACTER SET utf8 NOT NULL COMMENT '封面',
@@ -4527,7 +4568,7 @@ CREATE TABLE `ticket` (
 -- Records of ticket
 -- ----------------------------
 BEGIN;
-INSERT INTO `ticket` VALUES (1, 0, '香格里拉餐饮2', 'wandaertongzhutileyuanmenpiao', 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', 11.00, 10.00, 9.00, 9.00, '香格里拉描述更新', '友谊路更新1', 100, 1, -1, 999, 32, 44, 'ticket', '2019-12-14 20:36:31', '2019-12-14 04:36:31', 1);
+INSERT INTO `ticket` VALUES (1, 0,0, '香格里拉餐饮2', 'wandaertongzhutileyuanmenpiao', 'https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg', 11.00, 10.00, 9.00, 9.00, '香格里拉描述更新', '友谊路更新1', 100, 1, -1, 999, 32, 44, 'ticket', '2019-12-14 20:36:31', '2019-12-14 04:36:31', 1);
 COMMIT;
 
 -- ----------------------------
@@ -4565,7 +4606,7 @@ CREATE TABLE `user` (
 BEGIN;
 INSERT INTO `user` VALUES (1, '111', '', 0, 'abc', '', '2000-01-01 00:00:00', 'f747b0e96c9ebb3bdd6ea019a840434b', '', '1', 1, '123', '1', '1', '1', 0.00, 1577181672, '2000-01-01 00:00:00', '2019-12-23 09:20:48', 1);
 INSERT INTO `user` VALUES (2, '', '', 0, 'bbb', '', '2000-01-01 00:00:00', 'dd5965aec2b3aee379f5667bd88432fc', '', '1', 1, '123', '1', '1', '1', 0.00, 1578898634, '2000-01-01 00:00:00', '2019-12-24 12:37:35', 1);
-INSERT INTO `user` VALUES (3, '', '', -1, 'oSbAs5BDanyRlvvr4c6RURYcq8bY', '/WrUJdvuxfl/qNlFWghmVA==', '2020-01-13 14:44:30', '91e7be417ab083d9a49f49cc98606ff6', '', 'zwb', 1, 'https://wx.qlogo.cn/mmopen/vi_32/35s3wN37BTPicFhY7bDxgkKJD6QdT6ibGAYgvEYibiakc0f1JTp2fA38Bess4ib5OHXyooaTvK7niaHc0wZgCSUS30xQ/132', 'China', 'Heilongjiang', 'Harbin', 0.00, 1578991198, '2020-01-13 14:44:30', '2020-01-14 12:27:07', 1);
+INSERT INTO `user` VALUES (3, '', '', -1, 'oSbAs5BDanyRlvvr4c6RURYcq8bY', '/WrUJdvuxfl/qNlFWghmVA==', '2020-01-13 14:44:30', 'e167f915113d61b0d33c2f7c2e39f0c9', '', 'zwb', 1, 'https://wx.qlogo.cn/mmopen/vi_32/35s3wN37BTPicFhY7bDxgkKJD6QdT6ibGAYgvEYibiakc0f1JTp2fA38Bess4ib5OHXyooaTvK7niaHc0wZgCSUS30xQ/132', 'China', 'Heilongjiang', 'Harbin', 0.00, 1580695830, '2020-01-13 14:44:30', '2020-01-14 12:27:07', 1);
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;

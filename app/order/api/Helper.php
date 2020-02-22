@@ -629,5 +629,15 @@ class Helper extends Api
         return $list;
     }
 
+    public function getIncome($merchantId){
+        //营业总额
+        //订单总数
+        //用户数
+        //今日营业额
+        //今日订单数
+        //今日新增用户数
+
+    }
+
 
 }
