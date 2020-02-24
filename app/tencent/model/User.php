@@ -102,6 +102,11 @@ class User extends Model
     public $key_time;
     /**
      *
+     * @Column(type="integer", size="11", nullable=true, column="add_timestamp")
+     */
+    public $add_timestamp;
+    /**
+     *
      * @Column(type="string", nullable=true, column="create_time")
      */
     public $create_time;

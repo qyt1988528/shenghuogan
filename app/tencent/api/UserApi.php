@@ -61,6 +61,7 @@ class UserApi extends Api
         if (!$update) {
             $defaultInsertFields = [
                 'create_time' => date('Y-m-d H:i:s'),
+                'add_timestamp' => strtotime(date('Y-m-d')),
             ];
         }
         $defaultInsertFields['language'] = $postData['language'] ?? '';

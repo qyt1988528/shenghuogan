@@ -103,6 +103,16 @@ class Order extends Model
 // `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1:有效,-1:无效',
     /**
      *
+     * @Column(type="integer", size="4", nullable=true, column="first_buy")
+     */
+    public $first_buy;
+    /**
+     *
+     * @Column(type="integer", size="11", nullable=true, column="add_timestamp")
+     */
+    public $add_timestamp;
+    /**
+     *
      * @Column(type="string", nullable=true, column="create_time")
      */
     public $create_time;

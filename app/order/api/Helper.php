@@ -88,6 +88,7 @@ class Helper extends Api
         $orderModel->order_status = $this->_order['order_status']['init']['code'];
         $orderModel->order_invalid_time = time() + $this->_order['order_invalid_time']['code'];
         $orderModel->form_id = '';
+        $orderModel->add_timestamp = strtotime(date('Y-m-d'));
         $orderModel->create_time = date('Y-m-d H:i:s');
 
         if ($orderModel->save() === false) {
