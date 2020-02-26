@@ -16,6 +16,11 @@ class DrivingTest extends Model
 
     /**
      *
+     * @Column(type="integer", size="11", nullable=true, column="user_id")
+     */
+    public $user_id;
+    /**
+     *
      * @Column(type="integer", size="11", nullable=true, column="merchant_id")
      */
     public $merchant_id;

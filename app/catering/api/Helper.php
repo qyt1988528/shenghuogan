@@ -2,6 +2,7 @@
 namespace Catering\Api;
 
 use Catering\Model\Catering;
+use function GuzzleHttp\Psr7\_parse_request_uri;
 use MDK\Api;
 
 class Helper extends Api
@@ -31,6 +32,8 @@ class Helper extends Api
             'base_fav_count' => mt_rand(20,50),
             'base_order_count' => mt_rand(20,50),
             'create_time' => date('Y-m-d H:i:s'),
+            'user_id' => $postData['user_id'] ?? 0,
+            'merchant_id' => $postData['merchant_id'] ?? 0,
         ];
         if(!isset($postData['together_price']) || empty($postData['together_price'])){
             $defaultInsertFields['together_price'] = $postData['self_price'];
@@ -61,6 +64,10 @@ class Helper extends Api
             if(empty($updateModel)){
                 return false;
             }
+            $judgeResult = $this->judgeUser($postData['id'],$postData['user_id']);
+            if($judgeResult == false){
+                return false;
+            }
             foreach ($this->getInsertFields() as $v){
                 $updateData[$v] = $postData[$v];
             }
@@ -71,10 +78,14 @@ class Helper extends Api
         }
     }
     //下架
-    public function withdrawCatering($cateringId){
+    public function withdrawCatering($cateringId,$userId){
         try{
             $updateModel = $this->_model->findFirstById($cateringId);
             if(empty($updateModel)){
+                return false;
+            }
+            $judgeResult = $this->judgeUser($cateringId,$userId);
+            if($judgeResult == false){
                 return false;
             }
             $updateData = [
@@ -87,11 +98,15 @@ class Helper extends Api
             return false;
         }
     }
-    public function deleteCatering($cateringId){
+    public function deleteCatering($cateringId,$userId){
         try{
             $invalid = $this->_config['data_status']['invalid'];
             $updateModel = $this->_model->findFirstById($cateringId);
             if(empty($updateModel)){
+                return false;
+            }
+            $judgeResult = $this->judgeUser($cateringId,$userId);
+            if($judgeResult == false){
                 return false;
             }
             $updateData = [
@@ -149,6 +164,33 @@ class Helper extends Api
         $condition .= " order by sort";
         $goods = $this->_model->findFirst($condition);
         return $goods;
+    }
+
+    public function judgeUser($id,$userId){
+        $condition = " id = ".$id;
+        $condition .= " and status = ".$this->_config['data_status']['valid'];
+        $goods = $this->_model->findFirst($condition);
+        if(!empty($goods)){
+            if(isset($goods->user_id) && $goods->user_id==$userId){
+                return true;
+            }else{
+                //查询是否同一个商户不同用户
+                $user = $this->app->tencent->api->UserApi()->detail($userId);
+                if(!empty($user)){
+                    if(isset($user->merchant_id) && isset($goods->merchant_id) && $user->merchant_id == $goods->merchant_id){
+                        return true;
+                    }else{
+                        return false;
+
+                    }
+                }else{
+                    return false;
+                }
+            }
+        }else{
+            return false;
+        }
+
     }
 
 }

@@ -9,12 +9,23 @@ use MDK\Controller;
  */
 class CarController extends Controller
 {
-private $_error;
+
+    private $_error;
+
+    private $_userId;
+    private $_merchantId;
 
     public function initialize()
     {
         $config = $this->app->core->config->config->toArray();
         $this->_error = $config['error_message'];
+        //验证用户是否登录
+        $this->_userId = $this->app->tencent->api->UserApi()->getUserId();
+        if(empty($this->_userId)){
+            $this->resultSet->error(1010,$this->_error['unlogin']);exit;
+        }
+        //验证是否为商户
+        $this->_merchantId = $this->app->tencent->api->UserApi()->getMerchantIdByUserId($this->_userId);
     }
 
     /**
@@ -26,6 +37,8 @@ private $_error;
     public function createAction() {
         //权限验证
         $postData = $this->request->getPost();
+        $postData['user_id'] = $this->_userId;
+        $postData['merchant_id'] = $this->_merchantId;
         $insertFields = $this->app->rent->api->Car()->getInsertFields();
         foreach ($insertFields as $v){
             if(empty($postData[$v])){
@@ -60,7 +73,7 @@ private $_error;
             $this->resultSet->error(1001,$this->_error['invalid_input']);
         }
         try{
-           $result = $this->app->rent->api->Car()->deleteGoods($goodsId);
+           $result = $this->app->rent->api->Car()->deleteGoods($goodsId,$this->_userId);
            if($result){
                $data = [
                    'del_success' => $result
@@ -88,7 +101,7 @@ private $_error;
             $this->resultSet->error(1001,$this->_error['invalid_input']);
         }
         try{
-           $result = $this->app->rent->api->Car()->withdrawGoods($goodsId);
+           $result = $this->app->rent->api->Car()->withdrawGoods($goodsId,$this->_userId);
            if($result){
                $data = [
                    'withdraw_success' => $result
@@ -114,6 +127,7 @@ private $_error;
         if(empty($postData['id'])){
             $this->resultSet->error(1001,$this->_error['invalid_input']);
         }
+        $postData['user_id'] = $this->_userId;
         $updateFields = $this->app->rent->api->Car()->getInsertFields();
         foreach ($updateFields as $v){
             if(empty($postData[$v])){

@@ -11,6 +11,7 @@ class AdminController extends Controller
 {
     private $_error;
     private $_userId;
+    private $_merchantId;
 
     public function initialize()
     {
@@ -21,6 +22,8 @@ class AdminController extends Controller
         if(empty($this->_userId)){
             $this->resultSet->error(1010,$this->_error['unlogin']);exit;
         }
+        //验证是否为商户
+        $this->_merchantId = $this->app->tencent->api->UserApi()->getMerchantIdByUserId($this->_userId);
     }
 
     /**
@@ -33,6 +36,7 @@ class AdminController extends Controller
         //权限验证
         $postData = $this->request->getPost();
         $postData['user_id'] = $this->_userId;
+        $postData['merchant_id'] = $this->_merchantId;
         $insertFields = $this->app->parttimejob->api->Helper()->getInsertFields();
         foreach ($insertFields as $v){
             if(empty($postData[$v])){
@@ -67,7 +71,7 @@ class AdminController extends Controller
             $this->resultSet->error(1001,$this->_error['invalid_input']);
         }
         try{
-           $result = $this->app->parttimejob->api->Helper()->deleteParttimejob($parttimejobId);
+           $result = $this->app->parttimejob->api->Helper()->deleteParttimejob($parttimejobId,$this->_userId);
            if($result){
                $data = [
                    'del_success' => $result
@@ -95,7 +99,7 @@ class AdminController extends Controller
             $this->resultSet->error(1001,$this->_error['invalid_input']);
         }
         try{
-           $result = $this->app->parttimejob->api->Helper()->withdrawParttimejob($parttimejobId);
+           $result = $this->app->parttimejob->api->Helper()->withdrawParttimejob($parttimejobId,$this->_userId);
            if($result){
                $data = [
                    'withdraw_success' => $result
@@ -121,6 +125,7 @@ class AdminController extends Controller
         if(empty($postData['id'])){
             $this->resultSet->error(1001,$this->_error['invalid_input']);
         }
+        $postData['user_id'] = $this->_userId;
         $updateFields = $this->app->parttimejob->api->Helper()->getInsertFields();
         foreach ($updateFields as $v){
             if(empty($postData[$v])){

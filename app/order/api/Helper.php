@@ -88,7 +88,7 @@ class Helper extends Api
         $orderModel->order_status = $this->_order['order_status']['init']['code'];
         $orderModel->order_invalid_time = time() + $this->_order['order_invalid_time']['code'];
         $orderModel->form_id = '';
-        $orderModel->add_timestamp = strtotime(date('Y-m-d'));
+        $orderModel->add_timestamp = $this->getTodayStamp();
         $orderModel->create_time = date('Y-m-d H:i:s');
 
         if ($orderModel->save() === false) {
@@ -237,6 +237,8 @@ class Helper extends Api
         foreach ($orderGoodsInsertDatas as $v) {
             $orderGoodsModel = new OrderGoods();
             $orderGoodsModel->order_id = $orderId;
+            $orderGoodsModel->user_id = $userId;
+            $orderGoodsModel->merchant_id = 0;
             $orderGoodsModel->goods_id = $v['goods_id'];
             $orderGoodsModel->goods_name = $v['goods_name'];
             $orderGoodsModel->goods_num = $v['goods_num'];
@@ -406,7 +408,7 @@ class Helper extends Api
     //今日收入
     public function getTodayIncome($userId)
     {
-        $todayStartTime = strtotime(date('Y-m-d'));
+        $todayStartTime = $this->getTodayStamp();
         $todatEndTime = strtotime(date("Y-m-d", strtotime("+1 day")));
 
         $todayIncomeData = $this->search(['user_id' => $userId, 'update_time[>=]' => $todayStartTime, 'update_time[<]' => $todatEndTime, 'type' => \GCL\Group\Income::TYPE_INCOME, 'income_status' => \GCL\Group\Income::STATUS_SUCCES, 'status' => \GCL\Status::NORMAL]);
@@ -631,13 +633,42 @@ class Helper extends Api
     }
 
     public function getIncome($merchantId){
+        $orderStatus = $this->_order['order_status']['finish'];
         //营业总额
+        $orderData = $this->modelsManager->createBuilder()
+            ->columns('sum(goods_current_amount) as total_amount,count(1) as order_num')
+            ->from(['sg' => 'Order\Model\OrderGoods'])
+            ->where('sg.merchant_id = :merchant_id: ', ['merchant_id' => $merchantId])
+            ->andWhere('sg.status = :valid: ', ['valid' => $this->_config['data_status']['valid']])
+            ->groupBy('order_id')
+            ->getQuery()
+            ->getSingleResult();
         //订单总数
         //用户数
+        $userData = $this->modelsManager->createBuilder()
+            ->columns('count(distinct(user_id)) as user_num')
+            ->from(['sg' => 'Order\Model\OrderGoods'])
+            ->where('sg.merchant_id = :merchant_id: ', ['merchant_id' => $merchantId])
+            ->andWhere('sg.status = :valid: ', ['valid' => $this->_config['data_status']['valid']])
+            ->groupBy('order_id')
+            ->getQuery()
+            ->getSingleResult();
         //今日营业额
         //今日订单数
         //今日新增用户数
+        return [
+            'total_amount' => $orderData->total_amount ?? 0,
+            'order_count' => $orderData->order_num ?? 0,
+            'user_count' => $userData->user_num ?? 0,
+            'today_total_amount' => 0,
+            'today_order_count' => 0,
+            'today_user_count' => 0,
+        ];
 
+    }
+
+    public function getTodayStamp(){
+        return strtotime(date('Y-m-d'));
     }
 
 

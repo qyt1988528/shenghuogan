@@ -19,6 +19,16 @@ class OrderGoods extends Model
      * @Column(type="integer", size="11", nullable=true, column="order_id")
      */
     public $order_id;
+    /**
+     *
+     * @Column(type="integer", size="11", nullable=true, column="merchant_id")
+     */
+    public $merchant_id;
+    /**
+     *
+     * @Column(type="integer", size="11", nullable=true, column="user_id")
+     */
+    public $user_id;
 // `order_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'order_id',
     /**
      *

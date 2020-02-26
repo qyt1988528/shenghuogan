@@ -9,12 +9,23 @@ use MDK\Controller;
  */
 class AdminController extends Controller
 {
-private $_error;
+
+    private $_error;
+
+    private $_userId;
+    private $_merchantId;
 
     public function initialize()
     {
         $config = $this->app->core->config->config->toArray();
         $this->_error = $config['error_message'];
+        //验证用户是否登录
+        $this->_userId = $this->app->tencent->api->UserApi()->getUserId();
+        if(empty($this->_userId)){
+            $this->resultSet->error(1010,$this->_error['unlogin']);exit;
+        }
+        //验证是否为商户
+        $this->_merchantId = $this->app->tencent->api->UserApi()->getMerchantIdByUserId($this->_userId);
     }
 
     /**
@@ -32,6 +43,8 @@ private $_error;
                 $this->resultSet->error(1001,$this->_error['invalid_input']);
             }
         }
+        $postData['user_id'] = $this->_userId;
+        $postData['merchant_id'] = $this->_merchantId;
         try{
             $insert = $this->app->driver->api->Helper()->createTicket($postData);
             if(empty($insert)){
@@ -60,7 +73,7 @@ private $_error;
             $this->resultSet->error(1001,$this->_error['invalid_input']);
         }
         try{
-           $result = $this->app->driver->api->Helper()->deleteTicket($cateringId);
+           $result = $this->app->driver->api->Helper()->deleteTicket($cateringId,$this->_userId);
            if($result){
                $data = [
                    'del_success' => $result
@@ -88,7 +101,7 @@ private $_error;
             $this->resultSet->error(1001,$this->_error['invalid_input']);
         }
         try{
-           $result = $this->app->driver->api->Helper()->withdrawTicket($cateringId);
+           $result = $this->app->driver->api->Helper()->withdrawTicket($cateringId,$this->_userId);
            if($result){
                $data = [
                    'withdraw_success' => $result
@@ -114,6 +127,7 @@ private $_error;
         if(empty($postData['id'])){
             $this->resultSet->error(1001,$this->_error['invalid_input']);
         }
+        $postData['user_id'] = $this->_userId;
         $updateFields = $this->app->driver->api->Helper()->getInsertFields();
         foreach ($updateFields as $v){
             if(empty($postData[$v])){

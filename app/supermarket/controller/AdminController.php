@@ -38,6 +38,7 @@ class AdminController extends Controller
     public function createAction() {
         //权限验证
         $postData = $this->request->getPost();
+        $postData['user_id'] = $this->_userId;
         $postData['merchant_id'] = $this->_merchantId;
         $insertFields = $this->app->supermarket->api->Helper()->getInsertFields();
         foreach ($insertFields as $v){
@@ -73,7 +74,7 @@ class AdminController extends Controller
             $this->resultSet->error(1001,$this->_error['invalid_input']);
         }
         try{
-           $result = $this->app->supermarket->api->Helper()->deleteGoods($goodsId);
+           $result = $this->app->supermarket->api->Helper()->deleteGoods($goodsId,$this->_userId);
            if($result){
                $data['data'] = [
                    'del_success' => $result
@@ -101,7 +102,7 @@ class AdminController extends Controller
             $this->resultSet->error(1001,$this->_error['invalid_input']);
         }
         try{
-           $result = $this->app->supermarket->api->Helper()->withdrawGoods($goodsId);
+           $result = $this->app->supermarket->api->Helper()->withdrawGoods($goodsId,$this->_userId);
            if($result){
                $data['data'] = [
                    'withdraw_success' => $result
@@ -127,6 +128,7 @@ class AdminController extends Controller
         if(empty($postData['id'])){
             $this->resultSet->error(1001,$this->_error['invalid_input']);
         }
+        $postData['user_id'] = $this->_userId;
         $updateFields = $this->app->supermarket->api->Helper()->getInsertFields();
         foreach ($updateFields as $v){
             if(empty($postData[$v])){

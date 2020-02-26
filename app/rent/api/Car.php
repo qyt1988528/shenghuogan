@@ -33,6 +33,8 @@ class Car extends Api
             'base_order_count' => mt_rand(20,50),
             'create_time' => date('Y-m-d H:i:s'),
             'publish_time' => date('Y-m-d H:i:s'),
+            'user_id' => $postData['user_id'] ?? 0,
+            'merchant_id' => $postData['merchant_id'] ?? 0,
         ];
         if(!isset($postData['together_price']) || empty($postData['together_price'])){
             $defaultInsertFields['together_price'] = $postData['self_price'];
@@ -63,6 +65,10 @@ class Car extends Api
             if(empty($updateModel)){
                 return false;
             }
+            $judgeResult = $this->judgeUser($postData['id'],$postData['user_id']);
+            if($judgeResult == false){
+                return false;
+            }
             foreach ($this->getInsertFields() as $v){
                 $updateData[$v] = $postData[$v];
             }
@@ -73,10 +79,14 @@ class Car extends Api
         }
     }
     //下架
-    public function withdrawGoods($goodsId){
+    public function withdrawGoods($goodsId,$userId){
         try{
             $updateModel = $this->_model->findFirstById($goodsId);
             if(empty($updateModel)){
+                return false;
+            }
+            $judgeResult = $this->judgeUser($goodsId,$userId);
+            if($judgeResult == false){
                 return false;
             }
             $updateData = [
@@ -89,11 +99,15 @@ class Car extends Api
             return false;
         }
     }
-    public function deleteGoods($goodsId){
+    public function deleteGoods($goodsId,$userId){
         try{
             $invalid = $this->_config['data_status']['invalid'];
             $updateModel = $this->_model->findFirstById($goodsId);
             if(empty($updateModel)){
+                return false;
+            }
+            $judgeResult = $this->judgeUser($goodsId,$userId);
+            if($judgeResult == false){
                 return false;
             }
             $updateData = [
@@ -158,6 +172,34 @@ class Car extends Api
         $condition .= " order by sort";
         $goods = $this->_model->findFirst($condition);
         return $goods;
+    }
+
+
+    public function judgeUser($id,$userId){
+        $condition = " id = ".$id;
+        $condition .= " and status = ".$this->_config['data_status']['valid'];
+        $goods = $this->_model->findFirst($condition);
+        if(!empty($goods)){
+            if(isset($goods->user_id) && $goods->user_id==$userId){
+                return true;
+            }else{
+                //查询是否同一个商户不同用户
+                $user = $this->app->tencent->api->UserApi()->detail($userId);
+                if(!empty($user)){
+                    if(isset($user->merchant_id) && isset($goods->merchant_id) && $user->merchant_id == $goods->merchant_id){
+                        return true;
+                    }else{
+                        return false;
+
+                    }
+                }else{
+                    return false;
+                }
+            }
+        }else{
+            return false;
+        }
+
     }
 
 }

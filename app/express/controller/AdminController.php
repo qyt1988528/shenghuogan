@@ -11,6 +11,7 @@ class AdminController extends Controller
 {
     private $_error;
     private $_userId;
+    private $_merchantId;
 
     public function initialize()
     {
@@ -21,6 +22,8 @@ class AdminController extends Controller
         if(empty($this->_userId)){
             $this->resultSet->error(1010,$this->_error['unlogin']);exit;
         }
+        //验证是否为商户
+        $this->_merchantId = $this->app->tencent->api->UserApi()->getMerchantIdByUserId($this->_userId);
     }
 
     /**
@@ -33,6 +36,7 @@ class AdminController extends Controller
         //权限验证
         $postData = $this->request->getPost();
         $postData['publish_user_id'] = $this->_userId;
+        $postData['merchant_id'] = $this->_merchantId;
         $insertFields = $this->app->express->api->Take()->getInsertFields();
         foreach ($insertFields as $v){
             if(empty($postData[$v])){
@@ -67,7 +71,7 @@ class AdminController extends Controller
             $this->resultSet->error(1001,$this->_error['invalid_input']);
         }
         try{
-           $result = $this->app->express->api->Take()->deleteTake($secondId);
+           $result = $this->app->express->api->Take()->deleteTake($secondId,$this->_userId);
            if($result){
                $data = [
                    'del_success' => $result
@@ -95,7 +99,7 @@ class AdminController extends Controller
             $this->resultSet->error(1001,$this->_error['invalid_input']);
         }
         try{
-           $result = $this->app->express->api->Take()->withdrawTake($secondId);
+           $result = $this->app->express->api->Take()->withdrawTake($secondId,$this->_userId);
            if($result){
                $data = [
                    'withdraw_success' => $result
@@ -118,6 +122,7 @@ class AdminController extends Controller
     public function updateTakeAction() {
         //权限验证
         $postData = $this->request->getPost();
+        $postData['publish_user_id'] = $this->_userId;
         if(empty($postData['id'])){
             $this->resultSet->error(1001,$this->_error['invalid_input']);
         }
@@ -188,6 +193,7 @@ class AdminController extends Controller
         //权限验证
         $postData = $this->request->getPost();
         $postData['publish_user_id'] = $this->_userId;
+        $postData['merchant_id'] = $this->_merchantId;
         $insertFields = $this->app->express->api->Send()->getInsertFields();
         foreach ($insertFields as $v){
             if(empty($postData[$v])){
@@ -222,7 +228,7 @@ class AdminController extends Controller
             $this->resultSet->error(1001,$this->_error['invalid_input']);
         }
         try{
-           $result = $this->app->express->api->Send()->deleteSend($secondId);
+           $result = $this->app->express->api->Send()->deleteSend($secondId,$this->_userId);
            if($result){
                $data = [
                    'del_success' => $result
@@ -250,7 +256,7 @@ class AdminController extends Controller
             $this->resultSet->error(1001,$this->_error['invalid_input']);
         }
         try{
-           $result = $this->app->express->api->Send()->withdrawSend($secondId);
+           $result = $this->app->express->api->Send()->withdrawSend($secondId,$this->_userId);
            if($result){
                $data = [
                    'withdraw_success' => $result
@@ -276,6 +282,7 @@ class AdminController extends Controller
         if(empty($postData['id'])){
             $this->resultSet->error(1001,$this->_error['invalid_input']);
         }
+        $postData['publish_user_id'] = $this->_userId;
         $updateFields = $this->app->express->api->Send()->getInsertFields();
         foreach ($updateFields as $v){
             if(empty($postData[$v])){

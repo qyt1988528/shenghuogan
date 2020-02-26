@@ -12,6 +12,7 @@ class IndexController extends Controller
     private $_error;
     private $_userId;
     private $_orderDict;
+    private $_merchantId;
 
     public function initialize()
     {
@@ -23,6 +24,8 @@ class IndexController extends Controller
             $this->resultSet->error(1010,$this->_error['unlogin']);exit;
         }
         $this->_orderDict = $this->app->core->config->order->toArray();
+        //验证是否为商户
+        $this->_merchantId = $this->app->tencent->api->UserApi()->getMerchantIdByUserId($this->_userId);
     }
     /**
      * Index action.
@@ -152,7 +155,31 @@ class IndexController extends Controller
         $this->resultSet->success()->setData($data);
         $this->response->success($this->resultSet->toObject());
     }
+    /**
+     * 获取订单详情
+     * Create action.
+     * @return void
+     * @Route("/income", methods="POST", name="order")
+     */
+    public function incomeAction()
+    {
+        //商户id
+        if(empty($this->_merchantId)){
 
+        }
+        try{
+           $result = $this->app->order->api->Helper()->getIncome($this->_merchantId);
+           if(!empty($result)){
+               $data['data'] = $result;
+           }else{
+               $this->resultSet->error(1002,$this->_error['try_later']);
+           }
+        }catch (\Exception $e){
+            $this->resultSet->error($e->getCode(),$e->getMessage());
+        }
+        $this->resultSet->success()->setData($data);
+        $this->response->success($this->resultSet->toObject());
+    }
     /**
      * 创建订单
      * Create action.
@@ -354,13 +381,61 @@ class IndexController extends Controller
         $result = (new \Transactions\OrderTransaction())->create($order, $orderGoods, $orderDetail);
         $this->output($result);
     }
+
     /**
      * 订单支付
+     * Payment action.
+     * @return void
+     * @Route("/payment", methods="POST", name="order")
      */
     public function paymentAction(){
         $this->_required('order_id', 'user_id');
         $orderId = $this->getPost('order_id');
         $userId = $this->getPost('user_id');
+        $service = new \Service\Order();
+        $order = $service->detail(['order_id' => $orderId]);
+        if(empty($order)){
+            throw new \Exception('订单不存在', 400);
+        }
+        if($order['order_status'] != \GCL\Group\Order::STATUS_VALID){
+            throw new \Exception('订单异常', 400);
+        }
+        if($order['pay_status'] === \Payment\Common::PAY_STATUS_SUCCESS){
+            throw new \Exception('订单已支付', 400);
+        }
+        //获取用户信息
+        $user = (new \Service\User())->detail(['user_id' => $userId]);
+        if(empty($user)){
+            throw new \Exception('用户不存在', 400);
+        }
+        if($userId != $order['user_id']){
+            throw new \Exception('订单与用户不匹配', 400);
+        }
+        //生成流水号
+        $serialNo = \GCL\Group\Order::makeSerialNo($orderId);
+        //更新流水号
+        (new \Service\Order())->update($orderId, ['serial_no' => $serialNo]);
+        //支付参数
+        $payment['pay_source']			= \Payment\Common::PAY_SOURCE_GROUP;
+        $payment['pay_channel']			= \Payment\Common::CHANNEL_WECHAT_MINIPROGRAM;
+        $payment['actual_amount']		= $order['order_amount'] * 100;
+        $payment['content']				= '购买商品';
+        $payment['openid']				= $user['openid'];
+        $payment['serial_no']		    = $serialNo;
+        $host = \Yaf\Registry::get('config')->host;
+        $payment['notify_url'] = $host . '/v1/payment/orderNotify';
+        $result = \Payment\Api::getInst()->unifiedOrder($payment);
+        $this->output($result);
+
+    }
+    /**
+     * 订单支付
+     */
+    public function paymentGcAction(){
+        $this->_required('order_id', 'user_id');
+        $orderId = $this->getPost('order_id');
+        $userId = $this->getPost('user_id');
+        $orderId = $this->request->getPost('order_id',null,0);
         $service = new \Service\Order();
         $order = $service->detail(['order_id' => $orderId]);
         if(empty($order)){
