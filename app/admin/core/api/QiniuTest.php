@@ -10,6 +10,8 @@ class QiniuTest extends Api
     private $uploadMgr;
     public function __construct() 
     {
+        //http://q44vf6gy8.bkt.clouddn.com/
+        // http:shenghuogang.s3-cn-east-1.qiniucs.com/ shenghuogang
         $this->_helper = $this->app->admin->core->api->HelperTest();
         $this->_config = $this->_helper->getConfig('qiniu');
         $this->_config = json_decode($this->_config);
