@@ -4579,10 +4579,10 @@
 			]
 		},
 		{
-			"name": "订单-商家",
+			"name": "订单-商家（含个人中心）",
 			"item": [
 				{
-					"name": "商户-个人中心展示数据",
+					"name": "商户-个人中心-展示数据",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -4658,6 +4658,52 @@
 							"path": [
 								"merchant",
 								"goodsListByType"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "商品类型列表",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"description": "用户token",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "goods_type",
+									"value": "second",
+									"description": "商品类型",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://47.104.69.159/merchant/goodsTypeList",
+							"protocol": "http",
+							"host": [
+								"47",
+								"104",
+								"69",
+								"159"
+							],
+							"path": [
+								"merchant",
+								"goodsTypeList"
 							]
 						}
 					},
