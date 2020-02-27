@@ -29,6 +29,11 @@ class Helper extends Api
         return $goods;
     }
 
+    public function getDatasByGoodsTypes($goodsTypes, $merchantId){
+        $data = [];
+
+    }
+
 
 
 }
