@@ -25,6 +25,9 @@ class AdminController extends Controller
         }
         //验证是否为商户
         $this->_merchantId = $this->app->tencent->api->UserApi()->getMerchantIdByUserId($this->_userId);
+        if(empty($this->_merchantId)){
+            $this->resultSet->error(1011,$this->_error['unmerchant']);exit;
+        }
     }
 
     /**
