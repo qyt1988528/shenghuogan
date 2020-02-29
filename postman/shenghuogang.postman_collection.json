@@ -472,6 +472,89 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "超市-将下架的商品重新上架",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "西红柿",
+									"type": "text"
+								},
+								{
+									"key": "img_url",
+									"value": "https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg",
+									"type": "text"
+								},
+								{
+									"key": "type_id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "original_price",
+									"value": "10.00",
+									"type": "text"
+								},
+								{
+									"key": "self_price",
+									"value": "9.00",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "西红柿描述更新",
+									"type": "text"
+								},
+								{
+									"key": "specs",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "specs_unit_id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "stock",
+									"value": "100",
+									"type": "text"
+								},
+								{
+									"key": "id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://47.104.69.159/supermarketadmin/selling",
+							"protocol": "http",
+							"host": [
+								"47",
+								"104",
+								"69",
+								"159"
+							],
+							"path": [
+								"supermarketadmin",
+								"selling"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -821,6 +904,45 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "住宿-上架",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Token",
+								"value": "60d1bbbfd021bce78505bbe5cd986a20",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "3",
+									"description": "酒店id",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://47.104.69.159/hoteladmin/selling",
+							"protocol": "http",
+							"host": [
+								"47",
+								"104",
+								"69",
+								"159"
+							],
+							"path": [
+								"hoteladmin",
+								"selling"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -1161,6 +1283,44 @@
 									"value": "香",
 									"description": "关键词"
 								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "餐饮-上架",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://47.104.69.159/cateringadmin/selling",
+							"protocol": "http",
+							"host": [
+								"47",
+								"104",
+								"69",
+								"159"
+							],
+							"path": [
+								"cateringadmin",
+								"selling"
 							]
 						}
 					},
@@ -1514,6 +1674,45 @@
 									"value": "\b票",
 									"description": "关键词"
 								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "门票-上架",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "准备下架的门票ID",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://47.104.69.159/ticketadmin/selling",
+							"protocol": "http",
+							"host": [
+								"47",
+								"104",
+								"69",
+								"159"
+							],
+							"path": [
+								"ticketadmin",
+								"selling"
 							]
 						}
 					},
@@ -2725,6 +2924,44 @@
 									"key": "id",
 									"value": "2"
 								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "租车-上架",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://47.104.69.159/rentcaradmin/selling",
+							"protocol": "http",
+							"host": [
+								"47",
+								"104",
+								"69",
+								"159"
+							],
+							"path": [
+								"rentcaradmin",
+								"selling"
 							]
 						}
 					},
