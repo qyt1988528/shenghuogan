@@ -52,7 +52,7 @@ class AdminController extends Controller
             if(empty($insert)){
                 $this->resultSet->error(1002,$this->_error['try_later']);
             }
-            $data =[
+            $data['data'] =[
                 'id' => $insert
             ];
         }catch (\Exception $e){
@@ -77,7 +77,7 @@ class AdminController extends Controller
         try{
            $result = $this->app->hotel->api->Helper()->deleteHotel($hotelId,$this->_userId);
            if($result){
-               $data = [
+               $data['data'] = [
                    'del_success' => $result
                ];
            }else{
@@ -105,8 +105,35 @@ class AdminController extends Controller
         try{
            $result = $this->app->hotel->api->Helper()->withdrawHotel($hotelId,$this->_userId);
            if($result){
-               $data = [
+               $data['data'] = [
                    'withdraw_success' => $result
+               ];
+           }else{
+               $this->resultSet->error(1002,$this->_error['try_later']);
+           }
+        }catch (\Exception $e){
+            $this->resultSet->error($e->getCode(),$e->getMessage());
+        }
+        $this->resultSet->success()->setData($data);
+        $this->response->success($this->resultSet->toObject());
+    }
+    /**
+     * 上架
+     * Create action.
+     * @return void
+     * @Route("/selling", methods="POST", name="hoteladmin")
+     */
+    public function unwithdrawAction() {
+        //权限验证
+        $hotelId = $this->request->getPost('id');
+        if(empty($hotelId)){
+            $this->resultSet->error(1001,$this->_error['invalid_input']);
+        }
+        try{
+           $result = $this->app->hotel->api->Helper()->unwithdrawHotel($hotelId,$this->_userId);
+           if($result){
+               $data['data'] = [
+                   'selling_success' => $result
                ];
            }else{
                $this->resultSet->error(1002,$this->_error['try_later']);
@@ -139,7 +166,7 @@ class AdminController extends Controller
         try{
             $result = $this->app->hotel->api->Helper()->updateHotel($postData);
             if($result){
-                $data = [
+                $data['data'] = [
                     'update_success' => $result
                 ];
             }else{

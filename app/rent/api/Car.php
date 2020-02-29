@@ -99,6 +99,29 @@ class Car extends Api
             return false;
         }
     }
+
+    //下架
+    public function unwithdrawGoods($goodsId,$userId){
+        try{
+            $updateModel = $this->_model->findFirstById($goodsId);
+            if(empty($updateModel)){
+                return false;
+            }
+            $judgeResult = $this->judgeUser($goodsId,$userId);
+            if($judgeResult == false){
+                return false;
+            }
+            $updateData = [
+                'id' => $goodsId,
+                'is_selling' => $this->_config['selling_status']['selling'],
+            ];
+            $updateModel->update($updateData);
+            return true;
+        }catch (\Exception $e){
+            return false;
+        }
+    }
+
     public function deleteGoods($goodsId,$userId){
         try{
             $invalid = $this->_config['data_status']['invalid'];
@@ -122,7 +145,7 @@ class Car extends Api
     }
     public function detail($goodsId){
         $condition = "id = ".$goodsId;
-        $condition .= " and is_selling = ".$this->_config['selling_status']['selling'];
+        // $condition .= " and is_selling = ".$this->_config['selling_status']['selling'];
         $condition .= " and status = ".$this->_config['data_status']['valid'];
         $goods = $this->_model->findFirst($condition);
         return $goods;

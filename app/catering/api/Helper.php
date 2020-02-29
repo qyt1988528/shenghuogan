@@ -98,6 +98,29 @@ class Helper extends Api
             return false;
         }
     }
+
+    //上架
+    public function unwithdrawCatering($cateringId,$userId){
+        try{
+            $updateModel = $this->_model->findFirstById($cateringId);
+            if(empty($updateModel)){
+                return false;
+            }
+            $judgeResult = $this->judgeUser($cateringId,$userId);
+            if($judgeResult == false){
+                return false;
+            }
+            $updateData = [
+                'id' => $cateringId,
+                'is_selling' => $this->_config['selling_status']['selling'],
+            ];
+            $updateModel->update($updateData);
+            return true;
+        }catch (\Exception $e){
+            return false;
+        }
+    }
+
     public function deleteCatering($cateringId,$userId){
         try{
             $invalid = $this->_config['data_status']['invalid'];
@@ -121,7 +144,7 @@ class Helper extends Api
     }
     public function detail($cateringId){
         $condition = "id = ".$cateringId;
-        $condition .= " and is_selling = ".$this->_config['selling_status']['selling'];
+        // $condition .= " and is_selling = ".$this->_config['selling_status']['selling'];
         $condition .= " and status = ".$this->_config['data_status']['valid'];
         $goods = $this->_model->findFirst($condition);
         return $goods;

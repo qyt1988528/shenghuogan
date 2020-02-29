@@ -107,6 +107,29 @@ class Helper extends Api
         }
     }
 
+    //上架
+    public function unwithdrawHotel($hotelId, $userId)
+    {
+        try {
+            $updateModel = $this->_model->findFirstById($hotelId);
+            if (empty($updateModel)) {
+                return false;
+            }
+            $judgeResult = $this->judgeUser($hotelId, $userId);
+            if ($judgeResult == false) {
+                return false;
+            }
+            $updateData = [
+                'id' => $hotelId,
+                'is_selling' => $this->_config['selling_status']['selling'],
+            ];
+            $updateModel->update($updateData);
+            return true;
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+
     public function deleteHotel($hotelId, $userId)
     {
         try {
@@ -133,7 +156,7 @@ class Helper extends Api
     public function detail($hotelId)
     {
         $condition = "id = " . $hotelId;
-        $condition .= " and is_selling = " . $this->_config['selling_status']['selling'];
+        // $condition .= " and is_selling = " . $this->_config['selling_status']['selling'];
         $condition .= " and status = " . $this->_config['data_status']['valid'];
         $goods = $this->_model->findFirst($condition);
         return $goods;

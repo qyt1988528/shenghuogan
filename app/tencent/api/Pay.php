@@ -129,18 +129,7 @@ class Pay extends Api
         return $image;
     }
 
-    /**
-     * 获取包含data:image/jpeg;base64,的base64图片
-     * @param $image
-     * @return string
-     */
-    public function getWebBaseImage($image)
-    {
-        if ($start = strpos($image, ",") === false) {
-            $image = 'data:image/jpeg;base64,' . $image;
-        }
-        return $image;
-    }
+
 
     /**
      * 获取tencent ai
@@ -282,6 +271,44 @@ class Pay extends Api
             'trade_type' => 'JSAPI',//交易类型
         ];
 
+    }
+
+        /*
+     * @brief       signature
+     * @param       array $params
+     * @return      string MD5 Result
+     * @description 字段名需要从小到大字母序排序；值为空的参数不能参与签名；最后拼接商户支付密钥
+     * */
+    private function _signature( $params ){
+        $params = array_filter($params);//filter '' and null
+        ksort($params);//sort by alphabet sequence
+        $result = self::_buildSignString($params).'&key='.$this->_apiKey;
+        return strtoupper(md5($result));//to upper case after MD5
+    }
+
+    /*
+     * @brief       build SignatureTempString
+     * @param       $params
+     * @return      string like key=value&key1=value1&...
+     * @description http_build_query会使验签失败，因为会自动转码
+     * */
+    private static function _buildSignString($params){
+        $str  ='';
+        foreach($params as $key => $value){
+            $str .= '&'.$key.'='.$value;
+        }
+        return ltrim($str,'&');
+    }
+    /*
+     * @brief        getXmlConfig
+     * @return       array $config
+     * @description  xmlConfig for Curl Post
+     * */
+    private static function _getXmlConfig(){
+        $header[] = "Content-type: text/xml";
+        return array(
+            CURLOPT_HTTPHEADER => $header,
+        );
     }
 
 

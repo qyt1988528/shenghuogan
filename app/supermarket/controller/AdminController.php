@@ -116,6 +116,34 @@ class AdminController extends Controller
         $this->resultSet->success()->setData($data);
         $this->response->success($this->resultSet->toObject());
     }
+
+    /**
+     * 上架
+     * Create action.
+     * @return void
+     * @Route("/selling", methods="POST", name="supermarketadmin")
+     */
+    public function unwithdrawAction() {
+        //权限验证
+        $goodsId = $this->request->getPost('id');
+        if(empty($goodsId)){
+            $this->resultSet->error(1001,$this->_error['invalid_input']);
+        }
+        try{
+           $result = $this->app->supermarket->api->Helper()->unwithdrawGoods($goodsId,$this->_userId);
+           if($result){
+               $data['data'] = [
+                   'selling_success' => $result
+               ];
+           }else{
+               $this->resultSet->error(1002,$this->_error['try_later']);
+           }
+        }catch (\Exception $e){
+            $this->resultSet->error($e->getCode(),$e->getMessage());
+        }
+        $this->resultSet->success()->setData($data);
+        $this->response->success($this->resultSet->toObject());
+    }
     /**
      * 更新
      * Create action.
