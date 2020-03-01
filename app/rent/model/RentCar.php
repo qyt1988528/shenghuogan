@@ -63,9 +63,9 @@ class RentCar extends Model
     public $together_price;
     /**
      *
-     * @Column(type="string", size="255", nullable=true, column="phone")
+     * @Column(type="string", size="255", nullable=true, column="cellphone")
      */
-    public $phone;
+    public $cellphone;
     /**
      *
      * @Column(type="string", size="255", nullable=true, column="location")

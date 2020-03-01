@@ -76,11 +76,12 @@ class IndexController extends Controller
         //sudo find ./ -name ".DS_Store" -depth -exec rm {} \;
         // var_dump($this->get_client_ip());exit;
         $goodsType = $this->request->getPost('goods_type');
+        $keywords = $this->request->getPost('keywords');
         if(empty($goodsType)){
             $this->resultSet->error(1001,$this->_error['invalid_input']);
         }
         try{
-            $result = $this->app->merchant->api->Helper()->getDataByGoodsType($goodsType, $this->_merchantId);
+            $result = $this->app->merchant->api->Helper()->getDataByGoodsType($goodsType, $this->_merchantId,$keywords);
             if(!empty($result)){
                 $data['data'] = [
                     'goods_list' => $result
