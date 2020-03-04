@@ -4861,7 +4861,7 @@
 						"header": [
 							{
 								"key": "Token",
-								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"value": "2e8768ea0d7679c7eef64d18f308292f",
 								"description": "用户token",
 								"type": "text"
 							},
@@ -4877,8 +4877,14 @@
 							"urlencoded": [
 								{
 									"key": "goods_type",
-									"value": "second",
+									"value": "rent_car",
 									"description": "商品类型",
+									"type": "text"
+								},
+								{
+									"key": "keywords",
+									"value": "电话",
+									"description": "关键词",
 									"type": "text"
 								}
 							]

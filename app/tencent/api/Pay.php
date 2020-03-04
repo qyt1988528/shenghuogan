@@ -39,7 +39,8 @@ class Pay extends Api
         $this->_orderGoodsModel = new OrderGoods();
         $this->_invalid_time = 1800;//30分钟
         $this->_client = new Client([
-            'base_uri' => $this->app->tencent->config->wechat->baseUri,
+            'base_uri' => $this->app->tencent->config->wechat->baseMchUri,
+            // 'base_uri' => $this->app->tencent->config->wechat->baseUri,
             'timeout' => $this->app->tencent->config->wechat->timeout,
             'handler' => $this->_getStack(),
         ]);
@@ -60,6 +61,7 @@ class Pay extends Api
     protected function _getMapResponse()
     {
         return function ($response) {
+            // var_dump($response);exit;
             if ($response->getStatusCode() != 200) {
                 throw new \Exception("NetWork Error :get response code " . $response->getStatusCode(), 1);
             }
@@ -90,7 +92,8 @@ class Pay extends Api
         }
 
         // 3. 拼接app_key
-        $str .= 'app_key=' . $this->app->tencent->config->tencent->appKey;
+        $str .= 'key=' . $this->app->tencent->config->wechat->appSecret;
+        // $str .= 'app_key=' . $this->app->tencent->config->wechat->appKey;
 
         // 4. MD5运算+转换大写，得到请求签名
         $sign = strtoupper(md5($str));
@@ -105,7 +108,7 @@ class Pay extends Api
     protected function _getParams(array $params)
     {
         $data = [
-            'app_id' => $this->app->tencent->config->tencent->appId,
+            'app_id' => $this->app->tencent->config->wechat->appId,
             'time_stamp' => strval(time()),
             'nonce_str' => strval(rand()),
             'sign' => '',
@@ -113,20 +116,6 @@ class Pay extends Api
         $data = array_merge($data, $params);
         $data['sign'] = $this->_sign($data);
         return $data;
-    }
-
-    /**
-     * 获取不含data:image/jpeg;base64,的base64图片
-     * @param $image
-     * @return bool|string
-     */
-    public function getBaseImage($image)
-    {
-        if (($start = strpos($image, ",")) !== false) {
-            $start++;
-            $image = substr($image, $start);
-        }
-        return $image;
     }
 
 
@@ -140,40 +129,56 @@ class Pay extends Api
         return $this->_client;
     }
 
+    public function testParams($orderNo){
 
-    public function getSessionByCode($jsCode)
-    {
         $params = [
-            'appid' => $this->app->tencent->config->wechat->appId,
-            'secret' => $this->app->tencent->config->wechat->appSecret,
-            'js_code' => $jsCode,
-            'grant_type' => 'authorization_code',
+            'appid' => $this->app->tencent->config->wechat->appId,//小程序ID
+            'mch_id' => $this->app->tencent->config->wechat->mchId,//商户号
+            'nonce_str' => md5($orderNo),//随机字符串
+            'sign' => '',//签名
+            'body' => '测试支付',//商品描述
+            'out_trade_no' => $orderNo,//商户订单号
+            'total_fee' => 1,//标价金额
+            'spbill_create_ip' => '192.168.1.123',//终端IP
+            'notify_url' => 'http://www.weixin.qq.com/wxpay/pay.php',//回调地址
+            'trade_type' => 'JSAPI',//交易类型
         ];
-        $uri = 'sns/jscode2session';
-        $url = $this->app->tencent->config->wechat->baseUri . $uri . '?' . http_build_query($params);
-
-        $sessionInfo = $this->app->core->api->Image()->imageFileGetContents($url);
-        //wx.login({success (res){console.log(res)}});
-        // $json = '{"session_key":"jHwS8qG\/Gwn40YJ6Zhevwg==","openid":"oSbAs5NzFZyCiez1WZNm3JkjCeH4"}';
-        // $json = '{"errcode":40029,"errmsg":"invalid code, hints: [ req_id: ihlEY24ce-GYdrra ]"}';
-        if (empty($sessionInfo) || (isset($sessionInfo['errcode']) && $sessionInfo['errcode'] != 0)) {
-            return [];
-        } else {
-            $sessionInfo = json_decode($sessionInfo, true);
-            if (isset($sessionInfo['session_key']) && isset($sessionInfo['openid'])) {
-                $this->app->tencent->api->UserApi()->getInfoByOpenid($sessionInfo['openid'], $sessionInfo['session_key']);
-                return $sessionInfo;
-            } else {
-                return [];
-            }
-        }
+        $params['sign'] = $this->_sign($params);
+        return $params;
     }
+    public function testPay($orderNo){
+        $uri = $this->app->tencent->config->wechat->payUri;
+        $params = $this->testParams($orderNo);
+        /*
+        */
+        $baseUrl = $this->app->tencent->config->wechat->baseMchUri;
+        $url = $baseUrl.ltrim($uri,'/');
+        $xmlRequestData = $this->arrayToXml($params);
+        $data = $this->wxpost($url,$xmlRequestData);
+        var_dump($data);
+        $data = $this->xmlToArray($data);
+        var_dump($data);
+        exit;
+        $response = $this->_client->request('POST', $uri,[
+            "json" => $params,
+            "headers" => $this->_getHeader(),
+        ]);
+        $result = $response->getBody();
+        var_dump('----------1-----------');
+        var_dump($result);
+        $result = json_decode($result,true);
+        var_dump('----------2-----------');
+        var_dump($result);exit;
+        $data = $result['data'] ?? [];
 
+        return $data;
+    }
 
     public function pay($orderId)
     {
         //查询订单
         if (empty($orderId)) {
+            throw new \Exception('订单不存在', 10001);
 
         }
         $condition = "order_id = " . $orderId;
@@ -181,20 +186,21 @@ class Pay extends Api
         $orderData = $this->_orderModel->findFirst($condition);
         if (empty($orderData)) {
             //订单不存在
+            throw new \Exception('订单不存在', 10002);
 
         }
         $orderNo = $orderData->order_no ?? '';
         $currentTime = time();
         if (isset($orderData->order_invalid_time) && $currentTime > $orderData->order_invalid_time) {
             //订单失效
-
+            throw new \Exception('订单已失效，请重新下单', 10003);
         }
         //判断15分钟内是否有商品变动(库存、价格变动、商品下架)
         $condition = "order_id = " . $orderId;
         $condition .= " and status = " . $this->_config['data_status']['valid'];
         $orderGoods = $this->_orderGoodsModel->find($condition);
         if (empty($orderGoods)) {
-
+            throw new \Exception('订单已失效，请重新下单', 10004);
         }
         $goodsTypes = $this->_config['goods_types'];
         foreach ($orderGoods as $ogv) {
@@ -213,7 +219,7 @@ class Pay extends Api
 
             $desc = $goodsTypes[$goodsType]['desc'];
             if (empty($goods)) {
-
+                throw new \Exception('商品变化，请重新下单', 10005);
             }
             if (isset($goods->is_selling)) {
                 //是否在售(美食、驾考、酒店、失物招领、租车、二手物品、超市、门票)
@@ -254,7 +260,26 @@ class Pay extends Api
         }
 
 
+
+
         //调微信支付
+
+        //根据返回结果更新状态
+
+        try{
+            $updateData = [
+                'order_id' => $orderId,
+                'pay_channel' => 'JSAPI',
+                'pay_time' => time(),
+                'pay_status' => $this->_order['pay_status']['success']['code'],
+                'order_status' => $this->_order['order_status']['finish']['code'],
+            ];
+            $orderData->update($updateData);
+            return true;
+        }catch (\Exception $e){
+            throw new \Exception('支付失败，请稍后重试', 10006);
+        }
+        return true;
         $url = 'https://api.mch.weixin.qq.com/pay/unifiedorder';
         'appid,mch_id,nonce_str,sign,body,out_trade_no,total_fee,spbill_create_ip,notify_url,trade_type
         	';
@@ -309,6 +334,124 @@ class Pay extends Api
         return array(
             CURLOPT_HTTPHEADER => $header,
         );
+    }
+    private function _getHeader(){
+        return [
+           "Content-type" => "text/xml",
+        ];
+
+    }
+
+
+    public function wxpost($url,$post)
+    {
+        //初始化
+        $curl = curl_init();
+        $header[] = "Content-type: text/xml";//定义content-type为xml
+        //设置抓取的url
+        curl_setopt($curl, CURLOPT_URL, $url);
+        //设置头文件的信息作为数据流输出
+//        curl_setopt($curl, CURLOPT_HEADER, 1);
+        //定义请求类型
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $header);
+        //设置获取的信息以文件流的形式返回，而不是直接输出。
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        //设置post方式提交
+        curl_setopt($curl, CURLOPT_POST, 1);
+        //设置post数据
+        $post_data = $post;
+        // $post_data = $this->arrayToXml($post);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $post_data);
+        //执行命令
+        $data = curl_exec($curl);
+        //关闭URL请求
+
+        //显示获得的数据
+//        print_r($data);
+        if ($data)
+        {
+            curl_close($curl);
+            return $data;
+        }else{
+            $res = curl_error($curl);
+            curl_close($curl);
+            return $res;
+        }
+
+    }
+
+
+//    将数组转化为xml数据格式
+    public function arrayToXml($arr){
+        $xml = "<xml>";
+        foreach ($arr as $key=>$val){
+            if(is_array($val)){
+                $xml.="<".$key.">".$this->arrayToXml($val)."</".$key.">";
+            }else{
+                $xml.="<".$key.">".$val."</".$key.">";
+            }
+        }
+        $xml.="</xml>";
+        return $xml;
+    }
+
+    //    将XML转化为json/数组
+    public function xmlToArray($xml,$type=''){
+        //禁止引用外部xml实体
+        libxml_disable_entity_loader(true);
+//        simplexml_load_string()解析读取xml数据，然后转成json格式
+        $xmlstring = simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA);
+
+        if ($type == "json")
+        {
+            $json = json_encode($xmlstring);
+            return $json;
+        }
+        $arr = json_decode(json_encode($xmlstring),true);
+        return $arr;
+    }
+
+    public function queryOrderPay(){
+        'https://api.mch.weixin.qq.com/pay/orderquery';
+        $data = [
+            'appid',
+            'mch_id',
+            'out_trade_no',
+            'nonce_str',
+            'sign',
+        ];
+    }
+
+    public function receiveCallback(){
+        $data = [
+            'appid',
+            'mch_id',
+            'device_info',//否
+            'nonce_str',
+            'sign',
+            'sign_type',//
+            'result_code',
+            'err_code',//
+            'err_code_des',//
+            'openid',
+            'is_subscribe',
+            'trade_type',
+            'bank_type',
+            'total_fee',
+            'settlement_total_fee',//
+            'fee_type',//
+            'cash_fee',
+            'cash_fee_type',//
+            'coupon_fee',//
+            'coupon_count',
+            //'coupon_type_',
+            //'coupon_id_',
+            //'coupon_fee_',
+            'transaction_id',
+            'out_trade_no',
+            'attach',//
+            'time_end',
+        ];
     }
 
 
