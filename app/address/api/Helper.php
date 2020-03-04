@@ -10,12 +10,14 @@ class Helper extends Api
 {
     private $_config;
     private $_model;
+    private $_region_model;
     private $_china_id;
 
     public function __construct()
     {
         $this->_config = $this->app->core->config->config->toArray();
         $this->_model = new Address();
+        $this->_region_model = new Region();
         $this->_china_id = 100000;
     }
 
@@ -191,8 +193,34 @@ class Helper extends Api
     public function getAddressListByUserId($userId){
         $condition = "user_id = " . $userId;
         $condition .= " and status = " . $this->_config['data_status']['valid'];
-        $addressList = $this->_model->find($condition);
+        $addressList = $this->_model->find($condition)->toArray();
+        foreach ($addressList as &$al){
+            $al['address_name'] = $this->getTitleByCountyId($al['county_id']);
+        }
         return $addressList;
+    }
+
+    //通过区ID获取省市区名称
+    public function getTitleByCountyId($countyId){
+        if(empty($countyId)){
+            return '';
+        }
+        $countyId = (int)$countyId;
+        $county = $this->_region_model->findFirstById($countyId);
+        // var_dump($county->name);exit;
+        if(empty($county)){
+            return '';
+        }
+        $city = $this->_region_model->findFirstById($county->pid);
+        if(empty($city)){
+            return '';
+        }
+        $province = $this->_region_model->findFirstById($city->pid);
+        if(empty($province)){
+            return '';
+        }
+        $title = $province->name . $city->name . $county->name;
+        return $title;
     }
 
 }
