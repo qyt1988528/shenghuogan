@@ -269,7 +269,7 @@ class Pay extends Api
         try{
             $updateData = [
                 'order_id' => $orderId,
-                'pay_channel' => 'JSAPI',
+                'pay_channel' => $this->_order['pay_channel']['wechat_mimipro']['code'],
                 'pay_time' => time(),
                 'pay_status' => $this->_order['pay_status']['success']['code'],
                 'order_status' => $this->_order['order_status']['finish']['code'],

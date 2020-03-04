@@ -4383,7 +4383,7 @@
 						"header": [
 							{
 								"key": "Token",
-								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"value": "d3179aa368bf73a3426c1ecea66b4f4f",
 								"description": "用户token",
 								"type": "text"
 							}
@@ -4399,7 +4399,7 @@
 								},
 								{
 									"key": "cellphone",
-									"value": "13800001111",
+									"value": "18714516069",
 									"description": "手机号",
 									"type": "text"
 								},
@@ -4430,10 +4430,13 @@
 							]
 						},
 						"url": {
-							"raw": "http://shenghuogang/addressadmin/create",
+							"raw": "http://47.104.69.159/addressadmin/create",
 							"protocol": "http",
 							"host": [
-								"shenghuogang"
+								"47",
+								"104",
+								"69",
+								"159"
 							],
 							"path": [
 								"addressadmin",
@@ -4808,6 +4811,52 @@
 							"path": [
 								"order",
 								"dict"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "订单-支付",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"description": "用户token",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "order_id",
+									"value": "7",
+									"description": "订单Id(必填)",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://47.104.69.159/order/payment",
+							"protocol": "http",
+							"host": [
+								"47",
+								"104",
+								"69",
+								"159"
+							],
+							"path": [
+								"order",
+								"payment"
 							]
 						}
 					},
