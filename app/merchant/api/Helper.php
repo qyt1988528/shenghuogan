@@ -26,7 +26,8 @@ class Helper extends Api
                 ->where('sg.merchant_id = :merchant_id: ', ['merchant_id' => $merchantId])
                 ->andWhere('sg.status = :valid: ', ['valid' => $this->_config['data_status']['valid']])
                 ->getQuery()
-                ->execute();
+                ->execute()
+                ->toArray();
         }else{
             $goods = $this->modelsManager->createBuilder()
                 ->columns('*')
@@ -35,8 +36,12 @@ class Helper extends Api
                 ->andWhere('sg.status = :valid: ', ['valid' => $this->_config['data_status']['valid']])
                 ->andWhere('sg.title like :goodsName: ', ['goodsName' => '%' . $keywords . '%'])
                 ->getQuery()
-                ->execute();
+                ->execute()
+                ->toArray();
 
+        }
+        foreach ($goods as &$gv){
+            $gv['sales_count'] = 0;
         }
         return $goods;
     }
