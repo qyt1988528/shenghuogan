@@ -26,5 +26,19 @@ class IndexController extends Controller
         $this->response->success($this->resultSet->toObject());
     }
 
+    /**
+     * 图片无损放大两倍
+     * @return void
+     * @Route("/code", methods="GET", name="baidu")
+     */
+    public function codeAction(){
+
+        // var_dump(222);
+        $d = $this->app->core->api->CoreQrcode()->corePng('https://www.baidu.com');
+        var_dump($d);
+        exit;
+
+    }
+
 
 }

@@ -4574,7 +4574,7 @@
 								"description": "用户token",
 								"key": "Token",
 								"type": "text",
-								"value": "8102de236a86e5b8c4c63260e11fbcd9"
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b"
 							}
 						],
 						"body": {
@@ -4624,62 +4624,13 @@
 							{
 								"key": "Content-Type",
 								"name": "Content-Type",
-								"value": "application/x-www-form-urlencoded",
+								"value": "application/json",
 								"type": "text"
 							}
 						],
 						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "goods_data[0][goods_id]",
-									"value": "1",
-									"description": "商品id",
-									"type": "text"
-								},
-								{
-									"key": "goods_data[0][goods_type]",
-									"value": "second",
-									"description": "商品类型",
-									"type": "text"
-								},
-								{
-									"key": "goods_data[0][goods_num]",
-									"value": "1",
-									"description": "购买数量",
-									"type": "text"
-								},
-								{
-									"key": "goods_data[1][goods_id]",
-									"value": "1",
-									"description": "商品id",
-									"type": "text"
-								},
-								{
-									"key": "goods_data[1][goods_type]",
-									"value": "supermarket_goods",
-									"description": "商品类型",
-									"type": "text"
-								},
-								{
-									"key": "goods_data[1][goods_num]",
-									"value": "1",
-									"description": "购买数量",
-									"type": "text"
-								},
-								{
-									"key": "address_id",
-									"value": "1",
-									"description": "地址Id(非必填)",
-									"type": "text"
-								},
-								{
-									"key": "coupon_no",
-									"value": "abc",
-									"description": "优惠券(非必填)",
-									"type": "text"
-								}
-							]
+							"mode": "raw",
+							"raw": "{\n    \"address_id\": 1,\n    \"coupon_no\": \"\",\n    \"goods_data\": [\n        {\n            \"goods_id\": 1,\n            \"goods_type\": \"second\",\n            \"good_num\": 1\n        },\n        {\n            \"goods_id\": 1,\n            \"goods_type\": \"supermarket_goods\",\n            \"good_num\": 1\n        }\n    ]\n}"
 						},
 						"url": {
 							"raw": "http://47.104.69.159/order/create",

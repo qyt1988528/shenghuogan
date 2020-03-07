@@ -54,6 +54,7 @@ class Helper extends Api
     private $_orderDetailModel;
     private $_orderGoodsModel;
     private $_invalid_time;
+    private $_orderConfirmUrl;
 
     public function __construct()
     {
@@ -64,6 +65,7 @@ class Helper extends Api
         $this->_orderDetailModel = new OrderDetail();
         $this->_orderGoodsModel = new OrderGoods();
         $this->_invalid_time = 1800;//30分钟
+        $this->_orderConfirmUrl = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"].'/merchant/confirm';
     }
 
     public function createOrder($goodsData, $userId, $addressId, $couponNo = '')
@@ -592,9 +594,10 @@ class Helper extends Api
             ->where('sg.order_id = :order_id: ', ['order_id' => $orderId])
             ->andWhere('sg.status = :valid: ', ['valid' => $this->_config['data_status']['valid']])
             ->getQuery()
-            ->getSingleResult();
-        if(empty($orderData)){
-
+            ->getSingleResult()
+            ->toArray();
+        if(empty($orderData) || $orderData['user_id'] != $userId){
+            throw new \Exception('数据有误', 1001);
         }
         $data['order_data'] = $orderData;
         $orderDetailData = $this->modelsManager->createBuilder()
@@ -603,7 +606,8 @@ class Helper extends Api
             ->where('sg.order_id = :order_id: ', ['order_id' => $orderId])
             ->andWhere('sg.status = :valid: ', ['valid' => $this->_config['data_status']['valid']])
             ->getQuery()
-            ->execute();
+            ->execute()
+            ->toArray();
         $data['order_address'] = $orderDetailData;
         $orderGoodsData = $this->modelsManager->createBuilder()
             ->columns('*')
@@ -611,8 +615,11 @@ class Helper extends Api
             ->where('sg.order_id = :order_id: ', ['order_id' => $orderId])
             ->andWhere('sg.status = :valid: ', ['valid' => $this->_config['data_status']['valid']])
             ->getQuery()
-            ->execute();
+            ->execute()
+            ->toArray();
         $data['order_goods_list'] = $orderGoodsData;
+        $url = $this->_orderConfirmUrl.'?order_id='.$orderId;
+        $data['order_qrcode'] = $this->app->core->api->CoreQrcode()->corePng($url);
         return $data;
     }
     public function getOrderList($userId){
@@ -622,6 +629,7 @@ class Helper extends Api
             ->from(['sg' => 'Order\Model\Order'])
             ->where('sg.user_id = :user_id: ', ['user_id' => $userId])
             ->andWhere('sg.status = :valid: ', ['valid' => $this->_config['data_status']['valid']])
+            ->orderBy('order_id')
             ->getQuery()
             ->execute();
         if(!empty($orderDatas)){
@@ -669,6 +677,21 @@ class Helper extends Api
 
     public function getTodayStamp(){
         return strtotime(date('Y-m-d'));
+    }
+
+    public function getSalesCount($goodsId,$goodsType,$merchantId=0){
+        $count = 0;
+        $sql = "select sum() as sales_count from `order_goods` as ogt join `order` as ot 
+        on ot.order_id=ogt.order_id where ogt.goods_id={$goodsId} and ogt.goods_type='".$goodsType."'";
+        if(empty($ret)){
+
+        }
+        if(empty($merchantId)){
+           //+base
+
+        }
+        return $count;
+
     }
 
 

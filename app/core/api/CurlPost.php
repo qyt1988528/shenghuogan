@@ -10,7 +10,7 @@ namespace Core\Api;
 
 use MDK\Api;
 
-class XmlAnalysis extends Api
+class CurlPost extends Api
 {
     public function curlPost($url, $params, $config = array(), $build = false, $times = 0)
     {

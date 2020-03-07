@@ -81,30 +81,6 @@ class IndexController extends Controller
 
     }
 
-    /**
-     * mergeFace action.
-     * 商品详情
-     * @return void
-     * @Route("/detail1", methods="GET", name="order")
-     */
-    public function detailiAction()
-    {
-        $goodsId = $this->request->getParam('id', null, '');
-        if (empty($goodsId)) {
-            $this->resultSet->error(1001, $this->_error['invalid_input']);
-        }
-        try {
-            $result = $this->app->order->api->Helper()->detail($goodsId);
-            if (empty($result)) {
-                $this->resultSet->error(1002, $this->_error['not_exist']);
-            }
-            $data['data'] = $result;
-        } catch (\Exception $e) {
-            $this->resultSet->error($e->getCode(), $e->getMessage());
-        }
-        $this->resultSet->success()->setData($data);
-        $this->response->success($this->resultSet->toObject());
-    }
 
     //查询带有detail和产品信息的订单列表
 
@@ -117,9 +93,11 @@ class IndexController extends Controller
     public function listAction()
     {
         try {
+            header("content-type:appliation/json; charset=utf-8");
             $result = $this->app->order->api->Helper()->getOrderList($this->_userId);
             if (!empty($result)) {
                 $data['data'] = $result;
+                header("content-type:appliation/json; charset=utf-8");
             } else {
                 $this->resultSet->error(1002, $this->_error['try_later']);
             }
