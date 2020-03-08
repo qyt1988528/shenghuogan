@@ -4630,7 +4630,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"address_id\": 1,\n    \"coupon_no\": \"\",\n    \"goods_data\": [\n        {\n            \"goods_id\": 1,\n            \"goods_type\": \"second\",\n            \"good_num\": 1\n        },\n        {\n            \"goods_id\": 1,\n            \"goods_type\": \"supermarket_goods\",\n            \"good_num\": 1\n        }\n    ]\n}"
+							"raw": "{\n    \"order_data\": {\n        \"address_id\": 1,\n        \"coupon_no\": \"\",\n        \"goods_data\": [\n            {\n                \"goods_id\": 1,\n                \"goods_type\": \"second\",\n                \"goods_num\": 1\n            },\n            {\n                \"goods_id\": 1,\n                \"goods_type\": \"supermarket_goods\",\n                \"goods_num\": 1\n            },\n            {\n                \"goods_id\": 2,\n                \"goods_type\": \"ticket\",\n                \"goods_num\": 2\n            }\n        ]\n    }\n}"
 						},
 						"url": {
 							"raw": "http://47.104.69.159/order/create",

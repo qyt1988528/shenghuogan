@@ -74,4 +74,5 @@ return [
         'retreat' => ['code'=>4,'title'=>'已退款'],
     ],
     'order_invalid_time' => ['code'=>900,'title'=>'订单失效时间'],
+    'order_qrcode_invalid_time' => ['code'=>300,'title'=>'订单二维码失效时间'],
 ];

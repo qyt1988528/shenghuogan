@@ -100,6 +100,20 @@ class IndexController extends Controller
 
     }
 
+    /**
+     * 商户扫码确认
+     * Create action.
+     * @return void
+     * @Route("/confirm", methods="POST", name="merchant")
+     */
+    public function confirmAction(){
+        $createTime = $this->request->getPost('create_time');
+        $orderId = $this->request->getPost('order_id');
+
+
+
+    }
+
     public function get_client_ip()
     {
         $preg = "/\A((([0-9]?[0-9])|(1[0-9]{2})|(2[0-4][0-9])|(25[0-5]))\.){3}(([0-9]?[0-9])|(1[0-9]{2})|(2[0-4][0-9])|(25[0-5]))\Z/";

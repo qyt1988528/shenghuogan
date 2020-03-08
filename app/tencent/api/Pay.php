@@ -272,7 +272,7 @@ class Pay extends Api
                 'pay_channel' => $this->_order['pay_channel']['wechat_mimipro']['code'],
                 'pay_time' => time(),
                 'pay_status' => $this->_order['pay_status']['success']['code'],
-                'order_status' => $this->_order['order_status']['finish']['code'],
+                // 'order_status' => $this->_order['order_status']['finish']['code'],
             ];
             $orderData->update($updateData);
             return true;

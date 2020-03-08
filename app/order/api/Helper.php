@@ -151,6 +151,7 @@ class Helper extends Api
                 $orderGoodsInsertDatas[] = [
                     // 'order_id',
                     'goods_id' => $goods->id,
+                    'merchant_id' => $goods->merchant_id ?? 0,
                     'goods_name' => $goods->title ?? '',
                     'goods_num' => $gd['goods_num'],
                     'goods_amount' => $goods->original_price ?? 0,
@@ -171,6 +172,7 @@ class Helper extends Api
                 $orderGoodsInsertDatas[] = [
                     // 'order_id',
                     'goods_id' => $goods->id,
+                    'merchant_id' => $goods->merchant_id ?? 0,
                     'goods_name' => $goods->title ?? '',
                     'goods_num' => $gd['goods_num'],
                     'goods_amount' => $goods->original_price,
@@ -203,6 +205,7 @@ class Helper extends Api
                 $orderGoodsInsertDatas[] = [
                     // 'order_id',
                     'goods_id' => $goods->id,
+                    'merchant_id' => $goods->merchant_id ?? 0,
                     'goods_name' => $goods->title ?? '',
                     'goods_num' => $gd['goods_num'],
                     'goods_amount' => $goods->total_price,
@@ -224,6 +227,7 @@ class Helper extends Api
 
 
 
+
         //写订单详情表
         $orderDetailModel = new OrderDetail();
         $orderDetailModel->order_id = $orderId;
@@ -240,7 +244,7 @@ class Helper extends Api
             $orderGoodsModel = new OrderGoods();
             $orderGoodsModel->order_id = $orderId;
             $orderGoodsModel->user_id = $userId;
-            $orderGoodsModel->merchant_id = 0;
+            $orderGoodsModel->merchant_id = $v['merchant_id'];
             $orderGoodsModel->goods_id = $v['goods_id'];
             $orderGoodsModel->goods_name = $v['goods_name'];
             $orderGoodsModel->goods_num = $v['goods_num'];
@@ -618,7 +622,8 @@ class Helper extends Api
             ->execute()
             ->toArray();
         $data['order_goods_list'] = $orderGoodsData;
-        $url = $this->_orderConfirmUrl.'?order_id='.$orderId;
+        $qrcodeCreateTime = time() ;// + $this->_order['order_qrcode_invalid_time']['code'];//5分钟
+        $url = $this->_orderConfirmUrl.'?order_id='.$orderId.'&create_time='.$qrcodeCreateTime;
         $data['order_qrcode'] = $this->app->core->api->CoreQrcode()->corePng($url);
         return $data;
     }
@@ -693,6 +698,8 @@ class Helper extends Api
         return $count;
 
     }
+
+
 
 
 }

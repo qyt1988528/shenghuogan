@@ -51,7 +51,55 @@ class Helper extends Api
 
     }
 
-    
+    public function merchantConfirmOrder($orderId,$merchantId,$qrcodeCreateTime){
+        $invalidTime =$this->_order['order_qrcode_invalid_time']['code'];//5分钟
+        $currentTime = time();
+        if($currentTime - $qrcodeCreateTime > $invalidTime){
+            //超过五分钟二维码失效
+            throw new \Exception('二维码已失效，请刷新页面', 10001);
+        }
+        //查询订单
+        if (empty($orderId)) {
+            throw new \Exception('订单不存在', 10002);
+
+        }
+        $condition = "order_id = " . $orderId;
+        $condition .= " and status = " . $this->_config['data_status']['valid'];
+        $orderData = $this->_orderModel->findFirst($condition);
+        if (empty($orderData)) {
+            //订单不存在
+            throw new \Exception('订单不存在', 10003);
+
+        }
+        //订单是否支付
+        if($orderData->pay_status != $this->_order['pay_status']['success']['code']){
+            throw new \Exception('订单未支付', 10004);
+        }
+
+        //订单和商户关系的判断
+        $condition = "order_id = " . $orderId;
+        $condition .= " and status = " . $this->_config['data_status']['valid'];
+        $orderGoods = $this->_orderGoodsModel->find($condition)->toArray();
+        if (empty($orderGoods)) {
+            throw new \Exception('订单无效', 10005);
+        }
+        //该订单该商户的均置为确认
+        $orderGoodsIds = [];
+        foreach ($orderGoods as $ogv){
+            if($ogv['merchant_id'] == $merchantId){
+                $orderGoodsIds[] = $ogv['order_goods_id'];
+            }
+        }
+        if(empty($orderGoodsIds)){
+            throw new \Exception('该订单为其他商户，请勿进行扫码', 10006);
+        }
+
+        return true;
+
+
+    }
+
+
 
 
 

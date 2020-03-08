@@ -129,7 +129,7 @@ class IndexController extends Controller
         //订单id
         $orderId = $this->request->getPost('order_id', null, 0);
         if (empty($orderId)) {
-
+            $this->resultSet->error(1001,$this->_error['invalid_input']);
         }
         try {
             $result = $this->app->order->api->Helper()->getOrderDetail($orderId, $this->_userId);
@@ -180,12 +180,18 @@ class IndexController extends Controller
     public function createAction()
     {
         //用户id 商品id 商品类型
-        $goodsData = $this->request->getPost('goods_data');
-        if (empty($goodsData) || !is_array($goodsData)) {
-
+        // $goodsData = $this->request->getPost('goods_data');
+        $orderData = $this->request->getParam('order_data');//已经是数组了
+        $goodsData = $orderData['goods_data'] ?? [];
+        // var_dump(empty($orderData));
+        // var_dump(empty($goodsData));
+        // var_dump(!is_array($goodsData));
+        // exit;
+        if (empty($orderData) || empty($goodsData) || !is_array($goodsData)) {
+            $this->resultSet->error(1001,$this->_error['invalid_input']);
         }
-        $addressId = $this->request->getPost('address_id', null, 0);
-        $couponNo = $this->request->getPost('coupon_no', null, 0);
+        $addressId = $orderData['address_id'] ?? 0;
+        $couponNo = $orderData['coupon_no'] ?? '';
         try {
             $result = $this->app->order->api->Helper()->createOrder($goodsData, $this->_userId, $addressId, $couponNo);
             if ($result) {
