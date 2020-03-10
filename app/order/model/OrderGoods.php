@@ -95,6 +95,16 @@ class OrderGoods extends Model
 // `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1:有效,-1:无效',
     /**
      *
+     * @Column(type="string", size="50", nullable=true, column="is_scan")
+     */
+    public $is_scan;
+    /**
+     *
+     * @Column(type="string", nullable=true, column="scan_time")
+     */
+    public $scan_time;
+    /**
+     *
      * @Column(type="string", nullable=true, column="create_time")
      */
     public $create_time;

@@ -3,16 +3,22 @@
 namespace Merchant\Api;
 
 use MDK\Api;
+use Order\Model\Order;
+use Order\Model\OrderGoods;
 
 class Helper extends Api
 {
     private $_config;
     private $_order;
+    private $_orderGoodsModel;
+    private $_orderModel;
 
     public function __construct()
     {
         $this->_config = $this->app->core->config->config->toArray();
         $this->_order = $this->app->core->config->order->toArray();
+        $this->_orderGoodsModel = new OrderGoods();
+        $this->_orderModel = new Order();
     }
 
     //根据商品类型和商户ID查询所有未删除的商品
@@ -83,7 +89,6 @@ class Helper extends Api
         if (empty($orderGoods)) {
             throw new \Exception('订单无效', 10005);
         }
-        //该订单该商户的均置为确认
         $orderGoodsIds = [];
         foreach ($orderGoods as $ogv){
             if($ogv['merchant_id'] == $merchantId){
@@ -94,9 +99,34 @@ class Helper extends Api
             throw new \Exception('该订单为其他商户，请勿进行扫码', 10006);
         }
 
+        //该订单中该商户的均置为确认
+        foreach ($orderGoodsIds as $ogid){
+            $this->scanOrderGoods($ogid);
+        }
+        //当所有的都扫过码了，需要自动完成 order_status => finish
+
         return true;
 
 
+    }
+
+    public function scanOrderGoods($orderGoodsId){
+        try{
+            $condition = "order_goods_id = " . $orderGoodsId;
+            $condition .= " and status = " . $this->_config['data_status']['valid'];
+            $updateModel = $this->_orderGoodsModel->findFirst($condition);
+            // $updateModel = $this->_orderGoodsModel->findFirstById($orderGoodsId);
+            if(empty($updateModel)){
+                return false;
+            }
+            $updateData = ['order_goods_id' => $orderGoodsId];
+            $updateData['is_scan'] = $this->_order['manual_status']['auto_by_all_scan']['code'];
+            $updateData['scan_time'] = date('Y-m-d H:i:s');
+            $updateModel->update($updateData);
+            return true;
+        }catch (\Exception $e){
+            return false;
+        }
     }
 
 

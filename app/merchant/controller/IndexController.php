@@ -107,9 +107,20 @@ class IndexController extends Controller
      * @Route("/confirm", methods="POST", name="merchant")
      */
     public function confirmAction(){
-        $createTime = $this->request->getPost('create_time');
+        $qrcodeCreateTime = $this->request->getPost('create_time');
         $orderId = $this->request->getPost('order_id');
+        $merchantId = $this->_merchantId;
 
+        try{
+            $result = $this->app->merchant->api->Helper()->merchantConfirmOrder($orderId,$merchantId,$qrcodeCreateTime);
+            $data['data'] = [
+                'scan_result' => $result
+            ];
+        }catch (\Exception $e){
+            $this->resultSet->error($e->getCode(),$e->getMessage());
+        }
+        $this->resultSet->success()->setData($data);
+        $this->response->success($this->resultSet->toObject());
 
 
     }

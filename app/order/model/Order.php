@@ -97,6 +97,11 @@ class Order extends Model
      * @Column(type="string", size="50", nullable=true, column="form_id")
      */
     public $form_id;
+    /**
+     *
+     * @Column(type="string", size="50", nullable=true, column="is_manual")
+     */
+    public $is_manual;
 // `form_id` varchar(50) NOT NULL DEFAULT '微信form_id',
 // `create_time` datetime NOT NULL DEFAULT '2000-01-01 00:00:00' COMMENT '创建时间',
 // `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',

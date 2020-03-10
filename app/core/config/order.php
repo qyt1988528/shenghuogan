@@ -62,6 +62,11 @@ return [
         'refunding' => ['code'=>5,'title'=>'退款中'],
         'refunded' => ['code'=>6,'title'=>'已退款'],
     ],
+    'manual_status' => [
+        'init' => ['code'=>0,'title'=>'初始'],
+        'manual' => ['code'=>2,'title'=>'用户手动'],
+        'auto_by_all_scan' => ['code'=>1,'title'=>'全部商户扫码后'],
+    ],
     'shipped_status' => [
         'wait_send' => ['code'=>1,'title'=>'待发货'],
         'wait_receive' => ['code'=>2,'title'=>'待收货'],

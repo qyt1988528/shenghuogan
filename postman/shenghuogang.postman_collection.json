@@ -4951,6 +4951,58 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "商户-扫码",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Token",
+								"value": "b0d5772882a15bf49fd1b50e7b0165a7",
+								"description": "用户token",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "order_id",
+									"value": "50",
+									"description": "订单ID",
+									"type": "text"
+								},
+								{
+									"key": "create_time",
+									"value": "1583826855",
+									"description": "二维码生成的时间戳",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://47.104.69.159/merchant/confirm",
+							"protocol": "http",
+							"host": [
+								"47",
+								"104",
+								"69",
+								"159"
+							],
+							"path": [
+								"merchant",
+								"confirm"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
