@@ -51,7 +51,7 @@ class HouseController extends Controller
             if(empty($insert)){
                 $this->resultSet->error(1002,$this->_error['try_later']);
             }
-            $data =[
+            $data['data'] =[
                 'id' => $insert
             ];
         }catch (\Exception $e){
@@ -76,7 +76,7 @@ class HouseController extends Controller
         try{
            $result = $this->app->rent->api->House()->deleteGoods($goodsId,$this->_userId);
            if($result){
-               $data = [
+               $data['data'] = [
                    'del_success' => $result
                ];
            }else{
@@ -104,7 +104,7 @@ class HouseController extends Controller
         try{
            $result = $this->app->rent->api->House()->withdrawGoods($goodsId,$this->_userId);
            if($result){
-               $data = [
+               $data['data'] = [
                    'withdraw_success' => $result
                ];
            }else{
@@ -138,7 +138,7 @@ class HouseController extends Controller
         try{
             $result = $this->app->rent->api->House()->updateGoods($postData);
             if($result){
-                $data = [
+                $data['data'] = [
                     'update_success' => $result
                 ];
             }else{

@@ -43,8 +43,8 @@ class AdminController extends Controller
             if(empty($insert)){
                 $this->resultSet->error(1002,$this->_error['try_later']);
             }
-            $data =[
-                'id' => $insert
+            $data['data'] =[
+                'order_id' => $insert
             ];
         }catch (\Exception $e){
             $this->resultSet->error($e->getCode(),$e->getMessage());
@@ -68,7 +68,7 @@ class AdminController extends Controller
         try{
            $result = $this->app->order->api->Helper()->deleteorder($orderId);
            if($result){
-               $data = [
+               $data['data'] = [
                    'del_success' => $result
                ];
            }else{
@@ -96,7 +96,7 @@ class AdminController extends Controller
         try{
            $result = $this->app->order->api->Helper()->withdraworder($orderId);
            if($result){
-               $data = [
+               $data['data'] = [
                    'withdraw_success' => $result
                ];
            }else{
@@ -129,7 +129,7 @@ class AdminController extends Controller
         try{
             $result = $this->app->order->api->Helper()->updateorder($postData);
             if($result){
-                $data = [
+                $data['data'] = [
                     'update_success' => $result
                 ];
             }else{

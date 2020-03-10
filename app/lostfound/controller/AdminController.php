@@ -49,7 +49,7 @@ class AdminController extends Controller
             if(empty($insert)){
                 $this->resultSet->error(1002,$this->_error['try_later']);
             }
-            $data =[
+            $data['data'] =[
                 'id' => $insert
             ];
         }catch (\Exception $e){
@@ -74,7 +74,7 @@ class AdminController extends Controller
         try{
            $result = $this->app->lostfound->api->Helper()->deleteSecond($secondId,$this->_userId);
            if($result){
-               $data = [
+               $data['data'] = [
                    'del_success' => $result
                ];
            }else{
@@ -102,7 +102,7 @@ class AdminController extends Controller
         try{
            $result = $this->app->lostfound->api->Helper()->withdrawSecond($secondId,$this->_userId);
            if($result){
-               $data = [
+               $data['data'] = [
                    'withdraw_success' => $result
                ];
            }else{
@@ -136,7 +136,7 @@ class AdminController extends Controller
         try{
             $result = $this->app->lostfound->api->Helper()->updateSecond($postData);
             if($result){
-                $data = [
+                $data['data'] = [
                     'update_success' => $result
                 ];
             }else{

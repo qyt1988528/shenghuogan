@@ -50,7 +50,7 @@ class AdminController extends Controller
             if(empty($insert)){
                 $this->resultSet->error(1002,$this->_error['try_later']);
             }
-            $data =[
+            $data['data'] =[
                 'id' => $insert
             ];
         }catch (\Exception $e){
@@ -75,7 +75,7 @@ class AdminController extends Controller
         try{
            $result = $this->app->driver->api->Helper()->deleteTicket($cateringId,$this->_userId);
            if($result){
-               $data = [
+               $data['data'] = [
                    'del_success' => $result
                ];
            }else{
@@ -103,7 +103,7 @@ class AdminController extends Controller
         try{
            $result = $this->app->driver->api->Helper()->withdrawTicket($cateringId,$this->_userId);
            if($result){
-               $data = [
+               $data['data'] = [
                    'withdraw_success' => $result
                ];
            }else{
@@ -137,7 +137,7 @@ class AdminController extends Controller
         try{
             $result = $this->app->driver->api->Helper()->updateTicket($postData);
             if($result){
-                $data = [
+                $data['data'] = [
                     'update_success' => $result
                 ];
             }else{

@@ -48,7 +48,7 @@ class AdminController extends Controller
             if(empty($insert)){
                 $this->resultSet->error(1002,$this->_error['try_later']);
             }
-            $data =[
+            $data['data'] =[
                 'id' => $insert
             ];
         }catch (\Exception $e){
@@ -73,7 +73,7 @@ class AdminController extends Controller
         try{
            $result = $this->app->parttimejob->api->Helper()->deleteParttimejob($parttimejobId,$this->_userId);
            if($result){
-               $data = [
+               $data['data'] = [
                    'del_success' => $result
                ];
            }else{
@@ -101,7 +101,7 @@ class AdminController extends Controller
         try{
            $result = $this->app->parttimejob->api->Helper()->withdrawParttimejob($parttimejobId,$this->_userId);
            if($result){
-               $data = [
+               $data['data'] = [
                    'withdraw_success' => $result
                ];
            }else{
@@ -135,7 +135,7 @@ class AdminController extends Controller
         try{
             $result = $this->app->parttimejob->api->Helper()->updateParttimejob($postData);
             if($result){
-                $data = [
+                $data['data'] = [
                     'update_success' => $result
                 ];
             }else{
@@ -159,7 +159,7 @@ class AdminController extends Controller
             $data = [];
             $result = $this->app->parttimejob->api->Helper()->getListByUserId($this->_userId);
             if(!empty($result)){
-                $data = [
+                $data['data'] = [
                     'parttimejob_list' => $result
                 ];
             }
