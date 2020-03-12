@@ -55,6 +55,7 @@ class Helper extends Api
     private $_orderGoodsModel;
     private $_invalid_time;
     private $_orderConfirmUrl;
+    private $_validDate;
 
     public function __construct()
     {
@@ -65,7 +66,8 @@ class Helper extends Api
         $this->_orderDetailModel = new OrderDetail();
         $this->_orderGoodsModel = new OrderGoods();
         $this->_invalid_time = 1800;//30分钟
-        $this->_orderConfirmUrl = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"].'/merchant/confirm';
+        $this->_orderConfirmUrl = 'http://' . $_SERVER['SERVER_NAME'] . ':' . $_SERVER["SERVER_PORT"] . '/merchant/confirm';
+        $this->_validDate = '2020-01-01';
     }
 
     public function createOrder($goodsData, $userId, $addressId, $couponNo = '')
@@ -142,9 +144,22 @@ class Helper extends Api
                     throw new \Exception($desc . '库存不足', 1005);
                 }
                 //超市 -- 需要填写配送地址
-                if($gd['goods_type'] == 'supermarket_goods'){
+                if ($gd['goods_type'] == 'supermarket_goods') {
                     $needAddress = true;
+                }
+                //酒店 -- 需要填写开始和结束日期
+                if ($gd['goods_type'] == 'hotel') {
+                    $startDate = $gd['goods_start_date'] ?? $this->_validDate;
+                    $endDate = $gd['goods_end_date'] ?? $this->_validDate;
+                    $startStamp = strtotime($startDate);
+                    $endStamp = strtotime($endDate);
+                    $todayStamp = $this->getTodayStamp();
 
+                    if ($startStamp < $todayStamp || $endStamp < $todayStamp) {
+                        $this->db->rollback();
+                        throw new \Exception('请选择正确的时间段', 1006);
+
+                    }
                 }
                 //超市、门票、酒店、美食、租车、二手物品、驾考
                 //失物招领
@@ -154,13 +169,16 @@ class Helper extends Api
                     'merchant_id' => $goods->merchant_id ?? 0,
                     'goods_name' => $goods->title ?? '',
                     'goods_num' => $gd['goods_num'],
+                    'goods_start_date' => $gd['goods_start_date'] ?? $this->_validDate,
+                    'goods_end_date' => $gd['goods_end_date'] ?? $this->_validDate,
                     'goods_amount' => $goods->original_price ?? 0,
                     'goods_cost_amount' => $goods->cost_price ?? 0,
                     'goods_current_amount' => $goods->self_price ?? 0,
                     'goods_type' => $gd['goods_type'],
                     'goods_attr' => $this->getSpecs($goods),
-                    'goods_cover' => $this->getGoodsCover($goods->img_url),
-                    'goods_detail_data' => $this->getJsonGoodsData($goods),
+                    'goods_cover' => $this->getGoodsCover($goods->img_url ?? ''),
+                    'goods_detail_data' => $this->getJsonGoodsData($goods),//商品当时的快照,
+
                 ];
             }
             if (isset($goods->is_renting)) {
@@ -175,12 +193,14 @@ class Helper extends Api
                     'merchant_id' => $goods->merchant_id ?? 0,
                     'goods_name' => $goods->title ?? '',
                     'goods_num' => $gd['goods_num'],
+                    'goods_start_date' => $gd['goods_start_date'] ?? $this->_validDate,
+                    'goods_end_date' => $gd['goods_end_date'] ?? $this->_validDate,
                     'goods_amount' => $goods->original_price,
                     'goods_cost_amount' => $goods->cost_price ?? 0,
                     'goods_current_amount' => $goods->self_price ?? 0,
                     'goods_type' => $gd['goods_type'],
                     'goods_attr' => $this->getSpecs($goods),
-                    'goods_cover' => $this->getGoodsCover($goods->img_url??''),
+                    'goods_cover' => $this->getGoodsCover($goods->img_url ?? ''),
                     'goods_detail_data' => $this->getJsonGoodsData($goods),
                 ];
 
@@ -192,12 +212,12 @@ class Helper extends Api
                     throw new \Exception($desc . '已下架', 1004);
                 }
                 //兼职
-                if(true){
+                if (true) {
                     //commission
 
                 }
                 //快递
-                if(true){
+                if (true) {
                     //发快递 gratuity
                     //取快递 total_price
 
@@ -208,6 +228,8 @@ class Helper extends Api
                     'merchant_id' => $goods->merchant_id ?? 0,
                     'goods_name' => $goods->title ?? '',
                     'goods_num' => $gd['goods_num'],
+                    'goods_start_date' => $gd['goods_start_date'] ?? $this->_validDate,
+                    'goods_end_date' => $gd['goods_end_date'] ?? $this->_validDate,
                     'goods_amount' => $goods->total_price,
                     'goods_cost_amount' => $goods->total_price ?? 0,
                     'goods_current_amount' => $goods->total_price ?? 0,
@@ -226,12 +248,10 @@ class Helper extends Api
         }
 
 
-
-
         //写订单详情表
         $orderDetailModel = new OrderDetail();
         $orderDetailModel->order_id = $orderId;
-        if($needAddress && !empty($addressId)){
+        if ($needAddress && !empty($addressId)) {
 
         }
         $orderDetailModel->create_time = date('Y-m-d H:i:s');
@@ -255,6 +275,8 @@ class Helper extends Api
             $orderGoodsModel->goods_attr = $v['goods_attr'];
             $orderGoodsModel->goods_cover = $v['goods_cover'];
             $orderGoodsModel->goods_detail_data = $v['goods_detail_data'];
+            $orderGoodsModel->goods_start_date = $v['goods_start_date'];
+            $orderGoodsModel->goods_end_date = $v['goods_end_date'];
             $orderGoodsModel->create_time = date('Y-m-d H:i:s');
             if ($orderGoodsModel->save() === false) {
                 $this->db->rollback();
@@ -562,34 +584,38 @@ class Helper extends Api
         return $orderNo;
     }
 
-    private function getGoodsCover($imgUrl){
-        if(empty($imgUrl)){
+    private function getGoodsCover($imgUrl)
+    {
+        if (empty($imgUrl)) {
             return '';
         }
-        $imgUrl = str_replace('，',',',$imgUrl);
-        $imgArr = explode(',',$imgUrl);
+        $imgUrl = str_replace('，', ',', $imgUrl);
+        $imgArr = explode(',', $imgUrl);
         return $imgArr[0];
     }
 
-    private function getSpecs($goods){
+    private function getSpecs($goods)
+    {
         //超市
-        if(isset($goods->specs) && isset($goods->specs_unit_id)){
+        if (isset($goods->specs) && isset($goods->specs_unit_id)) {
             $specsNum = $goods->specs;
             $specsUnit = $this->_config['supermarket_specs_unit'][$goods->specs_unit_id];
-            return $specsNum.$specsUnit;
+            return $specsNum . $specsUnit;
         }
         return '';
     }
 
-    private function getJsonGoodsData($goods){
+    private function getJsonGoodsData($goods)
+    {
         $arr = [];
-        foreach ($goods as $k=>$v){
+        foreach ($goods as $k => $v) {
             $arr[$k] = $v;
         }
         return json_encode($arr);
     }
 
-    public function getOrderDetail($orderId,$userId){
+    public function getOrderDetail($orderId, $userId)
+    {
         $data = [];
         //验证是否为用户订单
         $orderData = $this->modelsManager->createBuilder()
@@ -600,7 +626,7 @@ class Helper extends Api
             ->getQuery()
             ->getSingleResult()
             ->toArray();
-        if(empty($orderData) || $orderData['user_id'] != $userId){
+        if (empty($orderData) || $orderData['user_id'] != $userId) {
             throw new \Exception('数据有误', 1001);
         }
         $data['order_data'] = $orderData;
@@ -622,12 +648,14 @@ class Helper extends Api
             ->execute()
             ->toArray();
         $data['order_goods_list'] = $orderGoodsData;
-        $qrcodeCreateTime = time() ;// + $this->_order['order_qrcode_invalid_time']['code'];//5分钟
-        $url = $this->_orderConfirmUrl.'?order_id='.$orderId.'&create_time='.$qrcodeCreateTime;
+        $qrcodeCreateTime = time();// + $this->_order['order_qrcode_invalid_time']['code'];//5分钟
+        $url = $this->_orderConfirmUrl . '?order_id=' . $orderId . '&create_time=' . $qrcodeCreateTime;
         $data['order_qrcode'] = $this->app->core->api->CoreQrcode()->corePng($url);
         return $data;
     }
-    public function getOrderList($userId){
+
+    public function getOrderList($userId)
+    {
         $list = [];
         $orderDatas = $this->modelsManager->createBuilder()
             ->columns('order_id')
@@ -637,15 +665,16 @@ class Helper extends Api
             ->orderBy('order_id')
             ->getQuery()
             ->execute();
-        if(!empty($orderDatas)){
-            foreach ($orderDatas as $v){
-                $list[] = $this->getOrderDetail($v->order_id,$userId);
+        if (!empty($orderDatas)) {
+            foreach ($orderDatas as $v) {
+                $list[] = $this->getOrderDetail($v->order_id, $userId);
             }
         }
         return $list;
     }
 
-    public function getIncome($merchantId){
+    public function getIncome($merchantId)
+    {
         $orderStatus = $this->_order['order_status']['finish'];
         //营业总额
         $orderData = $this->modelsManager->createBuilder()
@@ -680,26 +709,26 @@ class Helper extends Api
 
     }
 
-    public function getTodayStamp(){
+    public function getTodayStamp()
+    {
         return strtotime(date('Y-m-d'));
     }
 
-    public function getSalesCount($goodsId,$goodsType,$merchantId=0){
+    public function getSalesCount($goodsId, $goodsType, $merchantId = 0)
+    {
         $count = 0;
         $sql = "select sum() as sales_count from `order_goods` as ogt join `order` as ot 
-        on ot.order_id=ogt.order_id where ogt.goods_id={$goodsId} and ogt.goods_type='".$goodsType."'";
-        if(empty($ret)){
+        on ot.order_id=ogt.order_id where ogt.goods_id={$goodsId} and ogt.goods_type='" . $goodsType . "'";
+        if (empty($ret)) {
 
         }
-        if(empty($merchantId)){
-           //+base
+        if (empty($merchantId)) {
+            //+base
 
         }
         return $count;
 
     }
-
-
 
 
 }
