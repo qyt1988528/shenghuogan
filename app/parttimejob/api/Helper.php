@@ -130,10 +130,13 @@ class Helper extends Api
         }
     }
 
-    public function detail($parttimejobId)
+    public function detail($parttimejobId,$userId=0)
     {
         $condition = "id = " . $parttimejobId;
-        $condition .= " and is_hiring = " . $this->_config['hiring_status']['hiring'];
+        $judgeResult = $this->judgeUser($parttimejobId,$userId);
+        if($judgeResult == false){
+            $condition .= " and is_hiring = " . $this->_config['hiring_status']['hiring'];
+        }
         $condition .= " and status = " . $this->_config['data_status']['valid'];
         $goods = $this->_model->findFirst($condition);
         if(!empty($goods)){

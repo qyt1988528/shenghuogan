@@ -112,9 +112,12 @@ class Send extends Api
             return false;
         }
     }
-    public function detail($goodsId){
+    public function detail($goodsId,$userId=0){
         $condition = "id = ".$goodsId;
-        $condition .= " and is_hiring = ".$this->_config['hiring_status']['hiring'];
+        $judgeResult = $this->judgeUser($goodsId,$userId);
+        if($judgeResult == false){
+            $condition .= " and is_hiring = ".$this->_config['hiring_status']['hiring'];
+        }
         $condition .= " and status = ".$this->_config['data_status']['valid'];
         $goods = $this->_model->findFirst($condition);
         return $goods;

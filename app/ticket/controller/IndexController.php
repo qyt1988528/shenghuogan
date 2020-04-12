@@ -10,11 +10,13 @@ use MDK\Controller;
 class IndexController extends Controller
 {
     private $_error;
+    private $_userId;
 
     public function initialize()
     {
         $config = $this->app->core->config->config->toArray();
         $this->_error = $config['error_message'];
+        $this->_userId = $this->app->tencent->api->UserApi()->getUserId();
     }
     /**
      * Index action.
@@ -50,7 +52,7 @@ class IndexController extends Controller
             $this->resultSet->error(1001,$this->_error['invalid_input']);
         }
         try{
-            $result = $this->app->ticket->api->Helper()->detail($goodsId);
+            $result = $this->app->ticket->api->Helper()->detail($goodsId,$this->_userId);
             if(empty($result)){
                 $this->resultSet->error(1002,$this->_error['not_exist']);
             }

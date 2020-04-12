@@ -278,6 +278,8 @@ class Helper extends Api
             $orderGoodsModel->goods_start_date = $v['goods_start_date'];
             $orderGoodsModel->goods_end_date = $v['goods_end_date'];
             $orderGoodsModel->create_time = date('Y-m-d H:i:s');
+            $orderGoodsModel->first_buy = $this->isFirstBuy($userId,$v['merchant_id']);
+            $orderGoodsModel->add_timestamp = $this->getTodayStamp();
             if ($orderGoodsModel->save() === false) {
                 $this->db->rollback();
                 throw new \Exception('网络异常，请稍后重试', 1009);
@@ -727,6 +729,25 @@ class Helper extends Api
 
         }
         return $count;
+
+    }
+
+    public function isFirstBuy($userId,$merchantId){
+        //查询order_goods表 存在返回1 否则返回-1
+        $orderGoodsData = $this->modelsManager->createBuilder()
+            ->columns('*')
+            ->from(['sg' => 'Order\Model\OrderGoods'])
+            ->where('sg.merchant_id = :merchant_id: ', ['merchant_id' => $merchantId])
+            ->where('sg.user_id = :user_id: ', ['user_id' => $userId])
+            ->andWhere('sg.status = :valid: ', ['valid' => $this->_config['data_status']['valid']])
+            ->getQuery()
+            ->getSingleResult();
+        if(!empty($orderGoodsData)){
+            return 1;
+        }else{
+            return -1;
+        }
+
 
     }
 

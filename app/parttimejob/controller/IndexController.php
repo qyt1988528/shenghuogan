@@ -56,7 +56,7 @@ class IndexController extends Controller
             $this->resultSet->error(1001,$this->_error['invalid_input']);
         }
         try{
-            $result = $this->app->parttimejob->api->Helper()->detail($goodsId);
+            $result = $this->app->parttimejob->api->Helper()->detail($goodsId,$this->_userId);
             if(empty($result)){
                 $this->resultSet->error(1002,$this->_error['not_exist']);
             }

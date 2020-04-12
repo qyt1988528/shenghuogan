@@ -105,6 +105,16 @@ class OrderGoods extends Model
     public $goods_end_date;
     /**
      *
+     * @Column(type="integer", size="4", nullable=true, column="first_buy")
+     */
+    public $first_buy;
+    /**
+     *
+     * @Column(type="integer", size="11", nullable=true, column="add_timestamp")
+     */
+    public $add_timestamp;
+    /**
+     *
      * @Column(type="string", size="50", nullable=true, column="is_scan")
      */
     public $is_scan;

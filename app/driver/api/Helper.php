@@ -119,16 +119,19 @@ class Helper extends Api
             return false;
         }
     }
-    public function detail($ticketId){
+    public function detail($ticketId,$userId=0){
         $condition = "id = ".$ticketId;
-        $condition .= " and is_selling = ".$this->_config['selling_status']['selling'];
+        $judgeResult = $this->judgeUser($ticketId,$userId);
+        if($judgeResult == false){
+            $condition .= " and is_selling = ".$this->_config['selling_status']['selling'];
+        }
         $condition .= " and status = ".$this->_config['data_status']['valid'];
         $goods = $this->_model->findFirst($condition);
         return $goods;
     }
-    public function detailNew($id){
+    public function detailNew($id,$userId=0){
         $arr = [];
-        $data = $this->detail($id);
+        $data = $this->detail($id,$userId);
         if(!empty($data)){
             foreach ($data as $k=>$v){
                 if($k == 'promise_description'){

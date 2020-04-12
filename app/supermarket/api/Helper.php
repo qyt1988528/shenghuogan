@@ -157,10 +157,13 @@ class Helper extends Api
         }
     }
 
-    public function detail($goodsId)
+    public function detail($goodsId,$userId=0)
     {
         $condition = "id = " . $goodsId;
-        // $condition .= " and is_selling = " . $this->_config['selling_status']['selling'];
+        $judgeResult = $this->judgeUser($goodsId,$userId);
+        if($judgeResult == false){
+            $condition .= " and is_selling = " . $this->_config['selling_status']['selling'];
+        }
         $condition .= " and status = " . $this->_config['data_status']['valid'];
         $goods = $this->_model->findFirst($condition);
         return $goods;

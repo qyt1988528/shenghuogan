@@ -12,11 +12,13 @@ use MDK\Controller;
 class ShowCarController extends Controller
 {
     private $_error;
+    private $_userId;
 
     public function initialize()
     {
         $config = $this->app->core->config->config->toArray();
         $this->_error = $config['error_message'];
+        $this->_userId = $this->app->tencent->api->UserApi()->getUserId();
     }
 
     /**
@@ -55,7 +57,7 @@ class ShowCarController extends Controller
             $this->resultSet->error(1001, $this->_error['invalid_input']);
         }
         try {
-            $result = $this->app->rent->api->Car()->detail($goodsId);
+            $result = $this->app->rent->api->Car()->detail($goodsId,$this->_userId);
             if (empty($result)) {
                 $this->resultSet->error(1002, $this->_error['not_exist']);
             }

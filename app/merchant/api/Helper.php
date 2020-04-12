@@ -3,6 +3,7 @@
 namespace Merchant\Api;
 
 use MDK\Api;
+use Merchant\Model\MerchantOperationLog;
 use Order\Model\Order;
 use Order\Model\OrderGoods;
 
@@ -12,6 +13,7 @@ class Helper extends Api
     private $_order;
     private $_orderGoodsModel;
     private $_orderModel;
+    private $_merchantOperationLogModel;
 
     public function __construct()
     {
@@ -19,6 +21,7 @@ class Helper extends Api
         $this->_order = $this->app->core->config->order->toArray();
         $this->_orderGoodsModel = new OrderGoods();
         $this->_orderModel = new Order();
+        $this->_merchantOperationLogModel = new MerchantOperationLog();
     }
 
     //根据商品类型和商户ID查询所有未删除的商品
@@ -127,6 +130,26 @@ class Helper extends Api
         }catch (\Exception $e){
             return false;
         }
+    }
+
+    public function operationLog($merchantId,$userId,$before,$after,$actionName,$goodsType,$goodsId){
+        if(empty($userId) || empty($goodsId)){
+            return 0;
+        }
+        $logData = [
+            'merchant_id' => $merchantId,
+            'user_id' => $userId,
+            'before_data' => $before,
+            'after_data' => $after,
+            'action_name' => $actionName,
+            'goods_type' => $goodsType,
+            'goods_id' => $goodsId,
+        ];
+        $model = $this->_merchantOperationLogModel;
+        $model->create($logData);
+        return !empty($model->id) ? $model->id : 0;
+
+
     }
 
 

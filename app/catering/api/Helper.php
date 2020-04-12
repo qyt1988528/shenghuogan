@@ -52,7 +52,8 @@ class Helper extends Api
             }
             $model = $this->_model;
             $model->create($insertData);
-            return !empty($model->id) ? $model->id : 0;
+            $goodsId = !empty($model->id) ? $model->id : 0;
+            return $goodsId;
         }catch (\Exception $e){
             return 0;
         }
@@ -142,9 +143,12 @@ class Helper extends Api
             return false;
         }
     }
-    public function detail($cateringId){
+    public function detail($cateringId,$userId=0){
         $condition = "id = ".$cateringId;
-        // $condition .= " and is_selling = ".$this->_config['selling_status']['selling'];
+        $judgeResult = $this->judgeUser($cateringId,$userId);
+        if($judgeResult == false){
+            $condition .= " and is_selling = ".$this->_config['selling_status']['selling'];
+        }
         $condition .= " and status = ".$this->_config['data_status']['valid'];
         $goods = $this->_model->findFirst($condition);
         return $goods;

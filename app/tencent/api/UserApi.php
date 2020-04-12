@@ -185,7 +185,9 @@ class UserApi extends Api
             //之前有此用户的记录
             if (empty($user->nickname)) {//微信昵称不能为空
                 //未保存用户信息
-                return [];
+                return [
+                    'access_token' => ''
+                ];
             } else {
                 //保存过用户信息
                 return [
@@ -220,6 +222,9 @@ class UserApi extends Api
         if(empty($user)){
             return 0;
         }else{
+            //校验token是否过期
+            //未过期 将有效期重新置为7天后
+            $expireTime = strtotime(date("Y-m-d", strtotime("+7 day")));
             return $user->id ?? 0;
         }
     }

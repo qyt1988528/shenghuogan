@@ -76,6 +76,7 @@ class AdminController extends Controller
             $this->resultSet->error(1002,$this->_error['invalid_input']);
         }
         try{
+            //更新的操作是先将原来的删除（状态置为-1），再新增一个，以便保留用户的历史添加地址记录
             $deleteResult = $this->app->address->api->Helper()->deleteAddress($postData);
             if(empty($deleteResult)){
                 $this->resultSet->error(1003,$this->_error['try_later']);
@@ -86,7 +87,7 @@ class AdminController extends Controller
             }
             $data['data'] =[
                 'update_result' => true,
-//                'id' => (int)$insertId
+                'id' => (int)$insertId
             ];
         }catch (\Exception $e){
             $this->resultSet->error($e->getCode(),$e->getMessage());
