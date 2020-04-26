@@ -1,993 +1,174 @@
-swagger: "2.0"
+openapi: 3.0.0
 info:
-  description: "生活港小程序接口"
-  version: "1.0.0"
-  title: "Shenghuogang-api"
-  termsOfService: "http://47.104.69.159/terms/"
-  contact:
-    email: "404686706@qq.com"
-  license:
-    name: "Apache 2.0"
-    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
-host: "47.104.69.159"
-basePath: "/"
-tags:
-- name: "tencent"
-  description: "所有腾讯ai的接口"
-  externalDocs:
-    description: "腾讯文档"
-    url: "https://ai.qq.com/doc/"
-- name: "你我当年"
-  description: "所有你我当年ai的接口"
-  # externalDocs:
-  #   description: "腾讯文档"
-  #   url: "https://ai.qq.com/doc/"
-- name: "baidu"
-  description: "所有百度AI的接口"
-  externalDocs:
-    description: "百度AI文档"
-    url: "http://ai.baidu.com/docs#/"
-- name: "facepp"
-  description: "所有facepp的接口"
-  externalDocs:
-    description: "facepp文档"
-    url: "https://console.faceplusplus.com.cn/documents/20813963"
-- name: "meitu"
-  description: "所有meitu的接口"
-  externalDocs:
-    description: "meitu文档"
-    url: "https://ai.meitu.com/doc?id=14&type=api"
-- name: "wxhj"
-  description: "所有玩星汇聚(爱分割)的接口"
-  # externalDocs:
-  # description: "api文档"
-  #    url: "https://market.aliyun.com/products/57124001/cmapi031984.html?spm=5176.730006-56956004-57124001-cmapi029992.recommend.3.4cf256c6iYSrIn&innerSource=detailRecommend#sku=yuncode2598400005"
-- name: "reflect"
-  description: "reflect的接口"
-- name: "core"
-  description: "所有自行封装的接口"
-
-
-- name: "core"
-  description: "所有自行封装的接口"
-- name: "core"
-  description: "所有自行封装的接口"
-- name: "core"
-  description: "所有自行封装的接口"
-- name: "core"
-  description: "所有自行封装的接口"
-- name: "core"
-  description: "所有自行封装的接口"
-- name: "core"
-  description: "所有自行封装的接口"
-- name: "core"
-  description: "所有自行封装的接口"
-- name: "core"
-  description: "所有自行封装的接口"
-schemes:
-- "https"
-- "http"
+  title: '生活港小程序API文档'
+  version: 1.0.0
 paths:
-  /tencent/fuzzy:
+  /addressadmin/create:
     post:
       tags:
-      - "tencent"
-      summary: "判断图片是否模糊"
-      description: "调用时应为异步调用，不应影响正常业务逻辑，如果模糊返回提示文案（国际化）"
-      operationId: "fuzzy"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - in: "body"
-        name: "body"
-        description: "图片base64"
-        required: true
-        schema:
-          $ref: "#/definitions/requestTencentFuzzy"
-      - in: query
-        name: '_language'
-        type: string
-        description: 语种（例如：ar）
-        required: true
-        enum: [en-US, fr , de , ar,zh]
+        - address
+      summary: 添加地址
+      requestBody:
+        description: 添加地址时所需传的数据
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              required:
+                - name
+                - cellphone
+                - province_id
+                - city_id
+                - county_id
+                - detailed_address
+              properties:
+                name:
+                  description: 收件人姓名
+                  type: string
+                cellphone:
+                  description: 收件人电话
+                  type: string
+                province_id:
+                  description: 省ID
+                  type: integer
+                city_id:
+                  description: 市ID
+                  type: integer
+                county_id:
+                  description: 区ID
+                  type: integer
+                detailed_address:
+                  description: 详细地址
+                  type: string
+              type: object
       responses:
-        200:
-          description: 成功响应
-          schema:
-            $ref: '#/definitions/responseTencentFuzzy'
-        405:
-          description: "Invalid input"
-      security:
-      - petstore_auth:
-        - "write:pets"
-        - "read:pets"
-  /tencent/filter:
+        '200':
+          description: 'successful operation'
+          content:
+            application/json:
+              schema:
+                properties:
+                  error: { description: 正确返回时为0, type: integer }
+                  message: { description: 信息描述, type: string }
+                  data: { description: 返回数据体, properties: { create_result: { description: 创建结果是否成功, type: boolean }, id: { description: 新增的地址ID, type: integer } }, type: object }
+                type: object
+  /addressadmin/update:
     post:
       tags:
-      - "tencent"
-      summary: "图片加滤镜"
-      description: "图片滤镜（ai-lab）"
-      operationId: "filter"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - in: "body"
-        name: "body"
-        description: "图片base64"
-        required: true
-        schema:
-          $ref: "#/definitions/requestTencentFilter"
-
+        - address
+      summary: 更新地址
+      requestBody:
+        description: 更新地址时所需传的数据
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              required:
+                - id
+                - name
+                - cellphone
+                - province_id
+                - city_id
+                - county_id
+                - detailed_address
+              properties:
+                id:
+                  description: 地址ID
+                  type: integer
+                name:
+                  description: 收件人姓名
+                  type: string
+                cellphone:
+                  description: 收件人电话
+                  type: string
+                province_id:
+                  description: 省ID
+                  type: integer
+                city_id:
+                  description: 市ID
+                  type: integer
+                county_id:
+                  description: 区ID
+                  type: integer
+                detailed_address:
+                  description: 详细地址
+                  type: string
+              type: object
       responses:
-        200:
-          description: 成功响应
-          schema:
-            $ref: '#/definitions/responseTencentFilter'
-        405:
-          description: "Invalid input"
-      security:
-      - petstore_auth:
-        - "write:pets"
-        - "read:pets"
-  /tencent/fuzzy/origin:
+        '200':
+          description: 'successful operation'
+          content:
+            application/json:
+              schema:
+                properties:
+                  error: { description: 正确返回时为0, type: integer }
+                  message: { description: 信息描述, type: string }
+                  data: { description: 返回数据体, properties: { update_result: { description: 更新结果是否成功, type: boolean }, id: { description: 更新后的新地址ID, type: integer } }, type: object }
+                type: object
+  /addressadmin/delete:
     post:
       tags:
-      - "tencent"
-      summary: "判断图片是否模糊"
-      description: "返回是否模糊与可信度"
-      operationId: "fuzzyOrigin"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - in: "body"
-        name: "body"
-        description: "图片base64"
-        required: true
-        schema:
-          $ref: "#/definitions/requestTencentFuzzy"
+        - address
+      summary: 删除地址
+      requestBody:
+        description: 更新地址时所需传的数据
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              required:
+                - id
+              properties:
+                id:
+                  description: 地址ID
+                  type: integer
+              type: object
       responses:
-        200:
-          description: 成功响应
-          schema:
-            $ref: '#/definitions/responseTencentFuzzyOrigin'
-        405:
-          description: "Invalid input"
-  /nwdn/task:
-    post:
-      tags:
-      - "你我当年"
-      summary: "创建图像增强任务"
-      description: "返回任务id如果图片超出20m或单边分辨率大于2048则返回tip提示"
-      operationId: "nwdnCreateTask"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - in: "body"
-        name: "body"
-        description: "图片url与md5"
-        required: true
-        schema:
-          $ref: "#/definitions/requestNwdnCreateTask"
-      responses:
-        200:
-          description: 成功响应
-          schema:
-            $ref: '#/definitions/responseNwdnCreateTask'
-        405:
-          description: "Invalid input"
+        '200':
+          description: 'successful operation'
+          content:
+            application/json:
+              schema:
+                properties:
+                  error: { description: 正确返回时为0, type: integer }
+                  message: { description: 信息描述, type: string }
+                  data: { description: 返回数据体, properties: { delete_result: { description: 删除结果是否成功, type: boolean } }, type: object }
+                type: object
+  /address/provinceList:
     get:
       tags:
-      - "你我当年"
-      summary: "查询图像增强任务执行状态"
-      description: "根据state判断是否成功"
-      operationId: "nwdnGetTask"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - in: query
-        name: 'taskid'
-        type: string
-        description: 创建任务时返回的任务id
-        required: true
+        - address
+      summary: 省份-列表
       responses:
-        200:
-          description: 成功响应
-          schema:
-            $ref: '#/definitions/responseNwdnGetTask'
-        405:
-          description: "Invalid input"
-  /nwdn/userinfo:
+        '200':
+          description: 'successful operation'
+          content:
+            application/json:
+              schema:
+                properties:
+                  error: { description: 正确返回时为0, type: integer }
+                  message: { description: 信息描述, type: string }
+                  data: { description: 返回数据体, properties: { province_list: { description: 省份列表, type: array, items: { description: 省份具体参数值, properties: { id: { description: 省id, type: string }, name: { description: 省份名称, type: string }, pid: { description: 省的父级id, type: string }, province_id: { description: 省id, type: string } }, type: object } } }, type: object }
+                type: object
+  /address/cityList:
     get:
       tags:
-      - "你我当年"
-      summary: "查询当前额度"
-      description: ""
-      operationId: "nwdnGetUserInfo"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      responses:
-        200:
-          description: 成功响应
-          schema:
-            $ref: '#/definitions/responseNwdnGetUserInfo'
-        405:
-          description: "Invalid input"
-  /nwdn/task/list:
-    get:
-      tags:
-      - "你我当年"
-      summary: "查询任务列表"
-      description: "查询任务列表信息"
-      operationId: "nwdnTaskList"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
+        - address
+      summary: 市-列表
       parameters:
-      - in: query
-        name: 'page'
-        type: string
-        description: 页码
-        required: false
-      responses:
-        200:
-          description: 成功响应
-          schema:
-            $ref: '#/definitions/responseNwdnTaskList'
-        405:
-          description: "Invalid input"
-  /nwdn/task/face:
-    post:
-      tags:
-        - "你我当年"
-      summary: "创建换脸任务"
-      description: "返回换脸后的图片url"
-      operationId: "nwdnCreateFaceTask"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      parameters:
-        - in: "body"
-          name: "body"
-          description: "sku、肤色与图片url"
+        -
+          name: id
+          in: query
+          description: 省份id
           required: true
           schema:
-            $ref: "#/definitions/requestNwdnCreateFaceTask"
+            type: integer
+            default: '110000'
       responses:
-        200:
-          description: 成功响应
-          schema:
-            $ref: '#/definitions/responseNwdnCreateFaceTask'
-        405:
-          description: "Invalid input"
-  /wxhj/segment:
-    post:
-      tags:
-        - "wxhj"
-      summary: "人脸抠图"
-      description: "返回抠图后的图片url(目前支持jpg和png两种类型,图片分辨率单边不超过2200，大小4MB)"
-      operationId: "wxhjSegment"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      parameters:
-        - in: "body"
-          name: "body"
-          description: "图片类型与图片base64"
-          required: true
-          schema:
-            $ref: "#/definitions/requestWxhjSegment"
-      responses:
-        200:
-          description: 成功响应
-          schema:
-            $ref: '#/definitions/responseWxhjSegment'
-        405:
-          description: "Invalid input"
-  /meitu/head:
-    post:
-      tags:
-        - "meitu"
-      summary: "头部分割"
-      description: "返回抠图后的图片url(目前支持jpg和png两种类型,图片分辨率单边不超过2048，大小2MB)"
-      operationId: "meituHead"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      parameters:
-        - in: "body"
-          name: "body"
-          description: "图片类型与图片base64"
-          required: true
-          schema:
-            $ref: "#/definitions/requestWxhjSegment"
-      responses:
-        200:
-          description: 成功响应
-          schema:
-            $ref: '#/definitions/responseWxhjSegment'
-        405:
-          description: "Invalid input"
-  /reflect/fuse:
-    post:
-      tags:
-        - "reflect"
-      summary: "reflect人脸融合(两张图url)"
-      description: "返回融合后的图片url(建议：图片为jpg和png两种类型,图片分辨率单边不超过2048，大小2MB)"
-      operationId: "reflectFuse"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      parameters:
-        - in: "body"
-          name: "body"
-          description: "图片类型与图片base64"
-          required: true
-          schema:
-            $ref: "#/definitions/requestReflectFuse"
-      responses:
-        200:
-          description: 成功响应
-          schema:
-            $ref: '#/definitions/responseReflectFuse'
-        405:
-          description: "Invalid input"
-  /reflect/upload:
-    post:
-      tags:
-        - "reflect"
-      summary: "reflect图片上传(传图片二进制流,2MB，单边不超过2048)"
-      description: "返回上传后的图片ID和识别出的第一个faceId(建议：图片为jpg和png两种类型,图片分辨率单边不超过2048，大小2MB)"
-      operationId: "reflectUpload"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      parameters:
-        - in: "body"
-          name: "body"
-          description: "图片类型与图片base64"
-          required: true
-          schema:
-            $ref: "#/definitions/requestReflectUpload"
-      responses:
-        200:
-          description: 成功响应
-          schema:
-            $ref: '#/definitions/responseReflectUpload'
-        405:
-          description: "Invalid input"
-  /reflect/fuseFaceById:
-    post:
-      tags:
-        - "reflect"
-      summary: "reflect人脸融合(模板图ID、模板图faceId、用户图faceId)"
-      description: "返回融合后的图片url(配合上传接口使用)"
-      operationId: "reflectFuseFaceById"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      parameters:
-        - in: "body"
-          name: "body"
-          description: "图片类型与图片base64"
-          required: true
-          schema:
-            $ref: "#/definitions/requestReflectFuseFaceById"
-      responses:
-        200:
-          description: 成功响应
-          schema:
-            $ref: '#/definitions/responseReflectFuseFaceById'
-        405:
-          description: "Invalid input"
-  /reflect/faceFuse:
-    post:
-      tags:
-        - "reflect"
-      summary: "reflect人脸融合(sku、肤色、用户图base64)"
-      description: "返回融合后的图片url"
-      operationId: "reflectFaceFuse"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      parameters:
-        - in: "body"
-          name: "body"
-          description: "sku、肤色ethnicity、图片base64(image_base64)"
-          required: true
-          schema:
-            $ref: "#/definitions/requestReflectFaceFuse"
-      responses:
-        200:
-          description: 成功响应
-          schema:
-            $ref: '#/definitions/responseReflectFaceFuse'
-        405:
-          description: "Invalid input"
-  /baidu/enhance:
-    post:
-      tags:
-      - "baidu"
-      summary: "图片无损放大两倍"
-      description: "调用百度图片无损放大API"
-      operationId: "fuzzy"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - in: "body"
-        name: "body"
-        description: "图片base64"
-        required: true
-        schema:
-          $ref: "#/definitions/requestTencentFuzzy"
-      responses:
-        200:
-          description: 成功响应
-          schema:
-            $ref: '#/definitions/responseBaiduEnhance'
-        405:
-          description: "Invalid input"
-      security:
-      - petstore_auth:
-        - "write:pets"
-        - "read:pets"
-  /face/mergeFace:
-    post:
-      tags:
-        - "facepp"
-      summary: "人脸融合"
-      description: "调用facepp人脸融合接口"
-      operationId: "merge"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      parameters:
-        - in: "body"
-          name: "body"
-          description: "图片url或base64,sku"
-          required: true
-          schema:
-            $ref: "#/definitions/requestFaceppMerge"
-      responses:
-        200:
-          description: 成功响应
-          schema:
-            $ref: '#/definitions/responseFaceppMerge'
-        101:
-          description: "Invalid input"
-        102:
-          description: "Preview is not accessed due to website related problem. Please contact customer support!"
-        103:
-          description: "Network Error. Please Try Again Later!"
-        104:
-          description: "Picture is too large, please change and try again."
-        105:
-          description: "No Face Detected. Please change into picture showing the face clearly!"
-        106:
-          description: "Network Error. Please Try Again Later!"
-  /face/faceDetect:
-    post:
-      tags:
-        - "facepp"
-      summary: "人脸识别"
-      description: "调用facepp人脸识别接口"
-      operationId: "detect"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      parameters:
-        - in: "body"
-          name: "body"
-          description: "图片base64"
-          required: true
-          schema:
-            $ref: "#/definitions/requestFaceppDetect"
-      responses:
-        200:
-          description: 成功响应
-          schema:
-            $ref: '#/definitions/responseFaceppDetect'
-  /image/dealImage:
-    post:
-      tags:
-      - "core"
-      summary: "图片处理"
-      description: "原图base64str-压缩-腾讯滤镜-百度无损放大-base64str（图的长宽与原图一致）"
-      operationId: "filter"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - in: "body"
-        name: "body"
-        description: "图片base64"
-        required: true
-        schema:
-          $ref: "#/definitions/requestTencentFilter"
-      responses:
-        200:
-          description: 成功响应
-          schema:
-            $ref: '#/definitions/responseBaiduEnhance'
-        405:
-          description: "Invalid input"
-      security:
-      - petstore_auth:
-        - "write:pets"
-        - "read:pets"
-  /image/compressFuzzy:
-    post:
-      tags:
-      - "core"
-      summary: "图片模糊识别"
-      description: "原图base64str-压缩-腾讯模糊识别"
-      operationId: "fuzzy"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - in: "body"
-        name: "body"
-        description: "图片base64"
-        required: true
-        schema:
-          $ref: "#/definitions/requestTencentFuzzy"
-      responses:
-        200:
-          description: 成功响应
-          schema:
-            $ref: '#/definitions/responseTencentFuzzy'
-        405:
-          description: "Invalid input"
-      security:
-      - petstore_auth:
-        - "write:pets"
-        - "read:pets"
-securityDefinitions:
-  petstore_auth:
-    type: "oauth2"
-    authorizationUrl: "http://petstore.swagger.io/oauth/dialog"
-    flow: "implicit"
-    scopes:
-      write:pets: "modify pets in your account"
-      read:pets: "read your pets"
-  api_key:
-    type: "apiKey"
-    name: "api_key"
-    in: "header"
-definitions:
-  requestTencentFuzzy:
-    type: "object"
-    properties:
-      image:
-        type: string
-        description: "base64编码的图片"
-  requestTencentFilter:
-    type: "object"
-    properties:
-      image:
-        type: string
-        description: "base64编码的图片"
-      filter:
-        type: string
-        description: "1-65"
-  requestFaceppMerge:
-    type: "object"
-    properties:
-      image_base64:
-        type: string
-        description: "base64编码的图片"
-      image_url:
-        type: string
-        description: "图片Url"
-      sku:
-        type: string
-        description: "sku"
-  requestFaceppDetect:
-    type: "object"
-    properties:
-      image_base64:
-        type: string
-        description: "base64编码的图片"
-  requestNwdnCreateTask:
-    type: "object"
-    properties:
-      imgLink:
-        type: string
-        description: "图片链接"
-      imgMd5:
-        type: string
-        description: "图片md5"
-      source:
-        type: string
-        description: "来源(用于统计)"
-  requestNwdnCreateFaceTask:
-    type: "object"
-    properties:
-      sku:
-        type: string
-        description: "sku(如：BH450)"
-      ethnicity:
-        type: string
-        description: "肤色(如：S01)"
-      input_url:
-        type: string
-        description: "用户正脸照url"
-  requestWxhjSegment:
-    type: "object"
-    properties:
-      image_type:
-        type: string
-        description: "图片类型(目前支持jpg和png两种类型)"
-      base64:
-        type: string
-        description: "图片Base64(单边不超过2200，大小不超过4MB)"
-  requestReflectFuse:
-    type: "object"
-    properties:
-      temp_url:
-        type: string
-        description: "模板图URL(建议：单边不超过2048，大小不超过2MB)"
-      user_url:
-        type: string
-        description: "用户图URL(建议：单边不超过2048，大小不超过2MB)"
-  requestReflectUpload:
-    type: "object"
-    properties:
-      image_file:
-        type: string
-        description: "图片二进制流(建议：单边不超过2048，大小不超过2MB)"
-  requestReflectFuseFaceById:
-    type: "object"
-    properties:
-      image_id_temp:
-        type: string
-        description: "模板图reflect的图片ID"
-      face_id_temp:
-        type: string
-        description: "模板图reflect的faceId"
-      face_id_user:
-        type: string
-        description: "用户图reflect的faceId"
-  requestReflectFaceFuse:
-    type: "object"
-    properties:
-      sku:
-        type: string
-        description: "sku"
-      ethnicity:
-        type: string
-        description: "肤色"
-      image_base64:
-        type: string
-        description: "用户图base64"
-  responseTencentFuzzy:
-    type: "object"
-    properties:
-      error:
-        type: integer
-        description: "错误码0正确"
-      message:
-        type: string
-        description: "接口消息提示"
-      fuzzy:
-        type: boolean
-        description: "是否模糊"
-      msg:
-        type: string
-        description: "模糊消息提示，（国际化根据query里的_language判断）"
-  responseFaceppMerge:
-    type: "object"
-    properties:
-      error:
-        type: integer
-        description: "错误码0正确"
-      message:
-        type: string
-        description: "接口消息提示"
-      base64str:
-        type: string
-        description: "融合后的图片base64str"
-  responseFaceppDetect:
-    type: "object"
-    properties:
-      error:
-        type: integer
-        description: "错误码0正确"
-      message:
-        type: string
-        description: "接口消息提示"
-      faceNum:
-        type: string
-        description: "人脸数"
-      isBlur:
-        type: string
-        description: "1-模糊，0-不模糊"
-      detectCode:
-        type: string
-        description: "人脸识别code值(1-人脸数不为一；2-人脸数为一，人脸模糊；3-人脸数为一，人脸不模糊。)"
-  responseTencentFuzzyOrigin:
-    type: "object"
-    properties:
-      error:
-        type: integer
-        description: "错误码0正确"
-      message:
-        type: string
-        description: "接口消息提示"
-      fuzzy:
-        type: boolean
-        description: "是否模糊"
-      confidence:
-        type: number
-        description: "可信程度最大1"
-  responseTencentFilter:
-    type: "object"
-    properties:
-      error:
-        type: integer
-        description: "错误码0正确"
-      message:
-        type: string
-        description: "接口消息提示"
-      image:
-        type: string
-        description: "base64的图片"
-  responseNwdnCreateTask:
-    type: "object"
-    properties:
-      error:
-        type: integer
-        description: "错误码0正确"
-      message:
-        type: string
-        description: "接口消息提示"
-      taskid:
-        type: string
-        description: "任务id"
-      phase:
-        type: integer
-        description: "任务状态状态 0：未开始； 1-6：处理中；7：处理成功；>7任务出错"
-      input_url:
-        type: string
-        description: "传入的图片链接"
-      create_time:
-        type: string
-        description: "创建时间"
-      balance:
-        type: integer
-        description: "剩余额度"
-  responseNwdnCreateFaceTask:
-    type: "object"
-    properties:
-      error:
-        type: integer
-        description: "错误码0正确"
-      message:
-        type: string
-        description: "接口消息提示"
-      taskid:
-        type: string
-        description: "任务id"
-      output_url:
-        type: string
-        description: "换脸后的图片链接"
-  responseWxhjSegment:
-    type: "object"
-    properties:
-      error:
-        type: integer
-        description: "错误码0正确"
-      message:
-        type: string
-        description: "接口消息提示"
-      output_url:
-        type: string
-        description: "换脸后的图片链接"
-  responseReflectFuse:
-    type: "object"
-    properties:
-      error:
-        type: integer
-        description: "错误码0正确"
-      message:
-        type: string
-        description: "接口消息提示"
-      output_url:
-        type: string
-        description: "融合后的图片链接"
-  responseReflectFuseFaceById:
-    type: "object"
-    properties:
-      error:
-        type: integer
-        description: "错误码0正确"
-      message:
-        type: string
-        description: "接口消息提示"
-      output_url:
-        type: string
-        description: "融合后的图片链接"
-  responseReflectFaceFuse:
-    type: "object"
-    properties:
-      error:
-        type: integer
-        description: "错误码0正确"
-      message:
-        type: string
-        description: "接口消息提示"
-      output_url:
-        type: string
-        description: "融合后的图片链接"
-  responseReflectUpload:
-    type: "object"
-    properties:
-      error:
-        type: integer
-        description: "错误码0正确"
-      message:
-        type: string
-        description: "接口消息提示"
-      image_id:
-        type: string
-        description: "reflect的图片ID"
-      face_id:
-        type: string
-        description: "reflect的face_id"
-  responseNwdnGetTask:
-    type: "object"
-    properties:
-      error:
-        type: integer
-        description: "错误码0正确"
-      message:
-        type: string
-        description: "接口消息提示"
-      taskid:
-        type: string
-        description: "任务id"
-      state:
-        type: integer
-        description: "客户端用来判断的任务状态-1未开始   0进行中  1成功  2失败"
-      max_face_num:
-        type: integer
-        description: "可支持最大的识别面部数量"
-      all_face_num:
-        type: integer
-        description: "识别出的面部数量"
-      phase:
-        type: integer
-        description: "任务状态状态 0：未开始； 1-6：处理中；7：处理成功；>7任务出错"
-      input_url:
-        type: string
-        description: "传入的图片链接"
-      output_url:
-        type: string
-        description: "处理结果图片链接"
-      diff_url:
-        type: array
-        description: "处理结果图片链接"
-        items:
-          type: object
-          properties:
-            coords:
-              type: array
-              description: "坐标"
-              items:
-                type: number
-                example: [
-                  195.1309814453125,
-                  423.09063720703125
-                ]
-            url:
-              type: string
-              description: "脸部链接"
-              example: "https:\/\/nwdn-hd2.oss-cn-shanghai.aliyuncs.com\/seekings2\/3bcfdfc5b32f177db00ee0421cece17c_face_0.jpg"
-      create_time:
-        type: string
-        description: "创建时间"
-      balance:
-        type: integer
-        description: "剩余额度"
-  responseNwdnGetUserInfo:
-    type: "object"
-    properties:
-      error:
-        type: integer
-        description: "错误码0正确"
-      message:
-        type: string
-        description: "接口消息提示"
-      balance:
-        type: integer
-        description: "剩余额度"
-      total:
-        type: integer
-        description: "调用的次数"
-  responseNwdnTaskList:
-    type: "object"
-    properties:
-      error:
-        type: integer
-        description: "错误码0正确"
-      message:
-        type: string
-        description: "接口消息提示"
-      list:
-        type: array
-        description: "任务列表"
-        items:
-          type: object
-          example: {
-            "id": "14b47a9af45d96bd66e6447c13ab117b",
-            "phase": 7,
-            "input_url": "https:\/\/spic.qn.cdn.imaiyuan.com\/T190724230010001-1564714185154.png-soufeel_ai",
-            "pay_type": "pay",
-            "sequence": 55749,
-            "output_url": "https:\/\/nwdn-hd2.oss-cn-shanghai.aliyuncs.com\/seekings2\/14b47a9af45d96bd66e6447c13ab117b.jpg",
-            "author_id": "vip_aws",
-            "create_time": "2019-08-02 10:50:29",
-            "max_face_num": "20",
-            "all_face_num": "2"
-          }
-  responseBaiduEnhance:
-    type: "object"
-    properties:
-      error:
-        type: integer
-        description: "错误码0正确"
-      message:
-        type: string
-        description: "接口消息提示"
-      image:
-        type: string
-        description: "处理后图片的BASE64编码"
-      error_code:
-        type: integer
-        description: "百度接口的error_code值"
-      error_msg:
-        type: string
-        description: "百度接口的error_msg值"
-      log_id:
-        type: string
-        description: "唯一的log id，用于问题定位"
-
-  ApiResponse:
-    type: "object"
-    properties:
-      code:
-        type: "integer"
-        format: "int32"
-      type:
-        type: "string"
-      message:
-        type: "string"
-externalDocs:
-  description: "Find out more about Swagger"
-  url: "http://swagger.io"
+        '200':
+          description: 'successful operation'
+          content:
+            application/json:
+              schema:
+                properties:
+                  error: { description: 正确返回时为0, type: integer }
+                  message: { description: 信息描述, type: string }
+                  data: { description: 返回数据体, properties: { province_list: { description: 省份列表, type: array, items: { description: 省份具体参数值, properties: { id: { description: 市id, type: string }, name: { description: 市名称, type: string }, pid: { description: 市的父级id, type: string }, city_id: { description: 市id, type: string } }, type: object } } }, type: object }
+                type: object

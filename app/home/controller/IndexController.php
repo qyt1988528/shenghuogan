@@ -11,6 +11,7 @@ class IndexController extends Controller
 {
 
     /**
+     * 首页接口
      * Index action.
      * @return void
      * @Route("/", methods="GET", name="home")

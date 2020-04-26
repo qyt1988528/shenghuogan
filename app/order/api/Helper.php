@@ -680,7 +680,7 @@ class Helper extends Api
         $orderStatus = $this->_order['order_status']['finish'];
         //营业总额
         $orderData = $this->modelsManager->createBuilder()
-            ->columns('sum(goods_current_amount) as total_amount,count(1) as order_num')
+            ->columns('sum(goods_current_amount) as total_amount,count(distinct(order_id)) as order_num')
             ->from(['sg' => 'Order\Model\OrderGoods'])
             ->where('sg.merchant_id = :merchant_id: ', ['merchant_id' => $merchantId])
             ->andWhere('sg.status = :valid: ', ['valid' => $this->_config['data_status']['valid']])
@@ -699,14 +699,36 @@ class Helper extends Api
             ->getSingleResult();
         //今日营业额
         //今日订单数
+        $todayOrderData = $this->modelsManager->createBuilder()
+            ->columns('sum(goods_current_amount) as total_amount,count(distinct(order_id)) as order_num')
+            ->from(['sg' => 'Order\Model\OrderGoods'])
+            ->where('sg.merchant_id = :merchant_id: ', ['merchant_id' => $merchantId])
+            ->andWhere('sg.add_timestamp = :add_timestamp: ', ['add_timestamp' => $this->getTodayStamp()])
+            ->andWhere('sg.status = :valid: ', ['valid' => $this->_config['data_status']['valid']])
+            ->groupBy('order_id')
+            ->getQuery()
+            ->getSingleResult();
         //今日新增用户数
+        $todayUserData = $this->modelsManager->createBuilder()
+            ->columns('count(distinct(user_id)) as user_num')
+            ->from(['sg' => 'Order\Model\OrderGoods'])
+            ->where('sg.merchant_id = :merchant_id: ', ['merchant_id' => $merchantId])
+            ->andWhere('sg.first_buy = :first_buy: ', ['first_buy' => 1])
+            ->andWhere('sg.add_timestamp = :add_timestamp: ', ['add_timestamp' => $this->getTodayStamp()])
+            ->andWhere('sg.status = :valid: ', ['valid' => $this->_config['data_status']['valid']])
+            ->groupBy('order_id')
+            ->getQuery()
+            ->getSingleResult();
         return [
             'total_amount' => $orderData->total_amount ?? 0,
             'order_count' => $orderData->order_num ?? 0,
             'user_count' => $userData->user_num ?? 0,
-            'today_total_amount' => 0,
-            'today_order_count' => 0,
-            'today_user_count' => 0,
+            'today_total_amount' => $todayOrderData->total_amount ?? 0,
+            'today_order_count' => $todayOrderData->order_num ?? 0,
+            'today_user_count' => $todayUserData->user_num ?? 0,
+            // 'today_total_amount' => 0,
+            // 'today_order_count' => 0,
+            // 'today_user_count' => 0,
         ];
 
     }
