@@ -1,13 +1,23 @@
 openapi: 3.0.0
 info:
-  title: '生活港小程序API文档'
+  title: '生活港小程序API'
+  description: "接口文档"
   version: 1.0.0
+  contact:
+    email: "406486706@qq.com"
 paths:
   /addressadmin/create:
     post:
       tags:
         - address
       summary: 添加地址
+      parameters:
+        -
+          name: Token
+          in: header
+          required: true
+          schema:
+            type: string
       requestBody:
         description: 添加地址时所需传的数据
         content:
@@ -56,6 +66,13 @@ paths:
       tags:
         - address
       summary: 更新地址
+      parameters:
+        -
+          name: Token
+          in: header
+          required: true
+          schema:
+            type: string
       requestBody:
         description: 更新地址时所需传的数据
         content:
@@ -108,6 +125,13 @@ paths:
       tags:
         - address
       summary: 删除地址
+      parameters:
+        -
+          name: Token
+          in: header
+          required: true
+          schema:
+            type: string
       requestBody:
         description: 更新地址时所需传的数据
         content:
@@ -170,5 +194,53 @@ paths:
                 properties:
                   error: { description: 正确返回时为0, type: integer }
                   message: { description: 信息描述, type: string }
-                  data: { description: 返回数据体, properties: { province_list: { description: 省份列表, type: array, items: { description: 省份具体参数值, properties: { id: { description: 市id, type: string }, name: { description: 市名称, type: string }, pid: { description: 市的父级id, type: string }, city_id: { description: 市id, type: string } }, type: object } } }, type: object }
+                  data: { description: 返回数据体, properties: { city_list: { description: 市列表, type: array, items: { description: 市具体参数值, properties: { id: { description: 市id, type: string }, name: { description: 市名称, type: string }, pid: { description: 市的父级id, type: string }, city_id: { description: 市id, type: string } }, type: object } } }, type: object }
+                type: object
+  /address/countyList:
+    get:
+      tags:
+        - address
+      summary: 区-列表
+      parameters:
+        -
+          name: id
+          in: query
+          description: 市id
+          required: true
+          schema:
+            type: integer
+            default: '110100'
+      responses:
+        '200':
+          description: 'successful operation'
+          content:
+            application/json:
+              schema:
+                properties:
+                  error: { description: 正确返回时为0, type: integer }
+                  message: { description: 信息描述, type: string }
+                  data: { description: 返回数据体, properties: { county_list: { description: 区列表, type: array, items: { description: 区具体参数值, properties: { id: { description: 区id, type: string }, name: { description: 区名称, type: string }, pid: { description: 区的父级id, type: string }, county_id: { description: 区id, type: string } }, type: object } } }, type: object }
+                type: object
+  /addressadmin/list:
+    get:
+      tags:
+        - address
+      summary: 获取当前用户已保存的地址列表
+      parameters:
+        -
+          name: Token
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'successful operation'
+          content:
+            application/json:
+              schema:
+                properties:
+                  error: { description: 正确返回时为0, type: integer }
+                  message: { description: 信息描述, type: string }
+                  data: { description: 返回数据体, properties: { address_list: { description: 地址列表, type: array, items: { description: 具体值, properties: { id: { description: 地址id, type: string }, user_id: { description: 用户id, type: string }, merchant_id: { description: 商户id, type: string }, name: { description: 该地址对应的用户姓名, type: string }, cellphone: { description: 手机号, type: string }, province_id: { description: 省id, type: string }, city_id: { description: 市id, type: string }, county_id: { description: 区id, type: string }, detailed_address: { description: 详细地址, type: string }, is_default: { description: 是否为默认地址, type: string }, goods_type: { description: 此数据表类型, type: string }, create_time: { description: 创建时间, type: string }, update_time: { description: 更新时间, type: string }, status: { description: 数据有效性, type: string }, address_name: { description: 省市区, type: string } }, type: object } } }, type: object }
                 type: object
