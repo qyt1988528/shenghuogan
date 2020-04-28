@@ -153,16 +153,16 @@ class Take extends Api
             ->toArray();
         //取件规格 和 可选服务 的文字描述
         foreach ($goods as &$v){
-            if(isset($v['specs_id']) && empty($v['specs_id'])){
+            if(isset($v['specs_id']) && !empty($v['specs_id'])){
                 $desSpecs = $this->app->express->api->Helper()->getTypeList(2,$v['specs_id']);
                 if(empty($desSpecs)){
                     $v['specs_description'] = '';
                 }else{
-                    $v['specs_description'] = $desSpecs['description'];
+                    $v['specs_description'] = htmlspecialchars($desSpecs['description']);
                 }
 
             }
-            if(isset($v['optional_service_id']) && empty($v['optional_service_id'])){
+            if(isset($v['optional_service_id']) && !empty($v['optional_service_id'])){
                 $desOptional = $this->app->express->api->Helper()->getTypeList(3,$v['optional_service_id']);
                 if(empty($desOptional)){
                     $v['optional_service_description'] = '';
@@ -172,6 +172,7 @@ class Take extends Api
 
             }
         }
+        // var_dump($goods);exit;
         return $goods;
 
     }
