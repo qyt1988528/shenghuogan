@@ -149,7 +149,8 @@ class Send extends Api
             ->orderBy('publish_time desc')
             ->limit($start,$pageSize)
             ->getQuery()
-            ->execute();
+            ->execute()
+            ->toArray();
         return $goods;
 
     }

@@ -128,15 +128,29 @@ class Helper extends Api
      * @param int $typeId
      * @return mixed
      */
-    public function getTypeList($typeId=1){
+    public function getTypeList($typeId=1,$id=0){
         //分页
-        $goods = $this->modelsManager->createBuilder()
-            ->columns('id,type_id,description,gratuity')
-            ->from(['sg'=>'Express\Model\Express'])
-            ->Where('sg.type_id = :type_id: ',['type_id'=>$typeId])
-            ->andWhere('sg.status = :valid: ',['valid'=>$this->_config['data_status']['valid']])
-            ->getQuery()
-            ->execute();
+        $id = intval($id);
+        if(empty($id)){
+            $goods = $this->modelsManager->createBuilder()
+                ->columns('id,type_id,description,gratuity')
+                ->from(['sg'=>'Express\Model\Express'])
+                ->Where('sg.type_id = :type_id: ',['type_id'=>$typeId])
+                ->andWhere('sg.status = :valid: ',['valid'=>$this->_config['data_status']['valid']])
+                ->getQuery()
+                ->execute();
+        }else{
+            $goods = $this->modelsManager->createBuilder()
+                ->columns('id,type_id,description,gratuity')
+                ->from(['sg'=>'Express\Model\Express'])
+                ->Where('sg.type_id = :type_id: ',['type_id'=>$typeId])
+                ->andWhere('sg.id = :id: ',['id'=>$id])
+                ->andWhere('sg.status = :valid: ',['valid'=>$this->_config['data_status']['valid']])
+                ->getQuery()
+                ->getSingleResult()
+                ->toArray();
+        }
+
         return $goods;
 
     }
