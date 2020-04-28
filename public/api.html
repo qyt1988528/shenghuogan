@@ -38,8 +38,9 @@
     <script>
     window.onload = function() {
       // Begin Swagger UI call region
+        var randNum = Math.ceil(Math.random()*1000);
       const ui = SwaggerUIBundle({
-        url: "http://47.104.69.159/shenghuogang.yaml",
+        url: "http://47.104.69.159/shenghuogang.yaml?rand="+randNum,
         dom_id: '#swagger-ui',
         deepLinking: true,
         presets: [
