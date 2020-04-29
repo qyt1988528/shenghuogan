@@ -128,6 +128,9 @@ class IndexController extends Controller
     //商家-财务管理
     //总收入、本月收入
     //账单(时间段、收入、支出、明细)、商家提现(提现记录)
+    public function amountAction(){
+
+    }
 
     public function get_client_ip()
     {
