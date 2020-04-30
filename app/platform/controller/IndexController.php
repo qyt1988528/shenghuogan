@@ -264,10 +264,10 @@ class IndexController extends Controller
         $page = $this->request->getParam('page',null,1);
         //分页
         try{
-            $data['data'] = [];
+            $data['data']['merchant_list'] = [];
             $merchants = $this->app->merchant->api->MerchantManage()->getList($keywords,$page);
             if(!empty($merchants)){
-                $data['data'] = $merchants;
+                $data['data']['merchant_list'] = $merchants;
             }
         }catch (\Exception $e){
             $this->resultSet->error($e->getCode(),$e->getMessage());
