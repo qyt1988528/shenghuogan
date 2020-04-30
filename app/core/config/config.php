@@ -48,6 +48,7 @@ return [
         'unlogin' => 'Not logged in.Please Login!',
         'unmerchant' => 'Not Merchant.Please contact the platform!',
         'unplatform' => 'Not Platform User.Please contact the platform!',
+        'cellphone' => 'Incorrect phone number!',
     ],
     'express_server' => [],
     'express_take_specs' => [],
