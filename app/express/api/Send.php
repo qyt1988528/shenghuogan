@@ -31,9 +31,10 @@ class Send extends Api
             'merchant_id' => $postData['merchant_id'] ?? 0,
             // 'publish_user_id' => $postData['publish_user_id'] ?? 0
         ];
+        /*
         if(!isset($postData['together_price']) || empty($postData['together_price'])){
-            $defaultInsertFields['together_price'] = $postData['self_price'];
-        }
+            $defaultInsertFields['together_price'] = $postData['self_price'] ;
+        }*/
         //is_recommend、sort、update_time、status采用默认值
         return $defaultInsertFields;
     }

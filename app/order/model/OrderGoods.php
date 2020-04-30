@@ -68,6 +68,21 @@ class OrderGoods extends Model
 // `goods_current_amount` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '商品现价-成交价',
     /**
      *
+     * @Column(type="float", size="20", nullable=true, column="current_charge_percent")
+     */
+    public $current_charge_percent;
+    /**
+     *
+     * @Column(type="float", size="20", nullable=true, column="charge_amount")
+     */
+    public $charge_amount;
+    /**
+     *
+     * @Column(type="float", size="20", nullable=true, column="real_income")
+     */
+    public $real_income;
+    /**
+     *
      * @Column(type="string", nullable=true, column="goods_type")
      */
     public $goods_type;
