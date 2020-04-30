@@ -131,6 +131,16 @@ class IndexController extends Controller
     public function amountAction(){
 
     }
+    /**
+     * 平台添加快递的 规格 和 可选服务
+     * Create action.
+     * @return void
+     * @Route("/confirm", methods="POST", name="merchant")
+     */
+    public function expressAction(){
+
+
+    }
 
     public function get_client_ip()
     {

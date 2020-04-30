@@ -1,56 +1,68 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: qiuyutao
+ * Date: 2020/4/30
+ * Time: 下午12:33
+ */
 namespace Express\Api;
 
-use Express\Model\ExpressTake;
+use Express\Model\Express as ExpressModel;
 use MDK\Api;
 
-class Take extends Api
+class ExpressAdmin extends Api
 {
     private $_config;
     private $_model;
     public function __construct() {
         $this->_config = $this->app->core->config->config->toArray();
-        $this->_model = new ExpressTake();
+        $this->_model = new ExpressModel();
     }
 
     public function getInsertFields(){
         return $insertFields = [
-            'address_id',
-            'specs_id',
-            'optional_service_id',
+            'type_id',
             'description',
-            'num',
-            'publish_user_id'
+            'gratuity',
+            'publish_user_id',
         ];
     }
     public function getDefaultInsertFields($postData){
         $defaultInsertFields = [
-            'remarks' => $postData['remarks'] ?? '',
-            'gratuity' => $postData['gratuity'] ?? 0,
-            'is_hiring' => $this->_config['hiring_status']['hiring'],
             'create_time' => date('Y-m-d H:i:s'),
-            'publish_time' => date('Y-m-d H:i:s'),
-            'merchant_id' => $postData['merchant_id'] ?? 0,
             // 'publish_user_id' => $postData['publish_user_id'] ?? 0
         ];
-        $defaultInsertFields['total_price'] = $this->calcTotalPrice($postData);
+        /*
+        if(!isset($postData['together_price']) || empty($postData['together_price'])){
+            $defaultInsertFields['together_price'] = $postData['self_price'] ;
+        }*/
         //is_recommend、sort、update_time、status采用默认值
         return $defaultInsertFields;
     }
-    public function createTake($postData){
+    public function create($postData){
         try{
             $insertData = $this->getDefaultInsertFields($postData);
             foreach ($this->getInsertFields() as $v){
                 $insertData[$v] = $postData[$v];
+                // $insertData[$v] = htmlspecialchars($postData[$v]);
             }
             $model = $this->_model;
-            $model->create($insertData);
+            // var_dump($insertData);exit;
+            $ret = $model->create($insertData);
+            /*
+            if(empty($ret)){
+                foreach ($model->getMessages() as $message) {
+                    echo $message->getMessage(), "<br/>";
+                }
+            }exit;
+            */
             return !empty($model->id) ? $model->id : 0;
         }catch (\Exception $e){
+            // var_dump($e->getMessage());exit;
             return 0;
         }
     }
-    public function updateTake($postData){
+    public function update($postData){
         try{
             $updateData = ['id' => $postData['id']];
             $updateModel = $this->_model->findFirstById($postData['id']);
@@ -71,7 +83,7 @@ class Take extends Api
         }
     }
     //下架
-    public function withdrawTake($goodsId,$userId){
+    public function withdraw($goodsId,$userId){
         try{
             $updateModel = $this->_model->findFirstById($goodsId);
             if(empty($updateModel)){
@@ -83,7 +95,7 @@ class Take extends Api
             }
             $updateData = [
                 'id' => $goodsId,
-                'is_selling' => $this->_config['hiring_status']['unselling'],
+                'is_hiring' => $this->_config['hiring_status']['unhiring'],
             ];
             $updateModel->update($updateData);
             return true;
@@ -91,7 +103,7 @@ class Take extends Api
             return false;
         }
     }
-    public function deleteTake($goodsId,$userId){
+    public function delete($goodsId,$userId){
         try{
             $invalid = $this->_config['data_status']['invalid'];
             $updateModel = $this->_model->findFirstById($goodsId);
@@ -126,7 +138,7 @@ class Take extends Api
     public function search($goodsName){
         $goods = $this->modelsManager->createBuilder()
             ->columns('*')
-            ->from(['sg'=>'Express\Model\ExpressTake'])
+            ->from(['sg'=>'Secondhand\Model\Second'])
             ->where('sg.is_hiring = :hiring: ',['hiring'=>$this->_config['hiring_status']['hiring']])
             ->andWhere('sg.status = :valid: ',['valid'=>$this->_config['data_status']['valid']])
             ->andWhere('sg.title like :goodsName: ',['goodsName' => '%'.$goodsName.'%'])
@@ -143,7 +155,7 @@ class Take extends Api
         $start = ($page-1)*$pageSize;
         $goods = $this->modelsManager->createBuilder()
             ->columns('*')
-            ->from(['sg'=>'Express\Model\ExpressTake'])
+            ->from(['sg'=>'Express\Model\ExpressSend'])
             ->where('sg.is_hiring = :hiring: ',['hiring'=>$this->_config['hiring_status']['hiring']])
             ->andWhere('sg.status = :valid: ',['valid'=>$this->_config['data_status']['valid']])
             ->orderBy('publish_time desc')
@@ -151,55 +163,8 @@ class Take extends Api
             ->getQuery()
             ->execute()
             ->toArray();
-        //取件规格 和 可选服务 的文字描述
-        foreach ($goods as &$v){
-            if(isset($v['specs_id']) && !empty($v['specs_id'])){
-                $desSpecs = $this->app->express->api->Helper()->getTypeList(2,$v['specs_id']);
-                if(empty($desSpecs)){
-                    $v['specs_description'] = '';
-                }else{
-                    $v['specs_description'] = $desSpecs['description'];
-                    // $v['specs_description'] = htmlspecialchars($desSpecs['description']);
-                }
-
-            }
-            if(isset($v['optional_service_id']) && !empty($v['optional_service_id'])){
-                $desOptional = $this->app->express->api->Helper()->getTypeList(3,$v['optional_service_id']);
-                if(empty($desOptional)){
-                    $v['optional_service_description'] = '';
-                }else{
-                    $v['optional_service_description'] = $desOptional['description'];
-                }
-
-            }
-        }
-        // var_dump($goods);exit;
         return $goods;
 
-    }
-
-    public function calcTotalPrice($postData){
-        $total = 0;
-        $num = $postData['num'] ?? 0;
-        $num = (int) $num;
-        //规格
-        $specsId = $postData['specs_id'] ?? 0;
-        $specsData = $this->app->express->api->Helper()->detail($specsId);
-        if(!empty($specsData) && isset($specsData->gratuity)){
-            $total += (float)$specsData->gratuity;
-        }
-        //可选
-        $optionalServiceId = $postData['optional_service_id'] ?? 0;
-        $optionalServiceData = $this->app->express->api->Helper()->detail($optionalServiceId);
-        if(!empty($optionalServiceData) && isset($optionalServiceData->gratuity)){
-            $total += (float)$optionalServiceData->gratuity;
-        }
-        $total = $total * $num;
-        //小费
-        if(isset($postData['gratuity'])){
-            $total += (float)$postData['gratuity'];
-        }
-        return $total;
     }
 
 
@@ -208,6 +173,11 @@ class Take extends Api
         $condition .= " and status = ".$this->_config['data_status']['valid'];
         $goods = $this->_model->findFirst($condition);
         if(!empty($goods)){
+            //如果是默认值
+            if(isset($goods->publish_user_id) && $goods->publish_user_id == 0){
+                return true;
+            }
+
             if(isset($goods->publish_user_id) && $goods->publish_user_id==$userId){
                 return true;
             }else{
@@ -229,4 +199,5 @@ class Take extends Api
         }
 
     }
+
 }

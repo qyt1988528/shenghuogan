@@ -1,10 +1,10 @@
 <?php
 
-namespace Express\Model;
+namespace Merchant\Model;
 
 use MDK\Model;
 
-class Express extends Model
+class MerchantOperationLog extends Model
 {
     /**
      *
@@ -16,24 +16,41 @@ class Express extends Model
 
     /**
      *
-     * @Column(type="integer", nullable=true, column="type_id")
+     * @Column(type="integer", size="11", nullable=true, column="merchant_id")
      */
-    public $type_id;
+    public $merchant_id;
     /**
      *
-     * @Column(type="string", size="255", nullable=true, column="description")
+     * @Column(type="integer", size="11", nullable=true, column="user_id")
      */
-    public $description;
+    public $user_id;
     /**
      *
-     * @Column(type="float", nullable=true, column="gratuity")
+     * @Column(type="string", nullable=true, column="before_data")
      */
-    public $gratuity;
+    public $before_data;
+
     /**
      *
-     * @Column(type="integer", size="11", nullable=true, column="publish_user_id")
+     * @Column(type="string", size="100", nullable=true, column="after_data")
      */
-    public $publish_user_id;
+    public $after_data;
+    /**
+     *
+     * @Column(type="string", size="255", nullable=true, column="action_name")
+     */
+    public $action_name;
+
+    /**
+     *
+     * @Column(type="string", nullable=true, column="goods_type")
+     */
+    public $goods_type;
+    /**
+     *
+     * @Column(type="integer", nullable=true, column="goods_id")
+     */
+    public $goods_id;
     /**
      *
      * @Column(type="string", nullable=true, column="create_time")
@@ -78,5 +95,7 @@ class Express extends Model
     {
         return parent::findFirst($parameters);
     }
+
+
 
 }

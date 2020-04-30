@@ -47,6 +47,7 @@ return [
         'not_exist' => 'It does not exist!',
         'unlogin' => 'Not logged in.Please Login!',
         'unmerchant' => 'Not Merchant.Please contact the platform!',
+        'unplatform' => 'Not Platform User.Please contact the platform!',
     ],
     'express_server' => [],
     'express_take_specs' => [],

@@ -42,6 +42,24 @@ class UserApi extends Api
         return $merchantId;
     }
 
+    public function getPlatformIdByUserId($userId)
+    {
+        if(empty($userId)){
+            return 0;
+        }
+        $platform = $this->detail($userId);
+        $platformId = 0;
+        if (!empty($platform)) {
+            $platformId = $platform->merchant_id ?? 0;
+            /*
+            if($platformId != -1){
+                $platformId = 0;
+            }
+            */
+        }
+        return $platformId;
+    }
+
     public function getInsertFields()
     {
         return [
