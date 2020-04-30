@@ -5101,6 +5101,325 @@
 			"item": []
 		},
 		{
+			"name": "平台操作商户",
+			"item": [
+				{
+					"name": "商户-添加",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "qyt商户",
+									"description": "商户名称",
+									"type": "text"
+								},
+								{
+									"key": "cellphone",
+									"value": "万达儿童主题乐园门票",
+									"description": "手机号",
+									"type": "text"
+								},
+								{
+									"key": "image_identity_card",
+									"value": "100",
+									"description": "法人\b身份证正面",
+									"type": "text"
+								},
+								{
+									"key": "image_business_license",
+									"value": "11",
+									"description": "营业执照",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://47.104.69.159/platform/createMerchant",
+							"protocol": "http",
+							"host": [
+								"47",
+								"104",
+								"69",
+								"159"
+							],
+							"path": [
+								"platform",
+								"createMerchant"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "商户-更新",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "商户ID",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "qytupdate商户",
+									"description": "商户名称",
+									"type": "text"
+								},
+								{
+									"key": "cellphone",
+									"value": "13187654321",
+									"description": "商户手机号",
+									"type": "text"
+								},
+								{
+									"key": "image_identity_card",
+									"value": "友谊路更新1",
+									"description": "商户身份证正面",
+									"type": "text"
+								},
+								{
+									"key": "image_business_license",
+									"value": "香格里拉描述更新",
+									"description": "商户营业执照",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://47.104.69.159/platform/updateMerchant",
+							"protocol": "http",
+							"host": [
+								"47",
+								"104",
+								"69",
+								"159"
+							],
+							"path": [
+								"platform",
+								"updateMerchant"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "商户-审核通过或使之营业",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "\b使之通过的商户ID或使之营业的商户ID",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://47.104.69.159/platform/openingMerchant",
+							"protocol": "http",
+							"host": [
+								"47",
+								"104",
+								"69",
+								"159"
+							],
+							"path": [
+								"platform",
+								"openingMerchant"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "商户-使之停业",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Token",
+								"type": "text",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "使之停业的商户ID",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://47.104.69.159/platform/closingMerchant",
+							"protocol": "http",
+							"host": [
+								"47",
+								"104",
+								"69",
+								"159"
+							],
+							"path": [
+								"platform",
+								"closingMerchant"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "商户-删除",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Token",
+								"type": "text",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "准备删除的商户ID",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://47.104.69.159/platform/deleteMerchant",
+							"protocol": "http",
+							"host": [
+								"47",
+								"104",
+								"69",
+								"159"
+							],
+							"path": [
+								"platform",
+								"deleteMerchant"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "商户-列表(含搜索)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://47.104.69.159/platform/listMerchant?keywords=1",
+							"protocol": "http",
+							"host": [
+								"47",
+								"104",
+								"69",
+								"159"
+							],
+							"path": [
+								"platform",
+								"listMerchant"
+							],
+							"query": [
+								{
+									"key": "keywords",
+									"value": "1",
+									"description": "关键词(商户名称或手机号)"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "商户-详情",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://47.104.69.159/platform/detailMerchant?id=1",
+							"protocol": "http",
+							"host": [
+								"47",
+								"104",
+								"69",
+								"159"
+							],
+							"path": [
+								"platform",
+								"detailMerchant"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "上传图片",
 			"request": {
 				"method": "POST",
