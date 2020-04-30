@@ -3362,7 +3362,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://47.104.69.159/express/getExpressConfig?type=4",
+							"raw": "http://47.104.69.159/express/getExpressConfig?type=2",
 							"protocol": "http",
 							"host": [
 								"47",
@@ -3377,7 +3377,7 @@
 							"query": [
 								{
 									"key": "type",
-									"value": "4",
+									"value": "2",
 									"description": "1-寄快递，2-取件规格，3-可选服务，4快递列表"
 								}
 							]
@@ -3570,6 +3570,96 @@
 							"path": [
 								"expressadmin",
 								"createSend"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "\b快递-平台添加快递配置",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "type_id",
+									"value": "2",
+									"description": "2-取件规格(取快递),3-可选服务(取快递)",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "小件(<2kg)",
+									"description": "描述",
+									"type": "text"
+								},
+								{
+									"key": "gratuity",
+									"value": "2",
+									"description": "小费金额(\b元)",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://47.104.69.159/platform/createExpress",
+							"protocol": "http",
+							"host": [
+								"47",
+								"104",
+								"69",
+								"159"
+							],
+							"path": [
+								"platform",
+								"createExpress"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "快递-平台删除快递配置",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "19",
+									"description": "配置id",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://47.104.69.159/platform/deleteExpress",
+							"protocol": "http",
+							"host": [
+								"47",
+								"104",
+								"69",
+								"159"
+							],
+							"path": [
+								"platform",
+								"deleteExpress"
 							]
 						}
 					},
@@ -4630,7 +4720,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"order_data\": {\n        \"address_id\": 1,\n        \"coupon_no\": \"\",\n        \"goods_data\": [\n            {\n                \"goods_id\": 1,\n                \"goods_type\": \"second\",\n                \"goods_num\": 1\n            },\n            {\n                \"goods_id\": 1,\n                \"goods_type\": \"supermarket_goods\",\n                \"goods_num\": 1\n            },\n            {\n                \"goods_id\": 2,\n                \"goods_type\": \"ticket\",\n                \"goods_num\": 2\n            }\n        ]\n    }\n}"
+							"raw": "{\n    \"order_data\": {\n        \"address_id\": 1,\n        \"coupon_no\": \"\",\n        \"goods_data\": [\n            {\n                \"goods_id\": 1,\n                \"goods_type\": \"second\",\n                \"goods_num\": 1\n            },\n            {\n                \"goods_id\": 1,\n                \"goods_type\": \"supermarket_goods\",\n                \"goods_num\": 1\n            },\n            {\n                \"goods_id\": 1,\n                \"goods_type\": \"hotel\",\n                \"goods_num\": 1,\n                \"goods_start_date\":\"2020-03-12\",\n                \"goods_end_date\":\"2020-03-13\"\n            }\n        ]\n    }\n}"
 						},
 						"url": {
 							"raw": "http://47.104.69.159/order/create",
@@ -4672,7 +4762,7 @@
 							"urlencoded": [
 								{
 									"key": "order_id",
-									"value": "5",
+									"value": "68",
 									"description": "订单Id(必填)",
 									"type": "text"
 								}
