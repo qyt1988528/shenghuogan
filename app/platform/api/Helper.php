@@ -14,6 +14,8 @@ class Helper extends Api
     private $_orderGoodsModel;
     private $_orderModel;
     private $_merchantOperationLogModel;
+    private $_certStatus;
+    private $_certApi;
 
     public function __construct()
     {
@@ -22,6 +24,8 @@ class Helper extends Api
         $this->_orderGoodsModel = new OrderGoods();
         $this->_orderModel = new Order();
         $this->_merchantOperationLogModel = new MerchantOperationLog();
+        $this->_certStatus = $this->app->core->config->certification->toArray();
+        $this->_certApi = $this->app->parttimejob->api->Certification();
     }
 
     //根据商品类型和商户ID查询所有未删除的商品
@@ -151,6 +155,58 @@ class Helper extends Api
 
 
     }
+
+    //获取实名认证的列表(含手机号搜索)
+    public function certificationList($cellphone='',$page=1){
+        //获得待审核和已通过的单人的最后一条
+        return $this->app->parttimejob->api->Certification()->getList($cellphone, $page);
+    }
+
+    //实名认证审核 通过 和 拒绝 通过后检查是否有相同手机号的商户，有则绑定
+    public function passCertification($certId,$auditUserId){
+        //查询该ID是否存在
+        if(empty($certId)){
+            return false;
+        }
+        $certData = $this->app->parttimejob->api->Certification()->detail($certId);
+        if(empty($certData)){
+            return false;
+        }
+        $certData = $certData->toArray();
+        //置为通过
+        $certStatus = $this->_certStatus['certification_status']['passed']['code'];
+        $updateCertResult = $this->app->parttimejob->api->Certification()->updateCertStatus($certId,$certStatus,$auditUserId);
+        if(empty($updateCertResult)){
+            return false;
+        }
+        //查询是否有相同手机号的商户 有则绑定
+        // var_dump($certData['cellphone']);exit;
+        $merchantData = $this->app->merchant->api->MerchantManage()->detailByCellphone($certData['cellphone']);
+        if(!empty($merchantData)){
+            $merchantData = $merchantData->toArray();
+            //绑定商户
+            $userId = $certData['upload_user_id'];
+            $merchantId = $merchantData['id'];
+            $this->app->tencent->api->UserApi()->bindMerchant($userId, $merchantId);
+        }
+        return true;
+    }
+    //实名认证不通过
+    public function refuseCertification($certId,$auditUserId){
+        //查询该ID是否存在
+        if(empty($certId)){
+            return false;
+        }
+        $certData = $this->app->parttimejob->api->Certification()->detail($certId);
+        if(empty($certData)){
+            return false;
+        }
+        //置为拒绝
+        $certStatus = $this->_certStatus['certification_status']['refused']['code'];
+        return $this->app->parttimejob->api->Certification()->updateCertStatus($certId,$certStatus,$auditUserId);
+    }
+
+
 
 
 

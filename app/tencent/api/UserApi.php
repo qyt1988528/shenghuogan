@@ -29,9 +29,10 @@ class UserApi extends Api
         }
         return $userId;
     }
+
     public function getMerchantIdByUserId($userId)
     {
-        if(empty($userId)){
+        if (empty($userId)) {
             return 0;
         }
         $merchant = $this->detail($userId);
@@ -44,7 +45,7 @@ class UserApi extends Api
 
     public function getPlatformIdByUserId($userId)
     {
-        if(empty($userId)){
+        if (empty($userId)) {
             return 0;
         }
         $platform = $this->detail($userId);
@@ -119,7 +120,7 @@ class UserApi extends Api
         }
     }
 
-    public function updateUser($postData,$create)
+    public function updateUser($postData, $create)
     {
         try {
             $updateModel = $this->_model->findFirstById($postData['id']);
@@ -131,11 +132,32 @@ class UserApi extends Api
             foreach ($this->getInsertFields() as $v) {
                 $updateData[$v] = $postData[$v];
             }
-            if($create){
+            if ($create) {
                 $keyTime = time();
                 $updateData['key_time'] = $keyTime;
                 $updateData['access_token'] = $this->makeAccessToken($updateData['id'], $keyTime);
             }
+            $updateModel->update($updateData);
+            return true;
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+
+    public function bindMerchant($userId, $merchantId)
+    {
+        try {
+            if (empty($userId) || empty($merchantId)) {
+                return false;
+            }
+            $updateModel = $this->_model->findFirstById($userId);
+            if (empty($updateModel)) {
+                return false;
+            }
+            $updateData = [
+                'id' => $userId,
+                'merchant_id' => $merchantId
+            ];
             $updateModel->update($updateData);
             return true;
         } catch (\Exception $e) {
@@ -175,20 +197,22 @@ class UserApi extends Api
         $token = md5(self::SECRET . $keyTime . $userId);
         return $token;
     }
-    public function getUserByOpenid($openid){
-        $condition = " openid = '" . $openid."'";
+
+    public function getUserByOpenid($openid)
+    {
+        $condition = " openid = '" . $openid . "'";
         $condition .= " and status = " . $this->_config['data_status']['valid'];
         $user = $this->_model->findFirst($condition);
         return $user;
     }
 
-    public function getInfoByOpenid($openid, $sessionKey='')
+    public function getInfoByOpenid($openid, $sessionKey = '')
     {
         $user = $this->getUserByOpenid($openid);
         if (empty($user)) {
             //之前没有此用户的记录
             //保存openid、session_key、session_key_time
-            if(!empty($sessionKey)){
+            if (!empty($sessionKey)) {
                 $insertData = [
                     'openid' => $openid,
                     'session_key' => $sessionKey,
@@ -215,31 +239,32 @@ class UserApi extends Api
         }
     }
 
-    public function updateByOpenid($postData,$create=false)
+    public function updateByOpenid($postData, $create = false)
     {
-        if(!isset($postData['openid']) || empty($postData['openid'])){
+        if (!isset($postData['openid']) || empty($postData['openid'])) {
             return false;
         }
         $user = $this->getUserByOpenid($postData['openid']);
-        if(empty($user)){
+        if (empty($user)) {
             return false;
-        }else{
+        } else {
             $postData['id'] = $user->id ?? 0;
-            return $this->updateUser($postData,$create);
+            return $this->updateUser($postData, $create);
         }
     }
 
 
-    public function getUserIdByToken($accessToken){
-        if(empty($accessToken)){
+    public function getUserIdByToken($accessToken)
+    {
+        if (empty($accessToken)) {
             return 0;
         }
-        $condition = " access_token = '" . $accessToken."'";
+        $condition = " access_token = '" . $accessToken . "'";
         $condition .= " and status = " . $this->_config['data_status']['valid'];
         $user = $this->_model->findFirst($condition);
-        if(empty($user)){
+        if (empty($user)) {
             return 0;
-        }else{
+        } else {
             //校验token是否过期
             //未过期 将有效期重新置为7天后
             $expireTime = strtotime(date("Y-m-d", strtotime("+7 day")));
@@ -247,7 +272,8 @@ class UserApi extends Api
         }
     }
 
-    public function getTokenByHeader(){
+    public function getTokenByHeader()
+    {
         $header = '';
         if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
             $header = $_SERVER['HTTP_AUTHORIZATION'];
@@ -257,11 +283,11 @@ class UserApi extends Api
             $headers = getallheaders();
             if (isset($headers['Authorization'])) {
                 $header = $headers['Authorization'];
-            }elseif(isset($headers['ACCESS_TOKEN'])){
+            } elseif (isset($headers['ACCESS_TOKEN'])) {
                 $header = $headers['ACCESS_TOKEN'];
-            }elseif(isset($headers['access_token'])){
+            } elseif (isset($headers['access_token'])) {
                 $header = $headers['access_token'];
-            }elseif(isset($headers['Token'])){
+            } elseif (isset($headers['Token'])) {
                 $header = $headers['Token'];
             }
         }

@@ -4,105 +4,49 @@ use MDK\Controller;
 
 
 /**
- * Face controller.
- * @RoutePrefix("/face", name="face")
+ * Admin controller.
+ * @RoutePrefix("/school", name="school")
  */
 class AdminController extends Controller
 {
 
-    /**
-     * Index action.
-     * @return void
-     * @Route("/", methods="GET", name="face")
-     */
-    public function indexAction() {
+    private $_error;
+    private $_userId;
 
-        $result = [
-            'pageInfo'=>[
-                'pageNumber' => '1',
-                'pageSize' => '10'
-            ]
-        ];
-        $this->resultSet->setData($result);
-        $this->response->success($this->resultSet->filterByConfig('definitions/Common'));
-//        $common = $formater->path('definitions/Common',null,'/');
-//        $definitions = $formater->getData($common);
-//        $result= $formater->filter($definitions,$result);
-//        echo (json_encode($result));die;
-//        var_dump($common);die;
-        $data =[];
-        try{
-        }catch (\Exception $e){
-            $this->resultSet->error($e->getCode(),$e->getMessage());
+    public function initialize()
+    {
+        $config = $this->app->core->config->config->toArray();
+        $this->_error = $config['error_message'];
+        //验证用户是否登录
+        $this->_userId = $this->app->tencent->api->UserApi()->getUserId();
+        if(empty($this->_userId)){
+            $this->resultSet->error(1010,$this->_error['unlogin']);exit;
         }
-        $this->resultSet->success()->setData($data);
-        $this->response->success($this->resultSet->toObject());
-
     }
 
     /**
-     * mergeFace action.
-     * 人脸融合
+     * 创建缴费申请
+     * Create action.
      * @return void
-     * @Route("/mergeFace", methods="POST", name="face")
+     * @Route("/create", methods="POST", name="school")
      */
-    public function mergeFaceAction(){
-        $imageUrl = $this->request->getParam('image_url',null,'');
-        $imageBase64 = $this->request->getParam('image_base64',null,'');
-        $sku = $this->request->getParam('sku',null,'');
-        if( (empty($imageUrl) && empty($imageBase64)) || empty($sku)){
-            $result['code'] = 101;
-            $result['msg'] = $this->translate->_('Invalid input');
-            $this->resultSet->error($result['code'],$result['msg']);
-        }
-        try{
-            $params = [
-                'sku' => $sku,
-                'image_url' => $imageUrl,
-                'image_base64' => $imageBase64,
-            ];
-            $data = $this->app->face->api->Helper()->mergeFacePro($params);
-        }catch (\Exception $e){
-            $this->resultSet->error($e->getCode(),$e->getMessage());
-        }
-        $this->resultSet->success()->setData($data);
-        $this->response->success($this->resultSet->toObject());
-    }
-
-    /**
-     * faceDetect action.
-     * 人脸识别
-     * @return void
-     * @Route("/faceDetect", methods="POST", name="face")
-     */
-    public function faceDetectAction(){
-        $imageBase64 = $this->request->getParam('image_base64',null,'');
-        $msg = $this->translate->_('Network Error. Please Try Again Later!');
-        if(empty($imageBase64)){
-            $this->resultSet->error(1001,$msg);
-        }
-        try{
-            $params = [
-                'image_base64' => $imageBase64,
-            ];
-            $data = $this->app->face->api->Helper()->faceDetect($params);
-            //人数
-            $faceNum = $this->app->face->api->Helper()->faceNum($data);
-            //人脸模糊度
-            $isBlur = $this->app->face->api->Helper()->isBlur($data);
-            if($faceNum != 1){
-                $code = 1;
-            }else{
-                if($isBlur){
-                    $code = 2;
-                }else{
-                    $code = 3;
-                }
+    public function createAction() {
+        //权限验证
+        $postData = $this->request->getPost();
+        $postData['user_id'] = $this->_userId;
+        $insertFields = $this->app->parttimejob->api->Helper()->getInsertFields();
+        foreach ($insertFields as $v){
+            if(empty($postData[$v])){
+                $this->resultSet->error(1001,$this->_error['invalid_input']);
             }
-            $data = [
-                'faceNum' => (int)$faceNum,
-                'detectCode' => $code,
-                'isBlur' => (int)$isBlur
+        }
+        try{
+            $insert = $this->app->parttimejob->api->Helper()->createParttimejob($postData);
+            if(empty($insert)){
+                $this->resultSet->error(1002,$this->_error['try_later']);
+            }
+            $data['data'] =[
+                'id' => $insert
             ];
         }catch (\Exception $e){
             $this->resultSet->error($e->getCode(),$e->getMessage());
@@ -110,4 +54,120 @@ class AdminController extends Controller
         $this->resultSet->success()->setData($data);
         $this->response->success($this->resultSet->toObject());
     }
+
+    /**
+     * 删除
+     * Create action.
+     * @return void
+     * @Route("/delete", methods="POST", name="school")
+     */
+    public function deleteAction() {
+        //权限验证
+        $parttimejobId = $this->request->getPost('id');
+        if(empty($parttimejobId)){
+            $this->resultSet->error(1001,$this->_error['invalid_input']);
+        }
+        try{
+           $result = $this->app->parttimejob->api->Helper()->deleteParttimejob($parttimejobId,$this->_userId);
+           if($result){
+               $data['data'] = [
+                   'del_success' => $result
+               ];
+           }else{
+               $this->resultSet->error(1002,$this->_error['try_later']);
+           }
+        }catch (\Exception $e){
+            $this->resultSet->error($e->getCode(),$e->getMessage());
+        }
+        $this->resultSet->success()->setData($data);
+        $this->response->success($this->resultSet->toObject());
+
+    }
+    /**
+     * 下架
+     * Create action.
+     * @return void
+     * @Route("/withdraw", methods="POST", name="school")
+     */
+    public function withdrawAction() {
+        //权限验证
+        $parttimejobId = $this->request->getPost('id');
+        if(empty($parttimejobId)){
+            $this->resultSet->error(1001,$this->_error['invalid_input']);
+        }
+        try{
+           $result = $this->app->parttimejob->api->Helper()->withdrawParttimejob($parttimejobId,$this->_userId);
+           if($result){
+               $data['data'] = [
+                   'withdraw_success' => $result
+               ];
+           }else{
+               $this->resultSet->error(1002,$this->_error['try_later']);
+           }
+        }catch (\Exception $e){
+            $this->resultSet->error($e->getCode(),$e->getMessage());
+        }
+        $this->resultSet->success()->setData($data);
+        $this->response->success($this->resultSet->toObject());
+    }
+    /**
+     * 更新
+     * Create action.
+     * @return void
+     * @Route("/update", methods="POST", name="school")
+     */
+    public function updateAction() {
+        //权限验证
+        $postData = $this->request->getPost();
+        if(empty($postData['id'])){
+            $this->resultSet->error(1001,$this->_error['invalid_input']);
+        }
+        $postData['user_id'] = $this->_userId;
+        $updateFields = $this->app->parttimejob->api->Helper()->getInsertFields();
+        foreach ($updateFields as $v){
+            if(empty($postData[$v])){
+                $this->resultSet->error(1001,$this->_error['invalid_input']);
+            }
+        }
+        try{
+            $result = $this->app->parttimejob->api->Helper()->updateParttimejob($postData);
+            if($result){
+                $data['data'] = [
+                    'update_success' => $result
+                ];
+            }else{
+                $this->resultSet->error(1002,$this->_error['try_later']);
+            }
+        }catch (\Exception $e){
+            $this->resultSet->error($e->getCode(),$e->getMessage());
+        }
+        $this->resultSet->success()->setData($data);
+        $this->response->success($this->resultSet->toObject());
+    }
+    /**
+     * 我发布的缴费申请
+     * Create action.
+     * @return void
+     * @Route("/list", methods="GET", name="school")
+     */
+    public function listAction() {
+        //权限验证
+        try{
+            $data = [];
+            $result = $this->app->parttimejob->api->Helper()->getListByUserId($this->_userId);
+            if(!empty($result)){
+                $data['data'] = [
+                    'pay_list' => $result
+                ];
+            }
+            $ret['data'] = $data;
+        }catch (\Exception $e){
+            $this->resultSet->error($e->getCode(),$e->getMessage());
+        }
+        $this->resultSet->success()->setData($ret);
+        $this->response->success($this->resultSet->toObject());
+    }
+
+
+
 }

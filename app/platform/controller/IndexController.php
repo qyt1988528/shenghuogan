@@ -42,27 +42,28 @@ class IndexController extends Controller
      * @return void
      * @Route("/createExpress", methods="POST", name="platform")
      */
-    public function createExpressAction() {
+    public function createExpressAction()
+    {
         //权限验证
         $postData = $this->request->getPost();
         $postData['publish_user_id'] = $this->_userId;
         // $postData['merchant_id'] = $this->_merchantId;
         $insertFields = $this->app->express->api->ExpressAdmin()->getInsertFields();
-        foreach ($insertFields as $v){
-            if(empty($postData[$v])){
-                $this->resultSet->error(1001,$this->_error['invalid_input']);
+        foreach ($insertFields as $v) {
+            if (empty($postData[$v])) {
+                $this->resultSet->error(1001, $this->_error['invalid_input']);
             }
         }
-        try{
+        try {
             $insert = $this->app->express->api->ExpressAdmin()->create($postData);
-            if(empty($insert)){
-                $this->resultSet->error(1002,$this->_error['try_later']);
+            if (empty($insert)) {
+                $this->resultSet->error(1002, $this->_error['try_later']);
             }
-            $data['data'] =[
+            $data['data'] = [
                 'id' => $insert
             ];
-        }catch (\Exception $e){
-            $this->resultSet->error($e->getCode(),$e->getMessage());
+        } catch (\Exception $e) {
+            $this->resultSet->error($e->getCode(), $e->getMessage());
         }
         $this->resultSet->success()->setData($data);
         $this->response->success($this->resultSet->toObject());
@@ -74,58 +75,61 @@ class IndexController extends Controller
      * @return void
      * @Route("/deleteExpress", methods="POST", name="platform")
      */
-    public function deleteExpressAction() {
+    public function deleteExpressAction()
+    {
         //权限验证
         $secondId = $this->request->getPost('id');
-        if(empty($secondId)){
-            $this->resultSet->error(1001,$this->_error['invalid_input']);
+        if (empty($secondId)) {
+            $this->resultSet->error(1001, $this->_error['invalid_input']);
         }
-        try{
-           $result = $this->app->express->api->ExpressAdmin()->delete($secondId,$this->_userId);
-           if($result){
-               $data['data'] = [
-                   'del_success' => $result
-               ];
-           }else{
-               $this->resultSet->error(1002,$this->_error['try_later']);
-           }
-        }catch (\Exception $e){
-            $this->resultSet->error($e->getCode(),$e->getMessage());
+        try {
+            $result = $this->app->express->api->ExpressAdmin()->delete($secondId, $this->_userId);
+            if ($result) {
+                $data['data'] = [
+                    'del_success' => $result
+                ];
+            } else {
+                $this->resultSet->error(1002, $this->_error['try_later']);
+            }
+        } catch (\Exception $e) {
+            $this->resultSet->error($e->getCode(), $e->getMessage());
         }
         $this->resultSet->success()->setData($data);
         $this->response->success($this->resultSet->toObject());
 
     }
+
     /**
      * 创建
      * Create action.
      * @return void
      * @Route("/createMerchant", methods="POST", name="platform")
      */
-    public function createMerchantAction() {
+    public function createMerchantAction()
+    {
         //权限验证
         $postData = $this->request->getPost();
         $postData['user_id'] = $this->_userId;
         $insertFields = $this->app->merchant->api->MerchantManage()->getInsertFields();
-        foreach ($insertFields as $v){
-            if(empty($postData[$v])){
-                $this->resultSet->error(1001,$this->_error['invalid_input'].' error field:  '.$v);
+        foreach ($insertFields as $v) {
+            if (empty($postData[$v])) {
+                $this->resultSet->error(1001, $this->_error['invalid_input'] . ' error field:  ' . $v);
             }
         }
-        try{
+        try {
             $verifyPhone = $this->app->core->api->Phone()->checkPhone($postData['cellphone']);
-            if(!$verifyPhone){
-                $this->resultSet->error(1002,$this->_error['cellphone']);
+            if (!$verifyPhone) {
+                $this->resultSet->error(1002, $this->_error['cellphone']);
             }
             $insert = $this->app->merchant->api->MerchantManage()->createMerchant($postData);
-            if(empty($insert)){
-                $this->resultSet->error(1003,$this->_error['try_later']);
+            if (empty($insert)) {
+                $this->resultSet->error(1003, $this->_error['try_later']);
             }
-            $data['data'] =[
+            $data['data'] = [
                 'id' => $insert
             ];
-        }catch (\Exception $e){
-            $this->resultSet->error($e->getCode(),$e->getMessage());
+        } catch (\Exception $e) {
+            $this->resultSet->error($e->getCode(), $e->getMessage());
         }
         $this->resultSet->success()->setData($data);
         $this->response->success($this->resultSet->toObject());
@@ -137,51 +141,54 @@ class IndexController extends Controller
      * @return void
      * @Route("/deleteMerchant", methods="POST", name="platform")
      */
-    public function deleteMerchantAction() {
+    public function deleteMerchantAction()
+    {
         //权限验证
         $cateringId = $this->request->getPost('id');
-        if(empty($cateringId)){
-            $this->resultSet->error(1001,$this->_error['invalid_input']);
+        if (empty($cateringId)) {
+            $this->resultSet->error(1001, $this->_error['invalid_input']);
         }
-        try{
-           $result = $this->app->merchant->api->MerchantManage()->deleteMerchant($cateringId,$this->_userId);
-           if($result){
-               $data['data'] = [
-                   'del_success' => $result
-               ];
-           }else{
-               $this->resultSet->error(1002,$this->_error['try_later']);
-           }
-        }catch (\Exception $e){
-            $this->resultSet->error($e->getCode(),$e->getMessage());
+        try {
+            $result = $this->app->merchant->api->MerchantManage()->deleteMerchant($cateringId, $this->_userId);
+            if ($result) {
+                $data['data'] = [
+                    'del_success' => $result
+                ];
+            } else {
+                $this->resultSet->error(1002, $this->_error['try_later']);
+            }
+        } catch (\Exception $e) {
+            $this->resultSet->error($e->getCode(), $e->getMessage());
         }
         $this->resultSet->success()->setData($data);
         $this->response->success($this->resultSet->toObject());
 
     }
+
     /**
      * 下架
      * Create action.
      * @return void
      * @Route("/closingMerchant", methods="POST", name="platform")
      */
-    public function closingMerchantAction() {
+    public function closingMerchantAction()
+    {
         //权限验证
         $cateringId = $this->request->getPost('id');
-        if(empty($cateringId)){
-            $this->resultSet->error(1001,$this->_error['invalid_input']);
+        if (empty($cateringId)) {
+            $this->resultSet->error(1001, $this->_error['invalid_input']);
         }
-        try{
-           $result = $this->app->merchant->api->MerchantManage()->withdrawMerchant($cateringId,$this->_userId);
-           if($result){
-               $data['data'] = [
-                   'closing_success' => $result
-               ];
-           }else{
-               $this->resultSet->error(1002,$this->_error['try_later']);
-           }
-        }catch (\Exception $e){
-            $this->resultSet->error($e->getCode(),$e->getMessage());
+        try {
+            $result = $this->app->merchant->api->MerchantManage()->withdrawMerchant($cateringId, $this->_userId);
+            if ($result) {
+                $data['data'] = [
+                    'closing_success' => $result
+                ];
+            } else {
+                $this->resultSet->error(1002, $this->_error['try_later']);
+            }
+        } catch (\Exception $e) {
+            $this->resultSet->error($e->getCode(), $e->getMessage());
         }
         $this->resultSet->success()->setData($data);
         $this->response->success($this->resultSet->toObject());
@@ -193,23 +200,24 @@ class IndexController extends Controller
      * @return void
      * @Route("/openingMerchant", methods="POST", name="platform")
      */
-    public function openingMerchantAction() {
+    public function openingMerchantAction()
+    {
         //权限验证
         $cateringId = $this->request->getPost('id');
-        if(empty($cateringId)){
-            $this->resultSet->error(1001,$this->_error['invalid_input']);
+        if (empty($cateringId)) {
+            $this->resultSet->error(1001, $this->_error['invalid_input']);
         }
-        try{
-           $result = $this->app->merchant->api->MerchantManage()->unwithdrawMerchant($cateringId,$this->_userId);
-           if($result){
-               $data['data'] = [
-                   'opening_success' => $result
-               ];
-           }else{
-               $this->resultSet->error(1002,$this->_error['try_later']);
-           }
-        }catch (\Exception $e){
-            $this->resultSet->error($e->getCode(),$e->getMessage());
+        try {
+            $result = $this->app->merchant->api->MerchantManage()->unwithdrawMerchant($cateringId, $this->_userId);
+            if ($result) {
+                $data['data'] = [
+                    'opening_success' => $result
+                ];
+            } else {
+                $this->resultSet->error(1002, $this->_error['try_later']);
+            }
+        } catch (\Exception $e) {
+            $this->resultSet->error($e->getCode(), $e->getMessage());
         }
         $this->resultSet->success()->setData($data);
         $this->response->success($this->resultSet->toObject());
@@ -221,34 +229,35 @@ class IndexController extends Controller
      * @return void
      * @Route("/updateMerchant", methods="POST", name="platform")
      */
-    public function updateMerchantAction() {
+    public function updateMerchantAction()
+    {
         //权限验证
         $postData = $this->request->getPost();
-        if(empty($postData['id'])){
-            $this->resultSet->error(1001,$this->_error['invalid_input']);
+        if (empty($postData['id'])) {
+            $this->resultSet->error(1001, $this->_error['invalid_input']);
         }
         $postData['user_id'] = $this->_userId;
         $updateFields = $this->app->merchant->api->MerchantManage()->getInsertFields();
-        foreach ($updateFields as $v){
-            if(empty($postData[$v])){
-                $this->resultSet->error(1001,$this->_error['invalid_input']);
+        foreach ($updateFields as $v) {
+            if (empty($postData[$v])) {
+                $this->resultSet->error(1001, $this->_error['invalid_input']);
             }
         }
-        try{
+        try {
             $verifyPhone = $this->app->core->api->Phone()->checkPhone($postData['cellphone']);
-            if(!$verifyPhone){
-                $this->resultSet->error(1002,$this->_error['cellphone']);
+            if (!$verifyPhone) {
+                $this->resultSet->error(1002, $this->_error['cellphone']);
             }
             $result = $this->app->merchant->api->MerchantManage()->updateMerchant($postData);
-            if($result){
+            if ($result) {
                 $data['data'] = [
                     'update_success' => $result
                 ];
-            }else{
-                $this->resultSet->error(1003,$this->_error['try_later']);
+            } else {
+                $this->resultSet->error(1003, $this->_error['try_later']);
             }
-        }catch (\Exception $e){
-            $this->resultSet->error($e->getCode(),$e->getMessage());
+        } catch (\Exception $e) {
+            $this->resultSet->error($e->getCode(), $e->getMessage());
         }
         $this->resultSet->success()->setData($data);
         $this->response->success($this->resultSet->toObject());
@@ -259,18 +268,19 @@ class IndexController extends Controller
      * @return void
      * @Route("/listMerchant", methods="GET", name="platform")
      */
-    public function listMerchantAction() {
-        $keywords = $this->request->getParam('keywords',null,'');
-        $page = $this->request->getParam('page',null,1);
+    public function listMerchantAction()
+    {
+        $keywords = $this->request->getParam('keywords', null, '');
+        $page = $this->request->getParam('page', null, 1);
         //分页
-        try{
+        try {
             $data['data']['merchant_list'] = [];
-            $merchants = $this->app->merchant->api->MerchantManage()->getList($keywords,$page);
-            if(!empty($merchants)){
+            $merchants = $this->app->merchant->api->MerchantManage()->getList($keywords, $page);
+            if (!empty($merchants)) {
                 $data['data']['merchant_list'] = $merchants;
             }
-        }catch (\Exception $e){
-            $this->resultSet->error($e->getCode(),$e->getMessage());
+        } catch (\Exception $e) {
+            $this->resultSet->error($e->getCode(), $e->getMessage());
         }
         $this->resultSet->success()->setData($data);
         $this->response->success($this->resultSet->toObject());
@@ -282,22 +292,102 @@ class IndexController extends Controller
      * @return void
      * @Route("/detailMerchant", methods="GET", name="platform")
      */
-    public function detailMerchantAction(){
-        $goodsId = $this->request->getParam('id',null,'');
-        if(empty($goodsId)){
-            $this->resultSet->error(1001,$this->_error['invalid_input']);
+    public function detailMerchantAction()
+    {
+        $goodsId = $this->request->getParam('id', null, '');
+        if (empty($goodsId)) {
+            $this->resultSet->error(1001, $this->_error['invalid_input']);
         }
-        try{
-            $result = $this->app->merchant->api->MerchantManage()->detail($goodsId,$this->_userId);
-            if(empty($result)){
-                $this->resultSet->error(1002,$this->_error['not_exist']);
+        try {
+            $result = $this->app->merchant->api->MerchantManage()->detail($goodsId, $this->_userId);
+            if (empty($result)) {
+                $this->resultSet->error(1002, $this->_error['not_exist']);
             }
             $data['data'] = $result;
-        }catch (\Exception $e){
-            $this->resultSet->error($e->getCode(),$e->getMessage());
+        } catch (\Exception $e) {
+            $this->resultSet->error($e->getCode(), $e->getMessage());
         }
         $this->resultSet->success()->setData($data);
         $this->response->success($this->resultSet->toObject());
     }
+
+    /**
+     * 实名认证 审核列表(含搜索)
+     * @return void
+     * @Route("/certList", methods="GET", name="platform")
+     */
+    public function certificationListAction()
+    {
+        $cellphone = $this->request->getParam('cellphone', null, '');
+        $page = $this->request->getParam('page', null, 1);
+        try {
+            $result = $this->app->platform->api->Helper()->certificationList($cellphone,$page);
+            if (empty($result)) {
+                // $this->resultSet->error(1002,$this->_error['not_exist']);
+                $data['data']['cert_list'] = [];
+            } else {
+                $data['data']['cert_list'] = $result;
+            }
+        } catch (\Exception $e) {
+            $this->resultSet->error($e->getCode(), $e->getMessage());
+        }
+        $this->resultSet->success()->setData($data);
+        $this->response->success($this->resultSet->toObject());
+    }
+
+    /**
+     * 实名认证 审核通过
+     * @return void
+     * @Route("/certPass", methods="POST", name="platform")
+     */
+    public function certPassAction()
+    {
+        $certId = $this->request->getParam('id', null, 0);
+        if (empty($certId)) {
+            $this->resultSet->error(1001, $this->_error['invalid_input']);
+        }
+        try {
+            $result = $this->app->platform->api->Helper()->passCertification($certId,$this->_userId);
+            if (!empty($result)) {
+                $data['data'] = [
+                    'update_success' => $result
+                ];
+            } else {
+                $this->resultSet->error(1002, $this->_error['try_later']);
+            }
+        } catch (\Exception $e) {
+            $this->resultSet->error($e->getCode(), $e->getMessage());
+        }
+        $this->resultSet->success()->setData($data);
+        $this->response->success($this->resultSet->toObject());
+    }
+
+    /**
+     * 实名认证 审核拒绝
+     * @return void
+     * @Route("/certRefuse", methods="POST", name="platform")
+     */
+    public function certRefuseAction()
+    {
+        $certId = $this->request->getParam('id', null, 0);
+        if (empty($certId)) {
+            $this->resultSet->error(1001, $this->_error['invalid_input']);
+        }
+        try {
+            $result = $this->app->platform->api->Helper()->refuseCertification($certId,$this->_userId);
+            if (!empty($result)) {
+                $data['data'] = [
+                    'update_success' => $result
+                ];
+            } else {
+                $this->resultSet->error(1002, $this->_error['try_later']);
+            }
+        } catch (\Exception $e) {
+            $this->resultSet->error($e->getCode(), $e->getMessage());
+        }
+        $this->resultSet->success()->setData($data);
+        $this->response->success($this->resultSet->toObject());
+    }
+
 
 }

@@ -4,59 +4,69 @@ namespace School\Model;
 
 use MDK\Model;
 
-class FaceppDetectImages extends Model
+class School extends Model
 {
 
     /**
-     * 
+     *
      * @Primary
      * @Identity
-     * @Column(type="integer", size="11", nullable=false, column="id")
+     * @Column(type="integer", size="20", nullable=false, column="id")
      */
     public $id;
 
-    /**
-     * 
-     * @Column(type="string", size="255", nullable=true, column="host")
-     */
-    public $host;
-
-    /**
-     * 
-     * @Column(type="string", size="255", nullable=true, column="path")
-     */
-    public $path;
-    /**
-     *
-     * @Column(type="string", size="255", nullable=true, column="image_url")
-     */
-    public $image_url;
-    /**
-     *
-     * @Column(type="integer", size="4", nullable=true, column="blur")
-     */
-    public $blur;
-    /**
-     *
-     * @Column(type="integer", size="11", nullable=true, column="face_num")
-     */
-    public $face_num;
-    /**
-     *
-     * @Column(type="string", nullable=true, column="facepp_result")
-     */
-    public $facepp_result;
 
     /**
      *
-     * @Column(type="string", nullable=true, column="created_at")
+     * @Column(type="string", nullable=true, column="name")
      */
-    public $created_at;
+    public $name;
     /**
      *
-     * @Column(type="string", nullable=true, column="updated_at")
+     * @Column(type="string", nullable=true, column="stu_id_num")
      */
-    public $updated_at;
+    public $stu_id_num;
+    /**
+     *
+     * @Column(type="string", nullable=true, column="id_num")
+     */
+    public $id_num;
+    /**
+     *
+     * @Column(type="integer", nullable=true, column="amount")
+     */
+    public $amount;
+    /**
+     *
+     * @Column(type="integer", nullable=true, column="pay_status")
+     */
+    public $pay_status;
+    /**
+     *
+     * @Column(type="string", nullable=true, column="cellphone")
+     */
+    public $cellphone;
+    /**
+     *
+     * @Column(type="integer", size="11", nullable=true, column="user_id")
+     */
+    public $user_id;
+    /**
+     *
+     * @Column(type="integer", size="11", nullable=true, column="platform_user_id")
+     */
+    public $platform_user_id;
+
+    /**
+     *
+     * @Column(type="string", nullable=true, column="create_time")
+     */
+    public $create_time;
+    /**
+     *
+     * @Column(type="string", nullable=true, column="update_time")
+     */
+    public $update_time;
     /**
      *
      * @Column(type="integer", size="4", nullable=true, column="status")
@@ -93,3 +103,4 @@ class FaceppDetectImages extends Model
     }
 
 }
+

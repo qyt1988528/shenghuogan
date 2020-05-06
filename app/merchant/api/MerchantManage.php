@@ -14,6 +14,7 @@ class MerchantManage extends Api
 {
     private $_config;
     private $_model;
+    private $_merchantStatus;
 
     public function __construct()
     {
@@ -165,7 +166,13 @@ class MerchantManage extends Api
         }
         return $goods;
     }
-
+    public function detailByCellphone($cellphone)
+    {
+        $condition = "cellphone = " . $cellphone;
+        $condition .= " and status = " . $this->_config['data_status']['valid'];
+        $goods = $this->_model->findFirst($condition);
+        return $goods;
+    }
 
 
     public function getList($keywords='',$page = 1, $pageSize = 20)
@@ -237,7 +244,7 @@ class MerchantManage extends Api
 
     public function getMerchantCode(){
         $s = 'SH';
-        $date = date('md');
+        $date = date('ymd');
         $r1 = mt_rand(10,99);
         $r2 = mt_rand(10,99);
         $code = $s.$date.$r1.$r2;
