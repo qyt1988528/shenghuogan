@@ -4373,6 +4373,256 @@
 			]
 		},
 		{
+			"name": "实名认证",
+			"item": [
+				{
+					"name": "用户-添加认证信息",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "cellphone",
+									"value": "13012345678",
+									"description": "手机号",
+									"type": "text"
+								},
+								{
+									"key": "id_photo",
+									"value": "图片url",
+									"description": "有效证件",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://47.104.69.159/useradmin/createCert",
+							"protocol": "http",
+							"host": [
+								"47",
+								"104",
+								"69",
+								"159"
+							],
+							"path": [
+								"useradmin",
+								"createCert"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "用户-更新(被拒后重新上传)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Token",
+								"type": "text",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "商户ID",
+									"type": "text"
+								},
+								{
+									"key": "cellphone",
+									"value": "13187654320",
+									"description": "商户手机号",
+									"type": "text"
+								},
+								{
+									"key": "id_photo",
+									"value": "\b图片url",
+									"description": "有效证件",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://47.104.69.159/useradmin/updateCert",
+							"protocol": "http",
+							"host": [
+								"47",
+								"104",
+								"69",
+								"159"
+							],
+							"path": [
+								"useradmin",
+								"updateCert"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "用户-当前实名详情",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"type": "text",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://47.104.69.159/useradmin/detailCert",
+							"protocol": "http",
+							"host": [
+								"47",
+								"104",
+								"69",
+								"159"
+							],
+							"path": [
+								"useradmin",
+								"detailCert"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "用户-审核通过(平台用户操作)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Token",
+								"type": "text",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "实名认证数据ID",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://47.104.69.159/platform/certPass",
+							"protocol": "http",
+							"host": [
+								"47",
+								"104",
+								"69",
+								"159"
+							],
+							"path": [
+								"platform",
+								"certPass"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "用户-拒绝(平台用户操作)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Token",
+								"type": "text",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "实名认证数据ID",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://47.104.69.159/platform/certRefuse",
+							"protocol": "http",
+							"host": [
+								"47",
+								"104",
+								"69",
+								"159"
+							],
+							"path": [
+								"platform",
+								"certRefuse"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "用户-实名认证\b列表(含搜索，仅显示已通过和待审核)(平台用户操作)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"type": "text",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://47.104.69.159/platform/certList?cellphone=1",
+							"protocol": "http",
+							"host": [
+								"47",
+								"104",
+								"69",
+								"159"
+							],
+							"path": [
+								"platform",
+								"certList"
+							],
+							"query": [
+								{
+									"key": "cellphone",
+									"value": "1",
+									"description": "实名认证的手机号(支持模糊搜索)"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "地址管理",
 			"item": [
 				{
