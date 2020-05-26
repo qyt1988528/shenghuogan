@@ -278,7 +278,7 @@ class Helper extends Api
             $orderGoodsModel->goods_start_date = $v['goods_start_date'];
             $orderGoodsModel->goods_end_date = $v['goods_end_date'];
             $orderGoodsModel->create_time = date('Y-m-d H:i:s');
-            $orderGoodsModel->first_buy = $this->isFirstBuy($userId,$v['merchant_id']);
+            $orderGoodsModel->first_buy = $this->isFirstBuy($userId, $v['merchant_id']);
             $orderGoodsModel->add_timestamp = $this->getTodayStamp();
             if ($orderGoodsModel->save() === false) {
                 $this->db->rollback();
@@ -754,7 +754,8 @@ class Helper extends Api
 
     }
 
-    public function isFirstBuy($userId,$merchantId){
+    public function isFirstBuy($userId, $merchantId)
+    {
         //查询order_goods表 存在返回1 否则返回-1
         $orderGoodsData = $this->modelsManager->createBuilder()
             ->columns('*')
@@ -764,12 +765,60 @@ class Helper extends Api
             ->andWhere('sg.status = :valid: ', ['valid' => $this->_config['data_status']['valid']])
             ->getQuery()
             ->getSingleResult();
-        if(!empty($orderGoodsData)){
+        if (!empty($orderGoodsData)) {
             return 1;
-        }else{
+        } else {
             return -1;
         }
 
+
+    }
+
+    public function getOrderData($merchantId)
+    {
+        //营业总额、订单总数、今日订单数
+        $orderStatus = $this->_order['order_status']['finish'];
+        //营业总额、订单总数
+        $orderData = $this->modelsManager->createBuilder()
+            ->columns('sum(goods_current_amount) as total_amount,count(distinct(order_id)) as order_num')
+            ->from(['sg' => 'Order\Model\OrderGoods'])
+            ->where('sg.merchant_id = :merchant_id: ', ['merchant_id' => $merchantId])
+            ->andWhere('sg.status = :valid: ', ['valid' => $this->_config['data_status']['valid']])
+            ->groupBy('order_id')
+            ->getQuery()
+            ->getSingleResult();
+        //今日营业额、今日订单数
+        $todayOrderData = $this->modelsManager->createBuilder()
+            ->columns('sum(goods_current_amount) as total_amount,count(distinct(order_id)) as order_num')
+            ->from(['sg' => 'Order\Model\OrderGoods'])
+            ->where('sg.merchant_id = :merchant_id: ', ['merchant_id' => $merchantId])
+            ->andWhere('sg.add_timestamp = :add_timestamp: ', ['add_timestamp' => $this->getTodayStamp()])
+            ->andWhere('sg.status = :valid: ', ['valid' => $this->_config['data_status']['valid']])
+            ->groupBy('order_id')
+            ->getQuery()
+            ->getSingleResult();
+        //订单已完成、指定商户
+        $totalSql = 'select sum(ogt.real_income) as total_amount,count(distinct(ogt.order_id)) as order_num 
+ from `order` as ot JOIN `order_goods` as ogt on ot.order_id=ogt.order_id 
+ where ot.order_status = 1 and ogt.merchant_id = 1
+ limit 1';
+        //今天订单已完成、指定商户
+        $todaySql = 'select sum(ogt.real_income) as total_amount,count(distinct(ogt.order_id)) as order_num 
+ from `order` as ot JOIN `order_goods` as ogt on ot.order_id=ogt.order_id 
+ where ot.order_status = 1 and ogt.merchant_id = 1 and ogt.add_timestamp = 1
+ limit 1';
+
+    }
+
+    public function getTotalAndThisMonth($merchantId){
+        $totalSql = 'select sum(ogt.real_income) as total_amount 
+ from `order` as ot JOIN `order_goods` as ogt on ot.order_id=ogt.order_id 
+ where ot.order_status = 1 and ogt.merchant_id = 1
+ limit 1';
+        $thisMonthSql = 'select sum(ogt.real_income) as total_amount 
+ from `order` as ot JOIN `order_goods` as ogt on ot.order_id=ogt.order_id 
+ where ot.order_status = 1 and ogt.merchant_id = 1 and ogt.add_timestamp >= 1
+ limit 1';
 
     }
 

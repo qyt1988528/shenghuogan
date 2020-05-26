@@ -4,8 +4,11 @@ namespace Platform\Api;
 
 use MDK\Api;
 use Merchant\Model\MerchantOperationLog;
+use Merchant\Model\MerchantPaymentCode;
+use Merchant\Model\MerchantWithdrawApply;
 use Order\Model\Order;
 use Order\Model\OrderGoods;
+use Tencent\Model\User;
 
 class Helper extends Api
 {
@@ -13,9 +16,13 @@ class Helper extends Api
     private $_order;
     private $_orderGoodsModel;
     private $_orderModel;
+    private $_userModel;
     private $_merchantOperationLogModel;
+    private $_merchantWithdrawApplyModel;
+    private $_merchantPaymentCodeModel;
     private $_certStatus;
     private $_certApi;
+    private $_applyStatus;
 
     public function __construct()
     {
@@ -23,9 +30,13 @@ class Helper extends Api
         $this->_order = $this->app->core->config->order->toArray();
         $this->_orderGoodsModel = new OrderGoods();
         $this->_orderModel = new Order();
+        $this->_userModel = new User();
         $this->_merchantOperationLogModel = new MerchantOperationLog();
+        $this->_merchantWithdrawApplyModel = new MerchantWithdrawApply();
+        $this->_merchantPaymentCodeModel = new MerchantPaymentCode();
         $this->_certStatus = $this->app->core->config->certification->toArray();
         $this->_certApi = $this->app->parttimejob->api->Certification();
+        $this->_applyStatus = $this->app->merchant->config->withdraw->toArray();
     }
 
     //根据商品类型和商户ID查询所有未删除的商品
@@ -207,6 +218,155 @@ class Helper extends Api
     }
 
 
+    //商户提现申请 平台打款操作
+    public function passMerchantWithdraw($data){
+        $id = $data['id'] ?? 0;
+        if(empty($id)){
+            return [
+                'id' => 0,
+                'msg' => '数据错误，请稍后重试!'
+            ];
+        }
+        $applyData = $this->_merchantWithdrawApplyModel->findFirstById($id)->toArray();
+        //申请ID不存在 或 已被处理
+        if(empty($applyData) || $applyData['apply_status'] != $this->_applyStatus['apply_status']['auditing']['code']){
+            return [
+                'id' => 0,
+                'msg' => '数据错误或已被处理!'
+            ];
+        }
+        //获取该商户的最后一次上传的付款码 没有则无法完成
+        $condition = " and status = " . $this->_config['data_status']['valid'];
+        $paymentData = $this->_merchantPaymentCodeModel->find($condition)->toArray();
+
+        $operateUserId = $data['user_id'] ?? 0;
+        $applyStatus = $this->_applyStatus['apply_status']['passed']['code'];
+        $otherField = [
+            'remarks' => $data['remarks'] ?? '',
+            'wechat_order_no' => $data['wechat_order_no'] ?? '',
+            'merchant_payment_code_id' => $paymentData['id'] ?? 0,
+        ];
+        $updateRet = $this->app->merchant->api->Helper()->updateApplyStatus($id,$operateUserId,$applyStatus,$otherField);
+        return $updateRet;
+
+    }
+    //商户提现申请 平台拒绝操作
+    public function refuseMerchantWithdraw($data){
+        //拒绝时加备注
+        $id = $data['id'] ?? 0;
+        $operateUserId = $data['user_id'] ?? 0;
+        $applyStatus = $this->_applyStatus['apply_status']['refused']['code'];
+        $otherField = [
+            'remarks' => $data['remarks'] ?? '',
+            'wechat_order_no' => $data['wechat_order_no'] ?? '',
+            'merchant_payment_code_id' => $paymentData['id'] ?? 0,
+        ];
+        $updateRet = $this->app->merchant->api->Helper()->updateApplyStatus($id,$operateUserId,$applyStatus,$otherField);
+        return $updateRet;
+    }
+    //商户提现申请列表
+    public function withdrawApplyList(){
+        $condition = " and status = " . $this->_config['data_status']['valid'];
+        $withdrawDatas = $this->_merchantWithdrawApplyModel->find($condition)->toArray();
+        if(!empty($withdrawDatas)){
+            foreach ($withdrawDatas as &$v){
+                $v['apply_description'] = $this->app->merchant->api->Helper()->getWithdrawDescription($v['apply_status']);
+            }
+        }
+        return $withdrawDatas;
+    }
+
+
+
+    public function personalData($userId){
+        //平台-个人中心 名称、手机号、营业总额、订单总数、用户总数、今日营业额、今日订单数、今日新增用户数
+        $condition = "id = " . $userId;
+        $condition .= " and status = " . $this->_config['data_status']['valid'];
+        $merchantData = $this->_userModel->findFirst($condition)->toArray();
+        if(empty($merchantData)){
+            return [];
+        }
+        $ret = [
+            'platform_name'  => $merchantData['name'] ?? '',
+            'platform_cellphone'  => $merchantData['cellphone'] ?? '',
+        ];
+        $ret['total_sales'] = 100;
+        $ret['total_orders'] = 100;
+        $ret['total_users'] = 100;
+        $ret['today_sales'] = 100;
+        $ret['today_orders'] = 10;
+        $ret['today_users'] = 100;
+
+
+        return $ret;
+    }
+
+    public function orderManage($goodsType=''){
+        //商户-订单管理 goods_type为空表示全部
+        $data = [
+            'order_list' => [
+                [
+                    'order_no' => '',
+                    'order_status' => 1,
+                    'order_status_description' => '已完成',
+                    'pay_status' => 1,
+                    'pay_status_description' => '已支付',
+                    'shipping_status' => 1,
+                    'shipping_status_description' => '已确认收货',
+                    'goods_num' => 2,
+                    'order_amount' => 20.00,
+                    'order_time' => '2020-05-20 10:00:00',
+                ]
+            ],
+        ];
+        return $data;
+
+    }
+
+    public function myWallet(){
+        //平台-财务管理 总收入 本月收入
+        $data = [
+            'total_income' => 100,
+            'this_month_income' => 100,
+        ];
+        return $data;
+
+    }
+
+    public function bill(){
+        //商户-我的钱包-账单
+        //月份(默认当前月份)，收入、支出
+        //订单列表：商家ID、商家名称、时间、商品名称、类型、收入/支出金额
+        //订单列表：时间、商品名称、类型、收入/支出金额
+        $data = [
+            'datetime' => date('Y-m'),
+            'income' => 100,
+            'expend' => 30,
+            'order_list' => [
+                [
+                    'merchant_id' => 1,
+                    'merchant_name' => 'test1',
+                    'order_time' => date('Y-m-d H:i:s'),
+                    'goods_type' => 'goods_type',
+                    'goods_type_description' => '生活用品',
+                    'goods_name' => '商品名称',
+                    'order_income' => 100,
+                    'order_expend' => -10,
+                ],
+                [
+                    'merchant_id' => 2,
+                    'merchant_name' => 'test2',
+                    'order_time' => date('Y-m-d H:i:s'),
+                    'goods_type' => 'goods_type',
+                    'goods_type_description' => '财务支出',
+                    'goods_name' => '余额提醒',
+                    'order_income' => 0,
+                    'order_expend' => -20,
+                ]
+            ],
+        ];
+        return $data;
+    }
 
 
 

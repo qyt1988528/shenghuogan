@@ -9,7 +9,7 @@ namespace Merchant\Model;
 
 use MDK\Model;
 
-class Merchant extends Model
+class MerchantWithdrawApply extends Model
 {
     /**
      *
@@ -21,46 +21,51 @@ class Merchant extends Model
 
     /**
      *
-     * @Column(type="string", size="100", nullable=true, column="code")
+     * @Column(type="integer", size="11", nullable=true, column="merchant_id")
      */
-    public $code;
+    public $merchant_id;
     /**
      *
-     * @Column(type="string", size="100", nullable=true, column="name")
+     * @Column(type="float", nullable=true, column="withdraw_amount")
      */
-    public $name;
+    public $withdraw_amount;
     /**
      *
-     * @Column(type="string", size="50", nullable=true, column="cellphone")
+     * @Column(type="integer", size="4", nullable=true, column="apply_status")
      */
-    public $cellphone;
+    public $apply_status;
 
     /**
      *
-     * @Column(type="string", size="255", nullable=true, column="image_identity_card")
+     * @Column(type="string", size="60", nullable=true, column="wechat_order_no")
      */
-    public $image_identity_card;
+    public $wechat_order_no;
     /**
      *
-     * @Column(type="string", size="255", nullable=true, column="image_business_license")
+     * @Column(type="integer", size="11", nullable=true, column="merchant_payment_code_id")
      */
-    public $image_business_license;
+    public $merchant_payment_code_id;
+    /**
+     *
+     * @Column(type="string", size="255", nullable=true, column="remarks")
+     */
+    public $remarks;
+    /**
+     *
+     * @Column(type="integer", size="11", nullable=true, column="apply_user_id")
+     */
+    public $apply_user_id;
 
     /**
      *
-     * @Column(type="integer", size="4", nullable=true, column="business_status")
+     * @Column(type="integer", size="11", nullable=true, column="apply_merchant_id")
      */
-    public $business_status;
+    public $apply_merchant_id;
     /**
      *
-     * @Column(type="integer", size="11", nullable=true, column="last_operate_user_id")
+     * @Column(type="integer", size="11", nullable=true, column="operate_user_id")
      */
-    public $last_operate_user_id;
-    /**
-     *
-     * @Column(type="float", nullable=true, column="balance")
-     */
-    public $balance;
+    public $operate_user_id;
     /**
      *
      * @Column(type="string", nullable=true, column="create_time")

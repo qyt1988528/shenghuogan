@@ -388,6 +388,102 @@ class IndexController extends Controller
         $this->resultSet->success()->setData($data);
         $this->response->success($this->resultSet->toObject());
     }
+    
+    
+    /**
+     * 个人中心
+     * @return void
+     * @Route("/personal", methods="GET", name="platform")
+     */
+    public function personalAction(){
+        $merchantId = $this->_userId;
+        try{
+            $result = $this->app->platform->api->Helper()->personalData($merchantId);
+            $data['data'] = $result;
+        }catch (\Exception $e){
+            $this->resultSet->error($e->getCode(),$e->getMessage());
+        }
+        $this->resultSet->success()->setData($data);
+        $this->response->success($this->resultSet->toObject());
+    }
+    //订单管理
+    /**
+     * 个人中心
+     * @return void
+     * @Route("/orderList", methods="GET", name="platform")
+     */
+    public function orderListAction(){
+        $goodsType = $this->request->getParam('goods_type', null, '');
+        try{
+            $result = $this->app->platform->api->Helper()->orderManage($goodsType);
+            $data['data'] = $result;
+        }catch (\Exception $e){
+            $this->resultSet->error($e->getCode(),$e->getMessage());
+        }
+        $this->resultSet->success()->setData($data);
+        $this->response->success($this->resultSet->toObject());
+    }
+    //我的钱包 总收入、本月收入
+    /**
+     * 个人中心
+     * @return void
+     * @Route("/myWallet", methods="GET", name="platform")
+     */
+    public function myWalletAction(){
+        // $merchantId = $this->_merchantId;
+        try{
+            $result = $this->app->platform->api->Helper()->myWallet();
+            $data['data'] = $result;
+        }catch (\Exception $e){
+            $this->resultSet->error($e->getCode(),$e->getMessage());
+        }
+        $this->resultSet->success()->setData($data);
+        $this->response->success($this->resultSet->toObject());
+    }
+    //商家-财务管理
+    //账单(时间段、收入、支出、明细)、商家提现(提现记录)
+    /**
+     * 个人中心
+     * @return void
+     * @Route("/bill", methods="GET", name="platform")
+     */
+    public function billAction(){
+        // $merchantId = $this->_merchantId;
+        try{
+            $result = $this->app->platform->api->Helper()->bill();
+            $data['data'] = $result;
+        }catch (\Exception $e){
+            $this->resultSet->error($e->getCode(),$e->getMessage());
+        }
+        $this->resultSet->success()->setData($data);
+        $this->response->success($this->resultSet->toObject());
+    }
+
+    //平台-获取商家提现申请列表
+    /**
+     * @return void
+     * @Route("/withdrawApplyList", methods="GET", name="platform")
+     */
+    public function withdrawApplyListAction(){
+
+    }
+    //平台-打款
+    /**
+     * @return void
+     * @Route("/withdrawApplyList", methods="POST", name="platform")
+     */
+    public function withdrawPassAction(){
+
+    }
+    //平台-拒绝
+    /**
+     * @return void
+     * @Route("/withdrawApplyList", methods="POST", name="platform")
+     */
+    public function withdrawRefuseAction(){
+
+    }
+
 
 
 }
