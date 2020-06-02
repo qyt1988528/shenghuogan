@@ -170,7 +170,8 @@ class Helper extends Api
     //获取实名认证的列表(含手机号搜索)
     public function certificationList($cellphone='',$page=1){
         //获得待审核和已通过的单人的最后一条
-        return $this->app->parttimejob->api->Certification()->getList($cellphone, $page);
+        // return $this->app->parttimejob->api->Certification()->getList($cellphone, $page);
+        return $this->getTmpCertList($cellphone,$page);
     }
 
     //实名认证审核 通过 和 拒绝 通过后检查是否有相同手机号的商户，有则绑定
@@ -366,6 +367,53 @@ class Helper extends Api
             ],
         ];
         return $data;
+    }
+
+
+    /**
+     * @param string $keywords 此处为手机号 仅显示 待审核 和 已通过的
+     * @param int $page
+     * @param int $pageSize
+     * @return mixed
+     */
+    public function getTmpCertList($keywords='',$page = 1, $pageSize = 20)
+    {
+        $keywords = trim($keywords);
+        $keywords = str_replace('%','',$keywords);
+        $keywords = str_replace(' ','',$keywords);
+        $start = ($page - 1) * $pageSize;
+        if(!empty($keywords)){
+            $merchants = $this->modelsManager->createBuilder()
+                ->columns('*')
+                ->from(['sg' => 'Parttimejob\Model\CertificationRecord'])
+                ->andWhere('sg.status = :valid: ', ['valid' => $this->_config['data_status']['valid']])
+                ->andWhere('sg.cellphone like :goodsName:', ['goodsName' => '%' . $keywords . '%'])
+                ->andWhere('sg.certification_status = :pass: or sg.certification_status = :auditing:',
+                    ['pass' => $this->_certStatus['certification_status']['passed']['code'],
+                        'auditing'=>$this->_certStatus['certification_status']['auditing']['code']])
+                ->limit($start, $pageSize)
+                ->getQuery()
+                ->execute()
+                ->toArray();
+        }else{
+            $merchants = $this->modelsManager->createBuilder()
+                ->columns('*')
+                ->from(['sg' => 'Parttimejob\Model\CertificationRecord'])
+                ->andWhere('sg.status = :valid: ', ['valid' => $this->_config['data_status']['valid']])
+                ->andWhere('sg.certification_status = :pass: or sg.certification_status = :auditing:',
+                    ['pass' => $this->_certStatus['certification_status']['passed']['code'],
+                        'auditing'=>$this->_certStatus['certification_status']['auditing']['code']])
+                ->limit($start, $pageSize)
+                ->getQuery()
+                ->execute()
+                ->toArray();
+        }
+        if(!empty($merchants)){
+            foreach ($merchants as &$v){
+                $v['certification_status_description'] = $this->getCertificationDescription($v['certification_status']);
+            }
+        }
+        return $merchants;
     }
 
 
