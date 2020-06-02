@@ -410,10 +410,23 @@ class Helper extends Api
         }
         if(!empty($merchants)){
             foreach ($merchants as &$v){
-                $v['certification_status_description'] = $this->getCertificationDescription($v['certification_status']);
+                $v['certification_status_description'] = $this->getTmpCertificationDescription($v['certification_status']);
             }
         }
         return $merchants;
+    }
+
+    public function getTmpCertificationDescription($businessStatus){
+        $description = '';
+        $businessStatusArr = $this->_certStatus['certification_status'];
+        foreach ($businessStatusArr as $v){
+            if($v['code'] == $businessStatus){
+                $description = $v['title'];
+                break;
+            }
+        }
+        return $description;
+
     }
 
 
