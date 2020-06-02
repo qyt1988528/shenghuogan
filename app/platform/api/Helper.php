@@ -267,7 +267,7 @@ class Helper extends Api
     }
     //商户提现申请列表
     public function withdrawApplyList(){
-        $condition = " and status = " . $this->_config['data_status']['valid'];
+        $condition = " status = " . $this->_config['data_status']['valid'];
         $withdrawDatas = $this->_merchantWithdrawApplyModel->find($condition)->toArray();
         if(!empty($withdrawDatas)){
             foreach ($withdrawDatas as &$v){

@@ -188,7 +188,7 @@ class Helper extends Api
         //当前商户余额小于提现申请的金额
         $condition = "id = " . $data['apply_merchant_id'];
         $condition .= " and status = " . $this->_config['data_status']['valid'];
-        $merchantData = $this->_merchantModel->findFirst($condition);
+        $merchantData = $this->_merchantModel->findFirst($condition)->toArray();
         if(empty($merchantData) ){//是否考虑已停业
             return [
                 'id' => 0,
@@ -295,7 +295,7 @@ class Helper extends Api
         if(!empty($model->id)){
             return [
                 'id' => $model->id,
-                'msg' => '提现申请成功，请耐心等待平台审批！'
+                'msg' => '已成功上传收款码图片！'
             ];
         }else{
             return [

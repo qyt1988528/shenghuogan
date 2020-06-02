@@ -31,6 +31,11 @@ class Order extends Model
      * @Column(type="integer", size="11", nullable=true, column="user_id")
      */
     public $user_id;
+    /**
+     *
+     * @Column(type="integer", size="11", nullable=true, column="team_id")
+     */
+    public $team_id;
 // `user_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '用户uid',
     /**
      *

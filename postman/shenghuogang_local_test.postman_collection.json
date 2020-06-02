@@ -1402,6 +1402,913 @@
 			]
 		},
 		{
+			"name": "平台操作商户动作",
+			"item": [
+				{
+					"name": "商户-添加",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "qyt商户",
+									"description": "商户名称",
+									"type": "text"
+								},
+								{
+									"key": "cellphone",
+									"value": "万达儿童主题乐园门票",
+									"description": "手机号",
+									"type": "text"
+								},
+								{
+									"key": "image_identity_card",
+									"value": "100",
+									"description": "法人\b身份证正面",
+									"type": "text"
+								},
+								{
+									"key": "image_business_license",
+									"value": "11",
+									"description": "营业执照",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/platform/createMerchant",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"platform",
+								"createMerchant"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "商户-更新",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "商户ID",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "qytupdate商户",
+									"description": "商户名称",
+									"type": "text"
+								},
+								{
+									"key": "cellphone",
+									"value": "13187654321",
+									"description": "商户手机号",
+									"type": "text"
+								},
+								{
+									"key": "image_identity_card",
+									"value": "友谊路更新1",
+									"description": "商户身份证正面",
+									"type": "text"
+								},
+								{
+									"key": "image_business_license",
+									"value": "香格里拉描述更新",
+									"description": "商户营业执照",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/platform/updateMerchant",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"platform",
+								"updateMerchant"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "商户-审核通过或使之营业",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "\b使之通过的商户ID或使之营业的商户ID",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/platform/openingMerchant",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"platform",
+								"openingMerchant"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "商户-使之停业",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Token",
+								"type": "text",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "使之停业的商户ID",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/platform/closingMerchant",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"platform",
+								"closingMerchant"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "商户-删除",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Token",
+								"type": "text",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "准备删除的商户ID",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/platform/deleteMerchant",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"platform",
+								"deleteMerchant"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "商户-列表(含搜索)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/platform/listMerchant?keywords=1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"platform",
+								"listMerchant"
+							],
+							"query": [
+								{
+									"key": "keywords",
+									"value": "1",
+									"description": "关键词(商户名称或手机号)"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "商户-详情",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/platform/detailMerchant?id=1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"platform",
+								"detailMerchant"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "实名认证",
+			"item": [
+				{
+					"name": "用户-添加认证信息",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "cellphone",
+									"value": "13012345678",
+									"description": "手机号",
+									"type": "text"
+								},
+								{
+									"key": "id_photo",
+									"value": "图片url",
+									"description": "有效证件",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/useradmin/createCert",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"useradmin",
+								"createCert"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "用户-更新(被拒后重新上传)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Token",
+								"type": "text",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "商户ID",
+									"type": "text"
+								},
+								{
+									"key": "cellphone",
+									"value": "13187654320",
+									"description": "商户手机号",
+									"type": "text"
+								},
+								{
+									"key": "id_photo",
+									"value": "\b图片url",
+									"description": "有效证件",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/useradmin/updateCert",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"useradmin",
+								"updateCert"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "用户-当前实名详情",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"type": "text",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/useradmin/detailCert",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"useradmin",
+								"detailCert"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "用户-审核通过(平台用户操作)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Token",
+								"type": "text",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "实名认证数据ID",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/platform/certPass",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"platform",
+								"certPass"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "用户-拒绝(平台用户操作)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Token",
+								"type": "text",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "实名认证数据ID",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/platform/certRefuse",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"platform",
+								"certRefuse"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "用户-实名认证\b列表(含搜索，仅显示已通过和待审核)(平台用户操作)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"type": "text",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/platform/certList?cellphone=1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"platform",
+								"certList"
+							],
+							"query": [
+								{
+									"key": "cellphone",
+									"value": "1",
+									"description": "实名认证的手机号(支持模糊搜索)"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "商家提现（平台打款待开发）",
+			"item": [
+				{
+					"name": "商户-添加提现申请(输入金额)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Token",
+								"type": "text",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "withdraw_amount",
+									"value": "130",
+									"description": "\b要提现的金额",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/merchant/withdrawApply",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"merchant",
+								"withdrawApply"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "商户-上传收款码图片",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Token",
+								"type": "text",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "payment_image_url",
+									"value": "13012345678",
+									"description": "收款码图片Url",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/merchant/paymentCode",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"merchant",
+								"paymentCode"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "商户-已申请提现列表",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"type": "text",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/merchant/withdrawApplyList",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"merchant",
+								"withdrawApplyList"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "打款(平台用户操作)-未开发-待确认",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Token",
+								"type": "text",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "提现申请数据ID",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/platform/passWithdrawApply",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"platform",
+								"passWithdrawApply"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "拒绝(平台用户操作)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Token",
+								"type": "text",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "提现申请数据ID",
+									"type": "text"
+								},
+								{
+									"key": "remarks",
+									"value": "test",
+									"description": "备注(非必填)",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/platform/refuseWithdrawApply",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"platform",
+								"refuseWithdrawApply"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "所有商户提现申请\b列表(平台用户操作)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"type": "text",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/platform/withdrawApplyList",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"platform",
+								"withdrawApplyList"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "个人中心-平台（平台商品管理待开发）",
+			"item": [
+				{
+					"name": "\b个人中心-假数据",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"type": "text",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "cellphone",
+									"value": "13012345678",
+									"description": "手机号",
+									"type": "text"
+								},
+								{
+									"key": "id_photo",
+									"value": "图片url",
+									"description": "有效证件",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/platform/personal",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"platform",
+								"personal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "订单管理-假数据",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"type": "text",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "商户ID",
+									"type": "text"
+								},
+								{
+									"key": "cellphone",
+									"value": "13187654320",
+									"description": "商户手机号",
+									"type": "text"
+								},
+								{
+									"key": "id_photo",
+									"value": "\b图片url",
+									"description": "有效证件",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/platform/orderList",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"platform",
+								"orderList"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "\b财务管理-假数据",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"type": "text",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/platform/myWallet",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"platform",
+								"myWallet"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "\b财务管理-账单-假数据",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"type": "text",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/platform/bill",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"platform",
+								"bill"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "\b商品管理（平台可以管理所有商品）",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"type": "text",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/useradmin/detailCert",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"useradmin",
+								"detailCert"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "兼职",
 			"item": [
 				{
@@ -1735,7 +2642,7 @@
 						"header": [
 							{
 								"key": "Token",
-								"value": "91e7be417ab083d9a49f49cc98606ff6",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
 								"type": "text"
 							}
 						],
@@ -1750,7 +2657,7 @@
 							]
 						},
 						"url": {
-							"raw": "{{host}}/parttimejob/detail?id=11",
+							"raw": "{{host}}/parttimejob/detail?id=1",
 							"host": [
 								"{{host}}"
 							],
@@ -1761,7 +2668,7 @@
 							"query": [
 								{
 									"key": "id",
-									"value": "11"
+									"value": "1"
 								}
 							]
 						}
@@ -3085,6 +3992,88 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "快递-平台添加快递配置",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "type_id",
+									"value": "2",
+									"description": "2-取件规格(取快递),3-可选服务(取快递)",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "小件(<2kg)",
+									"description": "描述",
+									"type": "text"
+								},
+								{
+									"key": "gratuity",
+									"value": "2",
+									"description": "小费金额(\b元)",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/platform/createExpress",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"platform",
+								"createExpress"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "快递-平台删除快递配置",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "20",
+									"description": "配置id",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/platform/deleteExpress",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"platform",
+								"deleteExpress"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -3753,85 +4742,6 @@
 			"name": "地址管理",
 			"item": [
 				{
-					"name": "省份-列表",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{host}}/address/provinceList",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"address",
-								"provinceList"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "市-列表",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{host}}/address/cityList?id=110000",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"address",
-								"cityList"
-							],
-							"query": [
-								{
-									"key": "id",
-									"value": "110000",
-									"description": "省份id"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "区-列表",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{host}}/address/countyList?id=140100",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"address",
-								"countyList"
-							],
-							"query": [
-								{
-									"key": "id",
-									"value": "140100"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "地址-添加",
 					"request": {
 						"method": "POST",
@@ -3914,7 +4824,7 @@
 							"formdata": [
 								{
 									"key": "id",
-									"value": "1",
+									"value": "15",
 									"description": "地址id",
 									"type": "text"
 								},
@@ -3976,7 +4886,7 @@
 						"header": [
 							{
 								"key": "Token",
-								"value": "8102de236a86e5b8c4c63260e11fbcd9",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
 								"description": "用户token",
 								"type": "text"
 							}
@@ -3986,7 +4896,7 @@
 							"formdata": [
 								{
 									"key": "id",
-									"value": "1",
+									"value": "16",
 									"description": "地址id",
 									"type": "text"
 								}
@@ -4000,6 +4910,85 @@
 							"path": [
 								"addressadmin",
 								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "省份-列表",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/address/provinceList",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"address",
+								"provinceList"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "市-列表",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/address/cityList?id=110000",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"address",
+								"cityList"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "110000",
+									"description": "省份id"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "区-列表",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/address/countyList?id=110100",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"address",
+								"countyList"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "110100"
+								}
 							]
 						}
 					},
@@ -4020,17 +5009,7 @@
 								"value": "f747b0e96c9ebb3bdd6ea019a840434b"
 							}
 						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "id",
-									"value": "1",
-									"description": "地址id",
-									"type": "text"
-								}
-							]
-						},
+						"body": {},
 						"url": {
 							"raw": "{{host}}/addressadmin/list",
 							"host": [
@@ -4069,7 +5048,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"order_data\": {\n        \"address_id\": 1,\n        \"coupon_no\": \"\",\n        \"goods_data\": [\n            {\n                \"goods_id\": 1,\n                \"goods_type\": \"second\",\n                \"goods_num\": 1\n            },\n            {\n                \"goods_id\": 1,\n                \"goods_type\": \"supermarket_goods\",\n                \"goods_num\": 1\n            },\n            {\n                \"goods_id\": 1,\n                \"goods_type\": \"hotel\",\n                \"goods_num\": 1,\n                \"goods_start_date\":\"2020-03-12\",\n                \"goods_end_date\":\"2020-03-13\"\n            }\n        ]\n    }\n}"
+							"raw": "{\n    \"order_data\": {\n        \"address_id\": 14,\n        \"coupon_no\": \"1\",\n        \"goods_data\": [\n            {\n                \"goods_id\": 2,\n                \"goods_type\": \"supermarket_goods\",\n                \"goods_num\": 1\n            }\n        ]\n    }\n}"
 						},
 						"url": {
 							"raw": "{{host}}/order/create",
@@ -4328,9 +5307,9 @@
 			"name": "订单-商家",
 			"item": [
 				{
-					"name": "商户-个人中心",
+					"name": "商户-个人中心-假数据",
 					"request": {
-						"method": "POST",
+						"method": "GET",
 						"header": [
 							{
 								"key": "Token",
@@ -4350,13 +5329,118 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{host}}/order/income",
+							"raw": "{{host}}/merchant/personal",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"order",
-								"income"
+								"merchant",
+								"personal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "商户-订单列表-假数据",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"description": "用户token",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/merchant/orderList",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"merchant",
+								"orderList"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "商户-个人中心-我的钱包-假数据",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"description": "用户token",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/merchant/myWallet",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"merchant",
+								"myWallet"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "商户-个人中心-我的钱包-账单-假数据",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"description": "用户token",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/merchant/bill",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"merchant",
+								"bill"
 							]
 						}
 					},
@@ -4489,6 +5573,41 @@
 							"path": [
 								"merchant",
 								"confirm"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "商户-个人中心(已弃用)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"description": "用户token",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/order/income",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"order",
+								"income"
 							]
 						}
 					},

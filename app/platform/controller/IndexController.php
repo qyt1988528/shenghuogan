@@ -321,7 +321,7 @@ class IndexController extends Controller
         $cellphone = $this->request->getParam('cellphone', null, '');
         $page = $this->request->getParam('page', null, 1);
         try {
-            $result = $this->app->platform->api->Helper()->certificationList($cellphone,$page);
+            $result = $this->app->platform->api->Helper()->certificationList($cellphone, $page);
             if (empty($result)) {
                 // $this->resultSet->error(1002,$this->_error['not_exist']);
                 $data['data']['cert_list'] = [];
@@ -347,7 +347,7 @@ class IndexController extends Controller
             $this->resultSet->error(1001, $this->_error['invalid_input']);
         }
         try {
-            $result = $this->app->platform->api->Helper()->passCertification($certId,$this->_userId);
+            $result = $this->app->platform->api->Helper()->passCertification($certId, $this->_userId);
             if (!empty($result)) {
                 $data['data'] = [
                     'update_success' => $result
@@ -374,7 +374,7 @@ class IndexController extends Controller
             $this->resultSet->error(1001, $this->_error['invalid_input']);
         }
         try {
-            $result = $this->app->platform->api->Helper()->refuseCertification($certId,$this->_userId);
+            $result = $this->app->platform->api->Helper()->refuseCertification($certId, $this->_userId);
             if (!empty($result)) {
                 $data['data'] = [
                     'update_success' => $result
@@ -388,54 +388,59 @@ class IndexController extends Controller
         $this->resultSet->success()->setData($data);
         $this->response->success($this->resultSet->toObject());
     }
-    
-    
+
+
     /**
      * 个人中心
      * @return void
      * @Route("/personal", methods="GET", name="platform")
      */
-    public function personalAction(){
+    public function personalAction()
+    {
         $merchantId = $this->_userId;
-        try{
+        try {
             $result = $this->app->platform->api->Helper()->personalData($merchantId);
             $data['data'] = $result;
-        }catch (\Exception $e){
-            $this->resultSet->error($e->getCode(),$e->getMessage());
+        } catch (\Exception $e) {
+            $this->resultSet->error($e->getCode(), $e->getMessage());
         }
         $this->resultSet->success()->setData($data);
         $this->response->success($this->resultSet->toObject());
     }
     //订单管理
+
     /**
      * 个人中心
      * @return void
      * @Route("/orderList", methods="GET", name="platform")
      */
-    public function orderListAction(){
+    public function orderListAction()
+    {
         $goodsType = $this->request->getParam('goods_type', null, '');
-        try{
+        try {
             $result = $this->app->platform->api->Helper()->orderManage($goodsType);
             $data['data'] = $result;
-        }catch (\Exception $e){
-            $this->resultSet->error($e->getCode(),$e->getMessage());
+        } catch (\Exception $e) {
+            $this->resultSet->error($e->getCode(), $e->getMessage());
         }
         $this->resultSet->success()->setData($data);
         $this->response->success($this->resultSet->toObject());
     }
     //我的钱包 总收入、本月收入
+
     /**
      * 个人中心
      * @return void
      * @Route("/myWallet", methods="GET", name="platform")
      */
-    public function myWalletAction(){
+    public function myWalletAction()
+    {
         // $merchantId = $this->_merchantId;
-        try{
+        try {
             $result = $this->app->platform->api->Helper()->myWallet();
             $data['data'] = $result;
-        }catch (\Exception $e){
-            $this->resultSet->error($e->getCode(),$e->getMessage());
+        } catch (\Exception $e) {
+            $this->resultSet->error($e->getCode(), $e->getMessage());
         }
         $this->resultSet->success()->setData($data);
         $this->response->success($this->resultSet->toObject());
@@ -447,43 +452,84 @@ class IndexController extends Controller
      * @return void
      * @Route("/bill", methods="GET", name="platform")
      */
-    public function billAction(){
+    public function billAction()
+    {
         // $merchantId = $this->_merchantId;
-        try{
+        try {
             $result = $this->app->platform->api->Helper()->bill();
             $data['data'] = $result;
-        }catch (\Exception $e){
-            $this->resultSet->error($e->getCode(),$e->getMessage());
+        } catch (\Exception $e) {
+            $this->resultSet->error($e->getCode(), $e->getMessage());
         }
         $this->resultSet->success()->setData($data);
         $this->response->success($this->resultSet->toObject());
     }
 
     //平台-获取商家提现申请列表
+
     /**
      * @return void
      * @Route("/withdrawApplyList", methods="GET", name="platform")
      */
-    public function withdrawApplyListAction(){
-
+    public function withdrawApplyListAction()
+    {
+        try {
+            $result = $this->app->platform->api->Helper()->withdrawApplyList();
+            if (!empty($result)) {
+                $data['data'] = $result;
+            } else {
+                $data['data'] = [];
+            }
+        } catch (\Exception $e) {
+            $this->resultSet->error($e->getCode(), $e->getMessage());
+        }
+        $this->resultSet->success()->setData($data);
+        $this->response->success($this->resultSet->toObject());
     }
     //平台-打款
+
     /**
      * @return void
-     * @Route("/withdrawApplyList", methods="POST", name="platform")
+     * @Route("/passWithdrawApply", methods="POST", name="platform")
      */
-    public function withdrawPassAction(){
+    public function withdrawPassAction()
+    {
+        $certId = $this->request->getParam('id', null, 0);
 
     }
     //平台-拒绝
+
     /**
      * @return void
-     * @Route("/withdrawApplyList", methods="POST", name="platform")
+     * @Route("/refuseWithdrawApply", methods="POST", name="platform")
      */
-    public function withdrawRefuseAction(){
+    public function withdrawRefuseAction()
+    {
+        $applyId = $this->request->getParam('id', null, 0);
+        $remark = $this->request->getParam('remarks', null, '');
+        try {
+            $applyData = [
+                'id' => $applyId,
+                'user_id' => $this->_userId,
+                'remarks' => $remark,
+            ];
+            $result = $this->app->platform->api->Helper()->refuseMerchantWithdraw($applyData);
+            if (!empty($result)) {
+                $data['data'] = [
+                    'update_status' => 'success'
+                ];
+            } else {
+                $data['data'] = [
+                    'update_status' => 'failed'
+                ];
+            }
+        } catch (\Exception $e) {
+            $this->resultSet->error($e->getCode(), $e->getMessage());
+        }
+        $this->resultSet->success()->setData($data);
+        $this->response->success($this->resultSet->toObject());
 
     }
-
 
 
 }
