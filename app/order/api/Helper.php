@@ -652,6 +652,15 @@ class Helper extends Api
             ->execute()
             ->toArray();
         $data['order_goods_list'] = $orderGoodsData;
+        if(empty($orderGoodsData)){
+            $data['order_data']['order_goods_num'] = 1;
+        }else{
+            $data['order_data']['order_goods_num'] = 0;
+            foreach ($orderGoodsData as $v){
+                $data['order_data']['order_goods_num'] += $v['goods_num'];
+            }
+
+        }
         $qrcodeCreateTime = time();// + $this->_order['order_qrcode_invalid_time']['code'];//5分钟
         $url = $this->_orderConfirmUrl . '?order_id=' . $orderId . '&create_time=' . $qrcodeCreateTime;
         $data['order_qrcode'] = $this->app->core->api->CoreQrcode()->corePng($url);
