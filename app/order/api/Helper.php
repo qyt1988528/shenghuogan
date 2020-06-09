@@ -2,6 +2,8 @@
 
 namespace Order\Api;
 
+use Address\Model\Address;
+use Address\Model\Region;
 use MDK\Api;
 use Order\Model\Order;
 use Order\Model\OrderDetail;
@@ -53,6 +55,8 @@ class Helper extends Api
     private $_orderModel;
     private $_orderDetailModel;
     private $_orderGoodsModel;
+    private $_addressModel;
+    private $_regionModel;
     private $_invalid_time;
     private $_orderConfirmUrl;
     private $_validDate;
@@ -66,9 +70,13 @@ class Helper extends Api
         $this->_orderModel = new Order();
         $this->_orderDetailModel = new OrderDetail();
         $this->_orderGoodsModel = new OrderGoods();
+        $this->_addressModel = new Address();
+        $this->_regionModel = new Region();
         $this->_invalid_time = 1800;//30分钟
         $this->_orderConfirmUrl = 'http://' . $_SERVER['SERVER_NAME'] . ':' . $_SERVER["SERVER_PORT"] . '/merchant/confirm';
         $this->_validDate = '2020-01-01';
+        $chargePercent = $this->app->order->config->order->toArray();
+        $this->_chargePercent = $chargePercent['charge_percent'];
 
     }
 
@@ -254,6 +262,25 @@ class Helper extends Api
         $orderDetailModel = new OrderDetail();
         $orderDetailModel->order_id = $orderId;
         if ($needAddress && !empty($addressId)) {
+            //查找对应地址信息
+            $addressInfo = $this->_addressModel->findFirstById($addressId);
+            // $addressInfo =  $this->app->address->api->Hepler()->detail($addressId);
+            if(empty($addressInfo)){
+                $this->db->rollback();
+                throw new \Exception('地址错误', 1007);
+            }
+            // var_dump($addressInfo->name);exit;
+            $orderDetailModel->address_id = $addressId;
+            $orderDetailModel->receiver = $addressInfo->name ?? '';
+            $orderDetailModel->cellphone = $addressInfo->cellphone ?? '';
+            $province = $this->_regionModel->findFirstById($addressInfo->province_id);
+            $orderDetailModel->province = $province->name  ?? '';
+            $city = $this->_regionModel->findFirstById($addressInfo->city_id);
+            $orderDetailModel->city = $city->name ?? '';
+            $county = $this->_regionModel->findFirstById($addressInfo->county_id);
+            $orderDetailModel->county = $county->name ?? '';
+            $orderDetailModel->detailed_address = $addressInfo->detailed_address ?? '';
+            $orderDetailModel->shipping_status = $this->_order['shipped_status']['wait_send']['code'];
 
         }
         $orderDetailModel->create_time = date('Y-m-d H:i:s');
@@ -263,6 +290,9 @@ class Helper extends Api
         }
         //写订单的商品信息表
         foreach ($orderGoodsInsertDatas as $v) {
+            $goodsAmount += $v['goods_current_amount'] ?? 0;
+            $orderAmount += $v['goods_current_amount'] ?? 0;
+
             $orderGoodsModel = new OrderGoods();
             $orderGoodsModel->order_id = $orderId;
             $orderGoodsModel->user_id = $userId;
@@ -273,6 +303,9 @@ class Helper extends Api
             $orderGoodsModel->goods_amount = $v['goods_amount'] ?? 0;
             $orderGoodsModel->goods_cost_amount = $v['goods_cost_amount'] ?? 0;
             $orderGoodsModel->goods_current_amount = $v['goods_current_amount'] ?? 0;
+            $orderGoodsModel->current_charge_percent = $this->_chargePercent;
+            $orderGoodsModel->charge_amount = round($orderGoodsModel->goods_current_amount * $this->_chargePercent,2);
+            $orderGoodsModel->real_income = $orderGoodsModel->goods_current_amount - $orderGoodsModel->charge_amount;
             $orderGoodsModel->goods_type = $v['goods_type'] ?? '';
             $orderGoodsModel->goods_attr = $v['goods_attr'] ?? '';
             $orderGoodsModel->goods_cover = $v['goods_cover'] ?? '';
@@ -286,6 +319,20 @@ class Helper extends Api
                 $this->db->rollback();
                 throw new \Exception('网络异常，请稍后重试', 1009);
             }
+        }
+        //update total_amount
+        try{
+            $condition = " order_id = " . $orderId;
+            $updateOrderModel = $this->_orderModel->findFirst($condition);
+            // $updateOrderModel = $this->_orderModel->findFirstById($orderId);
+            $updateData =[
+                'goods_amount' => $goodsAmount,
+                'order_amount' => $orderAmount,
+            ];
+            $updateOrderModel->update($updateData);
+        } catch (\Exception $e) {
+            $this->db->rollback();
+            throw new \Exception('网络异常，请稍后重试', 1010);
         }
         //事务commit
         $this->db->commit();
