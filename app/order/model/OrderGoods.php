@@ -65,6 +65,11 @@ class OrderGoods extends Model
      * @Column(type="float", size="20", nullable=true, column="goods_current_amount")
      */
     public $goods_current_amount;
+    /**
+     *
+     * @Column(type="float", size="20", nullable=true, column="total_amount")
+     */
+    public $total_amount;
 // `goods_current_amount` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '商品现价-成交价',
     /**
      *

@@ -290,8 +290,6 @@ class Helper extends Api
         }
         //写订单的商品信息表
         foreach ($orderGoodsInsertDatas as $v) {
-            $goodsAmount += $v['goods_current_amount'] ?? 0;
-            $orderAmount += $v['goods_current_amount'] ?? 0;
 
             $orderGoodsModel = new OrderGoods();
             $orderGoodsModel->order_id = $orderId;
@@ -303,9 +301,10 @@ class Helper extends Api
             $orderGoodsModel->goods_amount = $v['goods_amount'] ?? 0;
             $orderGoodsModel->goods_cost_amount = $v['goods_cost_amount'] ?? 0;
             $orderGoodsModel->goods_current_amount = $v['goods_current_amount'] ?? 0;
+            $orderGoodsModel->total_amount = $orderGoodsModel->goods_num * $orderGoodsModel->goods_current_amount ;
             $orderGoodsModel->current_charge_percent = $this->_chargePercent;
-            $orderGoodsModel->charge_amount = round($orderGoodsModel->goods_current_amount * $this->_chargePercent,2);
-            $orderGoodsModel->real_income = $orderGoodsModel->goods_current_amount - $orderGoodsModel->charge_amount;
+            $orderGoodsModel->charge_amount = round($orderGoodsModel->total_amount * $this->_chargePercent,2);
+            $orderGoodsModel->real_income = $orderGoodsModel->total_amount - $orderGoodsModel->charge_amount;
             $orderGoodsModel->goods_type = $v['goods_type'] ?? '';
             $orderGoodsModel->goods_attr = $v['goods_attr'] ?? '';
             $orderGoodsModel->goods_cover = $v['goods_cover'] ?? '';
@@ -315,6 +314,8 @@ class Helper extends Api
             $orderGoodsModel->create_time = date('Y-m-d H:i:s');
             $orderGoodsModel->first_buy = $this->isFirstBuy($userId, $v['merchant_id']);
             $orderGoodsModel->add_timestamp = $this->getTodayStamp();
+            $goodsAmount += $orderGoodsModel->total_amount;
+            $orderAmount += $orderGoodsModel->total_amount;
             if ($orderGoodsModel->save() === false) {
                 $this->db->rollback();
                 throw new \Exception('网络异常，请稍后重试', 1009);
