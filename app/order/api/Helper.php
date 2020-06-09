@@ -5,6 +5,7 @@ namespace Order\Api;
 use Address\Model\Address;
 use Address\Model\Region;
 use MDK\Api;
+use Merchant\Model\Merchant;
 use Order\Model\Order;
 use Order\Model\OrderDetail;
 use Order\Model\OrderGoods;
@@ -57,6 +58,7 @@ class Helper extends Api
     private $_orderGoodsModel;
     private $_addressModel;
     private $_regionModel;
+    private $_merchantModel;
     private $_invalid_time;
     private $_orderConfirmUrl;
     private $_validDate;
@@ -72,6 +74,7 @@ class Helper extends Api
         $this->_orderGoodsModel = new OrderGoods();
         $this->_addressModel = new Address();
         $this->_regionModel = new Region();
+        $this->_merchantModel = new Merchant();
         $this->_invalid_time = 1800;//30分钟
         $this->_orderConfirmUrl = 'http://' . $_SERVER['SERVER_NAME'] . ':' . $_SERVER["SERVER_PORT"] . '/merchant/confirm';
         $this->_validDate = '2020-01-01';
@@ -699,16 +702,18 @@ class Helper extends Api
             ->getQuery()
             ->execute()
             ->toArray();
-        $data['order_goods_list'] = $orderGoodsData;
         if(empty($orderGoodsData)){
             $data['order_data']['order_goods_num'] = 1;
         }else{
             $data['order_data']['order_goods_num'] = 0;
-            foreach ($orderGoodsData as $v){
+            foreach ($orderGoodsData as &$v){
+                $merchant = $this->_merchantModel->findFirstById($v['merchant_id'] ?? 0);
+                $v['merchant_cellphone'] = $merchant->cellphone ?? '';
                 $data['order_data']['order_goods_num'] += $v['goods_num'];
             }
 
         }
+        $data['order_goods_list'] = $orderGoodsData;
         $qrcodeCreateTime = time();// + $this->_order['order_qrcode_invalid_time']['code'];//5分钟
         $url = $this->_orderConfirmUrl . '?order_id=' . $orderId . '&create_time=' . $qrcodeCreateTime;
         $data['order_qrcode'] = $this->app->core->api->CoreQrcode()->corePng($url);
