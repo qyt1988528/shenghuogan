@@ -56,6 +56,7 @@ class Helper extends Api
     private $_invalid_time;
     private $_orderConfirmUrl;
     private $_validDate;
+    private $_chargePercent;
 
     public function __construct()
     {
@@ -68,6 +69,7 @@ class Helper extends Api
         $this->_invalid_time = 1800;//30分钟
         $this->_orderConfirmUrl = 'http://' . $_SERVER['SERVER_NAME'] . ':' . $_SERVER["SERVER_PORT"] . '/merchant/confirm';
         $this->_validDate = '2020-01-01';
+
     }
 
     public function createOrder($goodsData, $userId, $addressId, $couponNo = '')
@@ -279,9 +281,6 @@ class Helper extends Api
             $orderGoodsModel->goods_end_date = $v['goods_end_date'] ?? '';
             $orderGoodsModel->create_time = date('Y-m-d H:i:s');
             $orderGoodsModel->first_buy = $this->isFirstBuy($userId, $v['merchant_id']);
-            $a = $this->isFirstBuy($userId, $v['merchant_id']);
-            var_dump($a);
-            exit;
             $orderGoodsModel->add_timestamp = $this->getTodayStamp();
             if ($orderGoodsModel->save() === false) {
                 $this->db->rollback();
@@ -787,8 +786,23 @@ class Helper extends Api
 
     }
 
-    public function getOrderData($merchantId)
+    public function getOrderData($merchantId=0)
     {
+        if($merchantId == 0){
+            //平台
+            //营业总额、订单总数、今日订单数
+            //用户总数、今日订单总额、今日新增用户数
+
+        }else{
+            //具体商户
+            //营业总额、订单总数、今日订单数
+            //order_status初始和完成
+            $orderStatusInit = $this->_order['order_status']['init']['code'];
+            $orderStatusFinish = $this->_order['order_status']['finish']['code'];
+            $phql = 'select count(DISTINCT(ot.order_id)) as order_num,sum(ogt.) from `order` as ot join `order_goods` as ogt
+ on ot.order_id=ogt.order_id where (ot.order_status = '.$orderStatusInit.' or ot.order_status = '.$orderStatusFinish.' ); ';
+
+        }
         //营业总额、订单总数、今日订单数
         $orderStatus = $this->_order['order_status']['finish'];
         //营业总额、订单总数
@@ -832,6 +846,17 @@ class Helper extends Api
  from `order` as ot JOIN `order_goods` as ogt on ot.order_id=ogt.order_id 
  where ot.order_status = 1 and ogt.merchant_id = 1 and ogt.add_timestamp >= 1
  limit 1';
+        $phql = "SELECT Cars.name AS car_name, Brands.name AS brand_name FROM Cars JOIN Brands";
+        $rows = $this->modelsManager->executeQuery($phql);
+        foreach ($rows as $row) {
+            echo $row->car_name, "\n";
+            echo $row->brand_name, "\n";
+        }
+        //order_status初始和完成
+        $orderStatusInit = $this->_order['order_status']['init']['code'];
+        $orderStatusFinish = $this->_order['order_status']['finish']['code'];
+        $phql = 'select * from `order` as ot join `order_goods` as ogt
+ on ot.order_id=ogt.order_id where (ot.order_status = '.$orderStatusInit.' or ot.order_status = '.$orderStatusFinish.' ); ';
 
     }
 
