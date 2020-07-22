@@ -149,37 +149,93 @@ class Helper extends Api
         $ticket = $this->app->ticket->api->Helper()->getFirst();
         if(!empty($ticket)){
             // var_dump($ticket->toArray());exit;
-            $data['recommended'][] = $ticket;
+            $ticketValue = true;
+            foreach($ticket as $k=>$v){
+                if($k=='di'){
+                    $ticketValue = false;break;
+                }
+            }
+            if($ticketValue){
+                $data['recommended'][] = $ticket;
+            }
         }
         //酒店
         $hotel = $this->app->hotel->api->Helper()->getFirst();
         if(!empty($hotel)){
-            $data['recommended'][] = $hotel;
+            $ticketValue = true;
+            foreach($hotel as $k=>$v){
+                if($k=='di'){
+                    $ticketValue = false;break;
+                }
+            }
+            if($ticketValue){
+                $data['recommended'][] = $hotel;
+            }
         }
         //餐饮
         $catering = $this->app->catering->api->Helper()->getFirst();
         if(!empty($catering)){
-            $data['recommended'][] = $catering;
+            $ticketValue = true;
+            foreach($catering as $k=>$v){
+                if($k=='di'){
+                    $ticketValue = false;break;
+                }
+            }
+            if($ticketValue){
+                $data['recommended'][] = $catering;
+            }
         }
         //兼职
         $data['parttimejob_list'] = [];
         $parttimejobs = $this->app->parttimejob->api->Helper()->getList(1,3);
         if(!empty($parttimejobs)){
-            $data['parttimejob_list'] = $parttimejobs;
+            $ticketValue = true;
+            foreach($parttimejobs as $k=>$v){
+                if($k=='di'){
+                    $ticketValue = false;break;
+                }
+            }
+            if($ticketValue){
+                $data['parttimejob_list'] = $parttimejobs;
+            }
         }
         //生活信息
         $data['life_information'] = [];
         $car = $this->app->rent->api->Car()->getFirst();
         if(!empty($car)){
-            $data['life_information'][] = $car;
+            $ticketValue = true;
+            foreach($car as $k=>$v){
+                if($k=='di'){
+                    $ticketValue = false;break;
+                }
+            }
+            if($ticketValue){
+                $data['life_information'][] = $car;
+            }
         }
         $house = $this->app->rent->api->House()->getFirst();
         if(!empty($house)){
-            $data['life_information'][] = $house;
+            $ticketValue = true;
+            foreach($house as $k=>$v){
+                if($k=='di'){
+                    $ticketValue = false;break;
+                }
+            }
+            if($ticketValue){
+                $data['life_information'][] = $house;
+            }
         }
         $second = $this->app->secondhand->api->Helper()->getFirst();
         if(!empty($second)){
-            $data['life_information'][] = $second;
+            $ticketValue = true;
+            foreach($second as $k=>$v){
+                if($k=='di'){
+                    $ticketValue = false;break;
+                }
+            }
+            if($ticketValue){
+                $data['life_information'][] = $second;
+            }
         }
         return (object)$data;
     }
