@@ -193,10 +193,20 @@ class Car extends Api
 
     }
     public function getFirst(){
+        /*
         $condition = " is_selling = ".$this->_config['selling_status']['selling'];
         $condition .= " and status = ".$this->_config['data_status']['valid'];
         $condition .= " order by sort";
         $goods = $this->_model->findFirst($condition);
+        */
+        $goods = $this->modelsManager->createBuilder()
+            ->columns('*')
+            ->from(['sg'=>'Rent\Model\RentCar'])
+            ->where('sg.is_selling = :selling: ', ['selling' => $this->_config['selling_status']['selling']])
+            ->andWhere('sg.status = :valid: ', ['valid' => $this->_config['data_status']['valid']])
+            ->orderBy('sort')
+            ->getQuery()
+            ->getSingleResult();
         return $goods;
     }
 
