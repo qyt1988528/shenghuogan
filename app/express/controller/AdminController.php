@@ -223,7 +223,8 @@ class AdminController extends Controller
                 'goods_num' => $postData['num'] ?? 1
             ];
             $goodsData = [$sendData];
-            $addressId = $postData['user_address_id'] ?? 0;
+            $addressId = $postData['address_id'] ?? 0;
+            // $addressId = $postData['user_address_id'] ?? 0;
             $couponNo = '';
             $orderSend = $this->app->order->api->Helper()->createOrder($goodsData, $this->_userId, $addressId, $couponNo);
         }catch (\Exception $e){

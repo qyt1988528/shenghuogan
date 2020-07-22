@@ -288,7 +288,25 @@ class Helper extends Api
             $orderDetailModel->detailed_address = $addressInfo->detailed_address ?? '';
             $orderDetailModel->shipping_status = $this->_order['shipped_status']['wait_send']['code'];
 
+        }elseif(!empty($addressId)){
+            $addressInfo = $this->_addressModel->findFirstById($addressId);
+            // $addressInfo =  $this->app->address->api->Hepler()->detail($addressId);
+            if(!empty($addressInfo)){
+                // var_dump($addressInfo->name);exit;
+                $orderDetailModel->address_id = $addressId;
+                $orderDetailModel->receiver = $addressInfo->name ?? '';
+                $orderDetailModel->cellphone = $addressInfo->cellphone ?? '';
+                $province = $this->_regionModel->findFirstById($addressInfo->province_id);
+                $orderDetailModel->province = $province->name  ?? '';
+                $city = $this->_regionModel->findFirstById($addressInfo->city_id);
+                $orderDetailModel->city = $city->name ?? '';
+                $county = $this->_regionModel->findFirstById($addressInfo->county_id);
+                $orderDetailModel->county = $county->name ?? '';
+                $orderDetailModel->detailed_address = $addressInfo->detailed_address ?? '';
+                $orderDetailModel->shipping_status = $this->_order['shipped_status']['wait_send']['code'];
+            }
         }
+
         $orderDetailModel->create_time = date('Y-m-d H:i:s');
         if ($orderDetailModel->save() === false) {
             $this->db->rollback();
@@ -1084,7 +1102,7 @@ class Helper extends Api
                 if($goodsType=='express'){
 
                 }else{
-                    
+
                 }
             }
 

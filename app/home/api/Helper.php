@@ -148,6 +148,7 @@ class Helper extends Api
         //门票
         $ticket = $this->app->ticket->api->Helper()->getFirst();
         if(!empty($ticket)){
+            // var_dump($ticket->toArray());exit;
             $data['recommended'][] = $ticket;
         }
         //酒店

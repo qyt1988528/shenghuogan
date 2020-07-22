@@ -436,7 +436,7 @@ class Helper extends Api
             $model->create($insertData);
             return !empty($model->id) ? $model->id : 0;
         } catch (\Exception $e) {
-            var_dump($e->getMessage());exit;
+            // var_dump($e->getMessage());exit;
             return 0;
         }
 
