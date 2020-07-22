@@ -450,8 +450,11 @@ class Helper extends Api
             ->andWhere('sg.status = :valid: ', ['valid' => $this->_config['data_status']['valid']])
             ->orderBy('id desc')
             ->getQuery()
-            ->getSingleResult()
-            ->toArray();
+            ->getSingleResult();
+            // ->toArray();
+        if(!empty($cover)){
+            $cover = $cover->toArray();
+        }
         return $cover;
     }
 
