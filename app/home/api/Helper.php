@@ -147,6 +147,7 @@ class Helper extends Api
         $data['recommended'] = [];
         //门票
         $ticket = $this->app->ticket->api->Helper()->getFirst();
+        var_dump($ticket);exit;
         if(!empty($ticket)){
             // var_dump($ticket->toArray());exit;
             $ticketValue = true;
