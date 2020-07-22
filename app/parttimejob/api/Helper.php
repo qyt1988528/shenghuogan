@@ -197,6 +197,7 @@ class Helper extends Api
             ->limit($start, $pageSize)
             ->getQuery()
             ->execute();
+        // var_dump($goods->toArray());exit;
         return $goods;
     }
     public function getListByUserId($userId){

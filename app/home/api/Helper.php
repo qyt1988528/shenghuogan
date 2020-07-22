@@ -151,7 +151,7 @@ class Helper extends Api
             // var_dump($ticket->toArray());exit;
             $ticketValue = true;
             foreach($ticket as $k=>$v){
-                if($k=='di'){
+                if($k==='di'){
                     $ticketValue = false;break;
                 }
             }
@@ -164,7 +164,7 @@ class Helper extends Api
         if(!empty($hotel)){
             $ticketValue = true;
             foreach($hotel as $k=>$v){
-                if($k=='di'){
+                if($k==='di'){
                     $ticketValue = false;break;
                 }
             }
@@ -177,7 +177,7 @@ class Helper extends Api
         if(!empty($catering)){
             $ticketValue = true;
             foreach($catering as $k=>$v){
-                if($k=='di'){
+                if($k==='di'){
                     $ticketValue = false;break;
                 }
             }
@@ -191,12 +191,14 @@ class Helper extends Api
         if(!empty($parttimejobs)){
             $ticketValue = true;
             foreach($parttimejobs as $k=>$v){
-                if($k=='di'){
+                if($k==='di'){
                     $ticketValue = false;break;
+                }elseif(count($data['parttimejob_list']) < 3){
+                    $data['parttimejob_list'][] = $v;
                 }
             }
             if($ticketValue){
-                $data['parttimejob_list'] = $parttimejobs;
+                // $data['parttimejob_list'] = $parttimejobs;
             }
         }
         //生活信息
@@ -205,7 +207,7 @@ class Helper extends Api
         if(!empty($car)){
             $ticketValue = true;
             foreach($car as $k=>$v){
-                if($k=='di'){
+                if($k==='di'){
                     $ticketValue = false;break;
                 }
             }
@@ -217,7 +219,7 @@ class Helper extends Api
         if(!empty($house)){
             $ticketValue = true;
             foreach($house as $k=>$v){
-                if($k=='di'){
+                if($k==='di'){
                     $ticketValue = false;break;
                 }
             }
@@ -229,7 +231,7 @@ class Helper extends Api
         if(!empty($second)){
             $ticketValue = true;
             foreach($second as $k=>$v){
-                if($k=='di'){
+                if($k==='di'){
                     $ticketValue = false;break;
                 }
             }
