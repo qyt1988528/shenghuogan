@@ -204,7 +204,7 @@ class House extends Api
         $goods = $this->modelsManager->createBuilder()
             ->columns('*')
             ->from(['sg'=>'Rent\Model\RentHouse'])
-            ->where('sg.is_selling = :selling: ', ['selling' => $this->_config['selling_status']['selling']])
+            ->where('sg.is_renting = :selling: ', ['selling' => $this->_config['renting_status']['renting']])
             ->andWhere('sg.status = :valid: ', ['valid' => $this->_config['data_status']['valid']])
             ->orderBy('sort')
             ->getQuery()
