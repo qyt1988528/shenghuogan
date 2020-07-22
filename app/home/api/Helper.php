@@ -146,8 +146,8 @@ class Helper extends Api
         //今日推荐
         $data['recommended'] = [];
         //门票
-        $ticket = $this->app->ticket->api->Helper()->getFirst();
-        var_dump($ticket);exit;
+        $ticket = $this->getTmpTicket();
+        // $ticket = $this->app->ticket->api->Helper()->getFirst();
         if(!empty($ticket)){
             // var_dump($ticket->toArray());exit;
             $ticketValue = true;
@@ -161,7 +161,8 @@ class Helper extends Api
             }
         }
         //酒店
-        $hotel = $this->app->hotel->api->Helper()->getFirst();
+        $hotel = $this->getTmpHotel();
+        // $hotel = $this->app->hotel->api->Helper()->getFirst();
         if(!empty($hotel)){
             $ticketValue = true;
             foreach($hotel as $k=>$v){
@@ -174,7 +175,8 @@ class Helper extends Api
             }
         }
         //餐饮
-        $catering = $this->app->catering->api->Helper()->getFirst();
+        $catering = $this->getTmpCatering();
+        // $catering = $this->app->catering->api->Helper()->getFirst();
         if(!empty($catering)){
             $ticketValue = true;
             foreach($catering as $k=>$v){
@@ -188,7 +190,8 @@ class Helper extends Api
         }
         //兼职
         $data['parttimejob_list'] = [];
-        $parttimejobs = $this->app->parttimejob->api->Helper()->getList(1,3);
+        $parttimejobs = $this->getTmpParttimejob(1,3);
+        // $parttimejobs = $this->app->parttimejob->api->Helper()->getList(1,3);
         if(!empty($parttimejobs)){
             $ticketValue = true;
             foreach($parttimejobs as $k=>$v){
@@ -204,7 +207,8 @@ class Helper extends Api
         }
         //生活信息
         $data['life_information'] = [];
-        $car = $this->app->rent->api->Car()->getFirst();
+        $car = $this->getTmpCar();
+        // $car = $this->app->rent->api->Car()->getFirst();
         if(!empty($car)){
             $ticketValue = true;
             foreach($car as $k=>$v){
@@ -216,7 +220,8 @@ class Helper extends Api
                 $data['life_information'][] = $car;
             }
         }
-        $house = $this->app->rent->api->House()->getFirst();
+        $house = $this->getTmpHouse();
+        // $house = $this->app->rent->api->House()->getFirst();
         if(!empty($house)){
             $ticketValue = true;
             foreach($house as $k=>$v){
@@ -228,7 +233,8 @@ class Helper extends Api
                 $data['life_information'][] = $house;
             }
         }
-        $second = $this->app->secondhand->api->Helper()->getFirst();
+        $second = $this->getTmpSecond();
+        // $second = $this->app->secondhand->api->Helper()->getFirst();
         if(!empty($second)){
             $ticketValue = true;
             foreach($second as $k=>$v){
@@ -241,6 +247,87 @@ class Helper extends Api
             }
         }
         return (object)$data;
+    }
+
+    public function getTmpTicket(){
+        $goods = $this->modelsManager->createBuilder()
+            ->columns('*')
+            ->from(['sg' => 'Ticket\Model\Ticket'])
+            ->where('sg.is_selling = :selling: ', ['selling' => $this->_config['selling_status']['selling']])
+            ->andWhere('sg.status = :valid: ', ['valid' => $this->_config['data_status']['valid']])
+            ->orderBy('sort')
+            ->getQuery()
+            ->getSingleResult();
+        return $goods;
+    }
+    public function getTmpHotel(){
+        $goods = $this->modelsManager->createBuilder()
+            ->columns('*')
+            ->from(['sg' => 'Hotel\Model\Hotel'])
+            ->where('sg.is_selling = :selling: ', ['selling' => $this->_config['selling_status']['selling']])
+            ->andWhere('sg.status = :valid: ', ['valid' => $this->_config['data_status']['valid']])
+            ->orderBy('sort')
+            ->getQuery()
+            ->getSingleResult();
+        return $goods;
+    }
+    public function getTmpCatering(){
+        $goods = $this->modelsManager->createBuilder()
+            ->columns('*')
+            ->from(['sg' => 'Catering\Model\Catering'])
+            ->where('sg.is_selling = :selling: ', ['selling' => $this->_config['selling_status']['selling']])
+            ->andWhere('sg.status = :valid: ', ['valid' => $this->_config['data_status']['valid']])
+            ->orderBy('sort')
+            ->getQuery()
+            ->getSingleResult();
+        return $goods;
+    }
+    public function getTmpParttimejob($page = 1, $pageSize = 10){
+        $start = ($page - 1) * $pageSize;
+        $goods = $this->modelsManager->createBuilder()
+            ->columns('id,user_id,title,description,location,commission,cellphone,qq,wechat,is_hiring,publish_time,end_time,views,base_views,sort,goods_type,status,(views+base_views) as total_views')
+            ->from(['sg' => 'Parttimejob\Model\Parttimejob'])
+            ->where('sg.is_hiring = :hiring: ', ['hiring' => $this->_config['hiring_status']['hiring']])
+            ->andWhere('sg.status = :valid: ', ['valid' => $this->_config['data_status']['valid']])
+            ->orderBy('sort')
+            ->limit($start, $pageSize)
+            ->getQuery()
+            ->execute();
+        // var_dump($goods->toArray());exit;
+        return $goods;
+    }
+    public function getTmpCar(){
+        $goods = $this->modelsManager->createBuilder()
+            ->columns('*')
+            ->from(['sg'=>'Rent\Model\RentCar'])
+            ->where('sg.is_selling = :selling: ', ['selling' => $this->_config['selling_status']['selling']])
+            ->andWhere('sg.status = :valid: ', ['valid' => $this->_config['data_status']['valid']])
+            ->orderBy('sort')
+            ->getQuery()
+            ->getSingleResult();
+        return $goods;
+    }
+    public function getTmpHouse(){
+        $goods = $this->modelsManager->createBuilder()
+            ->columns('*')
+            ->from(['sg'=>'Rent\Model\RentHouse'])
+            ->where('sg.is_renting = :selling: ', ['selling' => $this->_config['renting_status']['renting']])
+            ->andWhere('sg.status = :valid: ', ['valid' => $this->_config['data_status']['valid']])
+            ->orderBy('sort')
+            ->getQuery()
+            ->getSingleResult();
+        return $goods;
+    }
+    public function getTmpSecond(){
+        $goods = $this->modelsManager->createBuilder()
+            ->columns('*')
+            ->from(['sg'=>'Secondhand\Model\Second'])
+            ->where('sg.is_selling = :selling: ', ['selling' => $this->_config['selling_status']['selling']])
+            ->andWhere('sg.status = :valid: ', ['valid' => $this->_config['data_status']['valid']])
+            ->orderBy('sort')
+            ->getQuery()
+            ->getSingleResult();
+        return $goods;
     }
 
 
