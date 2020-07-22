@@ -183,6 +183,7 @@ class Helper extends Api
             ->getQuery()
             ->execute();*/
         //标题、图片、初始价格、单独购买价格、描述、位置、推荐、排序、点赞、销量
+        $goodsName = str_replace('"游"','',$goodsName);
         $goodsName = trim($goodsName);
         $goods = $this->modelsManager->createBuilder()
             ->columns('*')
@@ -194,6 +195,7 @@ class Helper extends Api
             ->orderBy('sort')
             ->getQuery()
             ->execute();
+        // var_dump($goodsName);exit;
         return $goods;
     }
 

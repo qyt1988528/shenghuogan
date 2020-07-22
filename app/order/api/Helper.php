@@ -10,6 +10,7 @@ use Order\Model\Order;
 use Order\Model\OrderDetail;
 use Order\Model\OrderGoods;
 use Parttimejob\Model\Parttimejob;
+use School\Model\School;
 
 class Helper extends Api
 {
@@ -126,8 +127,9 @@ class Helper extends Api
                 $this->db->rollback();
                 throw new \Exception('类型有误', 1002);
             }
-            // var_dump($goodsTypes[$gd['goods_type']]['model']);exit;
             //确认商品是否存在
+            // var_dump($gd);
+            // var_dump($goodsTypes);exit;
             $goods = $this->modelsManager->createBuilder()
                 ->columns('*')
                 // ->columns('id,stock,title,img_url,original_price,self_price,description,location,is_recommend,sort,base_fav_count,base_order_count')
@@ -240,16 +242,17 @@ class Helper extends Api
                     'goods_id' => $goods->id,
                     'merchant_id' => $goods->merchant_id ?? 0,
                     'goods_name' => $goods->title ?? '',
-                    'goods_num' => $gd['goods_num'],
+                    'goods_num' => $gd['goods_num'] ?? 0,
                     'goods_start_date' => $gd['goods_start_date'] ?? $this->_validDate,
                     'goods_end_date' => $gd['goods_end_date'] ?? $this->_validDate,
-                    'goods_amount' => $goods->total_price,
+                    'goods_amount' => $goods->goods_amount ?? 0,
                     'goods_cost_amount' => $goods->total_price ?? 0,
                     'goods_current_amount' => $goods->total_price ?? 0,
                     'goods_type' => $gd['goods_type'],
                     'goods_attr' => $this->getSpecs($goods),
                     'goods_cover' => $this->getGoodsCover($goods->img_url ?? ''),
                     'goods_detail_data' => $this->getJsonGoodsData($goods),
+                    'gratuity' => $goods->gratuity ?? 0,
                 ];
             }
 
@@ -308,6 +311,22 @@ class Helper extends Api
             $orderGoodsModel->current_charge_percent = $this->_chargePercent;
             $orderGoodsModel->charge_amount = round($orderGoodsModel->total_amount * $this->_chargePercent,2);
             $orderGoodsModel->real_income = $orderGoodsModel->total_amount - $orderGoodsModel->charge_amount;
+            if($v['goods_type'] == 'express_send'){
+                //小费;
+                $orderGoodsModel->charge_amount = 0;
+                $orderGoodsModel->real_income = $v['gratuity'] ?? 0;
+            }elseif($v['goods_type'] == 'express_take'){
+                //总额;
+                $orderGoodsModel->charge_amount = 0;
+                $orderGoodsModel->real_income = $v['goods_amount'] ?? 0;
+            }elseif($v['goods_type'] == 'school'){
+                //总额;
+                $orderGoodsModel->charge_amount = 0;
+                $orderGoodsModel->real_income =  0;
+                $orderGoodsModel->goods_amount = $v['goods_amount'] ?? 0;
+                $orderGoodsModel->goods_cost_amount = $v['goods_amount'] ?? 0;
+                $orderGoodsModel->goods_current_amount = $v['goods_amount'] ?? 0;
+            }
             $orderGoodsModel->goods_type = $v['goods_type'] ?? '';
             $orderGoodsModel->goods_attr = $v['goods_attr'] ?? '';
             $orderGoodsModel->goods_cover = $v['goods_cover'] ?? '';
@@ -801,6 +820,10 @@ class Helper extends Api
     {
         return strtotime(date('Y-m-d'));
     }
+    public function getMonthStamp()
+    {
+        return strtotime(date('Y-m-01'));
+    }
 
     public function getSalesCount($goodsId, $goodsType, $merchantId = 0)
     {
@@ -850,52 +873,224 @@ class Helper extends Api
 
     public function getOrderData($merchantId=0)
     {
+        $orderStatusInit = $this->_order['order_status']['init']['code'];
+        $orderStatusFinish = $this->_order['order_status']['finish']['code'];
         if($merchantId == 0){
             //平台
             //营业总额、订单总数、今日订单数
             //用户总数、今日订单总额、今日新增用户数
-
+            $orderRet = $this->modelsManager->createBuilder()
+                ->columns('sum(ogt.total_amount) as total_sales,count(DISTINCT(ot.order_id)) as total_orders')
+                ->from(['ogt'=>'Order\Model\OrderGoods'])
+                ->leftjoin('Order\Model\Order', 'ot.order_id = ogt.order_id','ot')
+                ->where('ot.order_status = :init: or ot.order_status = :finish:',['init'=>$orderStatusInit,'finish' => $orderStatusFinish])
+                ->getQuery()
+                ->execute()
+                ->getFirst()
+                ->toArray();
+            if(empty($orderRet)){
+               $orderRet = [
+                   'total_sales' => 0,
+                   'total_orders' => 0,
+               ];
+            }
+            $orderTodayRet = $this->modelsManager->createBuilder()
+                ->columns('sum(ogt.total_amount) as today_sales,count(DISTINCT(ot.order_id)) as today_orders')
+                ->from(['ogt'=>'Order\Model\OrderGoods'])
+                ->leftjoin('Order\Model\Order', 'ot.order_id = ogt.order_id','ot')
+                ->where('ot.order_status = :init: or ot.order_status = :finish:',['init'=>$orderStatusInit,'finish' => $orderStatusFinish])
+                ->andWhere("ot.create_time >= :today:",['today'=>$this->getTodayStamp()])
+                ->getQuery()
+                ->execute()
+                ->getFirst()
+                ->toArray();
+            if(empty($orderTodayRet)){
+               $orderTodayRet = [
+                   'today_sales' => 0,
+                   'today_orders' => 0,
+               ];
+            }
+            $userRet= $this->modelsManager->createBuilder()
+                ->columns('count(*) as total_users')
+                ->from(['ut'=>'Tencent\Model\User'])
+                ->where('ut.status = :valid:',['valid' => $this->_config['data_status']['valid']])
+                ->andWhere("ut.is_platform != :valid:",['valid' => $this->_config['data_status']['valid']])
+                ->getQuery()
+                ->execute()
+                ->getFirst()
+                ->toArray();
+            if(empty($userRet)){
+                $userRet = [
+                    'total_users' =>0
+                ];
+            }
+            $userTodayRet= $this->modelsManager->createBuilder()
+                ->columns('count(*) as today_users')
+                ->from(['ut'=>'Tencent\Model\User'])
+                ->where('ut.status = :valid:',['valid' => $this->_config['data_status']['valid']])
+                ->andWhere("ut.is_platform != :valid:",['valid' => $this->_config['data_status']['valid']])
+                ->andWhere("ut.create_time >= :today:",['today'=>$this->getTodayStamp()])
+                ->getQuery()
+                ->execute()
+                ->getFirst()
+                ->toArray();
+            if(empty($userTodayRet)){
+                $userTodayRet = [
+                    'today_users' =>0
+                ];
+            }
+            $orderData = array_merge($orderRet,$orderTodayRet,$userRet,$userTodayRet);
         }else{
-            //具体商户
+            //具体商 order_status初始和完成
             //营业总额、订单总数、今日订单数
-            //order_status初始和完成
-            $orderStatusInit = $this->_order['order_status']['init']['code'];
-            $orderStatusFinish = $this->_order['order_status']['finish']['code'];
-            $phql = 'select count(DISTINCT(ot.order_id)) as order_num,sum(ogt.) from `order` as ot join `order_goods` as ogt
- on ot.order_id=ogt.order_id where (ot.order_status = '.$orderStatusInit.' or ot.order_status = '.$orderStatusFinish.' ); ';
+            $orderRet = $this->modelsManager->createBuilder()
+                ->columns('sum(ogt.total_amount) as total_sales,count(DISTINCT(ot.order_id)) as total_orders')
+                // ->columns('*')
+                ->from(['ogt'=>'Order\Model\OrderGoods'])
+                ->leftjoin('Order\Model\Order', 'ot.order_id = ogt.order_id','ot')
+                ->where('ot.order_status = :init: or ot.order_status = :finish:',['init'=>$orderStatusInit,'finish' => $orderStatusFinish])
+                ->andWhere("ogt.merchant_id = :merchant_id:",['merchant_id'=>$merchantId])
+                // ->andWhere("ogt.merchant_id = :merchant_id:",['merchant_id'=>$merchantId])
+                // ->orderBy("b.sort desc")
+                ->getQuery()
+                ->execute()
+                ->getFirst()
+                ->toArray();
+            if(empty($orderRet)){
+                $orderRet = [
+                    'total_sales' => 0,
+                    'total_orders' => 0,
+                ];
+            }
+            $orderTodayRet = $this->modelsManager->createBuilder()
+                ->columns('count(DISTINCT(ot.order_id)) as today_orders')
+                ->from(['ogt'=>'Order\Model\OrderGoods'])
+                ->leftjoin('Order\Model\Order', 'ot.order_id = ogt.order_id','ot')
+                ->where('ot.order_status = :init: or ot.order_status = :finish:',['init'=>$orderStatusInit,'finish' => $orderStatusFinish])
+                ->andWhere("ogt.merchant_id = :merchant_id:",['merchant_id'=>$merchantId])
+                ->andWhere("ot.create_time >= :today:",['today'=>$this->getTodayStamp()])
+                ->getQuery()
+                ->execute()
+                ->getFirst()
+                ->toArray();
+            if(empty($orderTodayRet)){
+                $orderTodayRet = [
+                    'today_sales' => 0,
+                    'today_orders' => 0,
+                ];
+            }
+            $orderData = array_merge($orderRet,$orderTodayRet);
+
+
 
         }
-        //营业总额、订单总数、今日订单数
-        $orderStatus = $this->_order['order_status']['finish'];
-        //营业总额、订单总数
-        $orderData = $this->modelsManager->createBuilder()
-            ->columns('sum(goods_current_amount) as total_amount,count(distinct(order_id)) as order_num')
-            ->from(['sg' => 'Order\Model\OrderGoods'])
-            ->where('sg.merchant_id = :merchant_id: ', ['merchant_id' => $merchantId])
-            ->andWhere('sg.status = :valid: ', ['valid' => $this->_config['data_status']['valid']])
-            ->groupBy('order_id')
-            ->getQuery()
-            ->getSingleResult();
-        //今日营业额、今日订单数
-        $todayOrderData = $this->modelsManager->createBuilder()
-            ->columns('sum(goods_current_amount) as total_amount,count(distinct(order_id)) as order_num')
-            ->from(['sg' => 'Order\Model\OrderGoods'])
-            ->where('sg.merchant_id = :merchant_id: ', ['merchant_id' => $merchantId])
-            ->andWhere('sg.add_timestamp = :add_timestamp: ', ['add_timestamp' => $this->getTodayStamp()])
-            ->andWhere('sg.status = :valid: ', ['valid' => $this->_config['data_status']['valid']])
-            ->groupBy('order_id')
-            ->getQuery()
-            ->getSingleResult();
-        //订单已完成、指定商户
-        $totalSql = 'select sum(ogt.real_income) as total_amount,count(distinct(ogt.order_id)) as order_num 
- from `order` as ot JOIN `order_goods` as ogt on ot.order_id=ogt.order_id 
- where ot.order_status = 1 and ogt.merchant_id = 1
- limit 1';
-        //今天订单已完成、指定商户
-        $todaySql = 'select sum(ogt.real_income) as total_amount,count(distinct(ogt.order_id)) as order_num 
- from `order` as ot JOIN `order_goods` as ogt on ot.order_id=ogt.order_id 
- where ot.order_status = 1 and ogt.merchant_id = 1 and ogt.add_timestamp = 1
- limit 1';
+        foreach ($orderData as $k=>$v){
+            if(empty($v)){
+                $orderData[$k] = 0;
+            }else{
+                $orderData[$k] = floatval($v);
+            }
+        }
+        return $orderData;
+    }
+    public function wallet($merchantId=0){
+        $orderStatusInit = $this->_order['order_status']['init']['code'];
+        $orderStatusFinish = $this->_order['order_status']['finish']['code'];
+        //总收入 本月收入
+        if($merchantId == 0){
+            //平台
+            $totalRet = $this->modelsManager->createBuilder()
+                ->columns('sum(ogt.total_amount) as total_income')
+                ->from(['ogt'=>'Order\Model\OrderGoods'])
+                ->leftjoin('Order\Model\Order', 'ot.order_id = ogt.order_id','ot')
+                ->where('ot.order_status = :init: or ot.order_status = :finish:',['init'=>$orderStatusInit,'finish' => $orderStatusFinish])
+                ->getQuery()
+                ->execute()
+                ->getFirst()
+                ->toArray();
+            if(empty($totalRet)){
+                $totalRet = [
+                    'total_income' => 0,
+                ];
+            }
+            $monthRet = $this->modelsManager->createBuilder()
+                ->columns('sum(ogt.total_amount) as this_month_income')
+                ->from(['ogt'=>'Order\Model\OrderGoods'])
+                ->leftjoin('Order\Model\Order', 'ot.order_id = ogt.order_id','ot')
+                ->where('ot.order_status = :init: or ot.order_status = :finish:',['init'=>$orderStatusInit,'finish' => $orderStatusFinish])
+                ->andWhere("ot.create_time >= :month:",['month'=>$this->getMonthStamp()])
+                ->getQuery()
+                ->execute()
+                ->getFirst()
+                ->toArray();
+            if(empty($monthRet)){
+                $monthRet = [
+                    'this_month_income' => 0,
+                ];
+            }
+        }else{
+            //商户
+            $totalRet = $this->modelsManager->createBuilder()
+                ->columns('sum(ogt.total_amount) as total_income')
+                ->from(['ogt'=>'Order\Model\OrderGoods'])
+                ->leftjoin('Order\Model\Order', 'ot.order_id = ogt.order_id','ot')
+                ->where('ot.order_status = :init: or ot.order_status = :finish:',['init'=>$orderStatusInit,'finish' => $orderStatusFinish])
+                ->andWhere("ogt.merchant_id = :merchant_id:",['merchant_id'=>$merchantId])
+                ->getQuery()
+                ->execute()
+                ->getFirst()
+                ->toArray();
+            if(empty($totalRet)){
+                $totalRet = [
+                    'total_income' => 0,
+                ];
+            }
+            $monthRet = $this->modelsManager->createBuilder()
+                ->columns('sum(ogt.total_amount) as this_month_income')
+                ->from(['ogt'=>'Order\Model\OrderGoods'])
+                ->leftjoin('Order\Model\Order', 'ot.order_id = ogt.order_id','ot')
+                ->where('ot.order_status = :init: or ot.order_status = :finish:',['init'=>$orderStatusInit,'finish' => $orderStatusFinish])
+                ->andWhere("ogt.merchant_id = :merchant_id:",['merchant_id'=>$merchantId])
+                ->andWhere("ot.create_time >= :month:",['month'=>$this->getMonthStamp()])
+                ->getQuery()
+                ->execute()
+                ->getFirst()
+                ->toArray();
+            if(empty($monthRet)){
+                $monthRet = [
+                    'this_month_income' => 0,
+                ];
+            }
+
+        }
+        $ret = array_merge($totalRet,$monthRet);
+        foreach ($ret as $k=>$v){
+            if(empty($v)){
+                $ret[$k] = 0;
+            }else{
+                $ret[$k] = floatval($v);
+            }
+        }
+        return $ret;
+    }
+
+    public function orderList($merchantId=0,$goodsType=''){
+        if($merchantId==0){
+            //平台
+            if(empty($goodsType)){
+                //全部订单
+            }else{
+                //指定类别
+            }
+
+        }else{
+            //商户
+            if(empty($goodsType)){
+                //全部订单
+            }else{
+                //指定类别
+            }
+        }
 
     }
 

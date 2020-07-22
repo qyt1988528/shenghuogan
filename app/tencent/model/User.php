@@ -32,6 +32,11 @@ class User extends Model
      * @Column(type="integer", nullable=true, column="merchant_id")
      */
     public $merchant_id;
+    /**
+     *
+     * @Column(type="integer", nullable=true, column="is_platform")
+     */
+    public $is_platform;
 
     /**
      * @Unique

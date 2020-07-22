@@ -51,6 +51,15 @@ class AdminController extends Controller
             $data['data'] =[
                 'id' => $insert
             ];
+            $takeData = [
+                'goods_id' => $insert,
+                'goods_type' => 'express_take',
+                'goods_num' => $postData['num'] ?? 0
+            ];
+            $goodsData = [$takeData];
+            $addressId = $postData['address_id'] ?? 0;
+            $couponNo = '';
+            $orderExpress = $this->app->order->api->Helper()->createOrder($goodsData, $this->_userId, $addressId, $couponNo);
         }catch (\Exception $e){
             $this->resultSet->error($e->getCode(),$e->getMessage());
         }
@@ -208,6 +217,15 @@ class AdminController extends Controller
             $data['data'] =[
                 'id' => $insert
             ];
+            $sendData = [
+                'goods_id' => $insert,
+                'goods_type' => 'express_send',
+                'goods_num' => $postData['num'] ?? 1
+            ];
+            $goodsData = [$sendData];
+            $addressId = $postData['user_address_id'] ?? 0;
+            $couponNo = '';
+            $orderSend = $this->app->order->api->Helper()->createOrder($goodsData, $this->_userId, $addressId, $couponNo);
         }catch (\Exception $e){
             $this->resultSet->error($e->getCode(),$e->getMessage());
         }

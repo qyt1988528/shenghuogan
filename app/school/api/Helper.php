@@ -25,7 +25,7 @@ class Helper extends Api
             'name',
             'stu_id_num',
             'id_num',
-            'amount',
+            'goods_amount',
             // 'cellphone',
             'user_id',
         ];
@@ -125,7 +125,6 @@ class Helper extends Api
     //平台用户需要查询待缴费的记录
 
     /**
-     * @param string $keywords 此处为手机号 仅显示 待审核 和 已通过的
      * @param int $page
      * @param int $pageSize
      * @return mixed
@@ -139,7 +138,7 @@ class Helper extends Api
                 ->columns('*')
                 ->from(['sg' => 'School\Model\School'])
                 ->andWhere('sg.status = :valid: ', ['valid' => $this->_config['data_status']['valid']])
-                ->andWhere('sg.pay_status = :payStatus:', ['payStatus' => $payStatus])
+                // ->andWhere('sg.pay_status = :payStatus:', ['payStatus' => $payStatus])
                 ->limit($start, $pageSize)
                 ->getQuery()
                 ->execute()
@@ -148,7 +147,7 @@ class Helper extends Api
             //未传userId 为平台查询
             $merchants = $this->modelsManager->createBuilder()
                 ->columns('*')
-                ->from(['sg' => 'Parttimejob\Model\CertificationRecord'])
+                ->from(['sg' => 'School\Model\School'])
                 ->andWhere('sg.status = :valid: ', ['valid' => $this->_config['data_status']['valid']])
                 ->andWhere('sg.certification_status = :pass: or sg.certification_status = :auditing:',
                     ['pass' => $this->_certStatus['certification_status']['passed']['code'],
@@ -160,7 +159,7 @@ class Helper extends Api
         }
         if (!empty($merchants)) {
             foreach ($merchants as &$v) {
-                $v['certification_status_description'] = $this->getCertificationDescription($v['certification_status']);
+                // $v['certification_status_description'] = $this->getCertificationDescription($v['certification_status']);
             }
         }
         return $merchants;
@@ -180,6 +179,19 @@ class Helper extends Api
         }
         return $description;
 
+    }
+
+    public function testA(){
+        $goods = $this->modelsManager->createBuilder()
+            ->columns('*')
+            // ->columns('id,stock,title,img_url,original_price,self_price,description,location,is_recommend,sort,base_fav_count,base_order_count')
+            // ->from(['sg' => 'Secondhand\Model\Second'])
+            ->from(['sg' => 'School\Model\School'])
+            // ->where('sg.id = :goods_id: ', ['goods_id' => 17])
+            // ->andWhere('sg.status = :valid: ', ['valid' => 1])
+            ->getQuery()
+            // ->execute();
+            ->getSingleResult();
     }
 
 }

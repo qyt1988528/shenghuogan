@@ -441,5 +441,14 @@ class IndexController extends Controller
         $list = $svc->search($param);
         $this->output($list);
     }
+     /**
+     * 创建订单
+     * Create action.
+     * @return void
+     * @Route("/test", methods="GET", name="order")
+     */
+    public function testAction(){
+        $this->app->order->api->Helper()->getOrderData(0);exit;
+    }
 
 }

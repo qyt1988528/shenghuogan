@@ -71,6 +71,7 @@ class IndexController extends Controller
      */
     public function searchAction(){
         $keywords = $this->request->getParam('keywords',null,'');
+        $keywords = trim($keywords);
         if(empty($keywords)){
             $this->resultSet->error(1001,$this->_error['invalid_input']);
         }

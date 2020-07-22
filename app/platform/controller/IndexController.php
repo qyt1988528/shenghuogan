@@ -530,6 +530,40 @@ class IndexController extends Controller
         $this->response->success($this->resultSet->toObject());
 
     }
+    /**
+     * @return void
+     * @Route("/img", methods="POST", name="platform")
+     */
+    public function saveImageAction()
+    {
+        $type = $this->request->getParam('type', null, 0);
+        $imgUrl = $this->request->getParam('img_url', null, '');
+        $insertData = [
+            'type' => $type,
+            'img_url' => $imgUrl,
+            'upload_user_id' => $this->_userId
+        ];
+        foreach ($insertData as $v) {
+            if (empty($v)) {
+                $this->resultSet->error(1001, $this->_error['invalid_input']);
+            }
+        }
+        try{
+            $insert = $this->app->platform->api->Helper()->saveImage($insertData);
+            if(empty($insert)){
+                $this->resultSet->error(1002,$this->_error['try_later']);
+            }
+            $data['data'] =[
+                'id' => $insert
+            ];
+        }catch (\Exception $e){
+            $this->resultSet->error($e->getCode(),$e->getMessage());
+        }
+        $this->resultSet->success()->setData($data);
+        $this->response->success($this->resultSet->toObject());
+
+    }
+
 
 
 }

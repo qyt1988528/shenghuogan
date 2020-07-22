@@ -17,8 +17,8 @@ class Helper extends Api
         return $insertFields = [
             'img_url',
             'title',
-            'location',
-            'stock',
+            // 'location',
+            // 'stock',
             'cellphone',
             'qq',
             'wechat',

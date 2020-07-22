@@ -317,9 +317,8 @@ class Helper extends Api
             'merchant_name'  => $merchantData['name'] ?? '',
             'merchant_cellphone'  => $merchantData['cellphone'] ?? '',
         ];
-        $ret['total_sales'] = 100;
-        $ret['total_orders'] = 100;
-        $ret['today_orders'] = 10;
+        $orderData = $this->app->order->api->Helper()->getOrderData($merchantId);
+        $ret = array_merge($ret,$orderData);
 
 
         return $ret;
@@ -349,11 +348,8 @@ class Helper extends Api
 
     public function myWallet($merchantId){
         //商户-我的钱包 总收入 本月收入
-        $data = [
-            'total_income' => 100,
-            'this_month_income' => 100,
-        ];
-        return $data;
+        $walletData = $this->app->order->api->Helper()->wallet($merchantId);
+        return $walletData;
     }
 
     public function bill($merchantId){

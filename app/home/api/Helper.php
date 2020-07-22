@@ -17,6 +17,7 @@ class Helper extends Api
     {
         $this->_config = $this->app->core->config->config->toArray();
     }
+    //test可删
     public function getIndex(){
         //location
         //cover
@@ -131,19 +132,30 @@ class Helper extends Api
         return $goods;
     }
 
+    /**
+     * 获取首页数据
+     * @return object
+     */
     public function getIndexData(){
         $data['cover'] = '';
+        $coverData = $this->app->platform->api->Helper()->getCoverData();
+        if(!empty($coverData)){
+            $data['cover'] = $coverData['img_url'] ?? '';
+        }
         $data['icon_list'] = $this->getMode();
         //今日推荐
         $data['recommended'] = [];
+        //门票
         $ticket = $this->app->ticket->api->Helper()->getFirst();
         if(!empty($ticket)){
             $data['recommended'][] = $ticket;
         }
+        //酒店
         $hotel = $this->app->hotel->api->Helper()->getFirst();
         if(!empty($hotel)){
             $data['recommended'][] = $hotel;
         }
+        //餐饮
         $catering = $this->app->catering->api->Helper()->getFirst();
         if(!empty($catering)){
             $data['recommended'][] = $catering;

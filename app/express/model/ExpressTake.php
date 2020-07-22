@@ -57,7 +57,7 @@ class ExpressTake extends Model
     public $total_price;
     /**
      *
-     * @Column(type="string", size="255", nullable=true, column="is_hiring")
+     * @Column(type="int", nullable=true, column="is_hiring")
      */
     public $is_hiring;
     /**

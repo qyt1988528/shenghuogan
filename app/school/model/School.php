@@ -33,9 +33,9 @@ class School extends Model
     public $id_num;
     /**
      *
-     * @Column(type="integer", nullable=true, column="amount")
+     * @Column(type="integer", nullable=true, column="goods_amount")
      */
-    public $amount;
+    public $goods_amount;
     /**
      *
      * @Column(type="integer", nullable=true, column="pay_status")
@@ -56,7 +56,17 @@ class School extends Model
      * @Column(type="integer", size="11", nullable=true, column="platform_user_id")
      */
     public $platform_user_id;
+    /**
+     *
+     * @Column(type="string", nullable=true, column="goods_type")
+     */
+    public $goods_type;
 
+    /**
+     *
+     * @Column(type="int", nullable=true, column="is_hiring")
+     */
+    public $is_hiring;
     /**
      *
      * @Column(type="string", nullable=true, column="create_time")

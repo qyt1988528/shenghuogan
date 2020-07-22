@@ -5,7 +5,7 @@ use MDK\Controller;
 
 /**
  * Admin controller.
- * @RoutePrefix("/school", name="school")
+ * @RoutePrefix("/schooladmin", name="schooladmin")
  */
 class AdminController extends Controller
 {
@@ -28,26 +28,35 @@ class AdminController extends Controller
      * 创建缴费申请
      * Create action.
      * @return void
-     * @Route("/create", methods="POST", name="school")
+     * @Route("/create", methods="POST", name="schooladmin")
      */
     public function createAction() {
         //权限验证
         $postData = $this->request->getPost();
         $postData['user_id'] = $this->_userId;
-        $insertFields = $this->app->parttimejob->api->Helper()->getInsertFields();
+        $insertFields = $this->app->school->api->Helper()->getInsertFields();
         foreach ($insertFields as $v){
             if(empty($postData[$v])){
                 $this->resultSet->error(1001,$this->_error['invalid_input']);
             }
         }
         try{
-            $insert = $this->app->parttimejob->api->Helper()->createParttimejob($postData);
+            $insert = $this->app->school->api->Helper()->createRecord($postData);
             if(empty($insert)){
                 $this->resultSet->error(1002,$this->_error['try_later']);
             }
             $data['data'] =[
                 'id' => $insert
             ];
+            $sendData = [
+                'goods_id' => $insert,
+                'goods_type' => 'school',
+                'goods_num' => $postData['num'] ?? 1
+            ];
+            $goodsData = [$sendData];
+            $addressId = 0;
+            $couponNo = '';
+            $orderSchool = $this->app->order->api->Helper()->createOrder($goodsData, $this->_userId, $addressId, $couponNo);
         }catch (\Exception $e){
             $this->resultSet->error($e->getCode(),$e->getMessage());
         }

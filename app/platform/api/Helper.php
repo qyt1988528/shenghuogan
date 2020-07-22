@@ -8,6 +8,7 @@ use Merchant\Model\MerchantPaymentCode;
 use Merchant\Model\MerchantWithdrawApply;
 use Order\Model\Order;
 use Order\Model\OrderGoods;
+use Platform\Model\PlatformImage;
 use Tencent\Model\User;
 
 class Helper extends Api
@@ -291,12 +292,9 @@ class Helper extends Api
             'platform_name'  => $merchantData['name'] ?? '',
             'platform_cellphone'  => $merchantData['cellphone'] ?? '',
         ];
-        $ret['total_sales'] = 100;
-        $ret['total_orders'] = 100;
-        $ret['total_users'] = 100;
-        $ret['today_sales'] = 100;
-        $ret['today_orders'] = 10;
-        $ret['today_users'] = 100;
+        $orderData = $this->app->order->api->Helper()->getOrderData(0);
+        $ret = array_merge($ret,$orderData);
+
 
 
         return $ret;
@@ -326,11 +324,8 @@ class Helper extends Api
 
     public function myWallet(){
         //平台-财务管理 总收入 本月收入
-        $data = [
-            'total_income' => 100,
-            'this_month_income' => 100,
-        ];
-        return $data;
+        $walletData = $this->app->order->api->Helper()->wallet(0);
+        return $walletData;
 
     }
 
@@ -427,6 +422,37 @@ class Helper extends Api
         }
         return $description;
 
+    }
+
+    public function saveImage($data){
+        try {
+            $insertData = [
+                'img_url' => $data['img_url'] ?? '',
+                'type' => $data['type'] ?? 0,
+                'upload_user_id' => $data['upload_user_id'] ?? 0,
+                'create_time' => date('Y-m-d H:i:s'),
+            ];
+            $model = new PlatformImage();
+            $model->create($insertData);
+            return !empty($model->id) ? $model->id : 0;
+        } catch (\Exception $e) {
+            var_dump($e->getMessage());exit;
+            return 0;
+        }
+
+    }
+
+    public function getCoverData(){
+        $cover = $this->modelsManager->createBuilder()
+            ->columns('id,img_url,type')
+            ->from(['sg' => 'Platform\Model\PlatformImage'])
+            ->where('sg.type = :type: ', ['type' => 1])
+            ->andWhere('sg.status = :valid: ', ['valid' => $this->_config['data_status']['valid']])
+            ->orderBy('id desc')
+            ->getQuery()
+            ->getSingleResult()
+            ->toArray();
+        return $cover;
     }
 
 

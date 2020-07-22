@@ -147,7 +147,13 @@ return [
             'desc' => '该门票',
             'model' => 'Ticket\Model\Ticket'
         ],
-
+        'school' => [
+            'type_id' => 12,
+            'goods_type' => 'school',
+            'title' => '缴费',
+            'desc' => '该缴费',
+            'model' => 'School\Model\School'
+        ],
     ],
 
 ];
