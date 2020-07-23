@@ -195,7 +195,12 @@ class IndexController extends Controller
         try{
             $result = $this->app->merchant->api->Helper()->bill($merchantId,$datetime);
             if($this->app->core->api->CheckEmpty()->newEmpty($result)){
-                $result = [];
+                $result = [
+                    'datetime' => $datetime,
+                    'income' => 0,
+                    'expend' => 0,
+                    'order_list' => [],
+                ];
             }
             $data['data'] = $result;
         }catch (\Exception $e){

@@ -4640,59 +4640,7 @@
 								"type": "text"
 							}
 						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "img_url",
-									"value": "https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg",
-									"description": "图片",
-									"type": "text"
-								},
-								{
-									"key": "title",
-									"value": "香格里拉",
-									"description": "标题",
-									"type": "text"
-								},
-								{
-									"key": "stock",
-									"value": "100",
-									"description": "库存",
-									"type": "text"
-								},
-								{
-									"key": "cost_price",
-									"value": "11",
-									"description": "成本价",
-									"type": "text"
-								},
-								{
-									"key": "original_price",
-									"value": "10.00",
-									"description": "显示的原价",
-									"type": "text"
-								},
-								{
-									"key": "self_price",
-									"value": "9.00",
-									"description": "显示的售价",
-									"type": "text"
-								},
-								{
-									"key": "location",
-									"value": "友谊路",
-									"description": "位置",
-									"type": "text"
-								},
-								{
-									"key": "description",
-									"value": "香格里拉描述",
-									"description": "描述",
-									"type": "text"
-								}
-							]
-						},
+						"body": {},
 						"url": {
 							"raw": "{{host}}/driving",
 							"host": [
@@ -4733,6 +4681,99 @@
 								{
 									"key": "id",
 									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "驾校-报名",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Token",
+								"type": "text",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "driving_test_id",
+									"value": "2",
+									"description": "驾校ID",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "玉涛",
+									"description": "姓名",
+									"type": "text"
+								},
+								{
+									"key": "cellphone",
+									"value": "13012345678",
+									"description": "手机号",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/driving/sign",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"driving",
+								"sign"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "驾校-报名列表页",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"type": "text",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{host}}/driving/signlist?id=2&page=1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"driving",
+								"signlist"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "2",
+									"description": "驾校id"
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"description": "页码(默认一页显示10条)"
 								}
 							]
 						}
