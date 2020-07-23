@@ -19,7 +19,7 @@ class Helper extends Api
             'img_url',
             'title',
             'location',
-            'cost_price',
+            // 'cost_price',
             'original_price',
             'self_price',
             // 'stock',
@@ -188,10 +188,25 @@ class Helper extends Api
 
     public function getPromise($postData){
         //郑重承诺标题
+        if(empty($postData['promise_data'])){
+            return json_encode([]);
+        }
+        $promiseData = [];
+        foreach ($postData['promise_data'] as $v){
+            $promiseData[] = [
+                'promise_title' => $v['promise_title'] ?? '',
+                'promise_description' => $v['promise_description'] ?? '',
+            ];
+        }
+
+        return json_encode($promiseData);
+        /*
+        $countPromiseData = isset($postData['promise_data']) ? count($postData['promise_data']) : 0;
         $countTitle = isset($postData['promise_title']) ? count($postData['promise_title']) : 0;
         //郑重承诺内容
         $countDescription = isset($postData['promise_description']) ? count($postData['promise_description']) : 0;
-        $count = min($countTitle,$countDescription);
+        $count = $countPromiseData;
+        // $count = min($countTitle,$countDescription);
         $promiseData = [];
         for($i=0;$i<$count;$i++){
             $promiseData[] = [
@@ -200,6 +215,7 @@ class Helper extends Api
             ];
         }
         return json_encode($promiseData);
+        */
     }
 
 

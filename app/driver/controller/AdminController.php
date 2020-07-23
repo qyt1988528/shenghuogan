@@ -37,9 +37,11 @@ class AdminController extends Controller
     public function createAction() {
         //权限验证
         $postData = $this->request->getPost();
+        $postData = $this->request->getParam('driver_data');//已经是数组了
         $insertFields = $this->app->driver->api->Helper()->getInsertFields();
         foreach ($insertFields as $v){
             if(empty($postData[$v])){
+                // var_dump($v);
                 $this->resultSet->error(1001,$this->_error['invalid_input']);
             }
         }
@@ -124,6 +126,7 @@ class AdminController extends Controller
     public function updateAction() {
         //权限验证
         $postData = $this->request->getPost();
+        $postData = $this->request->getParam('driver_data');//已经是数组了
         if(empty($postData['id'])){
             $this->resultSet->error(1001,$this->_error['invalid_input']);
         }
