@@ -380,8 +380,43 @@ class Helper extends Api
                 ]
             ],
         ];
-        $billData = $this->app->order->api->Helper()->bill($datetime,$merchantId,$page,$pageSize);
+        $billData = $this->getTmpMerchantBill($datetime,$merchantId,$page,$pageSize);
+        // $billData = $this->app->order->api->Helper()->bill($datetime,$merchantId,$page,$pageSize);
         return $billData;
+    }
+    public function getTmpMerchantBill($datetime,$merchantId=0,$page=1,$pageSize=10){
+        $checkDatetime = $this->app->order->api->Helper()->checkDatetime($datetime);
+        if(!$checkDatetime){
+            return [
+                'datetime' => date('Y-m'),
+                'income' => 0,
+                'expend' => 0,
+                'order_list' => [],
+            ];
+        }
+        //查询已完成的订单
+        $orderStatusFinish = $this->_order['order_status']['finish']['code'];
+        $date = $this->app->order->api->Helper()->getDateTimeArr($datetime);
+        //商户账单
+        $all = $this->modelsManager->createBuilder()
+            ->columns('ogt.merchant_id,ot.create_time as order_time,ogt.goods_type,ogt.goods_name,ogt.total_amount as order_income,ogt.real_income as order_expend')
+            ->from(['ogt'=>'Order\Model\OrderGoods'])
+            ->leftjoin('Order\Model\Order', 'ot.order_id = ogt.order_id','ot')
+            // ->leftjoin('Order\Model\OrderDetail', 'ot.order_id = odt.order_id','odt')
+            ->where('ot.status = :init:',['init'=>$this->_config['data_status']['valid']])
+            ->andWhere('ot.order_status = :finish:',['finish' => $orderStatusFinish])
+            ->andWhere('ot.create_time >= :month_start: and ot.create_time < :month_end:',['month_start' => $date['month_start'],'month_end' => $date['month_end']])
+            ->andWhere('ogt.merchant_id = :merchant_id:',['merchant_id'=>$merchantId])
+            // ->andWhere('ogt.goods_type = :goods_type:',['goods_type'=>$goodsType])
+            // ->limit($pageSize,$start)
+            ->getQuery()
+            ->execute()
+            ->toArray();
+        //总收入 支出
+        //merchant_name
+        //goods_type_description
+        $data = $this->app->order->api->Helper()->getBillDescription($all,$datetime);
+        return $data;
     }
 
     public function getWithdrawDescription($applyStatus){
