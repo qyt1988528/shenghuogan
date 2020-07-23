@@ -21,7 +21,7 @@ class CheckEmpty extends Api
         if(empty($data)){
             return true;
         }
-        if(is_object($data)){
+        if(is_object($data) || is_array($data)){
             foreach($data as $k=>$v){
                 if($k==='di'){
                     return true;
