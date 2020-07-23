@@ -393,8 +393,8 @@ class Helper extends Api
             // ->andWhere('ogt.goods_type = :goods_type:',['goods_type'=>$goodsType])
             // ->limit($pageSize,$start)
             ->getQuery()
-            ->execute()
-            ->toArray();
+            ->execute();
+            // ->toArray();
         //总收入 支出
         //merchant_name
         //goods_type_description

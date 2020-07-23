@@ -1316,6 +1316,9 @@ class Helper extends Api
                 'order_list' => [],
             ];
         }
+        if(is_object($all)){
+            $all = $all->toArray();
+        }
         $income = $expend = 0;
         foreach ($all as &$v){
             $v['merchant_name'] = '';
