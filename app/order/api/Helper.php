@@ -1092,17 +1092,53 @@ class Helper extends Api
         return $ret;
     }
 
-    public function orderList($merchantId=0,$goodsType=''){
+    public function orderList($merchantId=0,$goodsType='',$page=1,$pageSize=10){
+        $start = ($page-1)*$pageSize;
         if($merchantId==0){
             //平台
             if(empty($goodsType)){
                 //全部订单
+                $all = $this->modelsManager->createBuilder()
+                    ->columns('ot.order_id,ot.order_no,ot.order_status,ot.pay_status,odt.shipping_status,ot.order_amount,ot.create_time as order_time')
+                    ->from(['ot'=>'Order\Model\Order'])
+                    // ->leftjoin('Order\Model\OrderGoods', 'ot.order_id = ogt.order_id','ogt')
+                    ->leftjoin('Order\Model\OrderDetail', 'ot.order_id = odt.order_id','odt')
+                    ->where('ot.status = :init:',['init'=>$this->_config['data_status']['valid']])
+                    ->limit($pageSize,$start)
+                    ->getQuery()
+                    ->execute()
+                    ->toArray();
+                //status描述 和 goods_num
+                $data = $this->getStatusDescripiton($all);
+                //var_dump($all);
             }else{
                 //指定类别
                 if($goodsType=='express'){
-
+                    $all = $this->modelsManager->createBuilder()
+                        ->columns('ot.order_id,ot.order_no,ot.order_status,ot.pay_status,odt.shipping_status,ot.order_amount,ot.create_time as order_time')
+                        ->from(['ot'=>'Order\Model\Order'])
+                        ->leftjoin('Order\Model\OrderGoods', 'ot.order_id = ogt.order_id','ogt')
+                        ->leftjoin('Order\Model\OrderDetail', 'ot.order_id = odt.order_id','odt')
+                        ->where('ot.status = :init:',['init'=>$this->_config['data_status']['valid']])
+                        ->andWhere('ogt.goods_type like :goods_type:',['goods_type'=>'express%'])
+                        ->limit($pageSize,$start)
+                        ->getQuery()
+                        ->execute()
+                        ->toArray();
+                    $data = $this->getStatusDescripiton($all);
                 }else{
-
+                    $all = $this->modelsManager->createBuilder()
+                        ->columns('ot.order_id,ot.order_no,ot.order_status,ot.pay_status,odt.shipping_status,ot.order_amount,ot.create_time as order_time')
+                        ->from(['ot'=>'Order\Model\Order'])
+                        ->leftjoin('Order\Model\OrderGoods', 'ot.order_id = ogt.order_id','ogt')
+                        ->leftjoin('Order\Model\OrderDetail', 'ot.order_id = odt.order_id','odt')
+                        ->where('ot.status = :init:',['init'=>$this->_config['data_status']['valid']])
+                        ->andWhere('ogt.goods_type = :goods_type:',['goods_type'=>$goodsType])
+                        ->limit($pageSize,$start)
+                        ->getQuery()
+                        ->execute()
+                        ->toArray();
+                    $data = $this->getStatusDescripiton($all);
                 }
             }
 
@@ -1110,11 +1146,104 @@ class Helper extends Api
             //商户
             if(empty($goodsType)){
                 //全部订单
+                $all = $this->modelsManager->createBuilder()
+                    ->columns('ot.order_id,ot.order_no,ot.order_status,ot.pay_status,odt.shipping_status,ot.order_amount,ot.create_time as order_time')
+                    ->from(['ot'=>'Order\Model\Order'])
+                    ->leftjoin('Order\Model\OrderGoods', 'ot.order_id = ogt.order_id','ogt')
+                    ->leftjoin('Order\Model\OrderDetail', 'ot.order_id = odt.order_id','odt')
+                    ->where('ot.status = :init:',['init'=>$this->_config['data_status']['valid']])
+                    ->andWhere('ogt.merchant_id = :merchant_id:',['merchant_id'=>$merchantId])
+                    // ->andWhere('ogt.goods_type = :goods_type:',['goods_type'=>$goodsType])
+                    ->limit($pageSize,$start)
+                    ->getQuery()
+                    ->execute()
+                    ->toArray();
+                $data = $this->getStatusDescripiton($all);
             }else{
                 //指定类别
+                $all = $this->modelsManager->createBuilder()
+                    ->columns('ot.order_id,ot.order_no,ot.order_status,ot.pay_status,odt.shipping_status,ot.order_amount,ot.create_time as order_time')
+                    ->from(['ot'=>'Order\Model\Order'])
+                    ->leftjoin('Order\Model\OrderGoods', 'ot.order_id = ogt.order_id','ogt')
+                    ->leftjoin('Order\Model\OrderDetail', 'ot.order_id = odt.order_id','odt')
+                    ->where('ot.status = :init:',['init'=>$this->_config['data_status']['valid']])
+                    ->andWhere('ogt.merchant_id = :merchant_id:',['merchant_id'=>$merchantId])
+                    ->andWhere('ogt.goods_type = :goods_type:',['goods_type'=>$goodsType])
+                    ->limit($pageSize,$start)
+                    ->getQuery()
+                    ->execute()
+                    ->toArray();
+                $data = $this->getStatusDescripiton($all);
             }
         }
+        return $data;
 
+    }
+
+    public function getStatusDescripiton($data){
+        if(empty($data)){
+           return [];
+        }
+        // var_dump($this->_order);
+        foreach($data as &$v){
+            //order_status_description
+            $v['order_status_description'] = $this->getOrderStatusDescription($v['order_status']);
+            //pay_status_description
+            $v['pay_status_description'] = $this->getPayStatusDescription($v['pay_status']);
+            //shipping_status_description
+            $v['shipping_status_description'] = $this->getShippingStatusDescription($v['shipping_status']);
+            //goods_num
+            $v['goods_num'] = $this->getGoodsNum($v['order_id']);
+
+        }
+        return $data;
+
+    }
+
+    public function getOrderStatusDescription($orderStatus){
+        $description = '';
+        $businessStatusArr = $this->_order['order_status'];
+        foreach ($businessStatusArr as $v){
+            if($v['code'] == $orderStatus){
+                $description = $v['title'];
+                break;
+            }
+        }
+        return $description;
+    }
+    public function getPayStatusDescription($payStatus){
+        $description = '';
+        $businessStatusArr = $this->_order['pay_status'];
+        foreach ($businessStatusArr as $v){
+            if($v['code'] == $payStatus){
+                $description = $v['title'];
+                break;
+            }
+        }
+        return $description;
+    }
+    public function getShippingStatusDescription($shippingStatus){
+        $description = '';
+        $businessStatusArr = $this->_order['shipped_status'];
+        foreach ($businessStatusArr as $v){
+            if($v['code'] == $shippingStatus){
+                $description = $v['title'];
+                break;
+            }
+        }
+        return $description;
+    }
+    public function getGoodsNum($orderId){
+        $num = $this->modelsManager->createBuilder()
+            ->columns('sum(ogt.goods_num) as goods_num')
+            ->from(['ogt'=>'Order\Model\OrderGoods'])
+            ->where('ogt.order_id = :init: ',['init'=>$orderId])
+            ->getQuery()
+            ->execute()
+            ->getFirst()
+            ->toArray();
+
+        return $num['goods_num'] ?? 0;
     }
 
     public function getTotalAndThisMonth($merchantId){

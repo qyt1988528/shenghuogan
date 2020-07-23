@@ -419,6 +419,9 @@ class IndexController extends Controller
         $goodsType = $this->request->getParam('goods_type', null, '');
         try {
             $result = $this->app->platform->api->Helper()->orderManage($goodsType);
+            if(empty($result)){
+                $result = [];
+            }
             $data['data'] = $result;
         } catch (\Exception $e) {
             $this->resultSet->error($e->getCode(), $e->getMessage());

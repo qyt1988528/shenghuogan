@@ -147,7 +147,7 @@ class Take extends Api
             ->where('sg.is_hiring = :hiring: ',['hiring'=>$this->_config['hiring_status']['hiring']])
             ->andWhere('sg.status = :valid: ',['valid'=>$this->_config['data_status']['valid']])
             ->orderBy('publish_time desc')
-            ->limit($start,$pageSize)
+            ->limit($pageSize,$start)
             ->getQuery()
             ->execute()
             ->toArray();

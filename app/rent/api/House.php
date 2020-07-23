@@ -158,7 +158,7 @@ class House extends Api
             ->andWhere('sg.status = :valid: ',['valid'=>$this->_config['data_status']['valid']])
             ->andWhere($sql)
             ->orderBy('publish_time desc')
-            ->limit($start,$pageSize)
+            ->limit($pageSize,$start)
             ->getQuery()
             ->execute();
         return $goods;
@@ -174,7 +174,7 @@ class House extends Api
             ->where('sg.is_renting = :renting: ',['renting'=>$this->_config['renting_status']['renting']])
             ->andWhere('sg.status = :valid: ',['valid'=>$this->_config['data_status']['valid']])
             ->orderBy('publish_time desc')
-            ->limit($start,$pageSize)
+            ->limit($pageSize,$start)
             ->getQuery()
             ->execute();
         return $goods;

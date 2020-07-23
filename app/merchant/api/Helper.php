@@ -324,7 +324,7 @@ class Helper extends Api
         return $ret;
     }
 
-    public function orderManage($merchantId,$goodsType=''){
+    public function orderManage($merchantId,$goodsType='',$page=1,$pageSize=10){
         //商户-订单管理 goods_type为空表示全部
         $data = [
             'order_list' => [
@@ -342,7 +342,8 @@ class Helper extends Api
                 ]
             ],
         ];
-        return $data;
+        $orderData['order_list'] = $this->app->order->api->Helper()->orderList($merchantId,$goodsType,$page,$pageSize);
+        return $orderData;
 
     }
 

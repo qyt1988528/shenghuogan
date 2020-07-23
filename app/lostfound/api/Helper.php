@@ -143,7 +143,7 @@ class Helper extends Api
             ->where('sg.is_selling = :selling: ',['selling'=>$this->_config['selling_status']['selling']])
             ->andWhere('sg.status = :valid: ',['valid'=>$this->_config['data_status']['valid']])
             ->orderBy('publish_time desc')
-            ->limit($start,$pageSize)
+            ->limit($pageSize,$start)
             ->getQuery()
             ->execute();
         return $goods;
