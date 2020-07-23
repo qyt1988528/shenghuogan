@@ -1249,7 +1249,12 @@ class Helper extends Api
     public function bill($datetime,$merchantId=0,$page=1,$pageSize=10){
         $checkDatetime = $this->checkDatetime($datetime);
         if(!$checkDatetime){
-            return [];
+            return [
+                'datetime' => date('Y-m'),
+                'income' => 0,
+                'expend' => 0,
+                'order_list' => [],
+            ];
         }
         //查询已完成的订单
         $orderStatusFinish = $this->_order['order_status']['finish']['code'];
@@ -1303,7 +1308,7 @@ class Helper extends Api
 
     }
     public function getBillDescription($all,$datetime){
-        if(empty($all)){
+        if($this->app->core->api->CheckEmpty()->newEmpty($all)){
             return [
                 'datetime' => $datetime,
                 'income' => 0,
