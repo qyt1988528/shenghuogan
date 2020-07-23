@@ -2173,7 +2173,7 @@
 					"response": []
 				},
 				{
-					"name": "订单管理-假数据",
+					"name": "订单管理",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -2190,21 +2190,9 @@
 							"mode": "formdata",
 							"formdata": [
 								{
-									"key": "id",
-									"value": "1",
+									"key": "goods_type",
+									"value": "express",
 									"description": "商户ID",
-									"type": "text"
-								},
-								{
-									"key": "cellphone",
-									"value": "13187654320",
-									"description": "商户手机号",
-									"type": "text"
-								},
-								{
-									"key": "id_photo",
-									"value": "\b图片url",
-									"description": "有效证件",
 									"type": "text"
 								}
 							]
@@ -2251,7 +2239,10 @@
 					"response": []
 				},
 				{
-					"name": "\b财务管理-账单-假数据",
+					"name": "\b财务管理-账单",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"method": "GET",
 						"header": [
@@ -2261,18 +2252,22 @@
 								"value": "f747b0e96c9ebb3bdd6ea019a840434b"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
+						"body": {},
 						"url": {
-							"raw": "{{host}}/platform/bill",
+							"raw": "{{host}}/platform/bill?datetime=2020-06",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"platform",
 								"bill"
+							],
+							"query": [
+								{
+									"key": "datetime",
+									"value": "2020-06",
+									"description": "月份"
+								}
 							]
 						}
 					},
@@ -4538,84 +4533,17 @@
 								"key": "Token",
 								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
 								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
 							}
 						],
 						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "img_url",
-									"value": "https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg",
-									"description": "图片",
-									"type": "text"
-								},
-								{
-									"key": "title",
-									"value": "驾校1",
-									"description": "标题",
-									"type": "text"
-								},
-								{
-									"key": "location",
-									"value": "友谊路",
-									"description": "位置",
-									"type": "text"
-								},
-								{
-									"key": "cost_price",
-									"value": "11",
-									"description": "成本价",
-									"type": "text"
-								},
-								{
-									"key": "original_price",
-									"value": "10.00",
-									"description": "显示的原价",
-									"type": "text"
-								},
-								{
-									"key": "self_price",
-									"value": "9.00",
-									"description": "显示的售价",
-									"type": "text"
-								},
-								{
-									"key": "description",
-									"value": "驾校描述",
-									"description": "描述",
-									"type": "text"
-								},
-								{
-									"key": "stock",
-									"value": "100",
-									"description": "库存(非必填)",
-									"type": "text"
-								},
-								{
-									"key": "promise_title[]",
-									"value": "一次收费 绝无二次",
-									"description": "郑重承诺标题1(非必填)",
-									"type": "text"
-								},
-								{
-									"key": "promise_title[]",
-									"value": "杜绝 吃 拿 要",
-									"description": "郑重承诺标题2(非必填)",
-									"type": "text"
-								},
-								{
-									"key": "promise_description[]",
-									"value": "举报退全部学费",
-									"description": "郑重承诺奖励1(非必填)",
-									"type": "text"
-								},
-								{
-									"key": "promise_description[]",
-									"value": "举报奖励1000元",
-									"description": "郑重承诺奖励2(非必填)",
-									"type": "text"
-								}
-							]
+							"mode": "raw",
+							"raw": "{\n    \"driver_data\": {\n        \"img_url\": \"https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg\",\n        \"title\": \"驾校1\",\n        \"location\": \"友谊路\",\n        \"original_price\": 11,\n        \"self_price\": 11,\n        \"description\": \"描述\",\n        \"promise_data\": [\n            {\n                \"promise_title\": \"承诺标题1\",\n                \"promise_description\": \"承诺描述1\"\n            },\n            {\n                \"promise_title\": \"承诺标题2\",\n                \"promise_description\": \"承诺描述2\"\n            }\n        ]\n    }\n}"
 						},
 						"url": {
 							"raw": "{{host}}/driveradmin/create",
@@ -4639,69 +4567,26 @@
 								"key": "Token",
 								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
 								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
 							}
 						],
 						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "img_url",
-									"value": "https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg",
-									"description": "图片",
-									"type": "text"
-								},
-								{
-									"key": "title",
-									"value": "香格里拉",
-									"description": "标题",
-									"type": "text"
-								},
-								{
-									"key": "stock",
-									"value": "100",
-									"description": "库存",
-									"type": "text"
-								},
-								{
-									"key": "cost_price",
-									"value": "11",
-									"description": "成本价",
-									"type": "text"
-								},
-								{
-									"key": "original_price",
-									"value": "10.00",
-									"description": "显示的原价",
-									"type": "text"
-								},
-								{
-									"key": "self_price",
-									"value": "9.00",
-									"description": "显示的售价",
-									"type": "text"
-								},
-								{
-									"key": "location",
-									"value": "友谊路",
-									"description": "位置",
-									"type": "text"
-								},
-								{
-									"key": "description",
-									"value": "香格里拉描述",
-									"description": "描述",
-									"type": "text"
-								}
-							]
+							"mode": "raw",
+							"raw": "{\n    \"driver_data\": {\n    \t\"id\": 3,\n        \"img_url\": \"https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg\",\n        \"title\": \"驾校3\",\n        \"location\": \"友谊路\",\n        \"original_price\": 11,\n        \"self_price\": 11,\n        \"description\": \"描述\",\n        \"promise_data\": [\n            {\n                \"promise_title\": \"承诺标题1\",\n                \"promise_description\": \"承诺描述1\"\n            },\n            {\n                \"promise_title\": \"承诺标题2\",\n                \"promise_description\": \"承诺描述2\"\n            }\n        ]\n    }\n}"
 						},
 						"url": {
-							"raw": "{{host}}/driveradmin/create",
+							"raw": "{{host}}/driveradmin/update",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"driveradmin",
-								"create"
+								"update"
 							]
 						}
 					},
@@ -4722,63 +4607,20 @@
 							"mode": "formdata",
 							"formdata": [
 								{
-									"key": "img_url",
-									"value": "https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg",
-									"description": "图片",
-									"type": "text"
-								},
-								{
-									"key": "title",
-									"value": "香格里拉",
-									"description": "标题",
-									"type": "text"
-								},
-								{
-									"key": "stock",
-									"value": "100",
-									"description": "库存",
-									"type": "text"
-								},
-								{
-									"key": "cost_price",
-									"value": "11",
-									"description": "成本价",
-									"type": "text"
-								},
-								{
-									"key": "original_price",
-									"value": "10.00",
-									"description": "显示的原价",
-									"type": "text"
-								},
-								{
-									"key": "self_price",
-									"value": "9.00",
-									"description": "显示的售价",
-									"type": "text"
-								},
-								{
-									"key": "location",
-									"value": "友谊路",
-									"description": "位置",
-									"type": "text"
-								},
-								{
-									"key": "description",
-									"value": "香格里拉描述",
-									"description": "描述",
+									"key": "id",
+									"value": "3",
 									"type": "text"
 								}
 							]
 						},
 						"url": {
-							"raw": "{{host}}/driveradmin/create",
+							"raw": "{{host}}/driveradmin/delete",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"driveradmin",
-								"create"
+								"delete"
 							]
 						}
 					},
@@ -5282,7 +5124,7 @@
 							"urlencoded": [
 								{
 									"key": "order_id",
-									"value": "5",
+									"value": "129",
 									"description": "订单Id(必填)",
 									"type": "text"
 								}
@@ -5590,7 +5432,10 @@
 					"response": []
 				},
 				{
-					"name": "商户-订单列表-假数据",
+					"name": "商户-订单列表",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"method": "GET",
 						"header": [
@@ -5608,8 +5453,15 @@
 							}
 						],
 						"body": {
-							"mode": "raw",
-							"raw": ""
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "goods_type",
+									"value": "",
+									"description": "商品类型",
+									"type": "text"
+								}
+							]
 						},
 						"url": {
 							"raw": "{{host}}/merchant/orderList",
@@ -5660,7 +5512,10 @@
 					"response": []
 				},
 				{
-					"name": "商户-个人中心-我的钱包-账单-假数据",
+					"name": "商户-个人中心-我的钱包-账单",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"method": "GET",
 						"header": [
@@ -5677,18 +5532,22 @@
 								"type": "text"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
+						"body": {},
 						"url": {
-							"raw": "{{host}}/merchant/bill",
+							"raw": "{{host}}/merchant/bill?datetime=2020-07",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"merchant",
 								"bill"
+							],
+							"query": [
+								{
+									"key": "datetime",
+									"value": "2020-07",
+									"description": "月份"
+								}
 							]
 						}
 					},

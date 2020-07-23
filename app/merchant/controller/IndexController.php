@@ -154,6 +154,9 @@ class IndexController extends Controller
         $goodsType = $this->request->getParam('goods_type', null, '');
         try{
             $result = $this->app->merchant->api->Helper()->orderManage($merchantId,$goodsType);
+            if($this->app->core->api->CheckEmpty()->newEmpty($result)){
+                $result = [];
+            }
             $data['data'] = $result;
         }catch (\Exception $e){
             $this->resultSet->error($e->getCode(),$e->getMessage());

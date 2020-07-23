@@ -2,15 +2,18 @@
 namespace Driver\Api;
 
 use Driver\Model\DrivingTest;
+use Driver\Model\DrivingTestSign;
 use MDK\Api;
 
 class Helper extends Api
 {
     private $_config;
     private $_model;
+    private $_modelSign;
     public function __construct() {
         $this->_config = $this->app->core->config->config->toArray();
         $this->_model = new DrivingTest();
+        $this->_modelSign = new DrivingTestSign();
     }
 
     public function getInsertFields(){
@@ -244,6 +247,37 @@ class Helper extends Api
             return false;
         }
 
+    }
+    //驾校报名
+    public function createDrivingSign($postData){
+        try{
+            $insertData = [
+                'driving_test_id' =>$postData['driving_test_id'] ?? 0,
+                'user_id' =>$postData['user_id'] ?? 0,
+                'name' =>$postData['name'] ?? '',
+                'cellphone' =>$postData['cellphone'] ?? '',
+                'create_time' => date('Y-m-d H:i:s'),
+            ];
+            $model = $this->_modelSign;
+            $model->create($insertData);
+            return !empty($model->id) ? $model->id : 0;
+        }catch (\Exception $e){
+            return 0;
+        }
+    }
+
+    public function drivingSignList($drivingTestId,$page=1,$pageSize=10){
+        $start = ($page-1)*$pageSize;
+        $goods = $this->modelsManager->createBuilder()
+            ->columns('name,cellphone')
+            ->from(['sg'=>'Driver\Model\DrivingTestSign'])
+            ->where('sg.driving_test_id = :selling: ',['selling'=>$drivingTestId])
+            ->andWhere('sg.status = :valid: ',['valid'=>$this->_config['data_status']['valid']])
+            ->orderBy('id desc')
+            ->limit($pageSize,$start)
+            ->getQuery()
+            ->execute();
+        return $goods;
     }
 
 

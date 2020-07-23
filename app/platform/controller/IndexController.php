@@ -419,7 +419,7 @@ class IndexController extends Controller
         $goodsType = $this->request->getParam('goods_type', null, '');
         try {
             $result = $this->app->platform->api->Helper()->orderManage($goodsType);
-            if(empty($result)){
+            if($this->app->core->api->CheckEmpty()->newEmpty($result)){
                 $result = [];
             }
             $data['data'] = $result;
