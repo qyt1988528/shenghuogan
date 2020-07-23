@@ -396,7 +396,8 @@ class Helper extends Api
         }
         //查询已完成的订单
         $orderStatusFinish = $this->_order['order_status']['finish']['code'];
-        $date = $this->app->order->api->Helper()->getDateTimeArr($datetime);
+        $date = $this->getDateTimeArr($datetime);
+        // $date = $this->app->order->api->Helper()->getDateTimeArr($datetime);
         //商户账单
         $all = $this->modelsManager->createBuilder()
             ->columns('ogt.merchant_id,ot.create_time as order_time,ogt.goods_type,ogt.goods_name,ogt.total_amount as order_income,ogt.real_income as order_expend')
@@ -417,6 +418,25 @@ class Helper extends Api
         //goods_type_description
         $data = $this->app->order->api->Helper()->getBillDescription($all,$datetime);
         return $data;
+    }
+    public function getDateTimeArr($datetime){
+        $data = explode('-',$datetime);
+        $year = (int) $data[0];
+        $month = (int) $data[1];
+        if($month==12){
+            $date = [
+                'month_start' => $year.'-'.$month.'-01 00:00:00'
+            ];
+            $year = $year+1;
+            $date['month_end'] = $year.'-01-01 00:00:00';
+        }else{
+            $date = [
+                'month_start' => $year.'-'.$month.'-01 00:00:00'
+            ];
+            $month = $month+1;
+            $date['month_end'] = $year.'-'.$month.'-01 00:00:00';
+        }
+        return (array)$date;
     }
 
     public function getWithdrawDescription($applyStatus){

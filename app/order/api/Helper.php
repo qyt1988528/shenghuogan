@@ -1351,7 +1351,7 @@ class Helper extends Api
             $month = $month+1;
             $date['month_end'] = $year.'-'.$month.'-01 00:00:00';
         }
-        return $date;
+        return (array)$date;
     }
     public function checkDatetime($datetime){
         if(empty($datetime) || gettype($datetime) != 'string'){
