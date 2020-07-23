@@ -462,7 +462,7 @@ class IndexController extends Controller
         $datetime = $this->request->getParam('datetime', null, $currentDate);
         try {
             $result = $this->app->platform->api->Helper()->bill($datetime);
-            if(empty($result)){
+            if($this->app->core->api->CheckEmpty()->newEmpty($result)){
                 $result = [];
             }
             $data['data'] = $result;
