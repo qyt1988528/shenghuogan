@@ -133,6 +133,9 @@ class IndexController extends Controller
         $merchantId = $this->_merchantId;
         try{
             $result = $this->app->merchant->api->Helper()->personalData($merchantId);
+            if(empty($result)){
+                $result = [];
+            }
             $data['data'] = $result;
         }catch (\Exception $e){
             $this->resultSet->error($e->getCode(),$e->getMessage());

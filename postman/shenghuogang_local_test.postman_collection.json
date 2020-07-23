@@ -1380,7 +1380,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{host}}/ticket/search?keywords=\b票",
+							"raw": "{{host}}/ticket/search?keywords=游",
 							"host": [
 								"{{host}}"
 							],
@@ -1391,7 +1391,7 @@
 							"query": [
 								{
 									"key": "keywords",
-									"value": "\b票",
+									"value": "游",
 									"description": "关键词"
 								}
 							]
@@ -2129,7 +2129,7 @@
 			"name": "个人中心-平台（平台商品管理待开发）",
 			"item": [
 				{
-					"name": "\b个人中心-假数据",
+					"name": "\b个人中心",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -2223,7 +2223,7 @@
 					"response": []
 				},
 				{
-					"name": "\b财务管理-假数据",
+					"name": "\b财务管理",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -2301,6 +2301,47 @@
 							"path": [
 								"useradmin",
 								"detailCert"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "\b保存平台所需图片",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Token",
+								"type": "text",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "img_url",
+									"value": "http://abc.jpg",
+									"description": "图片url",
+									"type": "text"
+								},
+								{
+									"key": "type",
+									"value": "1",
+									"description": "1-首页图片",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/platform/img",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"platform",
+								"img"
 							]
 						}
 					},
@@ -2706,8 +2747,152 @@
 			]
 		},
 		{
-			"name": "校园网",
-			"item": []
+			"name": "校园网缴费",
+			"item": [
+				{
+					"name": "缴费-添加",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Token",
+								"type": "text",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "abc",
+									"description": "姓名",
+									"type": "text"
+								},
+								{
+									"key": "stu_id_num",
+									"value": "20200101",
+									"description": "学号",
+									"type": "text"
+								},
+								{
+									"key": "id_num",
+									"value": "230306198801015311",
+									"description": "身份证号",
+									"type": "text"
+								},
+								{
+									"key": "goods_amount",
+									"value": "100",
+									"description": "缴费金额",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/schooladmin/create",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"schooladmin",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "缴费-下架",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Token",
+								"type": "text",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/schooladmin/withdraw",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"schooladmin",
+								"withdraw"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "缴费-列表",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/school?page=1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"school"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"description": "页码"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "缴费-详情",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/school/detail?id=1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"school",
+								"detail"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		},
 		{
 			"name": "租房",
@@ -4107,12 +4292,6 @@
 									"type": "text"
 								},
 								{
-									"key": "location",
-									"value": "保利",
-									"description": "位置",
-									"type": "text"
-								},
-								{
 									"key": "description",
 									"value": "测试二手物",
 									"description": "描述",
@@ -4122,12 +4301,6 @@
 									"key": "cellphone",
 									"value": "1",
 									"description": "手机号",
-									"type": "text"
-								},
-								{
-									"key": "stock",
-									"value": "1",
-									"description": "库存",
 									"type": "text"
 								},
 								{
@@ -4184,12 +4357,6 @@
 									"type": "text"
 								},
 								{
-									"key": "location",
-									"value": "保利",
-									"description": "位置",
-									"type": "text"
-								},
-								{
 									"key": "description",
 									"value": "测试二手物",
 									"description": "描述",
@@ -4199,12 +4366,6 @@
 									"key": "cellphone",
 									"value": "1",
 									"description": "手机号",
-									"type": "text"
-								},
-								{
-									"key": "stock",
-									"value": "1",
-									"description": "库存",
 									"type": "text"
 								},
 								{
@@ -5300,6 +5461,93 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "创建订单(旧版) Copy",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
+								"description": "用户token",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "goods_data[0][goods_id]",
+									"value": "1",
+									"description": "商品id",
+									"type": "text"
+								},
+								{
+									"key": "goods_data[0][goods_type]",
+									"value": "second",
+									"description": "商品类型",
+									"type": "text"
+								},
+								{
+									"key": "goods_data[0][goods_num]",
+									"value": "1",
+									"description": "购买数量",
+									"type": "text"
+								},
+								{
+									"key": "goods_data[1][goods_id]",
+									"value": "1",
+									"description": "商品id",
+									"type": "text"
+								},
+								{
+									"key": "goods_data[1][goods_type]",
+									"value": "supermarket_goods",
+									"description": "商品类型",
+									"type": "text"
+								},
+								{
+									"key": "goods_data[1][goods_num]",
+									"value": "1",
+									"description": "购买数量",
+									"type": "text"
+								},
+								{
+									"key": "address_id",
+									"value": "1",
+									"description": "地址Id(非必填)",
+									"type": "text"
+								},
+								{
+									"key": "coupon_no",
+									"value": "abc",
+									"description": "优惠券(非必填)",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/order/test",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"order",
+								"test"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -5307,7 +5555,7 @@
 			"name": "订单-商家",
 			"item": [
 				{
-					"name": "商户-个人中心-假数据",
+					"name": "商户-个人中心",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -5377,7 +5625,7 @@
 					"response": []
 				},
 				{
-					"name": "商户-个人中心-我的钱包-假数据",
+					"name": "商户-个人中心-我的钱包",
 					"request": {
 						"method": "GET",
 						"header": [
