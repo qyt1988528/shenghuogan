@@ -330,7 +330,7 @@ class Helper extends Api
 
     }
 
-    public function bill(){
+    public function bill($datetime,$page=1,$pageSize=10){
         //商户-我的钱包-账单
         //月份(默认当前月份)，收入、支出
         //订单列表：商家ID、商家名称、时间、商品名称、类型、收入/支出金额
@@ -362,7 +362,8 @@ class Helper extends Api
                 ]
             ],
         ];
-        return $data;
+        $billData = $this->app->order->api->Helper()->bill($datetime,0,$page,$pageSize);
+        return $billData;
     }
 
 

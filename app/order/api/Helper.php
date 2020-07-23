@@ -1246,6 +1246,124 @@ class Helper extends Api
         return $num['goods_num'] ?? 0;
     }
 
+    public function bill($datetime,$merchantId=0,$page=1,$pageSize=10){
+        $checkDatetime = $this->checkDatetime($datetime);
+        if(!$checkDatetime){
+            return [];
+        }
+        //查询已完成的订单
+        $orderStatusFinish = $this->_order['order_status']['finish']['code'];
+        $date = $this->getDateTimeArr($datetime);
+
+        if(empty($merchantId)){
+            //平台账单
+            $all = $this->modelsManager->createBuilder()
+                ->columns('ogt.merchant_id,ot.create_time as order_time,ogt.goods_type,ogt.goods_name,ogt.total_amount as order_income,ogt.real_income as order_expend')
+                ->from(['ogt'=>'Order\Model\OrderGoods'])
+                ->leftjoin('Order\Model\Order', 'ot.order_id = ogt.order_id','ot')
+                // ->leftjoin('Order\Model\OrderDetail', 'ot.order_id = odt.order_id','odt')
+                ->where('ot.status = :init:',['init'=>$this->_config['data_status']['valid']])
+                ->andWhere('ot.order_status = :finish:',['finish' => $orderStatusFinish])
+                ->andWhere('ot.create_time >= :month_start: and ot.create_time < :month_end:',['month_start' => $date['month_start'],'month_end' => $date['month_end']])
+                // ->andWhere('ogt.merchant_id = :merchant_id:',['merchant_id'=>$merchantId])
+                // ->andWhere('ogt.goods_type = :goods_type:',['goods_type'=>$goodsType])
+                // ->limit($pageSize,$start)
+                ->getQuery()
+                ->execute()
+                ->toArray();
+            //总收入 支出
+            //merchant_name
+            //goods_type_description
+            $data = $this->getBillDescription($all,$datetime);
+
+        }else{
+            //商户账单
+            $all = $this->modelsManager->createBuilder()
+                ->columns('ogt.merchant_id,ot.create_time as order_time,ogt.goods_type,ogt.goods_name,ogt.total_amount as order_income,ogt.real_income as order_expend')
+                ->from(['ogt'=>'Order\Model\OrderGoods'])
+                ->leftjoin('Order\Model\Order', 'ot.order_id = ogt.order_id','ot')
+                // ->leftjoin('Order\Model\OrderDetail', 'ot.order_id = odt.order_id','odt')
+                ->where('ot.status = :init:',['init'=>$this->_config['data_status']['valid']])
+                ->andWhere('ot.order_status = :finish:',['finish' => $orderStatusFinish])
+                ->andWhere('ot.create_time >= :month_start: and ot.create_time < :month_end:',['month_start' => $date['month_start'],'month_end' => $date['month_end']])
+                ->andWhere('ogt.merchant_id = :merchant_id:',['merchant_id'=>$merchantId])
+                // ->andWhere('ogt.goods_type = :goods_type:',['goods_type'=>$goodsType])
+                // ->limit($pageSize,$start)
+                ->getQuery()
+                ->execute()
+                ->toArray();
+            //总收入 支出
+            //merchant_name
+            //goods_type_description
+            $data = $this->getBillDescription($all,$datetime);
+
+        }
+        return $data;
+
+
+    }
+    public function getBillDescription($all,$datetime){
+        if(empty($all)){
+            return [
+                'datetime' => $datetime,
+                'income' => 0,
+                'expend' => 0,
+                'order_list' => [],
+            ];
+        }
+        $income = $expend = 0;
+        foreach ($all as &$v){
+            $v['merchant_name'] = '';
+            $v['goods_type_description'] = '';
+            $income += $v['order_income'];
+            $expend += $v['order_expend'];
+        }
+        return [
+            'datetime' => $datetime,
+            'income' => $income,
+            'expend' => $expend,
+            'order_list' => $all,
+        ];
+
+    }
+    public function getDateTimeArr($datetime){
+        $data = explode('-',$datetime);
+        $year = (int) $data[0];
+        $month = (int) $data[1];
+        if($month==12){
+           $date = [
+               'month_start' => $year.'-'.$month.'-01 00:00:00'
+           ];
+           $year = $year+1;
+           $date['month_end'] = $year.'-01-01 00:00:00';
+        }else{
+            $date = [
+                'month_start' => $year.'-'.$month.'-01 00:00:00'
+            ];
+            $month = $month+1;
+            $date['month_end'] = $year.'-'.$month.'-01 00:00:00';
+        }
+        return $date;
+    }
+    public function checkDatetime($datetime){
+        if(empty($datetime) || gettype($datetime) != 'string'){
+            return false;
+        }
+        $data = explode('-',$datetime);
+        if(count($data) != 2){
+            return false;
+        }
+        $year = (int) $data[0];
+        if($year<=2019 || $year>=2030){
+            return false;
+        }
+        $month = (int) $data[1];
+        if($month<=1 || $month>=12){
+            return false;
+        }
+        return true;
+    }
+
     public function getTotalAndThisMonth($merchantId){
         $totalSql = 'select sum(ogt.real_income) as total_amount 
  from `order` as ot JOIN `order_goods` as ogt on ot.order_id=ogt.order_id 

@@ -187,8 +187,13 @@ class IndexController extends Controller
      */
     public function billAction(){
         $merchantId = $this->_merchantId;
+        $currentDate = date('Y-m');
+        $datetime = $this->request->getParam('datetime', null, $currentDate);
         try{
-            $result = $this->app->merchant->api->Helper()->bill($merchantId);
+            $result = $this->app->merchant->api->Helper()->bill($merchantId,$datetime);
+            if(empty($result)){
+                $result = [];
+            }
             $data['data'] = $result;
         }catch (\Exception $e){
             $this->resultSet->error($e->getCode(),$e->getMessage());
