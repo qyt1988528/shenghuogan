@@ -347,7 +347,8 @@ class IndexController extends Controller
             $this->resultSet->error(1001, $this->_error['invalid_input']);
         }
         try {
-            $result = $this->app->platform->api->Helper()->passCertification($certId, $this->_userId);
+            // $result = $this->app->platform->api->Helper()->passCertification($certId, $this->_userId);
+            $result = $this->app->parttimejob->api->Certification()->tmpPassCertification($certId, $this->_userId);
             if (!empty($result)) {
                 $data['data'] = [
                     'update_success' => $result

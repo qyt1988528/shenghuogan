@@ -232,5 +232,35 @@ class Certification extends Api
         return $description;
 
     }
+        //实名认证审核 通过 和 拒绝 通过后检查是否有相同手机号的商户，有则绑定
+    public function tmpPassCertification($certId,$auditUserId){
+        //查询该ID是否存在
+        if(empty($certId)){
+            return false;
+        }
+        $certData = $this->detail($certId);
+        if(empty($certData)){
+            return false;
+        }
+        $certData = $this->app->core->api->CheckEmpty()->newToArray($certData);
+        // $certData = $certData->toArray();
+        //置为通过
+        $certStatus = $this->_certStatus['certification_status']['passed']['code'];
+        $updateCertResult = $this->updateCertStatus($certId,$certStatus,$auditUserId);
+        if(empty($updateCertResult)){
+            return false;
+        }
+        //查询是否有相同手机号的商户 有则绑定
+        // var_dump($certData['cellphone']);exit;
+        $merchantData = $this->app->merchant->api->MerchantManage()->detailByCellphone($certData['cellphone']);
+        if(!empty($merchantData)){
+            $merchantData = $merchantData->toArray();
+            //绑定商户
+            $userId = $certData['upload_user_id'];
+            $merchantId = $merchantData['id'];
+            $this->app->tencent->api->UserApi()->bindMerchant($userId, $merchantId);
+        }
+        return true;
+    }
 
 }
