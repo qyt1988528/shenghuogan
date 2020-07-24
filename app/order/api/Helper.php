@@ -1265,7 +1265,11 @@ class Helper extends Api
            return [];
         }
         // var_dump($this->_order);
+        $tmp = [];
         foreach($data as &$v){
+            if(isset($tmp[$v['order_id']])){
+                continue;
+            }
             //order_status_description
             $v['order_status_description'] = $this->getOrderStatusDescription($v['order_status']);
             //pay_status_description
@@ -1274,8 +1278,10 @@ class Helper extends Api
             $v['shipping_status_description'] = $this->getShippingStatusDescription($v['shipping_status']);
             //goods_num
             $v['goods_num'] = $this->getGoodsNum($v['order_id']);
-
+            $tmp[$v['order_id']] = $v;
         }
+
+        $data = array_values($tmp);
         return $data;
 
     }
