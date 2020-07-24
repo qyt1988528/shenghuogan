@@ -152,10 +152,16 @@ class IndexController extends Controller
     public function orderListAction(){
         $merchantId = $this->_merchantId;
         $goodsType = $this->request->getParam('goods_type', null, '');
+        $orderNo = $this->request->getParam('order_no', null, '');
+        $page = $this->request->getParam('page', null, 1);
+        // var_dump($merchantId,$goodsType,$orderNo,$page);exit;
         try{
-            $result = $this->app->merchant->api->Helper()->orderManage($merchantId,$goodsType);
-            if($this->app->core->api->CheckEmpty()->newEmpty($result)){
-                $result = [];
+            // $result = $this->app->merchant->api->Helper()->orderManage($merchantId,$goodsType);
+            $orderList = $this->app->order->api->Helper()->orderList($merchantId,$goodsType,$orderNo,$page);
+            if($this->app->core->api->CheckEmpty()->newEmpty($orderList)){
+                $result['order_list'] = [];
+            }else{
+                $result['order_list'] = $orderList;
             }
             $data['data'] = $result;
         }catch (\Exception $e){
