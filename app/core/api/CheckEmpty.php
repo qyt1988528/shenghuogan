@@ -31,4 +31,20 @@ class CheckEmpty extends Api
         return false;
 
     }
+    public function newToArray($objectData){
+        if($this->newEmpty($objectData)){
+            return [];
+        }else{
+            if(is_object($objectData)){
+                $data = [];
+                foreach ($objectData as $k=>$v){
+                    $data[$k] = $v;
+                }
+                return $data;
+
+            }
+        }
+        return [];
+
+    }
 }

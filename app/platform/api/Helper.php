@@ -9,6 +9,7 @@ use Merchant\Model\MerchantWithdrawApply;
 use Order\Model\Order;
 use Order\Model\OrderGoods;
 use Platform\Model\PlatformImage;
+use function Qiniu\waterImg;
 use Tencent\Model\User;
 
 class Helper extends Api
@@ -185,7 +186,8 @@ class Helper extends Api
         if(empty($certData)){
             return false;
         }
-        $certData = $certData->toArray();
+        $certData = $this->app->core->api->CheckEmpty()->newToArray($certData);
+        // $certData = $certData->toArray();
         //置为通过
         $certStatus = $this->_certStatus['certification_status']['passed']['code'];
         $updateCertResult = $this->app->parttimejob->api->Certification()->updateCertStatus($certId,$certStatus,$auditUserId);
