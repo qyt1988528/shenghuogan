@@ -378,11 +378,11 @@ class IndexController extends Controller
             $result = $this->app->parttimejob->api->Certification()->tmpRefuseCertification($certId, $this->_userId);
             // $result = $this->app->platform->api->Helper()->refuseCertification($certId, $this->_userId);
             if($this->app->core->api->CheckEmpty()->newEmpty($result)){
+                $this->resultSet->error(1002, $this->_error['try_later']);
+            } else {
                 $data['data'] = [
                     'update_success' => $result
                 ];
-            } else {
-                $this->resultSet->error(1002, $this->_error['try_later']);
             }
         } catch (\Exception $e) {
             $this->resultSet->error($e->getCode(), $e->getMessage());
