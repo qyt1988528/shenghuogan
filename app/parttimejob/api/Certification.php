@@ -263,4 +263,19 @@ class Certification extends Api
         return true;
     }
 
+        //实名认证不通过
+    public function tmpRefuseCertification($certId,$auditUserId){
+        //查询该ID是否存在
+        if(empty($certId)){
+            return false;
+        }
+        $certData = $this->detail($certId);
+        if(empty($certData)){
+            return false;
+        }
+        //置为拒绝
+        $certStatus = $this->_certStatus['certification_status']['refused']['code'];
+        return $this->updateCertStatus($certId,$certStatus,$auditUserId);
+    }
+
 }
