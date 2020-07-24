@@ -1100,7 +1100,8 @@ class Helper extends Api
                 //全部订单
                 if(empty($orderNo)){
                     $all = $this->modelsManager->createBuilder()
-                        ->columns('ot.order_id,ot.order_no,ot.order_status,ot.pay_status,odt.shipping_status,ot.order_amount,ot.create_time as order_time')
+                        ->columns('ot.order_id,ot.user_id')
+                        // ->columns('ot.order_id,ot.order_no,ot.order_status,ot.pay_status,odt.shipping_status,ot.order_amount,ot.create_time as order_time')
                         ->from(['ot'=>'Order\Model\Order'])
                         // ->leftjoin('Order\Model\OrderGoods', 'ot.order_id = ogt.order_id','ogt')
                         ->leftjoin('Order\Model\OrderDetail', 'ot.order_id = odt.order_id','odt')
@@ -1111,7 +1112,8 @@ class Helper extends Api
                         ->toArray();
                 }else{
                     $all = $this->modelsManager->createBuilder()
-                        ->columns('ot.order_id,ot.order_no,ot.order_status,ot.pay_status,odt.shipping_status,ot.order_amount,ot.create_time as order_time')
+                        ->columns('ot.order_id,ot.user_id')
+                        // ->columns('ot.order_id,ot.order_no,ot.order_status,ot.pay_status,odt.shipping_status,ot.order_amount,ot.create_time as order_time')
                         ->from(['ot'=>'Order\Model\Order'])
                         // ->leftjoin('Order\Model\OrderGoods', 'ot.order_id = ogt.order_id','ogt')
                         ->leftjoin('Order\Model\OrderDetail', 'ot.order_id = odt.order_id','odt')
@@ -1130,7 +1132,8 @@ class Helper extends Api
                 if($goodsType=='express'){
                     if(empty($orderNo)){
                         $all = $this->modelsManager->createBuilder()
-                            ->columns('ot.order_id,ot.order_no,ot.order_status,ot.pay_status,odt.shipping_status,ot.order_amount,ot.create_time as order_time')
+                            ->columns('ot.order_id,ot.user_id')
+                            // ->columns('ot.order_id,ot.order_no,ot.order_status,ot.pay_status,odt.shipping_status,ot.order_amount,ot.create_time as order_time')
                             ->from(['ot'=>'Order\Model\Order'])
                             ->leftjoin('Order\Model\OrderGoods', 'ot.order_id = ogt.order_id','ogt')
                             ->leftjoin('Order\Model\OrderDetail', 'ot.order_id = odt.order_id','odt')
@@ -1142,7 +1145,8 @@ class Helper extends Api
                             ->toArray();
                     }else{
                         $all = $this->modelsManager->createBuilder()
-                            ->columns('ot.order_id,ot.order_no,ot.order_status,ot.pay_status,odt.shipping_status,ot.order_amount,ot.create_time as order_time')
+                            ->columns('ot.order_id,ot.user_id')
+                            // ->columns('ot.order_id,ot.order_no,ot.order_status,ot.pay_status,odt.shipping_status,ot.order_amount,ot.create_time as order_time')
                             ->from(['ot'=>'Order\Model\Order'])
                             ->leftjoin('Order\Model\OrderGoods', 'ot.order_id = ogt.order_id','ogt')
                             ->leftjoin('Order\Model\OrderDetail', 'ot.order_id = odt.order_id','odt')
@@ -1159,7 +1163,8 @@ class Helper extends Api
                 }else{
                     if(empty($orderNo)){
                         $all = $this->modelsManager->createBuilder()
-                            ->columns('ot.order_id,ot.order_no,ot.order_status,ot.pay_status,odt.shipping_status,ot.order_amount,ot.create_time as order_time')
+                            ->columns('ot.order_id,ot.user_id')
+                            // ->columns('ot.order_id,ot.order_no,ot.order_status,ot.pay_status,odt.shipping_status,ot.order_amount,ot.create_time as order_time')
                             ->from(['ot'=>'Order\Model\Order'])
                             ->leftjoin('Order\Model\OrderGoods', 'ot.order_id = ogt.order_id','ogt')
                             ->leftjoin('Order\Model\OrderDetail', 'ot.order_id = odt.order_id','odt')
@@ -1171,7 +1176,8 @@ class Helper extends Api
                             ->toArray();
                     }else{
                         $all = $this->modelsManager->createBuilder()
-                            ->columns('ot.order_id,ot.order_no,ot.order_status,ot.pay_status,odt.shipping_status,ot.order_amount,ot.create_time as order_time')
+                            ->columns('ot.order_id,ot.user_id')
+                            // ->columns('ot.order_id,ot.order_no,ot.order_status,ot.pay_status,odt.shipping_status,ot.order_amount,ot.create_time as order_time')
                             ->from(['ot'=>'Order\Model\Order'])
                             ->leftjoin('Order\Model\OrderGoods', 'ot.order_id = ogt.order_id','ogt')
                             ->leftjoin('Order\Model\OrderDetail', 'ot.order_id = odt.order_id','odt')
@@ -1194,7 +1200,8 @@ class Helper extends Api
                 //全部订单
                 if(empty($orderNo)){
                     $all = $this->modelsManager->createBuilder()
-                        ->columns('ot.order_id,ot.order_no,ot.order_status,ot.pay_status,odt.shipping_status,ot.order_amount,ot.create_time as order_time')
+                        ->columns('ot.order_id,ot.user_id')
+                        // ->columns('ot.order_id,ot.order_no,ot.order_status,ot.pay_status,odt.shipping_status,ot.order_amount,ot.create_time as order_time')
                         ->from(['ot'=>'Order\Model\Order'])
                         ->leftjoin('Order\Model\OrderGoods', 'ot.order_id = ogt.order_id','ogt')
                         ->leftjoin('Order\Model\OrderDetail', 'ot.order_id = odt.order_id','odt')
@@ -1207,7 +1214,8 @@ class Helper extends Api
                         ->toArray();
                 }else{
                     $all = $this->modelsManager->createBuilder()
-                        ->columns('ot.order_id,ot.order_no,ot.order_status,ot.pay_status,odt.shipping_status,ot.order_amount,ot.create_time as order_time')
+                        ->columns('ot.order_id,ot.user_id')
+                        // ->columns('ot.order_id,ot.order_no,ot.order_status,ot.pay_status,odt.shipping_status,ot.order_amount,ot.create_time as order_time')
                         ->from(['ot'=>'Order\Model\Order'])
                         ->leftjoin('Order\Model\OrderGoods', 'ot.order_id = ogt.order_id','ogt')
                         ->leftjoin('Order\Model\OrderDetail', 'ot.order_id = odt.order_id','odt')
@@ -1226,7 +1234,8 @@ class Helper extends Api
                 //指定类别
                 if(empty($orderNo)){
                     $all = $this->modelsManager->createBuilder()
-                        ->columns('ot.order_id,ot.order_no,ot.order_status,ot.pay_status,odt.shipping_status,ot.order_amount,ot.create_time as order_time')
+                        ->columns('ot.order_id,ot.user_id')
+                        // ->columns('ot.order_id,ot.order_no,ot.order_status,ot.pay_status,odt.shipping_status,ot.order_amount,ot.create_time as order_time')
                         ->from(['ot'=>'Order\Model\Order'])
                         ->leftjoin('Order\Model\OrderGoods', 'ot.order_id = ogt.order_id','ogt')
                         ->leftjoin('Order\Model\OrderDetail', 'ot.order_id = odt.order_id','odt')
@@ -1239,7 +1248,8 @@ class Helper extends Api
                         ->toArray();
                 }else{
                     $all = $this->modelsManager->createBuilder()
-                        ->columns('ot.order_id,ot.order_no,ot.order_status,ot.pay_status,odt.shipping_status,ot.order_amount,ot.create_time as order_time')
+                        ->columns('ot.order_id,ot.user_id')
+                        // ->columns('ot.order_id,ot.order_no,ot.order_status,ot.pay_status,odt.shipping_status,ot.order_amount,ot.create_time as order_time')
                         ->from(['ot'=>'Order\Model\Order'])
                         ->leftjoin('Order\Model\OrderGoods', 'ot.order_id = ogt.order_id','ogt')
                         ->leftjoin('Order\Model\OrderDetail', 'ot.order_id = odt.order_id','odt')
@@ -1270,6 +1280,8 @@ class Helper extends Api
             if(isset($tmp[$v['order_id']])){
                 continue;
             }
+            $tmp[$v['order_id']] = $this->getOrderDetail($v['order_id'], $v['user_id']);
+            /*
             //order_status_description
             $v['order_status_description'] = $this->getOrderStatusDescription($v['order_status']);
             //pay_status_description
@@ -1279,6 +1291,7 @@ class Helper extends Api
             //goods_num
             $v['goods_num'] = $this->getGoodsNum($v['order_id']);
             $tmp[$v['order_id']] = $v;
+            */
         }
 
         $data = array_values($tmp);
