@@ -113,11 +113,28 @@ class Helper extends Api
             throw new \Exception('该订单为其他商户，请勿进行扫码', 10006);
         }
 
+        $scanRet = true;
         //该订单中该商户的均置为确认
         foreach ($orderGoodsIds as $ogid){
-            $this->scanOrderGoods($ogid);
+           $scanRet = $this->scanOrderGoods($ogid);
+           if($scanRet == false){
+               break;
+           }
         }
-        //当所有的都扫过码了，需要自动完成 order_status => finish
+        if($scanRet){
+            //当所有的都扫过码了，需要自动完成 order_status => finish
+            $updateData = [
+                'order_id' => $orderId,
+                'order_status' => $this->_order['order_status']['finish']['code'],
+                'is_manual' => $this->_config['data_status']['valid']
+            ];
+            try{
+                $orderData->update($updateData);
+            }catch (\Exception $e){
+                return false;
+            }
+
+        }
 
         return true;
 

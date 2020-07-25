@@ -5,33 +5,33 @@ use MDK\Controller;
 
 /**
  * Face controller.
- * @RoutePrefix("/school", name="face")
+ * @RoutePrefix("/school", name="school")
  */
 class IndexController extends Controller
 {
+    private $_error;
+    private $_userId;
 
+    public function initialize()
+    {
+        $config = $this->app->core->config->config->toArray();
+        $this->_error = $config['error_message'];
+        $this->_userId = $this->app->tencent->api->UserApi()->getUserId();
+    }
     /**
      * Index action.
      * @return void
      * @Route("/", methods="GET", name="school")
      */
     public function indexAction() {
-
-        $result = [
-            'pageInfo'=>[
-                'pageNumber' => '1',
-                'pageSize' => '10'
-            ]
-        ];
-        $this->resultSet->setData($result);
-        $this->response->success($this->resultSet->filterByConfig('definitions/Common'));
-//        $common = $formater->path('definitions/Common',null,'/');
-//        $definitions = $formater->getData($common);
-//        $result= $formater->filter($definitions,$result);
-//        echo (json_encode($result));die;
-//        var_dump($common);die;
-        $data =[];
+        $page = $this->request->getParam('page',null,1);
+        //分页
         try{
+            $data['data'] = [];
+            $tickets = $this->app->school->api->Helper()->getList($page);
+            if(!empty($tickets)){
+                $data['data'] = $tickets;
+            }
         }catch (\Exception $e){
             $this->resultSet->error($e->getCode(),$e->getMessage());
         }
@@ -42,26 +42,21 @@ class IndexController extends Controller
 
     /**
      * mergeFace action.
-     * 人脸融合
+     * 商品详情
      * @return void
-     * @Route("/mergeFace", methods="POST", name="face")
+     * @Route("/detail", methods="GET", name="school")
      */
-    public function mergeFaceAction(){
-        $imageUrl = $this->request->getParam('image_url',null,'');
-        $imageBase64 = $this->request->getParam('image_base64',null,'');
-        $sku = $this->request->getParam('sku',null,'');
-        if( (empty($imageUrl) && empty($imageBase64)) || empty($sku)){
-            $result['code'] = 101;
-            $result['msg'] = $this->translate->_('Invalid input');
-            $this->resultSet->error($result['code'],$result['msg']);
+    public function detailAction(){
+        $goodsId = $this->request->getParam('id',null,'');
+        if(empty($goodsId)){
+            $this->resultSet->error(1001,$this->_error['invalid_input']);
         }
         try{
-            $params = [
-                'sku' => $sku,
-                'image_url' => $imageUrl,
-                'image_base64' => $imageBase64,
-            ];
-            $data = $this->app->face->api->Helper()->mergeFacePro($params);
+            $result = $this->app->school->api->Helper()->detail($goodsId,$this->_userId);
+            if(empty($result)){
+                $this->resultSet->error(1002,$this->_error['not_exist']);
+            }
+            $data['data'] = $result;
         }catch (\Exception $e){
             $this->resultSet->error($e->getCode(),$e->getMessage());
         }
@@ -69,45 +64,4 @@ class IndexController extends Controller
         $this->response->success($this->resultSet->toObject());
     }
 
-    /**
-     * faceDetect action.
-     * 人脸识别
-     * @return void
-     * @Route("/faceDetect", methods="POST", name="face")
-     */
-    public function faceDetectAction(){
-        $imageBase64 = $this->request->getParam('image_base64',null,'');
-        $msg = $this->translate->_('Network Error. Please Try Again Later!');
-        if(empty($imageBase64)){
-            $this->resultSet->error(1001,$msg);
-        }
-        try{
-            $params = [
-                'image_base64' => $imageBase64,
-            ];
-            $data = $this->app->face->api->Helper()->faceDetect($params);
-            //人数
-            $faceNum = $this->app->face->api->Helper()->faceNum($data);
-            //人脸模糊度
-            $isBlur = $this->app->face->api->Helper()->isBlur($data);
-            if($faceNum != 1){
-                $code = 1;
-            }else{
-                if($isBlur){
-                    $code = 2;
-                }else{
-                    $code = 3;
-                }
-            }
-            $data = [
-                'faceNum' => (int)$faceNum,
-                'detectCode' => $code,
-                'isBlur' => (int)$isBlur
-            ];
-        }catch (\Exception $e){
-            $this->resultSet->error($e->getCode(),$e->getMessage());
-        }
-        $this->resultSet->success()->setData($data);
-        $this->response->success($this->resultSet->toObject());
-    }
 }
