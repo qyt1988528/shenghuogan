@@ -224,9 +224,13 @@ class AdminController extends Controller
             ];
             $goodsData = [$sendData];
             $addressId = $postData['address_id'] ?? 0;
-            // $addressId = $postData['user_address_id'] ?? 0;
+            $userAddressId = $postData['user_address_id'] ?? 0;
             $couponNo = '';
             $orderSend = $this->app->order->api->Helper()->createOrder($goodsData, $this->_userId, $addressId, $couponNo);
+            //保存用户地址到订单表
+            if(!empty($orderSend)){
+                $addressRet = $this->app->order->api->Helper()->saveOrderDetailAddress($orderSend,$userAddressId);
+            }
         }catch (\Exception $e){
             $this->resultSet->error($e->getCode(),$e->getMessage());
         }

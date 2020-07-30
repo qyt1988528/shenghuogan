@@ -87,6 +87,7 @@ class Helper extends Api
     public function createOrder($goodsData, $userId, $addressId, $couponNo = '')
     {
 
+        $orderId = 0;
         $needAddress = false;
         $goodsTypes = $this->_config['goods_types'];
         $goodsAmount = 0;
@@ -378,6 +379,32 @@ class Helper extends Api
         //事务commit
         $this->db->commit();
         return $orderId;
+    }
+
+    public function saveOrderDetailAddress($orderId,$addressId){
+        $orderDetailModel = new OrderDetail();
+        $orderDetailModel->order_id = $orderId;
+        $addressInfo = $this->_addressModel->findFirstById($addressId);
+        // $addressInfo =  $this->app->address->api->Hepler()->detail($addressId);
+        if(!empty($addressInfo)){
+            // var_dump($addressInfo->name);exit;
+            $orderDetailModel->address_id = $addressId;
+            $orderDetailModel->receiver = $addressInfo->name ?? '';
+            $orderDetailModel->cellphone = $addressInfo->cellphone ?? '';
+            $province = $this->_regionModel->findFirstById($addressInfo->province_id);
+            $orderDetailModel->province = $province->name  ?? '';
+            $city = $this->_regionModel->findFirstById($addressInfo->city_id);
+            $orderDetailModel->city = $city->name ?? '';
+            $county = $this->_regionModel->findFirstById($addressInfo->county_id);
+            $orderDetailModel->county = $county->name ?? '';
+            $orderDetailModel->detailed_address = $addressInfo->detailed_address ?? '';
+            $orderDetailModel->shipping_status = $this->_order['shipped_status']['wait_send']['code'];
+        }
+        $orderDetailModel->create_time = date('Y-m-d H:i:s');
+        if ($orderDetailModel->save() === false) {
+            throw new \Exception('网络异常，请稍后重试', 1008);
+        }
+
     }
 
     public function getInsertFields()
@@ -718,10 +745,13 @@ class Helper extends Api
             ->getQuery()
             ->getSingleResult();
             // ->toArray();
-        if ($this->app->core->api->CheckEmpty()->newEmpty($orderData) || $orderData['user_id'] != $userId) {
+        if ($this->app->core->api->CheckEmpty()->newEmpty($orderData)) {
             throw new \Exception('数据有误', 1001);
         }
         $orderData = $orderData->toArray();
+        if($orderData['user_id'] != $userId){
+            throw new \Exception('数据有误', 1002);
+        }
         $data['order_data'] = $orderData;
         $orderDetailData = $this->modelsManager->createBuilder()
             ->columns('*')
