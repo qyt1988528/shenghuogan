@@ -716,11 +716,12 @@ class Helper extends Api
             ->where('sg.order_id = :order_id: ', ['order_id' => $orderId])
             ->andWhere('sg.status = :valid: ', ['valid' => $this->_config['data_status']['valid']])
             ->getQuery()
-            ->getSingleResult()
-            ->toArray();
-        if (empty($orderData) || $orderData['user_id'] != $userId) {
+            ->getSingleResult();
+            // ->toArray();
+        if ($this->app->core->api->CheckEmpty()->newEmpty($orderData) || $orderData['user_id'] != $userId) {
             throw new \Exception('数据有误', 1001);
         }
+        $orderData = $orderData->toArray();
         $data['order_data'] = $orderData;
         $orderDetailData = $this->modelsManager->createBuilder()
             ->columns('*')
