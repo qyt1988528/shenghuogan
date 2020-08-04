@@ -18,3 +18,5 @@ cd cphalcon/build
 
 yum	install	-y	wget	&&	wget	-O	install.sh	http://download.bt.cn/install/install.sh	&&	sh	install.sh
 /www/server/php/70/lib/php/extensions/no-debug-non-zts-20151012
+
+项目是在一个状态很不好的情况下开发的，代码真的很烂

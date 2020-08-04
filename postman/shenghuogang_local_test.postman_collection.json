@@ -1827,7 +1827,7 @@
 							"formdata": [
 								{
 									"key": "id",
-									"value": "1",
+									"value": "4",
 									"description": "实名认证数据ID",
 									"type": "text"
 								}
@@ -2186,25 +2186,27 @@
 								"value": "f747b0e96c9ebb3bdd6ea019a840434b"
 							}
 						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "goods_type",
-									"value": "express",
-									"description": "商户ID",
-									"type": "text"
-								}
-							]
-						},
+						"body": {},
 						"url": {
-							"raw": "{{host}}/platform/orderList",
+							"raw": "{{host}}/platform/orderList?goods_type=&order_no=20200216232438",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"platform",
 								"orderList"
+							],
+							"query": [
+								{
+									"key": "goods_type",
+									"value": "",
+									"description": "类型(express表示代寄和代取)"
+								},
+								{
+									"key": "order_no",
+									"value": "20200216232438",
+									"description": "订单号(模糊搜索)"
+								}
 							]
 						}
 					},
@@ -2847,6 +2849,35 @@
 							],
 							"path": [
 								"school"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"description": "页码"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "缴费-列表(\b平台用户查看)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/school/list?page=1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"school",
+								"list"
 							],
 							"query": [
 								{
@@ -5165,7 +5196,7 @@
 							"urlencoded": [
 								{
 									"key": "order_id",
-									"value": "129",
+									"value": "153",
 									"description": "订单Id(必填)",
 									"type": "text"
 								}
@@ -5491,27 +5522,34 @@
 								"name": "Content-Type",
 								"value": "application/x-www-form-urlencoded",
 								"type": "text"
+							},
+							{
+								"key": "Token1",
+								"value": "95812b115f731458457402c7dd666e88",
+								"type": "text"
 							}
 						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "goods_type",
-									"value": "",
-									"description": "商品类型",
-									"type": "text"
-								}
-							]
-						},
+						"body": {},
 						"url": {
-							"raw": "{{host}}/merchant/orderList",
+							"raw": "{{host}}/merchant/orderList?goods_type&order_no=",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"merchant",
 								"orderList"
+							],
+							"query": [
+								{
+									"key": "goods_type",
+									"value": null,
+									"description": "类型"
+								},
+								{
+									"key": "order_no",
+									"value": "",
+									"description": "订单号(模糊搜索)"
+								}
 							]
 						}
 					},
@@ -5685,7 +5723,7 @@
 						"header": [
 							{
 								"key": "Token",
-								"value": "b0d5772882a15bf49fd1b50e7b0165a7",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b",
 								"description": "用户token",
 								"type": "text"
 							},
@@ -5701,13 +5739,13 @@
 							"formdata": [
 								{
 									"key": "order_id",
-									"value": "50",
+									"value": "152",
 									"description": "订单ID",
 									"type": "text"
 								},
 								{
 									"key": "create_time",
-									"value": "1583826855",
+									"value": "1595657452",
 									"description": "二维码生成的时间戳",
 									"type": "text"
 								}

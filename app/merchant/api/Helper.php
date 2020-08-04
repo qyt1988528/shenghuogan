@@ -74,14 +74,13 @@ class Helper extends Api
     public function merchantConfirmOrder($orderId,$merchantId,$qrcodeCreateTime){
         $invalidTime =$this->_order['order_qrcode_invalid_time']['code'];//5分钟
         $currentTime = time();
-        if($currentTime - $qrcodeCreateTime > $invalidTime){
-            //超过五分钟二维码失效
-            throw new \Exception('二维码已失效，请刷新页面', 10001);
-        }
         //查询订单
         if (empty($orderId)) {
             throw new \Exception('订单不存在', 10002);
-
+        }
+        if($currentTime - $qrcodeCreateTime > $invalidTime){
+            //超过五分钟二维码失效
+            throw new \Exception('二维码已失效，请刷新页面', 10001);
         }
         $condition = "order_id = " . $orderId;
         $condition .= " and status = " . $this->_config['data_status']['valid'];
