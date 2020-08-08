@@ -1057,7 +1057,7 @@ class Helper extends Api
                 ->execute()
                 ->getFirst()
                 ->toArray();
-            if(empty($totalRet)){
+            if($this->app->core->api->CheckEmpty()->newEmpty($totalRet)){
                 $totalRet = [
                     'total_income' => 0,
                 ];
@@ -1072,7 +1072,7 @@ class Helper extends Api
                 ->execute()
                 ->getFirst()
                 ->toArray();
-            if(empty($monthRet)){
+            if($this->app->core->api->CheckEmpty()->newEmpty($monthRet)){
                 $monthRet = [
                     'this_month_income' => 0,
                 ];
@@ -1089,7 +1089,7 @@ class Helper extends Api
                 ->execute()
                 ->getFirst()
                 ->toArray();
-            if(empty($totalRet)){
+            if($this->app->core->api->CheckEmpty()->newEmpty($totalRet)){
                 $totalRet = [
                     'total_income' => 0,
                 ];
@@ -1105,7 +1105,7 @@ class Helper extends Api
                 ->execute()
                 ->getFirst()
                 ->toArray();
-            if(empty($monthRet)){
+            if($this->app->core->api->CheckEmpty()->newEmpty($monthRet)){
                 $monthRet = [
                     'this_month_income' => 0,
                 ];
