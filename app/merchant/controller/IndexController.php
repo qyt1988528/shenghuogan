@@ -180,7 +180,14 @@ class IndexController extends Controller
         $merchantId = $this->_merchantId;
         try{
             $result = $this->app->merchant->api->Helper()->myWallet($merchantId);
-            $data['data'] = $result;
+            if($this->app->core->api->CheckEmpty()->newEmpty($result)){
+                $data['data'] = [
+                    'total_income' => 0,
+                    'this_month_income' => 0,
+                ];
+            }else{
+                $data['data'] = $result;
+            }
         }catch (\Exception $e){
             $this->resultSet->error($e->getCode(),$e->getMessage());
         }
