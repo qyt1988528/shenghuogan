@@ -134,7 +134,14 @@ class IndexController extends Controller
         try{
             $result = $this->app->merchant->api->Helper()->personalData($merchantId);
             if($this->app->core->api->CheckEmpty()->newEmpty($result)){
-                $result = [];
+                $result = [
+                    'merchant_name'  => '',
+                    'merchant_cellphone'  => '',
+                    'total_sales' => 0,
+                    'total_orders' => 0,
+                    'today_sales' => 0,
+                    'today_orders' => 0,
+                ];
             }
             $data['data'] = $result;
         }catch (\Exception $e){

@@ -15,6 +15,7 @@ class CheckEmpty extends Api
      * 验证手机号是否正确
      * @param $phone
      * @return bool
+     * true--表示为空 false--不为空
      */
     public function newEmpty($data)
     {

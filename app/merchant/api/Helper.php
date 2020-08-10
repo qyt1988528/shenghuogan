@@ -325,15 +325,25 @@ class Helper extends Api
         //商户-个人中心 店铺名称、手机号、营业总额、订单总数、今日订单数
         $condition = "id = " . $merchantId;
         $condition .= " and status = " . $this->_config['data_status']['valid'];
-        $merchantData = $this->_merchantModel->findFirst($condition)->toArray();
-        if(empty($merchantData)){
+        $merchantData = $this->_merchantModel->findFirst($condition);
+        if($this->app->core->api->CheckEmpty()->newEmpty($merchantData)){
             return [];
         }
+        $merchantData = $merchantData->toArray();
         $ret = [
             'merchant_name'  => $merchantData['name'] ?? '',
             'merchant_cellphone'  => $merchantData['cellphone'] ?? '',
         ];
         $orderData = $this->app->order->api->Helper()->getOrderData($merchantId);
+        if($this->app->core->api->CheckEmpty()->newEmpty($orderData)){
+            return [
+                'total_sales' => 0,
+                'total_orders' => 0,
+                'today_sales' => 0,
+                'today_orders' => 0,
+            ];
+        }
+
         $ret = array_merge($ret,$orderData);
 
 
