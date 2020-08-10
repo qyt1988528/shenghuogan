@@ -286,13 +286,13 @@ class Helper extends Api
         //平台-个人中心 名称、手机号、营业总额、订单总数、用户总数、今日营业额、今日订单数、今日新增用户数
         $condition = "id = " . $userId;
         $condition .= " and status = " . $this->_config['data_status']['valid'];
-        $merchantData = $this->_userModel->findFirst($condition)->toArray();
+        $merchantData = $this->_userModel->findFirst($condition);
         if($this->app->core->api->CheckEmpty()->newEmpty($merchantData)){
             return [];
         }
         $merchantData = $merchantData->toArray();
         $ret = [
-            'platform_name'  => $merchantData['name'] ?? '',
+            'platform_name'  => !empty($merchantData['name']) ?$merchantData['name']: (!empty($merchantData['nickname'])?$merchantData['nickname']:''),
             'platform_cellphone'  => $merchantData['cellphone'] ?? '',
         ];
         $orderData = $this->app->order->api->Helper()->getOrderData(0);
