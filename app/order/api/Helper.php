@@ -937,7 +937,7 @@ class Helper extends Api
                 ->execute()
                 ->getFirst()
                 ->toArray();
-            if(empty($orderRet)){
+            if($this->app->core->api->CheckEmpty()->newEmpty($orderRet)){
                $orderRet = [
                    'total_sales' => 0,
                    'total_orders' => 0,
@@ -953,7 +953,7 @@ class Helper extends Api
                 ->execute()
                 ->getFirst()
                 ->toArray();
-            if(empty($orderTodayRet)){
+            if($this->app->core->api->CheckEmpty()->newEmpty($orderTodayRet)){
                $orderTodayRet = [
                    'today_sales' => 0,
                    'today_orders' => 0,
@@ -968,7 +968,7 @@ class Helper extends Api
                 ->execute()
                 ->getFirst()
                 ->toArray();
-            if(empty($userRet)){
+            if($this->app->core->api->CheckEmpty()->newEmpty($userRet)){
                 $userRet = [
                     'total_users' =>0
                 ];
@@ -983,7 +983,7 @@ class Helper extends Api
                 ->execute()
                 ->getFirst()
                 ->toArray();
-            if(empty($userTodayRet)){
+            if($this->app->core->api->CheckEmpty()->newEmpty($userTodayRet)){
                 $userTodayRet = [
                     'today_users' =>0
                 ];
@@ -1005,7 +1005,7 @@ class Helper extends Api
                 ->execute()
                 ->getFirst()
                 ->toArray();
-            if(empty($orderRet)){
+            if($this->app->core->api->CheckEmpty()->newEmpty($orderRet)){
                 $orderRet = [
                     'total_sales' => 0,
                     'total_orders' => 0,
@@ -1022,7 +1022,7 @@ class Helper extends Api
                 ->execute()
                 ->getFirst()
                 ->toArray();
-            if(empty($orderTodayRet)){
+            if($this->app->core->api->CheckEmpty()->newEmpty($orderTodayRet)){
                 $orderTodayRet = [
                     'today_sales' => 0,
                     'today_orders' => 0,

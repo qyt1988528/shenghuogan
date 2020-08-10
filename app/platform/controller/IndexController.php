@@ -402,6 +402,9 @@ class IndexController extends Controller
         $merchantId = $this->_userId;
         try {
             $result = $this->app->platform->api->Helper()->personalData($merchantId);
+            if($this->app->core->api->CheckEmpty()->newEmpty($result)){
+                $result = [];
+            }
             $data['data'] = $result;
         } catch (\Exception $e) {
             $this->resultSet->error($e->getCode(), $e->getMessage());
