@@ -9,7 +9,6 @@ use Merchant\Model\MerchantWithdrawApply;
 use Order\Model\Order;
 use Order\Model\OrderGoods;
 use Platform\Model\PlatformImage;
-use function Qiniu\waterImg;
 use Tencent\Model\User;
 
 class Helper extends Api
@@ -284,9 +283,19 @@ class Helper extends Api
 
     public function personalData($userId){
         //平台-个人中心 名称、手机号、营业总额、订单总数、用户总数、今日营业额、今日订单数、今日新增用户数
+        /*
         $condition = "id = " . $userId;
         $condition .= " and status = " . $this->_config['data_status']['valid'];
         $merchantData = $this->_userModel->findFirst($condition);
+        */
+
+        $merchantData = $this->modelsManager->createBuilder()
+            ->columns('*')
+            ->from(['sg'=>'Tencent\Model\User'])
+            ->where('sg.id = :id: ', ['id' => $userId])
+            ->andWhere('sg.status = :valid: ', ['valid' => $this->_config['data_status']['valid']])
+            ->getQuery()
+            ->getSingleResult();
         if($this->app->core->api->CheckEmpty()->newEmpty($merchantData)){
             return [];
         }
