@@ -287,14 +287,25 @@ class Helper extends Api
         $condition = "id = " . $userId;
         $condition .= " and status = " . $this->_config['data_status']['valid'];
         $merchantData = $this->_userModel->findFirst($condition)->toArray();
-        if(empty($merchantData)){
+        if($this->app->core->api->CheckEmpty()->newEmpty($merchantData)){
             return [];
         }
+        $merchantData = $merchantData->toArray();
         $ret = [
             'platform_name'  => $merchantData['name'] ?? '',
             'platform_cellphone'  => $merchantData['cellphone'] ?? '',
         ];
         $orderData = $this->app->order->api->Helper()->getOrderData(0);
+        if($this->app->core->api->CheckEmpty()->newEmpty($orderData)){
+            return [
+                'total_sales' => 0,
+                'total_orders' => 0,
+                'total_users' => 0,
+                'today_sales' => 0,
+                'today_orders' => 0,
+                'today_users' => 0,
+            ];
+        }
         $ret = array_merge($ret,$orderData);
 
 

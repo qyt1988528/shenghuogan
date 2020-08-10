@@ -403,7 +403,16 @@ class IndexController extends Controller
         try {
             $result = $this->app->platform->api->Helper()->personalData($merchantId);
             if($this->app->core->api->CheckEmpty()->newEmpty($result)){
-                $result = [];
+                $result = [
+                    'platform_name'  => '',
+                    'platform_cellphone'  => '',
+                    'total_sales' => 0,
+                    'total_orders' => 0,
+                    'total_users' => 0,
+                    'today_sales' => 0,
+                    'today_orders' => 0,
+                    'today_users' => 0,
+                ];
             }
             $data['data'] = $result;
         } catch (\Exception $e) {
