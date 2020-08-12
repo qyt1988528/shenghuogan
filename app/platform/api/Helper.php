@@ -297,7 +297,7 @@ class Helper extends Api
             ->getQuery()
             ->getSingleResult();
         //getPhql();
-        if($this->app->core->api->CheckEmpty()->newEmpty($merchantData)){
+        if( $this->tmpNewEmpty($merchantData) ){
             return [];
         }
         $merchantData = $merchantData->toArray();
@@ -538,6 +538,29 @@ class Helper extends Api
             $cover = $cover->toArray();
         }
         return $cover;
+    }
+
+
+    /**
+     * 验证数据是否为空
+     * @param $phone
+     * @return bool
+     * true--表示为空 false--不为空
+     */
+    public function tmpNewEmpty($data)
+    {
+        if(empty($data)){
+            return true;
+        }
+        if(is_object($data) || is_array($data)){
+            foreach($data as $k=>$v){
+                if($k==='di'){
+                    return true;
+                }
+            }
+        }
+        return false;
+
     }
 
 
