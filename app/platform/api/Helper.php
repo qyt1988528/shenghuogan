@@ -296,6 +296,7 @@ class Helper extends Api
             ->andWhere('sg.status = :valid: ', ['valid' => $this->_config['data_status']['valid']])
             ->getQuery()
             ->getSingleResult();
+        //getPhql();
         if($this->app->core->api->CheckEmpty()->newEmpty($merchantData)){
             return [];
         }

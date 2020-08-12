@@ -84,10 +84,11 @@ class IndexController extends Controller
         }
         try{
             $insert = $this->app->tencent->api->UserApi()->getInfoByOpenid($openid);
-            if(empty($insert)){
+            if($this->app->core->api->CheckEmpty()->newEmpty($insert)){
                 $this->resultSet->error(1002,$this->_error['not_exist']);
             }
             $data['data'] =[
+                'identity' => $insert['identity'] ?? 0,
                 'access_token' => $insert['access_token'] ?? ''
             ];
         }catch (\Exception $e){

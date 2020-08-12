@@ -228,11 +228,17 @@ class UserApi extends Api
             if (empty($user->nickname)) {//微信昵称不能为空
                 //未保存用户信息
                 return [
+                    'identity' => 0,
                     'access_token' => ''
                 ];
             } else {
                 //保存过用户信息
+                $normalUser = 1;
+                $merchant = !empty($user->merchant_id) ? 2 : 0;
+                $platform = !empty($user->is_platform) ? 4 : 0;
+                $identity = $normalUser + $merchant + $platform;
                 return [
+                    'identity' => $identity,
                     'access_token' => $user->access_token ?? ''
                 ];
             }
