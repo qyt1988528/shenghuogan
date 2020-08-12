@@ -377,7 +377,7 @@ class IndexController extends Controller
         try {
             $result = $this->app->parttimejob->api->Certification()->tmpRefuseCertification($certId, $this->_userId);
             // $result = $this->app->platform->api->Helper()->refuseCertification($certId, $this->_userId);
-            if($this->app->core->api->CheckEmpty()->newEmpty($result)){
+            if($this->app->platform->api->Helper()->tmpNewEmpty($result)){
                 $this->resultSet->error(1002, $this->_error['try_later']);
             } else {
                 $data['data'] = [
@@ -402,7 +402,7 @@ class IndexController extends Controller
         $merchantId = $this->_userId;
         try {
             $result = $this->app->platform->api->Helper()->personalData($merchantId);
-            if($this->app->core->api->CheckEmpty()->newEmpty($result)){
+            if($this->app->platform->api->Helper()->tmpNewEmpty($result)){
                 $result = [
                     'platform_name'  => '',
                     'platform_cellphone'  => '',
@@ -436,7 +436,7 @@ class IndexController extends Controller
         try {
             // $result = $this->app->platform->api->Helper()->orderManage($goodsType);
             $orderList = $this->app->order->api->Helper()->orderList(0,$goodsType,$orderNo,$page);
-            if($this->app->core->api->CheckEmpty()->newEmpty($orderList)){
+            if($this->app->platform->api->Helper()->tmpNewEmpty($orderList)){
                 $result['order_list'] = [];
             }else{
                 $result['order_list'] = $orderList;
@@ -460,7 +460,7 @@ class IndexController extends Controller
         // $merchantId = $this->_merchantId;
         try {
             $result = $this->app->platform->api->Helper()->myWallet();
-            if($this->app->core->api->CheckEmpty()->newEmpty($result)){
+            if($this->app->platform->api->Helper()->tmpNewEmpty($result)){
                 $data['data'] = [
                     'total_income' => 0,
                     'this_month_income' => 0,
@@ -488,7 +488,7 @@ class IndexController extends Controller
         $datetime = $this->request->getParam('datetime', null, $currentDate);
         try {
             $result = $this->app->platform->api->Helper()->bill($datetime);
-            if($this->app->core->api->CheckEmpty()->newEmpty($result)){
+            if($this->app->platform->api->Helper()->tmpNewEmpty($result)){
                 $result = [
                     'datetime' => $datetime,
                     'income' => 0,
