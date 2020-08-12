@@ -306,8 +306,8 @@ class Helper extends Api
             'platform_cellphone'  => $merchantData['cellphone'] ?? '',
         ];
         $orderData = $this->app->order->api->Helper()->getOrderData(0);
-        if($this->app->core->api->CheckEmpty()->newEmpty($orderData)){
-            return [
+        if($this->tmpNewEmpty($orderData)){
+            $orderData = [
                 'total_sales' => 0,
                 'total_orders' => 0,
                 'total_users' => 0,
