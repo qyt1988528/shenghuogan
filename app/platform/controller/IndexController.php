@@ -377,7 +377,7 @@ class IndexController extends Controller
         try {
             $result = $this->app->parttimejob->api->Certification()->tmpRefuseCertification($certId, $this->_userId);
             // $result = $this->app->platform->api->Helper()->refuseCertification($certId, $this->_userId);
-            if($this->app->platform->api->Helper()->tmpNewEmpty($result)){
+            if($this->tmpNewEmpty($result)){
                 $this->resultSet->error(1002, $this->_error['try_later']);
             } else {
                 $data['data'] = [
@@ -402,7 +402,7 @@ class IndexController extends Controller
         $merchantId = $this->_userId;
         try {
             $result = $this->app->platform->api->Helper()->personalData($merchantId);
-            if($this->app->platform->api->Helper()->tmpNewEmpty($result)){
+            if($this->tmpNewEmpty($result)){
                 $result = [
                     'platform_name'  => '',
                     'platform_cellphone'  => '',
@@ -436,7 +436,7 @@ class IndexController extends Controller
         try {
             // $result = $this->app->platform->api->Helper()->orderManage($goodsType);
             $orderList = $this->app->order->api->Helper()->orderList(0,$goodsType,$orderNo,$page);
-            if($this->app->platform->api->Helper()->tmpNewEmpty($orderList)){
+            if($this->tmpNewEmpty($orderList)){
                 $result['order_list'] = [];
             }else{
                 $result['order_list'] = $orderList;
@@ -460,7 +460,7 @@ class IndexController extends Controller
         // $merchantId = $this->_merchantId;
         try {
             $result = $this->app->platform->api->Helper()->myWallet();
-            if($this->app->platform->api->Helper()->tmpNewEmpty($result)){
+            if($this->tmpNewEmpty($result)){
                 $data['data'] = [
                     'total_income' => 0,
                     'this_month_income' => 0,
@@ -488,7 +488,7 @@ class IndexController extends Controller
         $datetime = $this->request->getParam('datetime', null, $currentDate);
         try {
             $result = $this->app->platform->api->Helper()->bill($datetime);
-            if($this->app->platform->api->Helper()->tmpNewEmpty($result)){
+            if($this->tmpNewEmpty($result)){
                 $result = [
                     'datetime' => $datetime,
                     'income' => 0,
@@ -600,6 +600,27 @@ class IndexController extends Controller
         }
         $this->resultSet->success()->setData($data);
         $this->response->success($this->resultSet->toObject());
+
+    }
+    /**
+     * 验证数据是否为空
+     * @param $phone
+     * @return bool
+     * true--表示为空 false--不为空
+     */
+    public function tmpNewEmpty($data)
+    {
+        if(empty($data)){
+            return true;
+        }
+        if(is_object($data) || is_array($data)){
+            foreach($data as $k=>$v){
+                if($k==='di'){
+                    return true;
+                }
+            }
+        }
+        return false;
 
     }
 
