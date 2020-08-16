@@ -512,8 +512,11 @@ class IndexController extends Controller
      */
     public function withdrawApplyListAction()
     {
+        //添加查询条件 年-月
+        $currentDate = date('Y-m');
+        $datetime = $this->request->getParam('datetime', null, $currentDate);
         try {
-            $result = $this->app->platform->api->Helper()->withdrawApplyList();
+            $result = $this->app->platform->api->Helper()->withdrawApplyList($datetime);
             if (!empty($result)) {
                 $data['data'] = $result;
             } else {

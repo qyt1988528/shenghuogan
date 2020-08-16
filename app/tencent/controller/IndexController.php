@@ -68,7 +68,8 @@ class IndexController extends Controller
             $tokenData =  $this->app->tencent->api->UserApi()->getInfoByOpenid($postData['openid']);
             $data['data'] =[
                 'create_result' => $insert,
-                'access_token' => $tokenData['access_token'] ?? ''
+                'access_token' => $tokenData['access_token'] ?? '',
+                'identity' => $insert['identity'] ?? 0,
             ];
         }catch (\Exception $e){
             $this->resultSet->error($e->getCode(),$e->getMessage());

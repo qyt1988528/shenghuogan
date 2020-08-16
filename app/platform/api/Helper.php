@@ -268,8 +268,12 @@ class Helper extends Api
         return $updateRet;
     }
     //商户提现申请列表
-    public function withdrawApplyList(){
+    public function withdrawApplyList($month=''){
         $condition = " status = " . $this->_config['data_status']['valid'];
+        if(!empty($month)){
+            $monthArr = $this->getDateTimeArr($month);
+            $condition .= ' and ( create_time>="'.$monthArr['month_start'].'" and create_time<"'.$monthArr['month_end'].'")';
+        }
         $withdrawDatas = $this->_merchantWithdrawApplyModel->find($condition)->toArray();
         if(!empty($withdrawDatas)){
             foreach ($withdrawDatas as &$v){
