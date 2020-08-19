@@ -194,13 +194,14 @@ class Helper extends Api
         $condition = " apply_merchant_id = " . $data['apply_merchant_id'];
         $condition .= " and apply_status = " . $this->_applyStatus['apply_status']['auditing']['code'];
         $condition .= " and status = " . $this->_config['data_status']['valid'];
-        $withdrawApplies = $this->_merchantWithdrawApplyModel->find($condition)->toArray();
+        $withdrawApplies = $this->_merchantWithdrawApplyModel->find($condition);
         if(!empty($withdrawApplies)){
             return [
                 'id' => 0,
                 'msg' => '请等待上一笔提现申请审批通过后，再进行提现申请!'
             ];
         }
+        $withdrawApplies = $withdrawApplies->toArray();
         //当前商户余额小于提现申请的金额
         $condition = "id = " . $data['apply_merchant_id'];
         $condition .= " and status = " . $this->_config['data_status']['valid'];
