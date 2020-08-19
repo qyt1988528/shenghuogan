@@ -2111,13 +2111,53 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{host}}/platform/withdrawApplyList",
+							"raw": "{{host}}/platform/withdrawApplyList?datetime=2020-08",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"platform",
 								"withdrawApplyList"
+							],
+							"query": [
+								{
+									"key": "datetime",
+									"value": "2020-08"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "商户\b提现码(平台用户查看)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"type": "text",
+								"value": "f747b0e96c9ebb3bdd6ea019a840434b"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/platform/withdrawQrcode?merchant_id=1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"platform",
+								"withdrawQrcode"
+							],
+							"query": [
+								{
+									"key": "merchant_id",
+									"value": "1"
+								}
 							]
 						}
 					},
@@ -2142,23 +2182,7 @@
 								"value": "f747b0e96c9ebb3bdd6ea019a840434b"
 							}
 						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "cellphone",
-									"value": "13012345678",
-									"description": "手机号",
-									"type": "text"
-								},
-								{
-									"key": "id_photo",
-									"value": "图片url",
-									"description": "有效证件",
-									"type": "text"
-								}
-							]
-						},
+						"body": {},
 						"url": {
 							"raw": "{{host}}/platform/personal",
 							"host": [
@@ -4011,7 +4035,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{host}}/express/getExpressConfig?type=4",
+							"raw": "{{host}}/express/getExpressConfig?type=2",
 							"host": [
 								"{{host}}"
 							],
@@ -4022,7 +4046,7 @@
 							"query": [
 								{
 									"key": "type",
-									"value": "4",
+									"value": "2",
 									"description": "1-寄快递，2-取件规格，3-可选服务，4快递列表"
 								}
 							]
@@ -4574,7 +4598,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"driver_data\": {\n        \"img_url\": \"https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg\",\n        \"title\": \"驾校1\",\n        \"location\": \"友谊路\",\n        \"original_price\": 11,\n        \"self_price\": 11,\n        \"description\": \"描述\",\n        \"promise_data\": [\n            {\n                \"promise_title\": \"承诺标题1\",\n                \"promise_description\": \"承诺描述1\"\n            },\n            {\n                \"promise_title\": \"承诺标题2\",\n                \"promise_description\": \"承诺描述2\"\n            }\n        ]\n    }\n}"
+							"raw": "{\n    \"driver_data\": {\n        \"img_url\": \"https://oss.mtlab.meitu.com/mtopen/rF5GIhp5ReLKgLV91CKj5BO1q2FTLMmc/MTU2OTU5MjgwMA==/609fc28e-1e97-4467-b017-473f9bb41138.jpg\",\n        \"title\": \"玉涛驾校1\",\n        \"location\": \"友谊路\",\n        \"original_price\": 11,\n        \"self_price\": 11,\n        \"description\": \"描述\",\n        \"promise_data\": [\n            {\n                \"promise_title\": \"承诺标题1\",\n                \"promise_description\": \"承诺描述1\"\n            },\n            {\n                \"promise_title\": \"承诺标题2\",\n                \"promise_description\": \"承诺描述2\"\n            }\n        ]\n    }\n}"
 						},
 						"url": {
 							"raw": "{{host}}/driveradmin/create",
@@ -5916,6 +5940,12 @@
 							"key": "openid",
 							"value": "bbb",
 							"description": "微信用户唯一标识",
+							"type": "text"
+						},
+						{
+							"key": "cellphone",
+							"value": "13212345678",
+							"description": "手机号",
 							"type": "text"
 						}
 					]
