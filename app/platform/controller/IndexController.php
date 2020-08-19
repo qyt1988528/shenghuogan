@@ -528,6 +528,30 @@ class IndexController extends Controller
         $this->resultSet->success()->setData($data);
         $this->response->success($this->resultSet->toObject());
     }
+        /**
+     * @return void
+     * @Route("/withdrawQrcode", methods="GET", name="platform")
+     */
+    public function withdrawQrcodeAction()
+    {
+        //添加查询条件 年-月
+        $merchantId = $this->request->getParam('merchant_id', null, 0);
+        if(empty($merchantId)){
+            $this->resultSet->error(1001, $this->_error['invalid_input']);
+        }
+        try {
+            $result = $this->app->platform->api->Helper()->withdrawQrcode($merchantId);
+            if (!empty($result)) {
+                $data['data']['qrcode'] = $result;
+            } else {
+                $data['data']['qrcode'] = '';
+            }
+        } catch (\Exception $e) {
+            $this->resultSet->error($e->getCode(), $e->getMessage());
+        }
+        $this->resultSet->success()->setData($data);
+        $this->response->success($this->resultSet->toObject());
+    }
     //平台-打款
 
     /**

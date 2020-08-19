@@ -83,6 +83,7 @@ class UserApi extends Api
                 'add_timestamp' => strtotime(date('Y-m-d')),
             ];
         }
+        $defaultInsertFields['cellphone'] = $postData['cellphone'] ?? '';
         $defaultInsertFields['language'] = $postData['language'] ?? '';
         $defaultInsertFields['country'] = $postData['country'] ?? '';
         $defaultInsertFields['province'] = $postData['province'] ?? '';
@@ -200,6 +201,16 @@ class UserApi extends Api
 
     public function getUserByOpenid($openid)
     {
+        /*
+        $goods = $this->modelsManager->createBuilder()
+            ->columns('*')
+            ->from(['sg' => 'User\Model\User'])
+            ->where('sg.openid = :selling: ', ['selling' => $openid])
+            ->andWhere('sg.status = :valid: ', ['valid' => $this->_config['data_status']['valid']])
+            ->getQuery()
+            ->getSingleResult();
+        return $goods;
+        */
         $condition = " openid = '" . $openid . "'";
         $condition .= " and status = " . $this->_config['data_status']['valid'];
         $user = $this->_model->findFirst($condition);
@@ -209,7 +220,7 @@ class UserApi extends Api
     public function getInfoByOpenid($openid, $sessionKey = '')
     {
         $user = $this->getUserByOpenid($openid);
-        if (empty($user)) {
+        if ($this->tmpNewEmpty($user)) {
             //之前没有此用户的记录
             //保存openid、session_key、session_key_time
             if (!empty($sessionKey)) {
@@ -298,6 +309,28 @@ class UserApi extends Api
             }
         }
         return $header;
+    }
+
+    /**
+     * 验证数据是否为空
+     * @param $phone
+     * @return bool
+     * true--表示为空 false--不为空
+     */
+    public function tmpNewEmpty($data)
+    {
+        if(empty($data)){
+            return true;
+        }
+        if(is_object($data) || is_array($data)){
+            foreach($data as $k=>$v){
+                if($k==='di'){
+                    return true;
+                }
+            }
+        }
+        return false;
+
     }
 
 

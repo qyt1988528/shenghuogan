@@ -544,6 +544,25 @@ class Helper extends Api
         return $cover;
     }
 
+    public function withdrawQrcode($merchantId){
+        if(empty($merchantId)){
+            return '';
+        }
+        $paymentCode = $this->modelsManager->createBuilder()
+            ->columns('payment_code_image_url')
+            ->from(['sg' => 'Merchant\Model\MerchantPaymentCode'])
+            ->where('sg.apply_merchant_id = :type: ', ['type' => $merchantId])
+            ->andWhere('sg.status = :valid: ', ['valid' => $this->_config['data_status']['valid']])
+            ->orderBy('id desc')
+            ->getQuery()
+            ->getSingleResult();
+        if($this->tmpNewEmpty($paymentCode)){
+            return '';
+        }
+        $paymentCode = $paymentCode->toArray();
+        return $paymentCode['payment_code_image_url'] ?? '';
+
+    }
 
     /**
      * 验证数据是否为空
