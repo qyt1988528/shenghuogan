@@ -334,6 +334,7 @@ class Helper extends Api
         $ret = [
             'merchant_name'  => $merchantData['name'] ?? '',
             'merchant_cellphone'  => $merchantData['cellphone'] ?? '',
+            'merchant_balance'  => $merchantData['balance'] ?? 0,
         ];
         $orderData = $this->app->order->api->Helper()->getOrderData($merchantId);
         if($this->app->core->api->CheckEmpty()->newEmpty($orderData)){
