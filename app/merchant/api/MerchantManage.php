@@ -81,7 +81,21 @@ class MerchantManage extends Api
             return false;
         }
     }
-
+    public function updateMerchantBalance($merchantId,$incIncome)
+    {
+        try {
+            $updateData = ['id' => $merchantId];
+            $updateModel = $this->_model->findFirstById($merchantId);
+            if (empty($updateModel)) {
+                return false;
+            }
+            $updateData['balance'] = $updateModel->balance + $incIncome;
+            $updateModel->update($updateData);
+            return true;
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
     //下架
     public function withdrawMerchant($merchantId,$userId)
     {

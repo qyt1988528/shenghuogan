@@ -190,6 +190,7 @@ class Pay extends Api
 
         }
         $orderNo = $orderData->order_no ?? '';
+        $orderAmount = $orderData->order_amount ?? '';
         $currentTime = time();
         if (isset($orderData->order_invalid_time) && $currentTime > $orderData->order_invalid_time) {
             //订单失效
@@ -202,8 +203,10 @@ class Pay extends Api
         if (empty($orderGoods)) {
             throw new \Exception('订单已失效，请重新下单', 10004);
         }
+        $merchantId = 0;
         $goodsTypes = $this->_config['goods_types'];
         foreach ($orderGoods as $ogv) {
+            $merchantId = $ogv->merchant_id;
             $goodsType = $ogv->goods_type;
             $goodsId = $ogv->goods_id;
             $goods = $this->modelsManager->createBuilder()
@@ -275,6 +278,8 @@ class Pay extends Api
                 // 'order_status' => $this->_order['order_status']['finish']['code'],
             ];
             $orderData->update($updateData);
+            //加至商户余额
+            $this->app->merchant->api->MerchantManage()->updateMerchantBalance($merchantId,$orderAmount);
             return true;
         }catch (\Exception $e){
             throw new \Exception('支付失败，请稍后重试', 10006);
