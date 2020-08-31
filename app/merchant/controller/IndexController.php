@@ -238,12 +238,12 @@ class IndexController extends Controller
     public function withdrawApplyAction(){
         $withdrawAmount = $this->request->getParam('withdraw_amount', null, 0);
         try{
-            $data = [
+            $dataRequest = [
                 'withdraw_amount' => $withdrawAmount,
                 'apply_user_id' => $this->_userId,
                 'apply_merchant_id' => $this->_merchantId,
             ];
-            $result = $this->app->merchant->api->Helper()->withdrawApply($data);
+            $result = $this->app->merchant->api->Helper()->withdrawApply($dataRequest);
             if(empty($result) || empty($result['id'])){
                 if(isset($result['msg']) && !empty($result['msg'])){
                     $this->resultSet->error(1010, $result['msg']);

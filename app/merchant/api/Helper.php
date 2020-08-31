@@ -248,6 +248,8 @@ class Helper extends Api
         $withdrawDatas = $this->_merchantWithdrawApplyModel->find($condition)->toArray();
         if(!empty($withdrawDatas)){
             foreach ($withdrawDatas as &$v){
+                $tmp = $this->personalData($v['apply_merchant_id']);
+                $v['apply_merchant_name'] = $tmp['merchant_name'] ?? '';
                 $v['apply_description'] = $this->getWithdrawDescription($v['apply_status']);
             }
         }
@@ -339,6 +341,9 @@ class Helper extends Api
         $orderData = $this->app->order->api->Helper()->getOrderData($merchantId);
         if($this->app->core->api->CheckEmpty()->newEmpty($orderData)){
             return [
+                'merchant_name'  => $merchantData['name'] ?? '',
+                'merchant_cellphone'  => $merchantData['cellphone'] ?? '',
+                'merchant_balance'  => $merchantData['balance'] ?? 0,
                 'total_sales' => 0,
                 'total_orders' => 0,
                 'today_sales' => 0,
