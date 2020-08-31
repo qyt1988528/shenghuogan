@@ -497,6 +497,11 @@ class Helper extends Api
                 }
             }
         }
+        if(is_object($data)){
+            if(empty($data->toArray())){
+                return true;
+            }
+        }
         return false;
 
     }
