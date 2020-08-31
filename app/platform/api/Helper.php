@@ -277,6 +277,8 @@ class Helper extends Api
         $withdrawDatas = $this->_merchantWithdrawApplyModel->find($condition)->toArray();
         if(!empty($withdrawDatas)){
             foreach ($withdrawDatas as &$v){
+                $tmp = $this->app->merchant->api->Helper()->personalData($v['apply_merchant_id']);
+                $v['apply_merchant_name'] = $tmp['merchant_name'] ?? '';
                 $v['apply_description'] = $this->app->merchant->api->Helper()->getWithdrawDescription($v['apply_status']);
             }
         }
