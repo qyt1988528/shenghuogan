@@ -21,11 +21,6 @@ class MerchantWithdrawApply extends Model
 
     /**
      *
-     * @Column(type="integer", size="11", nullable=true, column="merchant_id")
-     */
-    public $merchant_id;
-    /**
-     *
      * @Column(type="float", nullable=true, column="withdraw_amount")
      */
     public $withdraw_amount;
