@@ -70,6 +70,7 @@ class IndexController extends Controller
                 'create_result' => $insert,
                 'access_token' => $tokenData['access_token'] ?? '',
                 'identity' => $tokenData['identity'] ?? 0,
+                'merchant_id' => $tokenData['merchant_id'] ?? 0,
             ];
         }catch (\Exception $e){
             $this->resultSet->error($e->getCode(),$e->getMessage());

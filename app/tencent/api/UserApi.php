@@ -250,6 +250,7 @@ class UserApi extends Api
                 $identity = $normalUser + $merchant + $platform;
                 return [
                     'identity' => $identity,
+                    'merchant_id' => $user->merchant_id ?? 0,
                     'access_token' => $user->access_token ?? ''
                 ];
             }
