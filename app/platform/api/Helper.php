@@ -18,6 +18,7 @@ class Helper extends Api
     private $_orderGoodsModel;
     private $_orderModel;
     private $_userModel;
+    private $_merchantModel;
     private $_merchantOperationLogModel;
     private $_merchantWithdrawApplyModel;
     private $_merchantPaymentCodeModel;
@@ -32,6 +33,7 @@ class Helper extends Api
         $this->_orderGoodsModel = new OrderGoods();
         $this->_orderModel = new Order();
         $this->_userModel = new User();
+        $this->_merchantModel = new Merchant();
         $this->_merchantOperationLogModel = new MerchantOperationLog();
         $this->_merchantWithdrawApplyModel = new MerchantWithdrawApply();
         $this->_merchantPaymentCodeModel = new MerchantPaymentCode();
@@ -239,7 +241,7 @@ class Helper extends Api
             ];
         }
         //获取该商户的最后一次上传的付款码 没有则无法完成
-        $condition = " and status = " . $this->_config['data_status']['valid'];
+        $condition = " status = " . $this->_config['data_status']['valid'];
         $paymentData = $this->_merchantPaymentCodeModel->find($condition)->toArray();
 
         $operateUserId = $data['user_id'] ?? 0;
@@ -250,6 +252,12 @@ class Helper extends Api
             'merchant_payment_code_id' => $paymentData['id'] ?? 0,
         ];
         $updateRet = $this->app->merchant->api->Helper()->updateApplyStatus($id,$operateUserId,$applyStatus,$otherField);
+        $condition = "id = " . $applyData['apply_merchant_id'];
+        $updateModel = $this->_merchantModel->findFirst($condition)->toArray();
+        $updateData = [
+            'balance' => $updateModel['balance'] - $applyData['withdraw_amount'],
+        ];
+        $updateModel->update($updateData);
         return $updateRet;
 
     }

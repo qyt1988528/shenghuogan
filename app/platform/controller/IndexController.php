@@ -560,7 +560,27 @@ class IndexController extends Controller
      */
     public function withdrawPassAction()
     {
-        $certId = $this->request->getParam('id', null, 0);
+        $applyId = $this->request->getParam('id', null, 0);
+        try {
+            $applyData = [
+                'id' => $applyId,
+                'user_id' => $this->_userId,
+            ];
+            $result = $this->app->platform->api->Helper()->passMerchantWithdraw($applyData);
+            if (!empty($result)) {
+                $data['data'] = [
+                    'update_status' => 'success'
+                ];
+            } else {
+                $data['data'] = [
+                    'update_status' => 'failed'
+                ];
+            }
+        } catch (\Exception $e) {
+            $this->resultSet->error($e->getCode(), $e->getMessage());
+        }
+        $this->resultSet->success()->setData($data);
+        $this->response->success($this->resultSet->toObject());
 
     }
     //平台-拒绝
