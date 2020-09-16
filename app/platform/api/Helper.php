@@ -3,6 +3,7 @@
 namespace Platform\Api;
 
 use MDK\Api;
+use Merchant\Model\Merchant;
 use Merchant\Model\MerchantOperationLog;
 use Merchant\Model\MerchantPaymentCode;
 use Merchant\Model\MerchantWithdrawApply;
